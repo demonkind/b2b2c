@@ -1,0 +1,15 @@
+net\shopnc\b2b2c\util\emay\SDKClient.class
+net\shopnc\b2b2c\worker\sms\SmsSingletonClient.class
+net\shopnc\b2b2c\util\emay\SDKService.class
+net\shopnc\b2b2c\util\emay\SDKServiceBindingStub.class
+net\shopnc\b2b2c\util\emay\StatusReport.class
+net\shopnc\b2b2c\util\emay\SDKClientProxy.class
+net\shopnc\b2b2c\util\emay\Mo.class
+net\shopnc\b2b2c\util\emay\SDKServiceLocator.class
+net\shopnc\b2b2c\worker\config\WorkerConfig.class
+net\shopnc\b2b2c\worker\WorkDate.class
+net\shopnc\b2b2c\worker\WorkHour.class
+net\shopnc\b2b2c\worker\sms\SmsClient.class
+net\shopnc\b2b2c\worker\WorkQueue.class
+net\shopnc\b2b2c\worker\sms\httpSend.class
+net\shopnc\b2b2c\worker\sms\MD5.class

@@ -1,0 +1,60 @@
+<#import "/layout.html" as c>
+<@c.html title="Index">
+<style type="text/css">
+.dtimg { display: inline-block; margin-left: 4px;}
+</style>
+  <div id="content" class="content"> 
+    <!-- 开始面包屑导航 -->
+    <ol class="breadcrumb pull-right">
+      <li><a href="javascript:;">首页</a></li>
+      <li><a href="javascript:;">评价管理</a></li>
+      <li class="active">来自买家的评价</li>
+    </ol>
+    <!-- 结束面包屑导航 --> 
+    <!-- 开始页头区域 -->
+    <h1 class="page-header">评价管理<small class="m-l-10">来自买家的评价</small></h1>
+    <!-- 结束页头区域 --> 
+    <!-- 开始布局行 -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-inverse" data-sortable-id="form-stuff-1">
+          <div class="panel-heading">
+            <div class="panel-heading-btn"><a href="#listTip" class="btn btn-xs btn-icon btn-circle btn-info" role="button" data-toggle="collapse" aria-expanded="true" title="操作提示"><i class="fa fa-lightbulb-o"></i></a><a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"> <i class="fa fa-expand"></i></a><a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a></div>
+            <h4 class="panel-title">评价列表</h4>
+          </div>
+          <div class="panel-body"> 
+            <!-- 开始操作提示 -->
+            <div class="alert alert-info collapse in" role="tabpanel" id="listTip">
+              <h4>操作提示</h4>
+              <ul>
+                <li>买家可在订单完成后对订单商品进行评价操作，评价信息将显示在对应的商品页面</li>
+              </ul>
+            </div>
+            <!-- 结束操作提示 --> 
+            <!-- 开始列表相关操作 -->
+            <div class="clearfix">
+              <div class="col-md-4 p-l-0"></div>
+              <div class="col-md-8 p-r-0">
+                <form class="search-dtGrid-form" action="">
+                  <div class="form-group">
+                    <input type="text" id="keyword" name="keyword" class="form-control" placeholder="请输入评价人关键字进行搜索" />
+                    <a href="javascript:;" class="btn btn-search" id="customSearch"><i class="fa fa-search"></i></a></div>
+                </form>
+              </div>
+            </div>
+            <!-- 结束列表相关操作 -->
+            <div>
+            </div>
+            <div id="dtGridContainer" class="dt-grid-container"></div>
+            <div id="dtGridToolBarContainer" class="dt-grid-toolbar-container"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 结束布局行 --> 
+  </div>
+
+
+<script src="${publicRoot}toolkit/jquery.raty/jquery.raty.js"></script>
+<script src="${jsRoot}evaluate/evaluate.js"></script>
+</@c.html>

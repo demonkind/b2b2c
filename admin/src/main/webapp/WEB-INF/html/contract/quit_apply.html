@@ -1,0 +1,94 @@
+<#import "/layout.html" as c>
+<@c.html title="Index">
+  <div id="content" class="content"> 
+    <!-- 开始面包屑导航 -->
+    <ol class="breadcrumb pull-right">
+      <li><a href="javascript:;">首页</a></li>
+      <li><a href="javascript:;">运营管理</a></li>
+      <li class="active">服务退出申请</li>
+    </ol>
+    <!-- 结束面包屑导航 --> 
+    <!-- 开始页头区域 -->
+    <h1 class="page-header">运营管理<small class="m-l-10">服务退出申请</small></h1>
+    <!-- 结束页头区域 --> 
+    <!-- 开始布局行 -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-inverse" data-sortable-id="form-stuff-1">
+          <div class="panel-heading">
+            <div class="panel-heading-btn"><a href="#listTip" class="btn btn-xs btn-icon btn-circle btn-info" role="button" data-toggle="collapse" aria-expanded="true" title="操作提示"><i class="fa fa-lightbulb-o"></i></a><a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"> <i class="fa fa-expand"></i></a><a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a></div>
+            <h4 class="panel-title">服务退出申请列表</h4>
+          </div>
+          <div class="panel-body"> 
+            <!-- 开始操作提示 -->
+            <div class="alert alert-info collapse in" role="tabpanel" id="listTip">
+              <h4>操作提示</h4>
+              <ul>
+                <li>列表为店铺申请退出各项消费者保障服务的记录</li>
+                <li>当店铺提出的申请记录状态为“等待审核”的时候，可以编辑申请；否则只能查看申请详情。</li>
+              </ul>
+            </div>
+            <!-- 结束操作提示 --> 
+            <!-- 开始列表相关操作 -->
+            <div class="clearfix">
+              <div class="col-md-4 p-l-0"></div>
+              <div class="col-md-8 p-r-0">
+                <form class="search-dtGrid-form" action="">
+                  <div class="form-group">
+                    <input type="text" id="keyword" name="keyword" class="form-control" placeholder="请输入店铺名称关键字进行搜索" />
+                    <a href="javascript:;" class="btn btn-search" id="customSearch"><i class="fa fa-search"></i></a></div>
+                </form>
+              </div>
+            </div>
+            <!-- 结束列表相关操作 -->
+            <div> </div>
+            <div id="dtGridContainer" class="dt-grid-container"></div>
+            <div id="dtGridToolBarContainer" class="dt-grid-toolbar-container"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 结束布局行 --> 
+  </div>
+  <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title"> 服务退出申请管理 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsAdd" aria-expanded="true" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+        </div>
+        <div class="modal-body">
+          <ul class="text-info p-b-15 p-l-15 collapse in" role="tabpanel" id="OperationTipsAdd">
+            <li class="m-b-3">编辑查看服务退出申请</li>
+          </ul>
+          <form class="form-horizontal form-bordered" id="editForm" autocomplete="off" action="${adminRoot}contract/check_quitapply" method="post" data-parsley-validate="true">
+            <input type="hidden" id="ctqId" name="ctqId"/>
+            <div class="form-group">
+              <label class="control-label col-md-3">项目名称&nbsp;: </label>
+              <div class="col-md-9"><span id="ctqItemname" style="display: inline-block; margin-top: 8px;"></span></div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-3">店铺名称&nbsp;: </label>
+              <div class="col-md-9"><span id="storeName" style="display: inline-block; margin-top: 8px;"></span></div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-3">申请时间&nbsp;: </label>
+              <div class="col-md-9"><span id="ctqAddtime" style="display: inline-block; margin-top: 8px;"></span></div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-3">状态&nbsp;:</label>
+              <div class="col-md-9"><span id="state" style="display: inline-block; margin-top: 8px;"></span>
+                <textarea style="display:none" rows="5" cols="50" class="form-control" id="cause" name="cause"></textarea>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer"> <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a> <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-ajax-submit-target="editForm" nc-ajax-submit>确认提交</a> </div>
+      </div>
+    </div>
+  </div>
+  <script src="${toolkitRoot}bootstrap-wizard/js/bwizard.js"></script> 
+  <script src="${toolkitRoot}bootstrap-switch/bootstrap-switch.min.js"></script> 
+  <script src="${publicRoot}toolkit/fileupload/jquery.fileupload.js"></script> 
+  <script src="${jsRoot}contract/quit_apply.js"></script> 
+</@c.html>

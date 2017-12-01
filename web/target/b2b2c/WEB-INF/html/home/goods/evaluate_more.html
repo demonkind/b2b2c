@@ -1,0 +1,139 @@
+<#import "/home/layout.html" as c>
+<@c.html title="Index">
+<link href="${cssRoot}web_goods.css" rel="stylesheet" type="text/css">
+<div class="ncs-goods-layout expanded">
+    <div class="ncs-goods-main" id="main-nav-holder">
+      <div class="ncs-comment">
+        <div class="ncs-goods-title-bar">
+          <h4>商品评价</h4>
+        </div>
+        <div class="ncs-goods-info-content bd" id="ncGoodsRate">
+          <div class="top">
+            <div class="rate">
+              <p><strong>${evaluateGoodsVo.evalRate1}</strong><sub>%</sub>好评</p>
+              <span>共有${evaluateGoodsVo.evalCount}人参与评分</span></div>
+            <div class="percent">
+              <dl>
+                <dt>好评<em>(${evaluateGoodsVo.evalRate1}%)</em></dt>
+                <dd><i style="width: ${evaluateGoodsVo.evalRate1}%"></i></dd>
+              </dl>
+              <dl>
+                <dt>中评<em>(${evaluateGoodsVo.evalRate2}%)</em></dt>
+                <dd><i style="width: ${evaluateGoodsVo.evalRate2}%"></i></dd>
+              </dl>
+              <dl>
+                <dt>差评<em>(${evaluateGoodsVo.evalRate3}%)</em></dt>
+                <dd><i style="width: ${evaluateGoodsVo.evalRate3}%"></i></dd>
+              </dl>
+            </div>
+            <div class="btns" style="display:none"><span>您可对已购商品进行评价</span>
+              <p><a href="javascript:;" class="btn btn-sm btn-danger" target="_blank"><i class="icon-comment-alt"></i>评价商品</a></p>
+            </div>
+          </div>
+          <!-- 商品评价内容部分 -->
+          <div class="ncs-goods-title-nav">
+            <ul id="comment_tab">
+              <li 
+              	<#if evalLv=='all'>class="current"</#if>
+              ><a href="${webRoot}goods/evaluate_more?goodsid=${evaluateGoodsVo.goodsId}&lv=all">商品评价(${evaluateGoodsVo.evalCount})</a></li>
+              <li 
+              	<#if evalLv=='1'>class="current"</#if>
+              ><a href="${webRoot}goods/evaluate_more?goodsid=${evaluateGoodsVo.goodsId}&lv=1">好评(${evaluateGoodsVo.evalCount1})</a></li>
+              <li 
+              	<#if evalLv=='2'>class="current"</#if>
+              ><a href="${webRoot}goods/evaluate_more?goodsid=${evaluateGoodsVo.goodsId}&lv=2">中评(${evaluateGoodsVo.evalCount2})</a></li>
+              <li 
+              	<#if evalLv=='3'>class="current"</#if>
+              ><a href="${webRoot}goods/evaluate_more?goodsid=${evaluateGoodsVo.goodsId}&lv=3">差评(${evaluateGoodsVo.evalCount3})</a></li>
+              <li 
+              	<#if evalLv=='4'>class="current"</#if>
+              ><a href="${webRoot}goods/evaluate_more?goodsid=${evaluateGoodsVo.goodsId}&lv=4">有图(${evaluateGoodsVo.hasImageCount})</a></li>
+            </ul>
+          </div>
+          <div id="goodseval" class="ncs-commend-main">
+           <#list evaluateList as entity>                        
+           <div id="t" class="ncs-commend-floor">
+              <div class="user-avatar"><a href="javascript:;" target="_blank" data-param="{'id':41}" nctype="mcard" data-hasqtip="10"><img src="${entity.memberHeadUrl}"></a></div>
+              <dl class="detail">
+                <dt> <span class="user-name">
+                                    <a href="index.php?act=member_snshome&amp;mid=41" target="_blank" data-param="{'id':41}" nctype="mcard" data-hasqtip="11">${entity.memberName}</a>
+                                    </span> <span class="goods-raty">商品评分：<em class="raty" data-score="${entity.scores}" title="${entity.scoreTitle}" style="width: 100px;"></em></span> </dt>
+                <dd>${entity.evaluateContent1}</dd>
+                <dd>
+                	<#if entity.images1?exists && entity.images1!="">
+                  	<ul class="photos-thumb">
+                  		<#list entity.image1List as image>
+                       	<li><a nctype="nyroModal" href="${uploadRoot}${image}" data-lightbox="img-PayingCertificateA${entity.evaluateId}" data-item="image"> <img src="${c.func.ncImage(uploadRoot+image,30,30)}"> </a></li>
+                       	</#list>
+                  	</ul>
+                  	</#if>
+                </dd>
+                  <dd class="pubdate" pubdate="pubdate">${entity.evaluateTime}</dd>
+                  <#if entity.explainContent1?exists && entity.explainContent1!="">
+                  	<dd class="explain">商家解释：评价解释111</dd>
+                  </#if>
+                  <#if (entity.evaluateContent2?exists && entity.evaluateContent2!="") || entity.images2!="">
+	                  <dd>[追加评价]&nbsp;${entity.evaluateContent2}</dd>
+	                  <dd>
+	                  <#if entity.images2?exists && entity.images2!="">
+		                  <ul class="photos-thumb">
+		                  	<#list entity.image2List as image>
+		                      <li><a nctype="nyroModal" href="${uploadRoot}${image}" data-lightbox="img-PayingCertificateB${entity.evaluateId}" data-item="image"> <img src="${c.func.ncImage(uploadRoot+image,30,30)}"> </a></li>
+		                    </#list>
+		                  </ul>
+	                  </#if>
+	                </dd>
+	                 <dd class="pubdate">确认收货并评价后${entity.days}天再次追加评价</dd>
+	                 <#if entity.explainContent2?exists && entity.explainContent2!="">
+	                 	<dd class="explain">商家解释：${entity.explainContent2}</dd>
+	                 </#if>
+                   </#if>
+                   <hr>
+              </dl>
+            </div>
+            </#list>            
+                        
+                        
+            <div class="tr pr5 pb5">
+                <#noescape>
+              <div class="pagination">${showPage}</div>
+                    </#noescape>
+            </div>
+           </div>
+        </div>
+      </div>
+    </div>
+    <div class="ncs-sidebar">
+      <div class="ncs-sidebar-container">
+        <div class="title">
+          <h4>商品信息</h4>
+        </div>
+        <div class="content">
+          <dl class="ncs-comment-goods">
+            <dt class="goods-name"> <a href="${c.func.ncGoodsUrl(evaluateGoodsVo.goodsId)}"> ${evaluateGoodsVo.goodsName} </a> </dt>
+            <dd class="goods-pic"><a href="${c.func.ncGoodsUrl(evaluateGoodsVo.goodsId)}"> <img src="${c.func.ncImage(evaluateGoodsVo.goodsImage,160,160)}" alt="${evaluateGoodsVo.goodsName}"> </a> </dd>
+            <dd class="goods-price">商&nbsp;&nbsp;城&nbsp;&nbsp;价：<em class="saleP">¥${evaluateGoodsVo.goodsPrice?string('0.00')}</em></dd>
+            <dd class="goods-raty">商品评价： <span class="raty" data-score="${evaluateGoodsVo.avgGoodsEval}" title="很满意" style="width: 100px;"></span></dd>
+          </dl>
+        </div>
+        <!--S 店铺信息-->
+        <!--店铺基本信息 S-->
+<!-- 
+<div class="ncs-info">
+  <div class="title">
+    <h4>${evaluateGoodsVo.isOwnShopStr}</h4>
+  </div>
+  <div class="content">
+              </div>
+</div>
+-->
+<#include "../store_info.html" > 
+        <!--E 店铺信息 --> 
+      </div>
+    </div>
+  </div>
+  <link href="${publicRoot}toolkit/lightbox/css/lightbox.css" rel="stylesheet" />
+    <script src="${publicRoot}toolkit/lightbox/js/lightbox-2.6.min.js"></script>
+  <script src="${jsRoot}goods/evaluate_more.js"></script> 
+  <script src="${publicRoot}toolkit/jquery.raty/jquery.raty.js"></script>
+</@c.html>

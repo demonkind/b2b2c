@@ -1,0 +1,75 @@
+<#import "/layout.html" as c />
+<#import "/list_layout.html" as list />
+<#assign alertList = []/>
+<#assign alertList = alertList + ["分佣比例必须为0-100的整数。"]/>
+<#assign alertList = alertList + ["勾选关联到子分类后，该分类下的子分类分佣比利也将按此继承设定。"]/>
+<#assign alertList = alertList + ["分佣比例设置后可通过点击
+<span class=\"btn btn-xs btn-white\"> <i class=\"fa fa-level-down\"></i> 下级分类 </span> 进入其下级分类并进行相关操作。通过
+<span class=\"btn btn-xs btn-white\"> <i class=\"fa fa-level-up\"></i> 返回上级 </span> 按钮可后退到上级分类列表。 "]/>
+<@c.html title="Index">
+<!-- ================== 开始页面所需CSS引入 ================== -->
+<link href="${toolkitRoot}bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet" />
+<link href="${toolkitRoot}select2/select2.css" rel="stylesheet" />
+<link href="${toolkitRoot}bootstrap-wizard/css/bwizard.min.css" rel="stylesheet" />
+<!-- ================== 开始页面所需CSS引入 ================== -->
+<@list.html title="分佣设置" subTitle="商品分类分佣比例管理" alertList=alertList addBtn=false searchHint="使用分类名称作为关键字查找" topBtn="<a id=\"returnParent\" href=\"javascript:;\" class=\"btn btn-white pull-left m-r-5 m-b-5 hidden\"> <i class=\"fa fa-lg fa-level-up m-r-5\"></i>返回上级</a>">
+<!-- 开始页面内容 -->
+<!-- 开始禁售模态框 -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div id="alipayContent" class="modal-content" nc_type="paymentForm">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title"> 分佣比例设置 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsAlipay" aria-expanded="true" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+            </div>
+            <div class="modal-body">
+                <ul class="text-info p-b-15 p-l-15 collapse in" role="tabpanel" id="OperationTipsAlipay">
+                    <li class="m-b-3">分佣比例必须为0-100的正整数。</li>
+                    <li class="m-b-3">勾选关联到子分类后，该分类下的子分类分佣比利也将按此继承设定。</li>
+                </ul>
+                <form id="editForm" name="alipayEditForm" action="${adminRoot}rates/save.json" method="post" data-parsley-validate="true">
+                    <input id="ratesId" type="hidden" name="commissionId" />
+                    <input  type="hidden" name="categoryId" value="1" />
+                    <label class="control-label">分佣比例<i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+                    <div class="input-group">
+                        <input id="commisRate" type="text" name="commissionRate" class="form-control"
+                               data-parsley-required="true" data-parsley-required-message="请填写分佣比例"
+                               data-parsley-type="integer"
+                               data-parsley-min="0" data-parsley-max="100"
+                                />
+                        <span class="input-group-addon">%</span>
+                    </div>
+                    <p></p>
+                    <div class="form-group" id="isRelPanel">
+                        <label class="control-label">关联下级  &nbsp;: </label>
+                        <div>
+                            <input id="isRel" name="state" type="checkbox" data-size="small" data-on-color="primary" data-input-true="1" data-input-false="0" data-input-name="isRel" data-on-text="开启" data-off-text="关闭">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a>
+                <a href="javascript:;" class="btn btn-primary" data-loading -text="Loading..." nc-ajax-submit-target="editForm" nc-ajax-submit>确认提交</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 结束禁售模态框 -->
+</@list.html>
+
+<!-- 结束页面内容 -->
+<!-- ================== 开始页面级JavaScrip调用 ================== -->
+<script src="${toolkitRoot}bootstrap-wizard/js/bwizard.js" ></script >
+<script src="${toolkitRoot}bootstrap3-editable/js/bootstrap-editable.min.js" ></script >
+<!-- 表单select项 -->
+<script src="${toolkitRoot}bootstrap-select/bootstrap-select.min.js" ></script >
+<script src="${toolkitRoot}select2/select2.min.js" ></script >
+<!-- 表单checkbox项 -->
+<script src="${toolkitRoot}bootstrap-switch/bootstrap-switch.min.js" ></script >
+<!-- 表单输入项标签化 -->
+<script src="${toolkitRoot}/jquery-tag-it/js/tag-it.min.js" ></script >
+
+<!-- ================== 结束页面级JavaScrip调用 ================== -->
+<script src="${jsRoot}goods/rates.js" ></script >
+</@c.html>

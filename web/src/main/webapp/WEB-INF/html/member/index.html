@@ -1,0 +1,69 @@
+ <#import "/member/layout.html" as c>
+<@c.html title="我的商城">
+<link href="${publicRoot}toolkit/bxslider/jquery.bxslider.css" rel="stylesheet" />
+<style type="text/css">
+.ncm-index-container .ncm-favorites-goods li{ width: 163px; float: left;}
+    .bx-wrapper{ margin: 0 auto 0;}
+    .bx-wrapper .bx-pager{ display: none;}
+    /*店铺收藏*/
+    .ncm-index-container .jcarousel-skin-tango li { float: left; width: 110px;}
+</style>
+<div id="member_center_box" class="ncm-index-container">
+<!-- 交易提醒开始 -->
+<div id="transaction" class="double">
+
+</div>
+<!-- 交易提醒结束 --> 
+
+<!-- 购物车开始 -->
+<div id="shopping" class="normal">
+  <div class="outline">
+    <div class="title">
+      <h3>购物车</h3>
+    </div>
+    <div class="cart-list" style="display: none;" data-cart-list>
+      <ul>
+        <li>
+          <div class="ncm-goods-thumb"><a target="_blank" href=""><img src=""></a></div>
+          <dl class="ncm-goods-info">
+            <dt><a href=""></a></dt>
+            <dd><span class="ncm-order-price">商城价：<em>￥</em></span><!-- <span class="sale">限时折扣</span> --></dd>
+          </dl>
+        </li>
+      </ul>
+      <div class="more"><a href="${webRoot}cart/list">查看购物车所有商品</a></div>
+    </div>
+    <dl class="null-tip" data-empty-cart style="display: none;">
+      <dt></dt>
+      <dd>
+        <h4>您的购物车还是空的</h4>
+        <h5>将想买的商品放进购物车，一起结算更轻松</h5>
+      </dd>
+    </dl>
+  </div>
+</div>
+<!-- 购物车结束 --> 
+
+<!-- 商品关注开始 -->
+<div  class="double">
+  <div class="outline">
+    <div class="title">
+      <h3>商品关注</h3>
+    </div>
+    <div id="favoritesGoods"></div>
+  </div>
+</div>
+<!-- 商品关注结束 --> 
+<!-- 店铺关注开始 -->
+<div  class="normal">
+  <div class="outline">
+    <div class="title">
+      <h3>店铺关注</h3>
+    </div>
+    <div id="favoritesStore"></div>
+  </div>
+  <!-- 店铺关注结束 --> 
+</div>
+</@c.html>
+<script src="${publicRoot}toolkit/bxslider/jquery.bxslider.js"></script>
+<script type="text/javascript" src="${jsRoot}member/member_index.js"></script>

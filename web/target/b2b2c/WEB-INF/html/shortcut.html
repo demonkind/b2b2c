@@ -1,0 +1,122 @@
+<#macro html>
+<div class="public-top-layout">
+  <div class="topbar wrapper">
+    <div class="left" >
+      <!-- s 配送至-->
+      <div id="shortCutMyCityPanel" ></div >
+      <!-- E 配送至-->
+    </div >
+    <div class="right">
+      <div class="login">
+        <#if memberCommon??>
+          <a href="${memberRoot}"><#if memberCommon.mobile?? && memberCommon.modifyNum==0>${memberCommon.mobile}<#else>${memberCommon.memberName}</#if></a>欢迎光临<a href="${webRoot}" title="首页">${config.siteName!""}</a><span>
+          [<a href="${webRoot}login/logout">退出</a>]
+          <#else>
+            <a href="${webRoot}login">您好，请登录</a>
+            <a href="${webRoot}register" class="c-danger">免费注册</a>
+        </#if>
+      </div>
+      <div class="quick-menu" id="quickMenu">
+        <dl class="my-mall">
+          <dt><a href="${memberRoot}">我的商城</a><span class="arrow"></span></dt>
+          <dd>
+            <div class="user-box">
+              <div class="user-avatar">
+                <#if memberCommon??>
+                  <img src="${c.func.ncImage(memberCommon.avatarUrl,120,120)}"/>
+                <#else>
+                  <img src="${publicRoot}img/avatar.gif_120x120.gif"/>
+                </#if>
+              </div>
+              <div class="user-info">
+                <#if memberCommon??>
+                  <div class="user-base">
+                  <h3><#if memberCommon.mobile?? && memberCommon.modifyNum==0>${memberCommon.mobile}<#else>${memberCommon.memberName}</#if><sub title="会员等级">${memberCommon.currGrade.gradeName!''}</sub></h3>
+                  <p>上次登录：<time>${memberCommon.lastLoginTime!''}</time></p>
+                  </div>
+                <#else>
+                  <a href="${webRoot}login" class="btn btn-sm btn-white m-t-10 m-l-10">您好，请登录</a>
+                </#if>
+              </div>
+            </div>
+            <div class="user-centent-menu">
+              <ul>
+                <li><a href="${memberRoot}message/list">站内消息<span id="topMessageUnreadCount"></span></a></li>
+                <li><a href="${memberRoot}orders/list" class="arrow">我的订单<span id="topMemberOrders"></span></a></li>
+                <li><a href="${memberRoot}consult/list">咨询回复<span id="topMemberConsult"></span></a></li>
+                <li><a href="${memberRoot}favorites/goods" class="arrow">我的关注<span id="topMemberFavoritesGoods"></span></a></li>
+                <li><a href="${memberRoot}goodsbrowse">我的足迹<span id="topMemberGoodsBrowse"></span></a></li>
+                <li><a href="${memberRoot}pointslog" class="arrow">我的积分<span><#if memberCommon?? && memberCommon.memberPoints??>(${memberCommon.memberPoints})</#if></span></a></li>
+              </ul>
+            </div>
+            
+            <!--<div class="browse-history">
+              <div class="part-title">
+                <h4>最近浏览的商品</h4>
+                <span style="float:right;"><a href="">全部浏览历史</a></span> </div>
+              <ul>
+                <li class="no-goods"><img class="loading" src="${imgRoot}/loading.gif" /></li>
+              </ul>
+            </div>--> 
+          </dd>
+        </dl>
+        <dl class="cart">
+          <dt><i class="icon icon-shopping-cart"></i><a href="${webRoot}cart/list">购物车</a><sup style="display: none" id="shortCutCartCount"></sup></dt>
+        </dl>
+        <dl class="my-order">
+          <dt><a href="${memberRoot}orders/list">我的订单</a><span class="arrow"></span></dt>
+          <dd>
+            <ul>
+              <li><a href="${memberRoot}orders/list/?ordersState=new">待付款订单</a></li>
+              <li><a href="${memberRoot}orders/list/?ordersState=send">待确认收货</a></li>
+              <li><a href="${memberRoot}orders/list/?ordersState=noeval">待评价交易</a></li>
+            </ul>
+          </dd>
+        </dl>
+        <dl class="my-favorite">
+          <dt><a href="javascript:;">我的关注</a><span class="arrow"></span></dt>
+          <dd>
+            <ul>
+              <li><a href="${memberRoot}favorites/goods">商品关注</a></li>
+              <li><a href="${memberRoot}favorites/store">店铺关注</a></li>
+            </ul>
+          </dd>
+        </dl>
+        <dl class="mobile-mall">
+          <dt><i class="icon icon-tablet"></i><a href="javascript:;">手机商城</a><span class="arrow"></span></dt>
+          <dd>
+            <div class="QRcode"><img src="${publicRoot}img/mb_app.png" alt=""/></div>
+            <div class="download">
+            <!-- 
+              <h4>${config.siteName}客户端</h4>
+              <h5>扫描二维码下载应用</h5>
+              <div class="down-btn"><a href="javascript:;"><i class="iphone"></i>iphone</a><a href="javascript:;"><i class="android"></i>Android</a></div>
+             -->
+             <h4>正在建设中</h4>
+            </div>
+          </dd>
+        </dl>
+        <dl class="call-center">
+          <dt >客户服务<span class="arrow"></span></dt>
+          <dd>
+            <ul>
+              <#if navList?exists>
+                <#list navList.get("top") as list>
+                  <li><a href="${list.url}" target="${(list.openType == 1)?string('_blank','_self')}">${list.title}</a></li>
+                </#list>
+              </#if>
+            </ul>
+          </dd>
+        </dl>
+        <dl class="weixin">
+          <dt>关注我们<span class="weixin"></span></dt>
+          <dd>
+            <h4>扫描二维码<br/>
+              关注商城微信号</h4>
+            <img src="${publicRoot}img/mb_app.png" > </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+</#macro>

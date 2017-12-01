@@ -1,0 +1,49 @@
+<#import "/layout/seller_layout.html" as c>
+    <@c.html title="Index">
+    <div class="top-btn-layout"></div>
+    <div class="alert mt15 mb5"><strong>操作提示：</strong>
+        <ul>
+            <li>1、如果商家未选择快递公司，则发货时系统会列出常用的快递公司供商家选择。</li>
+            <li>2、如果商家选择使用某些快递公司，则发货时系统只列出商家选择的快递公司。</li>
+        </ul>
+    </div>
+    <form action="${sellerRoot}ship/company/list/save" id="shipForm" method="POST">
+        <input type="hidden" name="form_submit" value="ok">
+        <table class="ncsc-default-table">
+            <thead>
+            <tr><!--c2VsbGVyL29yZGVyL3NoaXBfY29tcGFueSBqYXZhIGJ5IHNob3BuYy5uZXQ=-->
+                <th class="w20"></th>
+                <th class="tm" colspan="4">快递公司</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="bd-line">
+                <td></td>
+                <#assign i=0>
+                <#if shipCompanyList?exists && (shipCompanyList?size>0)>
+                <#list shipCompanyList as ship>
+                <td class="tl"><label>
+                    <input type="checkbox" ${shipIdList?seq_contains(ship.shipId)?string("checked","")} value="${ship.shipId}" name="shipId">
+                    ${ship.shipName}</label></td>
+                <#if i==3>
+                    <#assign i=0>
+                    </tr>
+                    <tr class="bd-line">
+                        <td></td>
+                <#else>
+                    <#assign i=i+1>
+                </#if>
+                </#list>
+                </#if>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td class="bottom" colspan="20"><label class="submit-border"><input type="button" id="shipSubmit" value="保存" class="submit"></label></td>
+            </tr>
+            </tfoot>
+        </table>
+    </form>
+    <!--c2VsbGVyL29yZGVyL3NoaXBfY29tcGFueSBqYXZhIGJ5IHNob3BuYy5uZXQ=-->
+</@c.html>
+<script type="text/javascript" src="${jsRoot}orders/ship_company/list.js"></script>

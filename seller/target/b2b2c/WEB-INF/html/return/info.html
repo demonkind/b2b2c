@@ -1,0 +1,155 @@
+<#import "/layout/seller_layout.html" as c />
+<#import "/return/info_handle.html" as infoHandle />
+<#import "/return/info_right_goods.html" as infoRightGoods />
+<@c.html title="Index">
+<style>
+    .ncsc-flow-container .ncsc-form-default dl dd {
+        width: 78%;
+    }
+
+    #saleRefundReturn {
+        position: relative;
+        z-index: 999999;
+    }
+</style>
+<div class="ncsc-flow-container">
+    <div id="saleRefundReturn" show_id="1">
+        <div class="ncsc-flow-step">
+            <dl class="step-first current">
+                <dt>买家申请退货</dt>
+                <dd class="bg"></dd>
+            </dl>
+            <dl class="<#if refundItemVo.sellerTime?? >current</#if>">
+                <dt>商家处理退货申请</dt>
+                <dd class="bg"></dd>
+            </dl>
+            <dl class="<#if (refundItemVo.shipTime?? ) || (refundItemVo.refundState gte 2  && refundItemVo.returnType == 1)  >current</#if>">
+
+                <dt>买家退货给商家</dt>
+                <dd class="bg"></dd>
+            </dl>
+            <dl class="<#if refundItemVo.adminTime?? >current</#if>">
+                <dt>确认收货，平台审核</dt>
+                <dd class="bg"></dd>
+            </dl>
+        </div>
+        <div class="ncsc-form-default">
+            <h3>我的退货退款申请</h3>
+            <dl>
+                <dt>退货退款编号：</dt>
+                <dd>${refundItemVo.refundSn}</dd>
+            </dl>
+            <dl>
+                <dt>退货退款原因：</dt>
+                <dd>${refundItemVo.reasonInfo}</dd>
+            </dl>
+            <dl>
+                <dt>退款金额：</dt>
+                <dd>¥ ${refundItemVo.refundAmount?string("0.00")} </dd>
+            </dl>
+            <dl>
+                <dt>退货数量：</dt>
+                <dd>${refundItemVo.goodsNum}</dd>
+            </dl>
+            <dl>
+                <dt>退货退款说明：</dt>
+                <dd>${refundItemVo.buyerMessage}</dd>
+            </dl>
+            <dl>
+                <dt>凭证上传：</dt>
+                <dd>
+                    <ul class="ncsc-evidence-pic" id="imageList"></ul>
+                </dd>
+            </dl>
+
+            <#if refundItemVo.sellerTime?? >
+                <h3>商家退货退款处理</h3>
+                <dl>
+                    <dt>审核状态：</dt>
+                    <dd>
+                    ${refundItemVo.sellerStateText}
+                        <#if refundItemVo.sellerState ==2 && refundItemVo.returnType ==1  >
+                            （商家弃货，即不用将商品退回直接退款。）
+                        </#if>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>商家备注：</dt>
+                    <dd>${refundItemVo.sellerMessage}</dd>
+                </dl>
+            <#else />
+                <#--如果商家处理时间是空的话-->
+                <@infoHandle.html />
+            </#if>
+            <#if refundItemVo.sellerState ==2 && refundItemVo.returnType ==2 && refundItemVo.goodsState ==1 && (ship??) >
+            <#else />
+            <#--如果已经发货了就显示发货信息-->
+                <#if (refundItemVo.shipId??) && (refundItemVo.shipSn??)  >
+                    <h3>我的退货发货信息</h3>
+                    <dl>
+                        <dt>物流信息：</dt>
+                        <dd>
+                            <ul class="express-log" id="shipResult">
+                                <li class="loading">加载中</li>
+                            </ul>
+                        </dd>
+                    </dl>
+                </#if>
+                <#if refundItemVo.sellerState == 2 && refundItemVo.refundState gte 2 >
+                    <h3>商城退款审核</h3>
+                    <dl>
+                        <dt>平台确认：</dt>
+                        <dd>${refundItemVo.refundStateText}</dd>
+                    </dl>
+                </#if>
+                <#if refundItemVo.adminTime ??  >
+                    <dl>
+                        <dt>平台备注：</dt>
+                        <dd>${refundItemVo.adminMessage}</dd>
+                    </dl>
+                </#if>
+                <#if (refundDetailVo??) && (refundDetailVo.refundState == 2 ) >
+                    <h3>退款详细</h3>
+                    <dl>
+                        <dt>支付方式：</dt>
+                        <dd>${refundDetailVo.paymentName}</dd>
+                    </dl>
+                    <dl>
+                        <dt>在线退款金额：</dt>
+                        <dd>${refundDetailVo.payAmount?string("0.00")}</dd>
+                    </dl>
+                    <dl>
+                        <dt>预存款金额：</dt>
+                        <dd>${refundDetailVo.pdAmount?string("0.00")}</dd>
+                    </dl>
+                </#if>
+
+            </#if>
+    <#if refundItemVo.sellerTime?? >
+        <div class="bottom">
+            <a href="javascript:history.go(-1);" class="btn btn-sm btn-white"><i class="icon-reply"></i>返回列表</a>
+        </div>
+    </#if>
+        </div>
+    </div>
+</div>
+
+    <@infoRightGoods.html />
+	<#noescape>
+<script>
+    ncGlobal.refundBuyerImageList = '${refundItemVo.picJson}';
+    ncGlobal.refundId = '${refundItemVo.refundId}';
+    <#if shipCompany??>
+    ncGlobal.shipCode="${shipCompany.shipCode!''}";
+    ncGlobal.shipSn = "${refundItemVo.shipSn!''}";
+    <#else />
+    ncGlobal.shipCode="";
+    ncGlobal.shipSn = "";
+    </#if>
+</script>
+</#noescape>
+<link href="${publicRoot}toolkit/lightbox/css/lightbox.css" rel="stylesheet"/>
+<script src="${publicRoot}toolkit/lightbox/js/lightbox-2.6.min.js"></script>
+<script src="${jsRoot}return/info.js"></script>
+</@c.html>
+

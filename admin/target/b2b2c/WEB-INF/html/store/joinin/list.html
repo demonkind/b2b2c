@@ -1,0 +1,20 @@
+<#import "/layout.html" as c>
+<#import "/list_layout.html" as list>
+<#assign alertList = []/>
+<#assign alertList = alertList + ["点击审核按钮可以对商家入驻申请进行审核"]/>
+<@c.html title="Index">
+  <!-- ================== 开始页面级CSS调用 ================== -->
+  <link href="${toolkitRoot}bootstrap-wizard/css/bwizard.min.css" rel="stylesheet"/>
+  <!-- 日历控件 -->
+  <link href="${toolkitRoot}/jquery.dtGrid/dependents/datePicker/skin/WdatePicker.css" rel="stylesheet"/>
+  <link href="${toolkitRoot}/jquery.dtGrid/dependents/datePicker/skin/default/datepicker.css" rel="stylesheet"/>
+  <!-- ================== 结束页面级CSS调用 ================== -->
+  <@list.html title="入驻申请" subTitle="管理商家的入驻申请" alertList=alertList addBtn=false searchHint="请输入店铺名称进行搜索">
+  </@list.html>
+  <!-- ================== 开始页面级JavaScrip调用 ================== -->
+  <script src="${toolkitRoot}bootstrap-wizard/js/bwizard.js"></script>
+  <!-- 表单checkbox项 -->
+  <script src="${toolkitRoot}bootstrap-switch/bootstrap-switch.min.js"></script>
+  <script src="${jsRoot}store/joinin/joinin.handle.js"></script>
+  <!-- ================== 结束页面级JavaScrip调用 ================== -->
+</@c.html>

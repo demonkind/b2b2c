@@ -1,0 +1,100 @@
+<#import "/layout.html" as c />
+<#import "/list_layout.html" as list />
+<#assign alertList = []/>
+<#assign alertList = alertList + ["上架状态分为：出售中、仓库中和禁售三种状态"]/>
+<#assign alertList = alertList + ["审核状态分为：审核通过、等待审核和审核失败三种状态"]/>
+<#assign alertList = alertList + ["商品只有在审核通过并且出售中的商品才能正常出售。商品是否需啊哟审核可以在“商品设置”中由管理员进行设置。"]/>
+<#assign alertList = alertList + ["禁售或审核失败的商品，商家只能重新编辑后才能够进行出售。"]/>
+
+<@c.html title="Index">
+  <!-- ================== 开始页面级CSS调用 ================== -->
+  <link href="${publicRoot}lightbox/css/lightbox.css" rel="stylesheet" />
+  <!-- ================== 结束页面级CSS调用 ================== -->
+  <@list.html title="商品列表" subTitle="商城所有商品索引及管理" alertList=alertList addBtn=false searchHint="使用商品名称作为关键字查找" tipUrl="goods/verify/list" tipTip="管理商家提交的待审核商品" tipTitle="待审核商品" tipCount="${waitCount}">
+  <!-- 开始页面内容 -->
+  <!-- 开始禁售模态框 -->
+  <div class="modal fade" id="banModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" >
+      <div class="modal-content" >
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title"> 禁售商品 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsEditInfo" aria-expanded="true" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+        </div>
+        <div class="modal-body">
+          <ul class="collapse in text-info m-b-20 p-l-15" role="tabpanel" id="OperationTipsEditInfo">
+            <li class="m-b-3"> 管理员发现商品有违规问题，需要商家重新编辑商品</li>
+          </ul>
+          <form action="${adminRoot}goods/ban.json"  id="banForm" method="post" autocomplete="off" data-parsley-validate="true">
+            <input type="hidden" name="commonId" id="commonId" value="">
+            <div class="form-group">
+              <label class="control-label col-md-2 col-sm-3"> 商品名称 &nbsp;:</label>
+                <input id="goodsName" type="text" name="goodsName" readonly class="form-control" />
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-2 col-sm-3">禁售原因&nbsp;:</label>
+              <textarea id="stateRemark" name="stateRemark" class="form-control"
+                        data-parsley-required="true"
+                        placeholder="请填写商品被禁售的原因" rows="5"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer"> 
+        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a>
+         <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-ajax-submit-target="banForm" nc-ajax-submit>确认提交</a> 
+         </div>
+      </div>
+    </div>
+  </div>
+  <!-- 结束禁售模态框 -->
+  <!-- 开始绑定活动模态框 -->
+   <div class="modal fade" id="BindModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" >
+      <div class="modal-content" >
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title"> 绑定活动画面 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsEditInfo" aria-expanded="true" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+        </div>
+        <div class="modal-body">
+          <ul class="collapse in text-info m-b-20 p-l-15" role="tabpanel" id="OperationTipsEditInfo">
+            <li class="m-b-3"> 管理员发现商品有违规问题，需要商家重新编辑商品</li>
+          </ul>
+          <form action="${adminRoot}goods/saveGoodsActivity.json"  id="BindForm" method="post" autocomplete="off" data-parsley-validate="true">
+            <input type="hidden" name="commonId" id="BindCommonId" value="">
+            <input type="hidden" name="storeId" id="id_storeId" value="">
+            <div class="form-group">
+              <label class="control-label col-md-2 col-sm-3"> 商品名称 &nbsp;:</label>
+                <input id="BindGoodsName" type="text" name="goodsName" readonly class="form-control" />
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-2 col-sm-3">选择活动&nbsp;:</label>
+              <select name="activityId" class="form-control"  id="id_activity" data-tip="tooltip" data-placement="auto" data-original-title="选择一项活动" data-parsley-required="true">
+              		<option value="1">0元购</option> 
+              		<option value="2">预售</option>
+              		<option value="3">0元购+预售</option>
+              		<!-- 数据库里取值 -->
+              		<!-- 获取活动数据  activity数据 -->
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer"> 
+        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a>
+         <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-ajax-submit-target="BindForm" nc-ajax-submit>确认绑定</a> 
+         </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 结束绑定活动模态框 -->
+  </@list.html>
+  <!-- 结束页面内容 --> 
+  <!-- ================== 开始页面级JavaScrip调用 ================== --> 
+  <!-- 表单checkbox项 --> 
+  <script src="${toolkitRoot}bootstrap-switch/bootstrap-switch.min.js"></script>
+  <!-- 日历控件 -->
+  <script src="${toolkitRoot}jquery.dtGrid/dependents/datePicker/WdatePicker.js" defer="defer"></script>
+  <!-- 图片点击放大窗口 --> 
+  <script src="${publicRoot}toolkit/tooltip/tooltip.js"></script> 
+
+  <script src="${jsRoot}goods/goods.js"></script>
+</@c.html>

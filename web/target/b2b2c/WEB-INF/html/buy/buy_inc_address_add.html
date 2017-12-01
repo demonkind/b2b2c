@@ -1,0 +1,48 @@
+<div id="addressDialog"  style="display:none">
+  <div class="adds">
+    <form id="addressForm" action="${webRoot}member/address/add" method="post">
+      <input type="hidden" value="" name="addressId">
+      <dl>
+        <dt><i class="required">*</i>收货人：</dt>
+        <dd>
+          <input type="text" value="" name="realName" maxlength="10" placeholder="请填写您的真实姓名" class="text w300">
+        </dd>
+      </dl>
+      <dl>
+        <dt><i class="required">*</i>所在地区：</dt>
+        <dd id="divAddress" class="data-deep" data-area-text="" data-area-id="">
+          <input type="hidden" value="" name="areaId1" data-deep="0">
+          <input type="hidden" value="" name="areaId2" data-deep="1">
+          <input type="hidden" value="" name="areaId3" data-deep="2">
+          <input type="hidden" value="" name="areaId4" data-deep="3">
+        </dd>
+      </dl>
+      <dl>
+        <dt><i class="required">*</i>街道地址：</dt>
+        <dd>
+          <input type="text" value="" name="address" maxlength="50" placeholder="不必重复填写地区" class="text w300">
+        </dd>
+      </dl>
+      <dl>
+        <dt><i class="required">*</i>手机号码：</dt>
+        <dd>
+          <input type="text" value="" name="mobPhone" placeholder="电话号码、手机号码至少填写一项" class="text w300">
+        </dd>
+      </dl>
+      <dl>
+        <dt>电话号码：</dt>
+        <dd>
+          <input type="text" value="" name="telPhone" placeholder="区号 - 电话号码 - 分机" class="text w300">
+        </dd>
+      </dl>
+
+      <dl>
+        <dt><em class="pngFix"></em>默认地址：</dt>
+        <dd>
+          <div class="text-box"><input type="checkbox" value="1" id="isDefault" name="isDefault" class="checkbox vm mr5">
+          <label for="isDefault">设置该地址为默认</label></div>
+        </dd>
+      </dl>
+    </form>
+  </div>
+</div>

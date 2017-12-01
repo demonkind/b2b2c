@@ -1,0 +1,54 @@
+<#import "func.html" as funcList>
+<#macro html> 
+
+<#if mainContract?exists>
+<div id="cti">
+  <div class="wrapper">
+    <ul>
+      <#list mainContract as entity> 
+      <!-- ${uploadRoot}${entity.ctiIcon} -->
+      <li><span class="line"></span> <span class="icon"> <img src="${funcList.ncImage(entity.ctiIconUrl,60,60)}"> </span> <span class="name"> 
+      	<#if entity.ctiDescurl?exists && entity.ctiDescurl!=''>
+      	<a href="${entity.ctiDescurl}" target="_blank">${entity.ctiName}</a>
+      	<#else>
+      	${entity.ctiName}
+      	</#if>
+      	</span> </li>
+      </#list>
+    </ul>
+  </div>
+</div>
+</#if>
+<div id="faq">
+  <div class="wrapper">
+    <ul>
+      <#if bottomArticleList?exists>
+      <#list bottomArticleList.keySet() as i>
+      <li>
+        <dl class="s1">
+          <dt> ${bottomArticleList.get(i).get(0).categoryTitle} </dt>
+          <#list bottomArticleList.get(i) as article>
+          <dd><i></i><a href="<#if article.url != ''>${article.url}<#else>${webRoot}article/info/${article.articleId}</#if>" title="${article.title}">${article.title}</a></dd>
+          </#list>
+        </dl>
+      </li>
+      </#list>
+      </#if>
+    </ul>
+  </div>
+</div>
+<div id="footer">
+  <div class="wrapper">
+    <p><a href="${webRoot}">首页</a>
+      <#if navList?exists>
+      <#list navList.get("footer") as list>
+      | <a href="${list.url}" target="${(list.openType == 1)?string('_blank','_self')}">${list.title}</a> </#list>
+      </#if> </p>
+    Copyright © 2016 ${config.siteName},All rights reserved.&nbsp;&nbsp;&nbsp;&nbsp;${config.icp}<br />
+    Powered by <a href="http://www.ei-store.com" target="_blank" style="font-weight: 600;"><font style="color:blue;">EI</font><font style="color:orange;">-STORE</font>.com</a><br />
+    <#noescape>
+    ${config.flowCode}
+    </#noescape>
+  </div>
+</div>
+</#macro>

@@ -1,0 +1,15 @@
+<#import "/member/layout.html" as c />
+<#import "/member/refund/right_order_info.html" as orderinfo />
+<@c.html title="Index">
+  <div class="ncm-flow-layout" >
+    <div class="ncm-flow-container" ><div class="title">
+            <h3>选择退款或退货</h3>
+        </div>
+      <div class="ncm-refund-choose"><a href="${webRoot}member/refund/addgoods/${ordersGoodsVo.ordersId}/${ordersGoodsVo.ordersGoodsId}"><h2>我要退款</h2><h4>无需退货仅申请退款</h4></a> <a href="${webRoot}member/return/add/${ordersGoodsVo.ordersId}/${ordersGoodsVo.ordersGoodsId}"><h2>我要退货</h2><h4>申请退货及退款服务</h4></a></div>
+    </div >
+    <@orderinfo.html />
+  </div >
+  <link href="${publicRoot}toolkit/lightbox/css/lightbox.css" rel="stylesheet" />
+  <script src="${publicRoot}toolkit/lightbox/js/lightbox-2.6.min.js"></script> 
+  <script src="${jsRoot}member/refund/info.js" ></script > 
+</@c.html>

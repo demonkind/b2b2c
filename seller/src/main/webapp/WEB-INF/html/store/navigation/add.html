@@ -1,0 +1,67 @@
+<#import "/layout/seller_layout.html" as c>
+<@c.html title="Index">
+      <script>
+        var UEDITOR_HOME_URL = "${toolkitRoot}ueditor/";
+    </script>
+  <script type="text/javascript" charset="utf-8" src="${toolkitRoot}ueditor/ueditor.config.js"></script>
+  <script type="text/javascript" charset="utf-8" src="${toolkitRoot}ueditor/ueditor.all.js"> </script>
+  <script src="${toolkitRoot}ueditor/lang/zh-cn/zh-cn.js"></script>
+  <div class="alert mt15 mb5"><strong>操作提示：</strong>
+    <ul>
+      <li></li>
+    </ul>
+  </div>
+  <div class="ncsc-form-default">
+  <form id="addForm" action="${sellerRoot}store/navigation/save.json" method="post">
+    <#if storeNavigation??>
+    <input name="navId" type="hidden" value="${storeNavigation.id}"/>
+    </#if>
+    <dl>
+      <dt><i class="required">*</i>导航名称：</dt>
+      <dd> <input name="title" type="text" class="text w300" value="<#if storeNavigation??>${storeNavigation.title}</#if>" > </dd>
+    </dl>
+      <dl>
+          <dt>是否显示：</dt>
+          <dd>
+          <label><input type="radio" name="isShow" value="1" <#if !storeNavigation??>checked</#if> <#if storeNavigation?? && storeNavigation.isShow == 1>checked</#if> />是</label>
+              <label><input type="radio" name="isShow" value="0" <#if storeNavigation?? && storeNavigation.isShow == 0>checked</#if> />否</label>
+          </dd>
+      </dl>
+      <dl>
+          <dt>排序：</dt>
+          <dd>
+              <input name="sort" type="text" class="text w300" value="<#if storeNavigation??>${storeNavigation.sort}<#else>999</#if>" >
+          </dd>
+      </dl>
+      <dl>
+          <dt>内容：</dt>
+          <dd>
+              <!-- S 富文本编辑器-->
+              <div id="editorWrap">
+                  <script id="editor" type="text/plain" style="width:100%;">
+                      <#noescape>
+                      <#if storeNavigation?? && storeNavigation.content??>
+                        ${storeNavigation.content}
+                      </#if>
+                      </#noescape>
+                  </script>
+              </div>
+              <!--  富文本编辑器-->
+          </dd>
+      </dl>
+          <dl>
+      <dt>导航外链URL：</dt>
+      <dd> <input name="url" type="text" class="text w300" value="<#if storeNavigation??>${storeNavigation.url}</#if>" > </dd>
+    </dl>
+       <dl>
+          <dt>新窗口打开：</dt>
+          <dd>
+              <label><input type="radio" name="isNewPage" value="1" <#if !storeNavigation??>checked</#if> <#if storeNavigation?? && storeNavigation.isNewPage == 1>checked</#if> />是</label>
+              <label><input type="radio" name="isNewPage" value="0" <#if storeNavigation?? && storeNavigation.isNewPage == 0>checked</#if> />否</label>
+          </dd>
+      </dl>
+    <div class="bottom"><a id="formSubmit" href="javascript:;" class="btn btn-primary">确认提交</a></div>
+  </form>
+  </div>
+  <script src="${jsRoot}store/navigation.add.js"></script>
+</@c.html>

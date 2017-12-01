@@ -1,0 +1,216 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-touch-fullscreen" content="yes" />
+<meta name="format-detection" content="telephone=no"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="msapplication-tap-highlight" content="no" />
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,minimum-scale=1" />
+<title>订单详情</title>
+<link rel="stylesheet" type="text/css" href="${cssRoot}base.css">
+<link rel="stylesheet" type="text/css" href="${cssRoot}nctouch_member.css">
+</head>
+<body>
+<header id="header" class="fixed">
+  <div class="header-wrap">
+    <div class="header-l"> <a href="javascript:history.go(-1)"> <i class="back"></i> </a> </div>
+    <div class="header-title">
+      <h1>订单详情</h1>
+    </div>
+    <div class="header-r"> <a id="header-nav" href="javascript:void(0);"><i class="more"></i><sup></sup></a> </div>
+  </div>
+  <div class="nctouch-nav-layout">
+    <div class="nctouch-nav-menu"> <span class="arrow"></span>
+        <ul>
+        <li><a href="/wap"><i class="home"></i>首页</a></li>
+		<li><a href="/wap/cart/list" ><i class="cart"></i>购物车<sup></sup></a></li>
+		<li><a href="javascript:void(0);" onclick="_MEIQIA._SHOWPANEL()"><i class="search"></i>联系客服</a></li>
+		<li><a href="/wap/members/index"><i class="message"></i>我的<sup></sup></a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+<div class="nctouch-main-layout mb20">
+  <div class="nctouch-order-list" id="order-info-container">
+    <ul>
+    	<div class="nctouch-oredr-detail-block">
+			<h3><i class="orders"></i>交易状态</h3>
+			<div class="order-state">${ordersVo.ordersStateName}</div>
+			<!--  tips不知道是什么暂时注释
+			<%if (order_tips != ''){%><div class="info"><%=order_tips%></div><%}%> -->
+		</div>
+		<!-- 已发货 -->
+		
+		<div class="nctouch-oredr-detail-block mt5">
+			<div class="nctouch-oredr-detail-add">
+				<i class="icon-add"></i>
+				<dl>
+	        		<dt>收货人：<span>${ordersVo.receiverName}</span><span>${ordersVo.receiverPhone}</span></dt>
+					<dd>收货地址：${ordersVo.receiverAddress}</dd>
+				</dl>
+			</div>
+		</div>
+		<#if ordersVo.receiverMessage ?? && ordersVo.receiverMessage != ''>
+		<div class="nctouch-oredr-detail-block">
+			<h3><i class="msg"></i>买家留言</h3>
+			<div class="info">${ordersVo.receiverMessage}</div>
+		</div>
+		</#if>
+		<#if ordersVo.invoiceInfo ?? && ordersVo.invoiceInfo != ''>
+			<div class="nctouch-oredr-detail-block">
+				<h3><i class="invoice"></i>发票信息</h3>
+				<div class="info">${ordersVo.invoiceInfo}</div>
+			</div>
+		</#if>
+		<#if ordersVo.paymentName?? && ordersVo.paymentName!="">
+			<div class="nctouch-oredr-detail-block">
+				<h3><i class="pay"></i>付款方式</h3>
+				<div class="info">${ordersVo.paymentName}</div>
+			</div>
+		</#if>
+		
+		<div class="nctouch-order-item mt5">
+			<div class="nctouch-order-item-head">
+				<a href="javascript:;" class="store"><i class="icon"></i>${ordersVo.storeName}<i class="arrow-r"></i></a>
+			</div>
+			<div class="nctouch-order-item-con">
+				<#if (ordersVo.ordersGoodsVoList?size>0)>
+				
+				<#list ordersVo.ordersGoodsVoList as ordersGoodsVo>
+				<div class="goods-block detail">
+					<a href="/wap/product/productDetail?goodsId=${ordersGoodsVo.goodsId}">
+					<div class="goods-pic">
+						<img src="${ordersGoodsVo.imageSrc}">
+					</div>
+					<dl class="goods-info">
+						<dt class="goods-name">${ordersGoodsVo.goodsName}</dt>
+						<dd class="goods-type">${ordersGoodsVo.goodsFullSpecs}</dd>
+					</dl>
+					<div class="goods-subtotal">
+						<span class="goods-price">￥<em>${ordersGoodsVo.goodsPrice?string("0.00")}</em></span>
+						<span class="goods-num">x${ordersGoodsVo.buyNum}</span>
+					</div>
+					<pre hidden="hidden">
+					<!-- <#if ordersGoodsVo.showRefund == 1 >
+						<a href="javascript:void(0)" order_id="${ordersGoodsVo.ordersId}" order_goods_id="${ordersGoodsVo.ordersGoodsId}" class="goods-refund">退款</a>
+						<a href="javascript:void(0)" order_id="${ordersGoodsVo.ordersId}" order_goods_id="${ordersGoodsVo.ordersGoodsId}" class="goods-return">退货</a>
+					</#if> -->
+					</pre>
+				</a>
+				</div>
+				</#list>
+				</#if>
+				<div class="goods-subtotle">
+					<dl>
+						<dt>订单总额</dt>
+						<dd>￥<em>${ordersVo.ordersAmount}</em></dd>
+					</dl>
+					<dl>
+						<dt>运费</dt>
+						<dd>￥<em>0.00</em></dd>
+					</dl>
+				</div>
+			</div>
+			<div class="nctouch-order-item-bottom">
+				<span><a href="javascript:void(0);" onclick="_MEIQIA._SHOWPANEL()"><i class="im"></i>联系客服</a></span>
+				<span><a tel="${ordersVo.storePhone!""}"><i class="tel"></i>拨打电话</a></span>
+			</div>
+		</div>
+		<div class="nctouch-oredr-detail-block mt5">
+			<ul class="order-log">
+				<li>订单编号：${ordersVo.ordersSn}</li>
+					<li>创建时间：${ordersVo.createTime}</li>
+				<#if ordersVo.paymentTime??>
+					<li>付款时间：${ordersVo.paymentTime}</li>
+				</#if>
+				<#if ordersVo.sendTime??>
+					<li>发货时间：${ordersVo.sendTime}</li>
+				</#if>
+				<#if ordersVo.finishTime ??>
+					<li>完成时间：${ordersVo.finishTime}</li>
+				</#if>
+			</ul>
+		</div>
+		<div class="nctouch-oredr-detail-bottom">
+		<div class="handle">
+		<!-- S 显示退款退货中文字-->
+        <#if ordersVo.refundReturnStatus==11>
+            <p>退款中</p>
+        </#if>
+        <#if ordersVo.refundReturnStatus==18>
+            <p>完成退款</p>
+        </#if>
+        <#if ordersVo.refundReturnStatus==19>
+            <p>拒绝退款</p>
+        </#if>
+        <#if ordersVo.refundReturnStatus==21>
+            <p>退货中</p>
+        </#if>
+        <#if ordersVo.refundReturnStatus==22>
+            <p>同意退货,请发货</p>
+        </#if>
+        <#if ordersVo.refundReturnStatus==23>
+            <p>退货收货中</p>
+        </#if>
+        <#if ordersVo.refundReturnStatus==24>
+            <p>完成退货</p>
+        </#if>
+        <#if ordersVo.refundReturnStatus==25>
+            <p>同意退货</p>
+        </#if>
+        <#if ordersVo.refundReturnStatus==29>
+            <p>拒绝退货</p>
+        </#if>
+		
+		<#if (ordersVo.showMemberRefundAll==1 || ordersVo.refundReturnStatus==19) && ordersVo.ordersState == 20>
+			<a href="javascript:void(0)" order_id="${ordersVo.ordersId}" class="btn all_refund_order">订单退款</a>
+		</#if>
+		<#if ordersVo.showMemberCancel==1>
+			<a href="javascript:void(0)" order_id="${ordersVo.ordersId}" class="btn cancel-order">取消订单</a>
+		</#if>
+		<#if ordersVo.showMemberReceive==1>
+			<a href="javascript:void(0)" order_id="${ordersVo.ordersId}" shipSn="<#if ordersVo.shipSn?? >${ordersVo.shipSn}</#if>" shipName="<#if ordersVo.shipName?? >${ordersVo.shipName}</#if>" shipCode="<#if ordersVo.shipCode?? >${ordersVo.shipCode}</#if>" shipUrl="<#if ordersVo.shipUrl?? >${ordersVo.shipUrl}</#if>" class="btn viewdelivery-order">查看物流</a>
+		</#if>
+		<#if ordersVo.showMemberReceive==1 && ordersVo.showRefundWaiting != 1>
+			<a href="javascript:void(0)" order_id="${ordersVo.ordersId}" class="btn key sure-order">确认收货</a>
+		</#if>
+		<#if (ordersVo.showEvaluation==1 || ordersVo.showMemberReceive==1) && ordersVo.showRefundWaiting != 1>
+			<a href="javascript:void(0)" order_id="${ordersVo.ordersId}" order_good_id="<#list ordersVo.ordersGoodsVoList as o>${o.ordersGoodsId}</#list>" class="btn key return-order">我要退货</a>
+			<a href="javascript:void(0)" order_id="${ordersVo.ordersId}" order_good_id="<#list ordersVo.ordersGoodsVoList as o>${o.ordersGoodsId}</#list>" class="btn key refund-order">我要退款</a>
+		</#if>
+		<#if ordersVo.refundReturnStatus==19 || ordersVo.refundReturnStatus==29>
+			<#if ordersVo.showMemberReceive==1>
+				<a href="javascript:void(0)" order_id="${ordersVo.ordersId}" class="btn key sure-order">确认收货</a>
+			</#if>
+			<#if ordersVo.showEvaluation==1 || ordersVo.showMemberReceive==1>
+				<a href="javascript:void(0)" order_id="${ordersVo.ordersId}" order_good_id="<#list ordersVo.ordersGoodsVoList as o>${o.ordersGoodsId}</#list>" class="btn key return-order">我要退货</a>
+				<a href="javascript:void(0)" order_id="${ordersVo.ordersId}" order_good_id="<#list ordersVo.ordersGoodsVoList as o>${o.ordersGoodsId}</#list>" class="btn key refund-order">我要退款</a>
+			</#if>
+        </#if>
+		<!-- <#if ordersVo.showEvaluation==1>
+			<a href="javascript:void(0)" order_id="${ordersVo.ordersId}" class="btn key evaluation-order">评价订单</a>
+		</#if>
+		<#if ordersVo.showEvaluationAppend==1>
+			<a href="javascript:void(0)" order_id="${ordersVo.ordersId}" class="btn evaluation-again-order">追加评价</a>
+		</#if> -->
+		</div>
+		</div>
+	
+	</div>
+    </ul>
+  </div>
+</div>
+<footer id="footer"></footer>
+<script type="text/javascript" src="${jsRoot}zepto.min.js"></script> 
+<script type="text/javascript" src="${jsRoot}template.js"></script> 
+<script type="text/javascript" src="${jsRoot}config.js"></script> 
+<script type="text/javascript" src="${jsRoot}common.js"></script> 
+<script type="text/javascript" src="${jsRoot}simple-plugin.js"></script> 
+<script type="text/javascript" src="${jsRoot}tmpl/order_detail.js"></script>
+<script type="text/javascript" src="${jsRoot}meiqia.js"></script>
+</body>
+</html>

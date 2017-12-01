@@ -1,0 +1,134 @@
+<#import "/layout/seller_layout.html" as c>
+<@c.html title="Index">
+  <div class="ncsc-index">
+    <div class="top-container">
+      <div class="basic-info">
+      	<div class="store-logo">
+            <p><img src="${c.func.ncImage(storeInfo.storeAvatarUrl, 100, 100)}"/></p>
+            <a href="${sellerRoot}store/setting">店铺设置</a>
+        </div>
+        <dl class="ncsc-seller-info">
+          <dt class="seller-name">
+            <h3>${sellerInfo.sellerName}</h3>
+          </dt>
+          
+          <dd class="seller-permission">管理权限：<strong>${sellerInfo.groupName!""}</strong></dd>
+          <dd class="seller-last-login">最后登录：<strong>${sellerInfo.lastLoginTime!""}</strong> </dd>
+          <dd class="store-name">店铺名称：<a href="${c.func.ncStoreUrl(storeInfo.storeId)}" target="_blank" >${storeInfo.storeName}</a></dd>
+          <dd class="store-grade">店铺等级：<strong>${storeInfo.gradeName}</strong></dd>
+          <dd class="store-validity">有效期：<strong>${storeEndTimeText}
+            <#if storeReopenTip==1><!--<a class="btn btn-xs btn-danger" href="javascript:;">马上续签</a>--></#if> </strong></dd>
+          <dd class="store-bill">结算周期：<strong>${storeInfo.billCyleDescription}</strong></dd>
+        </dl>
+        
+      </div><div class="detail-rate">
+          <h3>店铺动态评分</h3>
+          <h5>用户对店铺交易评分与同类行业分值对比</h5>
+            <ul>
+              <li>商品满意度：${storeInfo.storeDesccredit}分</li>
+              <li>服务满意度：${storeInfo.storeServicecredit}分</li>
+              <li>物流满意度：${storeInfo.storeDeliverycredit}分</li>
+            </ul>
+            <ul>
+              <li>
+                <div class="" id="ncEvaluateDes"><span><i></i></span></div>
+              </li>
+              <li>
+                <div class="" id="ncEvaluateService"><span><i></i></span></div>
+              </li>
+              <li>
+                <div class="" id="ncEvaluateDelivery"><span><i></i></span></div>
+              </li>
+            </ul>
+        </div>
+    </div>
+    <div class="seller-cont">
+      <div class="container left type-a">
+        <div class="hd">
+          <h3>店铺及商品提示</h3>
+          <h5>您需要关注的店铺信息以及待处理事项</h5>
+        </div>
+        <div class="content">
+          <dl class="focus">
+            <dt>发布商品数量：</dt>
+            <dd title="已发布/可发布商品"><em id="ncGoodsCount">-</em>&nbsp;/&nbsp;
+              <#if storeInfo.isOwnShop==1>不限<#else/>${storeGradeInfo.goodsLimit}</#if> </dd>
+            <dt>店铺推荐占位：</dt>
+            <dd title="已推荐/可推荐商品"><em id="ncGoodsCommendCount">-</em>&nbsp;/&nbsp;
+              <#if storeInfo.isOwnShop==1>不限<#else/>${storeGradeInfo.recommendLimit}</#if> </dd>
+            <dt>图片空间使用：</dt>
+            <dd title="已上传/可上传图片"><em id="ncImageCount">-</em>&nbsp;/&nbsp;
+              <#if storeInfo.isOwnShop==1>不限<#else/>${storeGradeInfo.albumLimit}</#if> </dd>
+          </dl>
+          <ul>
+            <li><a href="${sellerRoot}goods/online/list">出售中的商品<strong id="ncGoodsOnSale"></strong></a></li>
+            <li><a href="${sellerRoot}goods/wait/list">发布待平台审核<strong id="ncGoodsWaitverify"></strong></a></li>
+            <li><a href="${sellerRoot}goods/fail/list">平台审核失败<strong id="ncGoodsVerifyfail"></strong></a></li>
+            <li><a href="${sellerRoot}goods/offline/list">仓库中已审核<strong id="ncGoodsOffline"></strong></a></li>
+            <li><a href="${sellerRoot}goods/ban/list">被禁售的商品<strong id="ncGoodsBan"></strong></a></li>
+            <li><a href="${sellerRoot}consult/list/noreply">咨询待回复<strong id="ncConsultNoReply"></strong></a></li>
+          </ul>
+          <dl class="focus">
+            <dt>近期售出：</dt>
+            <dd>交易中的订单<strong id="ncOrdersProgressing" class="m-l-5"></strong></dd>
+            <dt>售后服务：</dt>
+            <dd>退款退货<strong id="ncOrdersRefundAndReturn" class="m-l-5"></strong></dd>
+          </dl>
+          <ul>
+            <li><a href="${sellerRoot}orders/list/new">待收款订单<strong id="ncOrdersWaitPay"></strong></a></li>
+            <li><a href="${sellerRoot}orders/list/pay">待发货订单<strong id="ncOrdersWaitSend"></strong></a></li>
+            <li><a href="${sellerRoot}refund/list?stateType=waiting">退款中<strong id="ncRefundWaiting"></strong></a></li>
+            <li><a href="${sellerRoot}return/list?stateType=waiting">退货中<strong id="ncReturnWaiting"></strong></a></li>
+            <li><a href="${sellerRoot}bill/list">待确认账单<strong id="ncBillNew"></strong></a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="container right type-b">
+        <div class="hd">
+          <h3>商家公告</h3>
+        </div>
+        <!-- 商家公告start -->
+        <div id="storeNotice"> <#if storeNoticeList?exists && storeNoticeList?size gt 0>
+          <ul>
+            <#list storeNoticeList as info>
+			<li><a href="<#if info.url != ''>${info.url}<#else>${webRoot}article/info/${info.articleId}</#if>">${info.title}</a></li>
+            </#list>
+          </ul>
+          </#if>
+          <dl>
+            <dt>平台联系方式</dt>
+            <#if siteConfigMap.sitePhone?exists && siteConfigMap.sitePhone?size gt 0>
+            <#list siteConfigMap.sitePhone as phone>
+            <#if phone_index lt 10>
+            <dd>客服电话${phone_index+1}：${phone}</dd>
+            </#if>
+            </#list>
+            </#if>
+            <dd>邮箱：${siteConfigMap.siteEmail}</dd>
+          </dl>
+        </div>
+        <!-- 商家公告end --> </div>
+      <div class="container left">
+        <div class="hd">
+          <h3>最新时间段销售额走势</h3>
+          <h5>分析每日热销时段及时调整销售策略</h5>
+        </div>
+        <!-- 最新时间段销售额走势start -->
+        
+        <div id="hourTrend"></div>
+        <!-- 最新时间段销售额走势end --> </div>
+      <div class="container right type-d">
+        <div class="hd">
+          <h3>单品销售排行</h3>
+          <h5>掌握30日内最热销的商品及时补充货源</h5>
+        </div>
+        <!-- 店铺热销商品排行start -->
+        <div id="goodsHotSale" class="content"></div>
+        <!-- 店铺热销商品排行end --> </div>
+    </div>
+  </div>
+</@c.html>
+<link href="${publicRoot}toolkit/morris/morris.css" rel="stylesheet"/>
+<script src="${publicRoot}toolkit/morris/raphael.min.js"></script> 
+<script src="${publicRoot}toolkit/morris/morris.js"></script> 
+<script type="text/javascript" src="${jsRoot}index.js"></script>

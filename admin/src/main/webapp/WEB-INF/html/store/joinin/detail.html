@@ -1,0 +1,364 @@
+ <#import "/layout.html" as c>
+<@c.html title="Index"> 
+  
+  <!-- ================== 开始页面所需CSS样式引入 ================== -->
+  <link href="${publicRoot}toolkit/lightbox/css/lightbox.css" rel="stylesheet" />
+  <style type="text/css">
+.form-group p { line-height: 20px; margin: 0; padding-top: 5px; }
+</style>
+  <!-- ================== 结束页面所需CSS样式引入 ================== --> 
+  <!-- 开始页面内容 -->
+  <div id="content" class="content"> 
+    <!-- 开始面包屑导航 -->
+    <ol class="breadcrumb pull-right">
+      <li class="">首页</li>
+      <#list adminMenuState.breadCrumbList as breadCrumb>
+      <li class="">${breadCrumb}</li>
+      </#list>
+    </ol>
+    <!-- 结束面包屑导航 --> 
+    <!-- 开始页头区域 -->
+    <h1 class="page-header">入驻审核<small>审核商家的入驻申请</small></h1>
+    <!-- 结束页头区域 --> 
+    <!-- 开始布局行 -->
+    <div class="row">
+      <div class="col-md-12"> 
+        <!-- 开始邮件设置模块 -->
+        <div class="panel panel-inverse" data-sortable-id="form-validation-1">
+          <div class="panel-heading">
+            <div class="panel-heading-btn"> <a href="#listTip" class="btn btn-xs btn-icon btn-circle btn-info" role="button" data-toggle="collapse" aria-expanded="true" title="操作提示"> <i class="fa fa-lightbulb-o"></i> </a> <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"> <i class="fa fa-expand"></i> </a> <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"> <i class="fa fa-minus"></i> </a> </div>
+            <h4 class="panel-title">入驻审核</h4>
+          </div>
+          <div class="panel-body"> 
+            <!-- 开始操作提示 --> 
+            <!--<div class="alert alert-info collapse in" role="tabpanel" id="listTip">--> 
+            <!--<h4>操作提示</h4>--> 
+            <!--<ul>--> 
+            <!--<li></li>--> 
+            <!--</ul>--> 
+            <!--</div>--> 
+            <!-- 结束操作提示 -->
+            <form class="form-horizontal form-bordered" name="verifyForm" id="verifyForm" method="POST">
+              <div class="row">
+                <div class="col-md-12">
+                  <legend class="m-b-0 p-b-10 f-s-16">公司及联系人信息</legend>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">公司名称&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8">
+                      <p>${storeCertificate.companyName}</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">公司所在地&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8">
+                      <p>${storeCertificate.companyAddress}</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">公司详细地址&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8">
+                      <p>${storeCertificate.companyAddressDetail}</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">公司电话&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8">
+                      <p>${storeCertificate.companyPhone}</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">员工总数&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8">
+                      <p>${storeCertificate.companyEmployeeCount}&nbsp;人</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">注册资金&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8">
+                      <p>${storeCertificate.companyRegisteredCapital}&nbsp;万元</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">联系人姓名&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8">
+                      <p>${storeCertificate.contactsName}</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">联系人电话&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8">
+                      <p>${storeCertificate.contactsPhone}</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">电子邮箱&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8">
+                      <p>${storeCertificate.contactsEmail}</p>
+                    </div>
+                  </div>
+                  <legend class="m-t-40 m-b-0 p-b-10 f-s-16">营业执照信息（副本）</legend>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">营业执照号&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8">
+                      <p>${storeCertificate.businessLicenceNumber}</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">法定经营范围&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8">
+                      <p>${storeCertificate.businessSphere}</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">营业执照电子版&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8"><a href="${uploadRoot}${storeCertificate.businessLicenceImage}" class="upload-file-thumb" data-lightbox="img-businessLicenceImage" title="营业执照电子版"><img src="${uploadRoot}${storeCertificate.businessLicenceImage}" alt="营业执照电子版"/></a></div>
+                  </div>
+                  <legend class="m-t-40 m-b-0 p-b-10 f-s-16">组织结构代码证</legend>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">组织机构代码&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8">
+                      <p>${storeCertificate.organizationCode}</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">组织机构代码电子版&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8"><a href="${uploadRoot}${storeCertificate.organizationImage}" class="upload-file-thumb" data-lightbox="img-organizationImage" title="组织机构码电子版"><img src="${uploadRoot}${storeCertificate.organizationImage}" alt="组织机构码电子版"/></a></div>
+                  </div>
+                  <legend class="m-t-40 m-b-0 p-b-10 f-s-16">一般纳税人证明</legend>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">一般纳税人证明电子版&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8"><a href="${uploadRoot}${storeCertificate.generalTaxpayer}" class="upload-file-thumb" data-lightbox="img-generalTaxpayer" title="一般纳税人证明电子版"><img src="${uploadRoot}${storeCertificate.generalTaxpayer}" alt="一般纳税人证明电子版"/></a></div>
+                  </div>
+                  <legend class="m-b-0 p-b-10 f-s-16">开户银行信息</legend>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">银行开户名&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8">
+                      <p>${storeCertificate.bankAccountName}</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">银行账号&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8">
+                      <p>${storeCertificate.bankAccountNumber}</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">开户银行支行名称&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8">
+                      <p>${storeCertificate.bankName}</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">支行联行号&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8">
+                      <p>${storeCertificate.bankCode}</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">开户银行所在地&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8">
+                      <p>${storeCertificate.bankAddress}</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">开户银行许可证电子版&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8"><a href="${uploadRoot}${storeCertificate.bankLicenceImage}" class="upload-file-thumb" data-lightbox="img-bankLicenceImage" title="开户银行许可证电子版"><img src="${uploadRoot}${storeCertificate.bankLicenceImage}" alt="开户银行许可证电子版"/></a></div>
+                  </div>
+                  <legend class="m-t-40 m-b-0 p-b-10 f-s-16">结算账号信息</legend>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">银行开户名&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8">
+                      <p>${storeCertificate.settlementBankAccountName}</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">银行账号&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8">
+                      <p>${storeCertificate.settlementBankAccountNumber}</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">开户银行支行名称&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8">
+                      <p>${storeCertificate.settlementBankName}</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">支行联行号&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8">
+                      <p>${storeCertificate.settlementBankCode}</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">开户银行所在地&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8">
+                      <p>${storeCertificate.settlementBankAddress}</p>
+                    </div>
+                  </div>
+                  <legend class="m-t-40 m-b-0 p-b-10 f-s-16">税务登记证</legend>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">税务登记证号&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8">
+                      <p>${storeCertificate.taxRegistrationCertificate}</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">纳税人识别号&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8">
+                      <p>${storeCertificate.taxpayerId}</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">税务登记证号电子版&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8"><a href="${uploadRoot}${storeCertificate.taxRegistrationImage}" class="upload-file-thumb" data-lightbox="img-taxRegistrationImage" title="税务登记证电子版"><img src="${uploadRoot}${storeCertificate.taxRegistrationImage}" alt="税务登记证电子版"/></a></div>
+                  </div>
+                  <legend class="m-t-10 m-b-0 p-b-10 f-s-16">店铺经营信息</legend>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">店铺名称&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8">
+                      <p>${storeJoinin.storeName}</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">店铺等级&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8">
+                      <p>${storeGrade.name} (商品数：${storeGrade.goodsLimit} 图片数： ${storeGrade.albumLimit} 推荐商品数： ${storeGrade.recommendLimit} 收费标准：${storeGrade.price})</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">开店时长&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8">
+                      <p>${storeJoinin.joininYear}&nbsp;年</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">主营行业&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8">
+                      <p>${storeClass.name} (保证金：${storeClass.bail}元)</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">应付总金额&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8">
+                      <div class="input-group col-md-4"> <#if isVerify??>
+                        <input type="text" id="payingAmount" name="payingAmount" value="${payingAmount}" placeholder="请输入应付总金额" class="form-control" data-tip="tooltip" data-placement="auto" data-parsley-required="true" data-parsley-type="integer"/>
+                        <#else>
+                        <input class="form-control" value="${storeJoinin.payingAmount}" disabled />
+                        </#if> <span class="input-group-addon">元</span></div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">经营类目&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8">
+                      <table cellspacing="0" cellpadding="0" border="0" class="table" id="table_category">
+                        <thead>
+                          <tr>
+                            <th class="col-md-3">一级类目</th>
+                            <th class="col-md-3">二级类目</th>
+                            <th class="col-md-3">三级类目</th>
+                            <th class="">分佣比例</th>
+                          </tr>
+                        </thead>
+                        <tbody id="tableCategoryBody">
+                        <#if storeBindCategoryList?hasContent>
+                        <#list storeBindCategoryList as storeBindCategory>
+                        <tr class="store-class-item">
+                          <td>${storeBindCategory.categoryName1}</td>
+                          <td>${storeBindCategory.categoryName2}</td>
+                          <td>${storeBindCategory.categoryName3}</td>
+                          <td><#if isVerify??>
+                            <div class="input-group">
+                              <input type="text" class="form-control" data-bind-id="${storeBindCategory.bindId}"
+                                     value="${storeBindCategory.commissionRate}"
+                                     data-parsley-required="true" data-parsley-type="integer"
+                                     data-parsley-min="0" data-parsley-max="100"
+                                      />
+                              <span class="input-group-addon">%</span></div>
+                            <#else>
+                            <div class="input-group">
+                              <input type="text" class="form-control" value="${storeBindCategory.commissionRate}" disabled/>
+                              <span class="input-group-addon">%</span></div>
+                            </#if> </td>
+                        </tr>
+                        </#list>
+                        </#if>
+                          </tbody>
+                        
+                      </table>
+                    </div>
+                  </div>
+                  <#if isVerifyPay??>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">付款凭证&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8"><a href="${uploadRoot}${storeJoinin.payingCertificate}" class="upload-file-thumb" data-lightbox="img-payingCertificate" title="付款凭证"><img src="${uploadRoot}${storeJoinin.payingCertificate}" alt="付款凭证"/></a></div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">付款凭证说明&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8"> ${storeJoinin.payingCertificateExp} </div>
+                  </div>
+                  </#if>
+                  <#if isVerify?? || isVerifyPay??>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3">审核意见&nbsp;:</label>
+                    <div class="col-lg-6 col-md-7 col-sm-8">
+                      <textarea name="joininMessage" rows="3" placeholder="请输入审核意见" class="form-control" id="flowCode" data-parsley-required="true"></textarea>
+                    </div>
+                  </div>
+                  </#if>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3"></label>
+                    <div class="col-lg-6 col-md-7 col-sm-8">
+                      <input type="hidden" name="sellerId" value='${storeJoinin.sellerId}'/>
+                      <#if isVerify??>
+                      <input id="storeBindCategoryListJson" type="hidden" name="storeBindCategoryListJson" value='${storeBindCategoryListJson}'/>
+                      <a href="javascript:;" class="btn btn-white" data-loading-text="Loading..." nc-q-submit-target="verifyForm" nc-q-submit nc-data-type="fail" nc-q-submit-url="${adminRoot}store_joinin/verify.json" nc-q-submit-reload="true">拒绝申请</a> <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-q-submit-target="verifyForm" nc-q-submit nc-data-type="success" nc-q-submit-url="${adminRoot}store_joinin/verify.json" nc-q-submit-reload="true">审核通过</a> </#if>
+                      <#if isVerifyPay??> <a href="javascript:;" class="btn btn-white" data-loading-text="Loading..." nc-q-submit-target="verifyForm" nc-q-submit nc-data-type="fail" nc-q-submit-url="${adminRoot}store_joinin/verify_pay.json" nc-q-submit-reload="true">拒绝申请</a> <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-q-submit-target="verifyForm" nc-q-submit nc-data-type="success" nc-q-submit-url="${adminRoot}store_joinin/verify_pay.json" nc-q-submit-reload="true">审核通过</a> </#if> </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ================== 开始页面JavaScript调用 ================== --> 
+  <script src="${publicRoot}toolkit/lightbox/js/lightbox-2.6.min.js"></script> 
+  <!-- ================== 结束页面JavaScript调用 ================== --> 
+  <script>
+        $(function(){
+		//上传证照缩略
+		$('.upload-file-thumb img').jqthumb({
+			width: 60,
+			height: 60,
+			after: function (imgObj) {
+			imgObj.css('opacity', 0).animate({opacity: 1}, 2000);
+			}
+		});
+            var $tableCategoryBody = $("#tableCategoryBody"),
+                $storeBindCategoryListJson = $("#storeBindCategoryListJson"),
+                storeBindCategoryListJson = $storeBindCategoryListJson && $.parseJSON($storeBindCategoryListJson.val())
+                ;
+            var setRate = function(id,value){
+                $.each(storeBindCategoryListJson, function(index, val) {
+                    if (val.bindId == id ) {
+                        val.commissionRate = value;
+                        return;
+                    }
+                });
+                $storeBindCategoryListJson.val(JSON.stringify(storeBindCategoryListJson));
+            };
+            var bindEvents = function(){
+                $tableCategoryBody
+                    .find("input:text")
+                    .on("focusout",function(){
+                        var $this = $(this);
+                        setRate($this.data('bindId'),$this.val());
+                    });
+            };
+            ///////
+            bindEvents();
+        });
+    </script> 
+  <!-- 结束页面内容 -->
+</@c.html>

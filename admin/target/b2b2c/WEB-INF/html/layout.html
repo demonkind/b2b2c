@@ -1,0 +1,467 @@
+<#import "./func.html" as func>
+<#macro html title>
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,IE=EmulateIE8,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="generator" content="UG93ZXJlZCBCeSBTaG9wTkMubmV0"/>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="author" content="ShopNC-Developers"/>
+<#if title == "Index">
+<title>${config.siteName}</title>
+<#else>
+<title>${title}</title>
+</#if>
+
+<!-- ================== 开始基础CSS样式引入 ================== -->
+<link href="${publicRoot}toolkit/jquery-ui/themes/base/minified/jquery-ui.min.css" rel="stylesheet"/>
+<link href="${toolkitRoot}bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="${toolkitRoot}font-awesome/css/font-awesome.min.css" rel="stylesheet">
+<link href="${cssRoot}animate.min.css" rel="stylesheet"/>
+<link href="${cssRoot}style.min.css" rel="stylesheet"/>
+<link href="${cssRoot}style-responsive.min.css" rel="stylesheet"/>
+<link href="${cssRoot}theme/default.css" rel="stylesheet" id="theme"/>
+<link href="${cssRoot}style-toolkit.css" rel="stylesheet"/>
+<!-- ================== 结束基础CSS样式引入 ================== -->
+
+<!-- ================== 开始页面所需CSS样式引入 ================== -->
+<link href="${toolkitRoot}gritter/css/jquery.gritter.css" rel="stylesheet"/>
+<!-- 表单验证 -->
+<link href="${toolkitRoot}parsley/parsley.min.css" rel="stylesheet"/>
+<!-- ================== 结束页面所需CSS样式引入 ================== -->
+  <!--[if lt IE 9]>
+  <script src="${publicRoot}toolkit/crossbrowserjs/es5-shim.min.js"></script>
+  <script src="${publicRoot}toolkit/crossbrowserjs/html5shiv.js"></script>
+  <script src="${publicRoot}toolkit/crossbrowserjs/excanvas.min.js"></script>
+  <script src="${publicRoot}toolkit/crossbrowserjs/respond.min.js"></script>
+  <![endif]-->
+<!-- ================== 开始基础JavaScript调用 ================== -->
+<script src="${publicRoot}toolkit/jquery/1.9.1/jquery.min.js"></script>
+<script src="${publicRoot}toolkit/jquery-cookie/jquery.cookie.js"></script>
+<script src="${publicRoot}toolkit/jquery/jquery-migrate-1.1.0.min.js"></script>
+<script src="${publicRoot}toolkit/jquery-thumb/jqthumb.js"></script>
+<script src="${toolkitRoot}jquery-ui/ui/minified/jquery-ui.min.js"></script>
+<script src="${toolkitRoot}bootstrap/js/bootstrap.js"></script>
+<script src="${publicRoot}toolkit/slimscroll/jquery.slimscroll.min.js"></script>
+<!-- ================== 结束基础JavaScript调用 ================== -->
+
+<!-- ================== 开始页面JavaScript调用 ================== -->
+<script src="${toolkitRoot}jquery.dtGrid/jquery.dtGrid.js"></script> 
+<script src="${toolkitRoot}jquery.dtGrid/i18n/zh-cn.js"></script>
+
+<!-- ================== 结束页面JavaScript调用 ================== -->
+
+  <!-- ================== 开始页面级JavaScript调用 ================== -->
+  <!-- 表单验证 -->
+  <script src="${toolkitRoot}parsley/dist/parsley.js"></script>
+  <!-- 图片上传 -->
+  <script src="${toolkitRoot}fileupload/jquery.fileupload.js"></script>
+  <!-- ================== 结束页面级JavaScript调用 ================== -->
+
+  <!-- ================== 开始 全局语言包 ================== -->
+  <script src="${publicRoot}toolkit/nc-i18n/zh-CN.js"></script>
+
+  <!-- ================== 开始 页面全局js变量 ================== -->
+  <script>
+    var ncGlobal = {
+      webRoot:"${webRoot}",
+      adminRoot:"${adminRoot}",
+      memberRoot:"${memberRoot}",
+      sellerRoot:"${sellerRoot}",
+      publicRoot:"${publicRoot}",
+      jsRoot:"${jsRoot}",
+      cssRoot:"${cssRoot}",
+      imgRoot:"${imgRoot}",
+      toolkitRoot:"${toolkitRoot}",
+      uploadRoot:"${uploadRoot}"
+    };
+  </script>
+</head>
+<body>
+<!-- 开始页面加载效果 -->
+<div id="page-loader" class="fade in"> <span class="spinner"></span> </div>
+<!-- 结束页面加载效果 --> 
+<!-- 开始页面容器 -->
+<div id="page-container" class="fade page-sidebar-fixed page-header-fixed"> 
+  <!-- 开始头部区域 -->
+  <div id="header" class="header navbar navbar-default navbar-fixed-top"> 
+    <!-- 开始响应式容器 -->
+    <div class="container-fluid"> 
+      <!-- 开始移动设备导航栏展开/折叠控制按钮 -->
+      <div class="navbar-header"> <a href="${adminRoot}" class="navbar-brand">
+        <!-- <span class="navbar-logo"></span> --> 
+        ShopNC AdminCP<sup class="btn btn-success btn-xs m-l-5">Java</sup> </a>
+        <button type="button" class="navbar-toggle" data-click="sidebar-toggled"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+      </div>
+      <!-- 结束移动设备导航栏展开/折叠控制按钮 --> 
+      <!-- 开始头部区域右侧导航 -->
+      <ul class="nav navbar-nav navbar-right">
+      <li><a href="${webRoot}" target="_blank" class="f-s-14"><i class="fa fa-lg fa-home"></i> 商城首页</a></li>
+        <#if countPrompt.size() gt 0>
+        <li class="dropdown"> <a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle f-s-14"> <i class="fa fa-bell-o"></i> 通知提示 <span class="label"><i class="fa fa-bell-o"></i></span> </a>
+          <ul class="dropdown-menu media-list pull-right animated fadeInDown">
+            <li class="dropdown-header">通知 (${countPrompt.size()})</li>
+            <#if countPrompt.goodsWaitCount??>
+            <li class="media"> <a href="${adminRoot}goods/verify/list">
+              <div class="media-left"> <i class="fa fa-cube media-object bg-green"></i> </div>
+              <div class="media-body">
+                <h6 class="media-heading">商品审核</h6>
+                <div class="text-muted f-s-11">${countPrompt.goodsWaitCount}件商品需要审核上架</div>
+              </div>
+              </a> </li>
+            </#if>
+            <#if countPrompt.storeJoin??>
+            <li class="media"> <a href="${adminRoot}store_joinin/list">
+              <div class="media-left"> <i class="fa fa-bank media-object bg-blue"></i> </div>
+              <div class="media-body">
+                <h6 class="media-heading">开店审核</h6>
+                <div class="text-muted f-s-11">${countPrompt.storeJoin}家店铺需要审核开通</div>
+              </div>
+              </a> </li>
+            </#if>
+            <#if countPrompt.contractApply??>
+            <li class="media"> <a href="${adminRoot}contract/apply">
+              <div class="media-left"> <i class="fa fa-shield media-object bg-orange"></i> </div>
+              <div class="media-body">
+                <h6 class="media-heading">店铺消保开通</h6>
+                <div class="text-muted f-s-11">${countPrompt.contractApply}家店铺消保需要审核开通</div>
+              </div>
+              </a> </li>
+            </#if>
+            <#if countPrompt.countCostApply??>
+            <li class="media"> <a href="${amdinRoot}contract/apply">
+              <div class="media-left"> <i class="fa fa-shield media-object bg-orange"></i> </div>
+              <div class="media-body">
+                <h6 class="media-heading">店铺消保保证金支付</h6>
+                <div class="text-muted f-s-11">${countPrompt.countCostApply}家店铺消保保证金已经支付需要确认</div>
+              </div>
+            </a> </li>
+            </#if>
+            <#if countPrompt.contractQuitApply??>
+            <li class="media"> <a href="${adminRoot}contract/quit_apply">
+              <div class="media-left"> <i class="fa fa-shield media-object bg-orange"></i> </div>
+              <div class="media-body">
+                <h6 class="media-heading">店铺消保保证金退款</h6>
+                <div class="text-muted f-s-11">${countPrompt.contractQuitApply}家店铺退出消保需要退还保证金</div>
+              </div>
+            </a> </li>
+            </#if>
+            <#if countPrompt.handleRefund??>
+            <li class="media"> <a href="${adminRoot}refund/handle_list">
+              <div class="media-left"> <i class="fa fa-refresh media-object bg-red"></i> </div>
+              <div class="media-body">
+                <h6 class="media-heading">退款申请</h6>
+                <div class="text-muted f-s-11">${countPrompt.handleRefund}个退款申请需要审核通过</div>
+              </div>
+              </a> </li>
+            </#if>
+            <#if countPrompt.handleReturn??>
+            <li class="media"> <a href="${adminRoot}return/handle_list">
+              <div class="media-left"> <i class="fa fa-refresh media-object bg-red"></i> </div>
+              <div class="media-body">
+                <h6 class="media-heading">退货申请</h6>
+                <div class="text-muted f-s-11">${countPrompt.handleReturn}个退货申请需要审核通过</div>
+              </div>
+            </a> </li>
+            </#if>
+            <#if countPrompt.billConfirmCount??>
+            <li class="media"> <a href="${adminRoot}bill/list?type=confirm">
+              <div class="media-left"> <i class="fa fa-envelope media-object bg-purple"></i> </div>
+              <div class="media-body">
+                <h6 class="media-heading">结算单确认</h6>
+                <div class="text-muted f-s-11">${countPrompt.billConfirmCount}个结算单需要确认</div>
+              </div>
+              </a> </li>
+            </#if>
+            <#if countPrompt.billAccessCount??>
+            <li class="media"> <a href="${adminRoot}bill/list?type=access">
+              <div class="media-left"> <i class="fa fa-envelope media-object bg-purple"></i> </div>
+              <div class="media-body">
+                <h6 class="media-heading">结算单付款</h6>
+                <div class="text-muted f-s-11">${countPrompt.billAccessCount}个结算单需要付款</div>
+              </div>
+            </a> </li>
+            </#if>
+            <#if countPrompt.brandWaitCount??>
+            <li class="media"> <a href="${adminRoot}brand/verify/list">
+              <div class="media-left"> <i class="fa fa-tag media-object bg-green"></i> </div>
+              <div class="media-body">
+                <h6 class="media-heading">品牌审核</h6>
+                <div class="text-muted f-s-11">${countPrompt.brandWaitCount}个添加品牌申请需要审核</div>
+              </div>
+            </a> </li>
+            </#if>
+            <#if countPrompt.predepositCash??>
+              <li class="media"> <a href="${adminRoot}predeposit/cash">
+                <div class="media-left"> <i class="fa fa-envelope media-object bg-blue"></i> </div>
+                <div class="media-body">
+                  <h6 class="media-heading">提现审核</h6>
+                  <div class="text-muted f-s-11">${countPrompt.predepositCash}个会员提现申请需要审核</div>
+                </div>
+              </a> </li>
+            </#if>
+          </ul>
+        </li>
+        </#if>
+        <li class="dropdown navbar-user">
+            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+              <img src="${adminAvatarUrl}" alt=""/>
+              <span class="hidden-xs">${adminName}</span>
+              <b class="caret"></b>
+            </a>
+          <ul class="dropdown-menu animated fadeInLeft">
+            <li class="arrow"></li>
+            <li> <a href="javascript:;" data-target="#adminProfileModal" data-toggle="modal">编辑资料</a> </li>
+            <li class="divider"></li>
+            <li> <a href="${adminRoot}logout">安全退出</a> </li>
+          </ul>
+        </li>
+      </ul>
+      <!-- 结束头部区域右侧导航 --> 
+    </div>
+    <!-- 结束响应式容器 --> 
+  </div>
+  <!-- 结束头部区域 --> 
+  <!-- 开始侧边栏区域 -->
+  <div id="sidebar" class="sidebar"> 
+    <!-- begin sidebar scrollbar -->
+    <div data-scrollbar="true" data-height="100%"> 
+      <!-- begin sidebar user -->
+      <ul class="nav">
+        <li class="nav-profile">
+          <div class="image"> <a href="javascript:;"> <img src="${adminAvatarUrl}" alt=""/> </a> </div>
+          <div class="info"> ${adminName} <small>${adminGroupName!''}</small> </div>
+        </li>
+      </ul>
+      <!-- end sidebar user --> 
+      <!-- begin sidebar nav -->
+
+      <ul class="nav">
+        <li class="nav-header">管理导航</li>
+        <#if adminMainMenu?hasContent>
+        <#list adminMainMenu as adminMenu1>
+            <li class="has-sub <#if adminMenu1.id == adminMenuState.currentMenu1>active</#if>">
+                <a href="<#if adminMenu1.url == "">javascript:;<#else>${adminRoot}${adminMenu1.url}</#if>"><i class="fa fa-${adminMenu1.title}"></i>
+                    <#if adminMenu1.subMenu?hasContent>
+                    <b class="caret pull-right"></b>
+                    </#if>
+                 <span>${adminMenu1.name}</span> </a>
+                <#if adminMenu1.subMenu?hasContent>
+                    <ul class="sub-menu" <#if adminMenu1.id == adminMenuState.currentMenu1>style="display:block;"</#if>>
+                <#list adminMenu1.subMenu as adminMenu2>
+                    <li class="<#if adminMenu2.subMenu?hasContent>has-sub</#if> <#if adminMenu2.id == adminMenuState.currentMenu2>active</#if>"> <a href="<#if adminMenu2.url == "">javascript:;<#else>${adminRoot}${adminMenu2.url}</#if>">
+                        <#if adminMenu2.subMenu?hasContent>
+                        <b class="caret pull-right"></b>
+                        </#if>
+                    ${adminMenu2.name} </a>
+                    <#if adminMenu2.subMenu?hasContent>
+                    <ul class="sub-menu" <#if adminMenu2.id == adminMenuState.currentMenu2>style="display:block;"</#if>>
+                    <#list adminMenu2.subMenu as adminMenu3>
+                        <li <#if adminMenu3.id == adminMenuState.currentMenu3>class="active"</#if>> <a href="<#if adminMenu3.url == "">javascript:;<#else>${adminRoot}${adminMenu3.url}</#if>">${adminMenu3.name}</a> </li>
+                    </#list>
+                    </ul>
+                    </#if>
+                </#list>
+                    </ul>
+                </#if>
+            </li>
+          </#list>
+          </#if>
+        <!-- begin sidebar minify button -->
+        <li> <a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"> <i
+                                class="fa fa-angle-double-left"></i> </a> </li>
+        <!-- end sidebar minify button -->
+      </ul>
+      <!-- end sidebar nav --> 
+    </div>
+    <!-- end sidebar scrollbar --> 
+  </div>
+  <div class="sidebar-bg"></div>
+  <!-- 结束侧边栏区域 --> 
+  
+  <#nested/> 
+  
+  <!-- begin #footer -->
+  <div id="footer" class="footer"> © 2016 B2B2C Java Development Edition - ShopNC.net All Rights Reserved </div>
+  <!-- end #footer --> 
+  <!-- 开始风格面板 -->
+  <div class="theme-panel"> <a href="javascript:;" data-click="theme-panel-expand" class="theme-collapse-btn"> <i
+                    class="fa fa-cog"></i> </a>
+    <div class="theme-panel-content">
+      <h5 class="m-t-0">颜色主题</h5>
+      <ul class="theme-list clearfix">
+        <li class="active"> <a href="javascript:;" class="bg-green" data-theme="default" data-click="theme-selector"
+                       data-tip="tooltip" data-trigger="hover" data-container="body" data-title="默认">&nbsp;</a> </li>
+        <li> <a href="javascript:;" class="bg-red" data-theme="red" data-click="theme-selector"
+                       data-tip="tooltip" data-trigger="hover" data-container="body" data-title="红色">&nbsp;</a> </li>
+        <li> <a href="javascript:;" class="bg-blue" data-theme="blue" data-click="theme-selector"
+                       data-tip="tooltip" data-trigger="hover" data-container="body" data-title="蓝色">&nbsp;</a> </li>
+        <li> <a href="javascript:;" class="bg-purple" data-theme="purple" data-click="theme-selector"
+                       data-tip="tooltip" data-trigger="hover" data-container="body" data-title="紫色">&nbsp;</a> </li>
+        <li> <a href="javascript:;" class="bg-orange" data-theme="orange" data-click="theme-selector"
+                       data-tip="tooltip" data-trigger="hover" data-container="body" data-title="橙色">&nbsp;</a> </li>
+        <li> <a href="javascript:;" class="bg-black" data-theme="black" data-click="theme-selector"
+                       data-tip="tooltip" data-trigger="hover" data-container="body" data-title="黑色">&nbsp;</a> </li>
+      </ul>
+      <div class="divider"></div>
+      <div class="row m-t-10">
+        <div class="col-md-5 control-label">头部样式</div>
+        <div class="col-md-7">
+          <select name="header-styling" class="form-control input-sm">
+            <option value="1">默认</option>
+            <option value="2">反转</option>
+          </select>
+        </div>
+      </div>
+      <!--<div class="row m-t-10">
+        <div class="col-md-5 control-label">头部位置</div>
+        <div class="col-md-7">
+          <select name="header-fixed" class="form-control input-sm">
+            <option value="1">固定</option>
+            <option value="2">默认</option>
+          </select>
+        </div>
+      </div>-->
+      <div class="row m-t-10">
+        <div class="col-md-5 control-label">边栏样式</div>
+        <div class="col-md-7">
+          <select name="sidebar-styling" class="form-control input-sm">
+            <option value="1">默认</option>
+            <option value="2">间隔</option>
+          </select>
+        </div>
+      </div>
+      <!--<div class="row m-t-10">
+        <div class="col-md-5 control-label">边栏位置</div>
+        <div class="col-md-7">
+          <select name="sidebar-fixed" class="form-control input-sm">
+            <option value="1">固定</option>
+            <option value="2">默认</option>
+          </select>
+        </div>
+      </div>-->
+      <div class="row m-t-10">
+        <div class="col-md-5 control-label">边栏渐变</div>
+        <div class="col-md-7">
+          <select name="content-gradient" class="form-control input-sm">
+            <option value="1">默认</option>
+            <option value="2">使用</option>
+          </select>
+        </div>
+      </div>
+      <div class="row m-t-10">
+        <div class="col-md-5 control-labe">内容样式</div>
+        <div class="col-md-7">
+          <select name="content-styling" class="form-control input-sm">
+            <option value="1">默认</option>
+            <option value="2">深色</option>
+          </select>
+        </div>
+      </div>
+      <div class="row m-t-10">
+        <div class="col-md-12"> <a href="#" class="btn btn-inverse btn-block btn-sm" data-click="reset-local-storage"> <i class="fa fa-refresh m-r-3"></i> 重新加载页面缓存 </a> </div>
+      </div>
+    </div>
+  </div>
+  <!-- 结束风格面板 --> 
+  <!-- 开始回滚顶部 --> 
+  <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"> <i class="fa fa-angle-up"></i> </a> 
+  <!-- 结束回滚顶部 -->
+    <!-- 开启管理员资料模态窗口 -->
+    <div class="modal fade" id="adminProfileModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title"> 编辑资料 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsAdd" aria-expanded="true" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+          </div>
+          <div class="modal-body">
+            <ul class="text-info p-b-15 p-l-15 collapse in" role="tabpanel" id="OperationTipsAdd">
+              <li class="m-b-3">如需修改密码请填写登录密码和重复密码，否则密码处请留空</li>
+              <li class="m-b-3">头像修改后需要重新登录才会生效</li>
+            </ul>
+            <form class="form-horizontal form-bordered p-0" id="formAdminProfile" autocomplete="off" action="${adminRoot}profile.json" method="post" data-parsley-validate="true">
+              <div class="form-group">
+                <label class="control-label col-md-2 col-sm-3">头像&nbsp;: </label>
+                  <div class="col-md-9 col-sm-8">
+                      <input type="hidden" id="inputAdminAvatar" name="avatar">
+                      <div class="admin-avatar m-b-15 m-r-15" style=" float: left; "><img src="${adminAvatarUrl}" id="imgAdminAvatar" alt="" class="media-object"></div>
+                      <p class="text-info">支持格式gif，jpg，png。</p>
+                      <span class="btn btn-sm btn-white fileinput-button">
+                          <i class="fa fa-upload"></i>
+                          <span>文件上传</span>
+                          <input id="adminAvatarFormFile" type="file" name="file" autocomplete="off" multiple>
+                      </span>
+                  </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-md-2 col-sm-3">登录密码&nbsp;: </label>
+                <div class="col-md-9 col-sm-8"><input type="password" id="password" name="password" class="form-control" placeholder="请输入登录密码" data-tip="tooltip" data-placement="auto" data-original-title="必填项，6-20个大小写英文字母、符号或数字。" data-parsley-length="[6,20]"/></div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-md-2 col-sm-3">重复密码&nbsp;: </label>
+                <div class="col-md-9 col-sm-8"><input type="password" name="password2" class="form-control" placeholder="请再次输入密码" data-tip="tooltip" data-placement="auto" data-original-title="必填项，请确保两次密码输入一致。" data-parsley-equalto="#password" data-parsley-equalto-message="两次输入的密码不一致"/>
+              </div></div>
+            </form>
+          </div>
+          <div class="modal-footer"> <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a> <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-ajax-submit-target="formAdminProfile" nc-ajax-submit>确认提交</a> </div>
+        </div>
+      </div>
+    </div>
+    <!-- 结束管理员资料模态窗口 -->
+</div>
+<!-- 结束页面容器 -->
+
+<script src="${toolkitRoot}gritter/js/jquery.gritter.js"></script>
+
+<script src="${jsRoot}admincp/apps.js"></script>
+<script src="${publicRoot}toolkit/tooltip/tooltip.js"></script>
+<script>
+    //form-slider-swither对应css文件路径常量
+    var CSS_SITE_URL = "${cssRoot}";
+    $(document).ready(function () {
+        App.init();
+
+        /**
+         * 头像上传
+         */
+		  //图片同比例缩放-预览
+		 $('.admin-avatar img').jqthumb({
+                        width: 60,
+                        height: 60,
+                        after: function (imgObj) {
+                            imgObj.css('opacity', 0).animate({opacity: 1}, 2000);
+                        }
+                    });
+        $("#adminAvatarFormFile").fileupload({
+            dataType: 'json',
+            url: ncGlobal.adminRoot + "image/upload.json",
+            done: function (e, data) {
+                if (data.result.code == 200) {
+                    $('#inputAdminAvatar').val(data.result.data.name);
+                    $('#imgAdminAvatar').attr('src', data.result.data.url);
+                    //图片同比例缩放-上传
+                    $('.admin-avatar img').jqthumb({
+                        width: 60,
+                        height: 60,
+                        after: function (imgObj) {
+                            imgObj.css('opacity', 0).animate({opacity: 1}, 2000);
+                        }
+                    });
+                } else {
+                    $.ncAlert({
+                        closeButtonText: "关闭",
+                        autoCloseTime: 3,
+                        content: data.result.message
+                    })
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>
+</#macro>

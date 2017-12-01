@@ -1,0 +1,368 @@
+<#import "/layout/layout.html" as c>
+<@c.html title="Index">
+  <div class="open-step">
+    <ol>
+      <li id="tabStep0" class="current"><i>1</i>签订入驻协议</li>
+      <li id="tabStep1"><i>2</i>公司资质信息</li>
+      <li id="tabStep2"><i>3</i>财务资质信息</li>
+      <li id="tabStep3"><i>4</i>店铺经营信息</li>
+      <li><i>5</i>合同签订及缴费</li>
+      <li><i>6</i>店铺开通</li>
+    </ol>
+  </div>
+  <div class="ncsc-form-open">
+    <div id="divAgreement">
+      <h3>${joinAgreement.title}</h3>
+      <#noescape>
+      <div class="apply-agreement-content">${joinAgreement.content}</div>
+       </#noescape>
+      <div class="apple-agreement">
+        <input class="checkbox" type="checkbox" checked="" id="chkAgreement">
+        <label for="chkAgreement">我已阅读并同意以上协议</label>
+      </div>
+      <div class="bottom"><a href="javascript:;" id="btnAgreement" class="btn btn-info">下一步，填写企业资质信息</a></div>
+    </div>
+    <div id="divJoinForm" style="display:none;">
+      <form name="joinForm" id="joinForm" method="post" action="${sellerRoot}open.json">
+        <ul id="stepForm" class="ui-accordion-container">
+          <!--公司资质信息Ynkgc2hvcG5jLm5ldA==-->
+          <li id="sf1">
+            <h3>公司及联系人信息</h3>
+            <dl>
+              <dt><i>*</i>公司名称&nbsp;：</dt>
+              <dd>
+                <input name="companyName" type="text" class="text w300" id="companyName" maxlength="20" placeholder="请输入您的公司名称" autocomplete="off" value="<#if storeCertificate??>${storeCertificate.companyName}</#if>"/>
+              </dd>
+            </dl>
+            <dl>
+              <dt><i>*</i>公司所在地&nbsp;：</dt>
+              <dd>
+                <div id="divCompanyAddress" data-area-text="<#if storeCertificate??>${storeCertificate.companyAddress}</#if>" data-area-id="<#if storeCertificate??>${storeCertificate.companyAddressId}</#if>"></div>
+              </dd>
+            </dl>
+            <dl>
+              <dt><i>*</i>公司详细地址&nbsp;：</dt>
+              <dd>
+                <input type="text" class="text w300" id="companyAddressDetail" name="companyAddressDetail" maxlength="30" placeholder="请输入详细地址，无需重复填写所在地区" autocomplete="off" value="<#if storeCertificate??>${storeCertificate.companyAddressDetail}</#if>"/>
+              </dd>
+            </dl>
+            <dl>
+              <dt><i>*</i>公司电话&nbsp;：</dt>
+              <dd>
+                <input type="text" class="text w300" id="companyPhone" name="companyPhone" maxlength="20" placeholder="请输入公司固定电话" autocomplete="off" value="<#if storeCertificate??>${storeCertificate.companyPhone}</#if>"/>
+              </dd>
+            </dl>
+            <dl>
+              <dt><i>*</i>员工总数&nbsp;：</dt>
+              <dd>
+                <input type="text" class="text w100" id="companyEmployeeCount" name="companyEmployeeCount" maxlength="10" placeholder="请输入员工人数" autocomplete="off" value="<#if storeCertificate??>${storeCertificate.companyEmployeeCount}</#if>"/><em class="add-on">&nbsp;人&nbsp;</em> </dd>
+            </dl>
+            <dl>
+              <dt><i>*</i>注册资金&nbsp;：</dt>
+              <dd>
+                <input type="text" class="text w100" id="companyRegisteredCapital" name="companyRegisteredCapital" maxlength="10" placeholder="请输入注册资金数" autocomplete="off" value="<#if storeCertificate??>${storeCertificate.companyRegisteredCapital}</#if>"/><em class="add-on">万元</em></dd>
+            </dl>
+            <dl>
+              <dt><i>*</i>联系人姓名&nbsp;：</dt>
+              <dd>
+                <input type="text" class="text w100" id="contactsName" name="contactsName" maxlength="20" placeholder="请输入联系人姓名" autocomplete="off" value="<#if storeCertificate??>${storeCertificate.contactsName}</#if>"/>
+              </dd>
+            </dl>
+            <dl>
+              <dt><i>*</i>联系人电话&nbsp;：</dt>
+              <dd>
+                <input type="text" class="text w300" id="contactsPhone" name="contactsPhone" maxlength="20" placeholder="请输入联系人电话" autocomplete="off" value="<#if storeCertificate??>${storeCertificate.contactsPhone}</#if>"/>
+              </dd>
+            </dl>
+            <dl>
+              <dt><i>*</i>电子邮箱&nbsp;：</dt>
+              <dd>
+                <input type="text" class="text w300" id="contactsEmail" name="contactsEmail" maxlength="30" placeholder="请输入联系接收用电子邮箱" autocomplete="off" value="<#if storeCertificate??>${storeCertificate.contactsEmail}</#if>"/>
+              </dd>
+            </dl>
+            <h3>营业执照信息(副本)</h3>
+            <dl>
+              <dt><i>*</i>营业执照号&nbsp;：</dt>
+              <dd>
+                <input type="text" class="text w300" id="businessLicenceNumber" name="businessLicenceNumber" maxlength="20" placeholder="请输入15位营业执照号码" autocomplete="off" value="<#if storeCertificate??>${storeCertificate.businessLicenceNumber}</#if>"/>
+              </dd>
+            </dl>
+            <dl>
+              <dt><i>*</i>法定经营范围&nbsp;：</dt>
+              <dd>
+                <textarea name="businessSphere" rows="3" class="textarea w300" id="businessSphere" maxlength="300" placeholder="请输入营业执照所示经营范围内容" autocomplete="off" ><#if storeCertificate??>${storeCertificate.businessSphere}</#if></textarea>
+              </dd>
+            </dl>
+            <dl>
+              <dt><i>*</i>营业执照电子版&nbsp;：</dt>
+              <dd>
+                <div class="btn-upload-box" id="divUploadBusinessLicenceImage"><span id="btnUploadBusinessLicenceImage">
+                  <input type="file" hidefocus="true" class="input-file" name="file"/>
+                  </span> <a href="javascript:;" class="btn btn-sm btn-default"><i class="icon icon-picture"></i>证照上传</a></div>
+                <#if storeCertificate??>
+                <div data-item="image" class="upload-file-thumb"><img src="${uploadRoot}${storeCertificate.businessLicenceImage}" alt="营业执照电子版"/></div>
+                </#if>
+                <input type="hidden" id="businessLicenceImage" name="businessLicenceImage" value="<#if storeCertificate??>${storeCertificate.businessLicenceImage}</#if>"/>
+                <p class="hint">请压缩证照扫描件/电子版图片大小为2M以内，格式为gif、jpg、png，并确保文字清晰、以免上传或审核失败。</p>
+              </dd>
+            </dl>
+            <h3>组织机构代码证</h3>
+            <dl>
+              <dt><i>*</i>组织机构代码&nbsp;：</dt>
+              <dd>
+                <input type="text" class="text w300" id="organizationCode" name="organizationCode" maxlength="15" placeholder="请输入9位组织机构代码，格式xxxxxxxx-y" autocomplete="off" value="<#if storeCertificate??>${storeCertificate.organizationCode}</#if>"/>
+              </dd>
+            </dl>
+            <dl>
+              <dt><i>*</i>组织机构代码证电子版&nbsp;：</dt>
+              <dd>
+                <div class="btn-upload-box" id="divUploadOrganizationImage"><span id="btnUploadOrganizationImage">
+                  <input type="file" hidefocus="true" class="input-file" name="file"/>
+                  </span> <a href="javascript:;" class="btn btn-sm btn-default"><i class="icon icon-picture"></i>证照上传</a></div>
+                <#if storeCertificate??>
+                <div data-item="image" class="upload-file-thumb"><img src="${uploadRoot}${storeCertificate.organizationImage}" alt="组织机构代码证电子版"/></div>
+                </#if>
+                <input type="hidden" id="organizationImage" name="organizationImage" value="<#if storeCertificate??>${storeCertificate.organizationImage}</#if>"/>
+                <p class="hint">请压缩证照扫描件/电子版图片大小为2M以内，格式为gif、jpg、png，并确保文字清晰、以免上传或审核失败。</p>
+              </dd>
+            </dl>
+            <h3>一般纳税人证明</h3>
+            <dl>
+              <dt><i>*</i>一般纳税人证明电子版&nbsp;：</dt>
+              <dd>
+                <div class="btn-upload-box" id="divUploadGeneralTaxpayer"><span id="btnUploadGeneralTaxpayer">
+                  <input type="file" hidefocus="true" class="input-file" name="file"/>
+                  </span> <a href="javascript:;" class="btn btn-sm btn-default"><i class="icon icon-picture"></i>证照上传</a></div>
+                <#if storeCertificate??>
+                <div data-item="image" class="upload-file-thumb"><img src="${uploadRoot}${storeCertificate.businessLicenceImage}" alt="一般纳税人证明电子版"/></div>
+                </#if>
+                <input type="hidden" id="generalTaxpayer" name="generalTaxpayer" value="<#if storeCertificate??>${storeCertificate.generalTaxpayer}</#if>"/>
+                <p class="hint">请压缩证照扫描件/电子版图片大小为2M以内，格式为gif、jpg、png，并确保文字清晰、以免上传或审核失败。</p>
+              </dd>
+            </dl>
+            <div class="bottom"> <a href="javascript:;" id="btnStep1Next" class="btn btn-info">下一步，填写财务资质信息</a> </div>
+          </li>
+          <!--选项卡2 Ynkgc2hvcG5jLm5ldA==-->
+          <li id="sf2" style="display:none;">
+            <h3>开户银行信息</h3>
+            <dl>
+              <dt><i>*</i>银行开户名&nbsp;：</dt>
+              <dd>
+                <input type="text" class="text w300" id="bankAccountName" name="bankAccountName" maxlength="20" placeholder="请输入您的银行开户名称" autocomplete="off" value="<#if storeCertificate??>${storeCertificate.bankAccountName}</#if>"/>
+              </dd>
+            </dl>
+            <dl>
+              <dt><i>*</i>银行帐号&nbsp;：</dt>
+              <dd>
+                <input type="text" class="text w300" id="bankAccountNumber" name="bankAccountNumber" maxlength="20" placeholder="请输入您的银行帐号" autocomplete="off" value="<#if storeCertificate??>${storeCertificate.bankAccountNumber}</#if>"/>
+              </dd>
+            </dl>
+            <dl>
+              <dt><i>*</i>开户银行支行名称&nbsp;：</dt>
+              <dd>
+                <input type="text" class="text w300" id="bankName" name="bankName" maxlength="30" placeholder="请输入您的银行开户行名称" autocomplete="off" value="<#if storeCertificate??>${storeCertificate.bankName}</#if>"/>
+              </dd>
+            </dl>
+            <dl>
+              <dt><i>*</i>支行联行号&nbsp;：</dt>
+              <dd>
+                <input type="text" class="text w300" id="bankCode" name="bankCode" maxlength="20" placeholder="请输入开户行支行联行号" autocomplete="off" value="<#if storeCertificate??>${storeCertificate.bankCode}</#if>"/>
+              </dd>
+            </dl>
+            <dl>
+              <dt><i>*</i>开户银行所在地&nbsp;：</dt>
+              <dd>
+                <div id="divBankAddress" data-area-text="<#if storeCertificate??>${storeCertificate.bankAddress}</#if>" data-area-id=""></div>
+              </dd>
+            </dl>
+            <dl>
+              <dt><i>*</i>开户银行许可证电子版&nbsp;：</dt>
+              <dd>
+                <div class="btn-upload-box" id="divUploadBankLicenceImage"><span id="btnUploadBankLicenceImage">
+                  <input type="file" hidefocus="true" class="input-file" name="file"/>
+                  </span> <a href="javascript:;" class="btn btn-sm btn-default"><i class="icon icon-picture"></i>证照上传</a></div>
+                <#if storeCertificate??>
+                <div data-item="image" class="upload-file-thumb"><img src="${uploadRoot}${storeCertificate.bankLicenceImage}" alt="开户银行许可证电子版"/></div>
+                </#if>
+                <input type="hidden" id="bankLicenceImage" name="bankLicenceImage" value="<#if storeCertificate??>${storeCertificate.bankLicenceImage}</#if>">
+                <p class="hint">请压缩证照扫描件/电子版图片大小为2M以内，格式为gif、jpg、png，并确保文字清晰、以免上传或审核失败。</p>
+              </dd>
+            </dl>
+            <h3>结算账号信息</h3>
+            <dl>
+              <dt><i>*</i>银行开户名&nbsp;：</dt>
+              <dd>
+                <input type="text" class="text w300" id="settlementBankAccountName" maxlength="20" name="settlementBankAccountName" placeholder="请输入您的银行开户名称" autocomplete="off" value="<#if storeCertificate??>${storeCertificate.settlementBankAccountName}</#if>">
+              </dd>
+            </dl>
+            <dl>
+              <dt><i>*</i>银行账号&nbsp;：</dt>
+              <dd>
+                <input type="text" class="text w300" id="settlementBankAccountNumber" maxlength="30" name="settlementBankAccountNumber" placeholder="请输入您的银行帐号" autocomplete="off" value="<#if storeCertificate??>${storeCertificate.settlementBankAccountNumber}</#if>">
+              </dd>
+            </dl>
+            <dl>
+              <dt><i>*</i>开户银行支行名称&nbsp;：</dt>
+              <dd>
+                <input type="text" class="text w300" id="settlementBankName" maxlength="20" name="settlementBankName" placeholder="请输入您的银行开户行名称" autocomplete="off" value="<#if storeCertificate??>${storeCertificate.settlementBankName}</#if>">
+              </dd>
+            </dl>
+            <dl>
+              <dt><i>*</i>支行联行号&nbsp;：</dt>
+              <dd>
+                <input type="text" class="text w300" id="settlementBankCode" maxlength="30" name="settlementBankCode" placeholder="请输入开户行支行联行号" autocomplete="off" value="<#if storeCertificate??>${storeCertificate.settlementBankCode}</#if>">
+              </dd>
+            </dl>
+            <dl>
+              <dt><i>*</i>开户银行所在地&nbsp;：</dt>
+              <dd>
+                <div id="divSettlementBankAddress" data-area-text="<#if storeCertificate??>${storeCertificate.settlementBankAddress}</#if>" data-area-id=""></div>
+              </dd>
+            </dl>
+            <h3>税务登记证</h3>
+            <dl>
+              <dt><i>*</i>税务登记证号&nbsp;：</dt>
+              <dd>
+                <input type="text" class="text w300" id="taxRegistrationCertificate" name="taxRegistrationCertificate" maxlength="30" placeholder="请输入您的税务登记证号" autocomplete="off" value="<#if storeCertificate??>${storeCertificate.taxRegistrationCertificate}</#if>">
+              </dd>
+            </dl>
+            <dl>
+              <dt><i>*</i>纳税人识别号&nbsp;：</dt>
+              <dd>
+                <input type="text" class="text w300" id="taxpayerId" name="taxpayerId" maxlength="30" placeholder="请输入纳税人识别号" autocomplete="off" value="<#if storeCertificate??>${storeCertificate.taxpayerId}</#if>">
+              </dd>
+            </dl>
+            <dl>
+              <dt><i>*</i>税务登记证号电子版&nbsp;：</dt>
+              <dd>
+                <div class="btn-upload-box"  id="divUploadTaxRegistrationImage"><span id="btnUploadTaxRegistrationImage">
+                  <input type="file" hidefocus="true" class="input-file" name="file"/>
+                  </span> <a href="javascript:;" class="btn btn-sm btn-default"><i class="icon icon-picture"></i>证照上传</a></div>
+                <#if storeCertificate??>
+                <div data-item="image" class="upload-file-thumb"><img src="${uploadRoot}${storeCertificate.taxRegistrationImage}" alt="税务登记证号电子版"></div>
+                </#if>
+                <input type="hidden" id="taxRegistrationImage" name="taxRegistrationImage" value="<#if storeCertificate??>${storeCertificate.taxRegistrationImage}</#if>">
+                <p class="hint">请压缩证照扫描件/电子版图片大小为2M以内，格式为gif、jpg、png，并确保文字清晰、以免上传或审核失败。</p>
+              </dd>
+            </dl>
+            <div class="bottom"> <a href="javascript:;" id="btnStep2Pre" class="btn btn-white m-r-10">返回上一步</a> <a href="javascript:;" id="btnStep2Next" class="btn btn-info">下一步，填写店铺经营信息</a> </div>
+          </li>
+          <!--Ynkgc2hvcG5jLm5ldA== 选项卡3 -->
+          <li id="sf3" style="display:none;">
+            <h3>店铺经营信息</h3>
+            <dl>
+              <dt><i>*</i>店铺名称&nbsp;：</dt>
+              <dd>
+                <input type="text" class="text w300" id="storeName" name="storeName" placeholder="请输入店铺名称，长度不超过20字" autocomplete="off" value="<#if storeJoinin??>${storeJoinin.storeName}</#if>">
+                <p class="hint c-danger">注意：店铺名称注册后不可修改，请认真填写。</p>
+              </dd>
+            </dl>
+            <dl>
+              <dt><i>*</i>店铺等级&nbsp;：</dt>
+              <dd>
+                <select name="gradeId">
+                  <option value ="">- 请选择 -</option>
+                  <#if storeGradeList?? >
+                  <#list storeGradeList as storeGrade> <option value ="${storeGrade.id}" <#if storeJoinin?? && storeJoinin.gradeId == storeGrade.id> selected = "selected"</#if>> ${storeGrade.name} (商品数：${storeGrade.goodsLimit} 图片数： ${storeGrade.albumLimit} 推荐商品数： ${storeGrade.recommendLimit} 收费标准：${storeGrade.price})
+                  </option>
+                  </#list>
+                  </#if>
+
+                </select>
+                <input type="hidden" id="storeGradeSelect" value="<#if storeJoinin??>${storeJoinin.gradeId}</#if>">
+              </dd>
+            </dl>
+            <dl>
+              <dt><i>*</i>开店时长&nbsp;：</dt>
+              <dd>
+                <select name="joininYear">
+                  <option value ="1" <#if storeJoinin?? && storeJoinin.joininYear == 1> selected = "selected"</#if> >1年
+                  
+                  
+                  </option>
+                  <option value ="2" <#if storeJoinin?? && storeJoinin.joininYear == 2> selected = "selected"</#if> >2年
+                  
+                  
+                  </option>
+                </select>
+                <input type="hidden" id="storeJoininYearSelect" value="<#if storeJoinin??>${storeJoinin.joininYear}</#if>"/>
+              </dd>
+            </dl>
+            <dl>
+              <dt><i>*</i>主营行业&nbsp;：</dt>
+              <dd>
+                <select name="classId">
+                  <option value ="">- 请选择 -</option>
+                  <#if storeClassList??>
+                  <#list storeClassList as storeClass> <option value ="${storeClass.id}" <#if storeJoinin?? && storeJoinin.classId == storeClass.id> selected = "selected"</#if> >${storeClass.name} (保证金：${storeClass.bail}元)
+                  </option>
+</#list>
+                  </#if>
+                </select>
+                <input type="hidden" id="storeClassSelect" value="<#if storeJoinin??>${storeJoinin.classId}</#if>"/>
+                <p class="hint c-danger">注意：请根据您所经营的内容认真选择店铺主营行业，注册后商家不可自行修改。</p>
+              </dd>
+            </dl>
+            <dl>
+              <dt><i>*</i>经营类目&nbsp;：</dt>
+              <dd>
+                <input id="bindCategory" name="bindCategory" type="hidden" value='<#if storeBindCategoryJson??>${storeBindCategoryJson}</#if>'/>
+                <!-- S 经营分类选择 Ynkgc2hvcG5jLm5ldA==-->
+                <div id="ncscOpenSelector" class="ncsc-open-select" > <a href="javascript:;" id="btnBindCategory" class="btn btn-success">选择经营类目</a>
+                  <div class="content" id="BindCategoryContent">
+                    <div id="categoryBox" class="ncs-stock">
+                      <div class="mt">
+                        <ul id="categoryTab" class="tab">
+                        </ul>
+                        <span class="e-note">注意：已确定添加后的分类需在下方“已选择经营类目”表格中进行删除操作。</span> </div>
+                      <div id="categoryItemPanel">
+                        <div data-category-item="0">
+                          <ul class="area-list">
+                          </ul>
+                        </div>
+                        <div style="display: none;" data-category-item="1">
+                          <ul class="area-list">
+                          </ul>
+                        </div>
+                        <div style="display: none;" data-category-item="2">
+                          <ul class="area-list">
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="bottom"> <a href="javascript:;" class="btn btn-sm btn-white m-r-10" onclick="$('#ncscOpenSelector').removeClass('hover')">关闭窗口</a> <a href="javascript:;" class="btn btn-sm btn-success" style="display:none;" data-add>添加分类绑定</a></div>
+                  </div>
+                  <p class="hint c-success ">请正确选择您要经营的类目，经营类目需选择至商品分类最后一级，可一次选择多个末级分类，确认添加后出现在“已选经营类目”中。<br/>
+                    如选择错误可从“已选经营类目”中删除并重新选择添加。不同的经营类目其佣金比例会有所差异，请确认。<br/>
+                    经营类目的正确选择将直接影响您店铺的商品发布以及与平台的结算。</p>
+                </div>
+                <!-- e 经营分类选择 --> 
+                <!-- S 经营分类显示 -->
+                <h4 class="selected">已选经营类目</h4>
+                <table border="0" cellpadding="0" cellspacing="0" id="table_category" class="selected">
+                  <thead>
+                    <tr>
+                      <th class="w180">一级类目</th>
+                      <th class="w180">二级类目</th>
+                      <th class="">三级类目</th>
+                      <th class="w40">操作</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tableCategoryBody">
+                  </tbody>
+                </table>
+                <!-- E 经营分类显示 Ynkgc2hvcG5jLm5ldA==--> 
+                
+              </dd>
+            </dl>
+            <div class="bottom"> <a href="javascript:;" id="btnStep3Pre" class="btn btn-white m-r-10">返回上一步</a> <a href="javascript:;" id="btnSubmit" class="btn btn-info">确认提交，等待平台审核...</a> </div>
+          </li>
+        </ul>
+      </form>
+    </div>
+  </div>
+  <link href="${publicRoot}toolkit/lightbox/css/lightbox.css" rel="stylesheet" />
+  <script src="${publicRoot}toolkit/lightbox/js/lightbox-2.6.min.js"></script>
+  <script src="${jsRoot}open.js"></script>
+  <script src="${jsRoot}open.ext.js"></script> 
+</@c.html>

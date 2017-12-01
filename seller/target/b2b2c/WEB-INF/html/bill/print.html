@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>结算单</title>
+    <style>
+        table {
+            margin: 100px auto 0; width: 450px;line-height: 30px;border-bottom: solid 1px #ccc
+        }
+        table th {
+            font-size: 14px; font-weight: bold;text-align: right;
+        }
+        table td {
+            font-size: 14px;padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+<table>
+    <thead>
+    <th colspan="2" style="text-align: center;border-bottom: solid 1px #ccc">结算单</th>
+    </thead>
+    <tbody>
+        <tr>
+            <th>账单编号</th>
+            <td>${bill.billSn}</td>
+        </tr>
+        <tr>
+            <th>商家</th>
+            <td>${bill.storeName}</td>
+        </tr>
+        <tr>
+            <th>起止日期</th>
+            <td>${bill.startDate!''} 至 ${bill.endDate!''}</td>
+        </tr>
+        <tr>
+            <th>出账日期</th>
+            <td>${bill.createDate!''}</td>
+        </tr>
+        <tr>
+            <th>订单金额</th>
+            <td>${bill.ordersAmount?string('0.00')} 元</td>
+        </tr>
+        <tr>
+            <th>应收佣金</th>
+            <td>${bill.commissionAmount?string('0.00')} 元</td>
+        </tr>
+        <tr>
+            <th>退单金额</th>
+            <td>${bill.refundAmount?string('0.00')} 元</td>
+        </tr>
+        <tr>
+            <th>应退佣金</th>
+            <td>${bill.refundCommissionAmount?string('0.00')} 元</td>
+        </tr>
+        <tr>
+            <th>结算金额</th>
+            <td>${bill.billAmount?string('0.00')} 元</td>
+        </tr>
+        <tr>
+            <th>状态</th>
+            <td>${bill.billStateName}</td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>

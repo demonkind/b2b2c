@@ -1,0 +1,66 @@
+<#import "/layout.html" as c>
+<@c.html title="Index"> 
+  <!-- ================== 开始页面所需CSS引入 ================== -->
+  <link rel="stylesheet" type="text/css" href="${toolkitRoot}/jquery.dtGrid/dependents/datePicker/skin/WdatePicker.css" />
+  <link rel="stylesheet" type="text/css" href="${toolkitRoot}/jquery.dtGrid/dependents/datePicker/skin/default/datepicker.css" />
+  <!-- ================== 开始页面所需CSS引入 ================== --> 
+  <!-- ================== 开始页面级JavaScrip调用 ================== --> 
+  <script type="text/javascript" src="${toolkitRoot}/jquery.dtGrid/dependents/datePicker/WdatePicker.js" defer="defer"></script> 
+  <!-- ================== 结束页面级JavaScrip调用 ================== --> 
+  
+  <!-- 开始页面内容 -->
+  <div id="content" class="content"> 
+    <!-- 开始面包屑导航 -->
+    <ol class="breadcrumb pull-right">
+      <li><a href="javascript:;">首页</a></li>
+      <li><a href="javascript:;">站点设置</a></li>
+      <li class="active">管理日志</li>
+    </ol>
+    <!-- 结束面包屑导航 --> 
+    <!-- 开始页头区域 -->
+    <h1 class="page-header">管理日志<small class="m-l-10">管理中心管理员操作日志内容</small></h1>
+    <!-- 结束页头区域 --> 
+    <!-- 开始布局行 -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-inverse" data-sortable-id="form-stuff-1">
+          <div class="panel-heading">
+            <div class="panel-heading-btn"><a href="#listTip" class="btn btn-xs btn-icon btn-circle btn-info" role="button" data-toggle="collapse" aria-expanded="true" title="操作提示"><i class="fa fa-lightbulb-o"></i></a><a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"> <i class="fa fa-expand"></i></a><a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a></div>
+            <h4 class="panel-title">操作日志列表</h4>
+          </div>
+          <div class="panel-body"> 
+            <!-- 开始操作提示 -->
+            <div class="alert alert-info collapse in" role="tabpanel" id="listTip">
+              <h4>操作提示</h4>
+              <ul>
+                <li>系统日志详细记录了各管理人员的详细操作记录，方便操作记录追溯。</li>
+                <li>可以删除3个月以前的操作记录。</li>
+              </ul>
+            </div>
+            <!-- 结束操作提示 --> 
+            <!-- 开始列表相关操作 -->
+            <div class="clearfix">
+              <div class="col-md-4 p-l-0"></div>
+              <div class="col-md-8 p-r-0">
+                <form class="search-dtGrid-form" action="">
+                  <div class="form-group">
+                    <input type="text" id="keyword" name="keyword" class="form-control" placeholder="请输入操作人名称作为关键字进行搜索" />
+                    <a href="javascript:;" class="btn btn-search" id="customSearch"><i class="fa fa-search"></i></a></div>
+                </form>
+              </div>
+            </div>
+            <!-- 结束列表相关操作 -->
+            <div>
+            </div>
+            <div id="dtGridContainer" class="dt-grid-container"></div>
+            <div id="dtGridToolBarContainer" class="dt-grid-toolbar-container"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 结束布局行 --> 
+  </div>
+  <!-- 结束页面内容 -->
+    <script type="text/javascript" src="${jsRoot}setting/admin_log.js" defer="defer"></script>
+
+</@c.html>

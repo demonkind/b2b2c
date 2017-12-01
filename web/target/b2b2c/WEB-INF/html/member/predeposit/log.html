@@ -1,0 +1,57 @@
+<#import "/member/layout.html" as c>
+<@c.html title="账户余额">
+  <div class="wrap">
+    <div class="tabmenu">
+      <ul class="tab pngFix">
+        <li class="active"><a href="javascript:;">账户余额</a></li>
+        <li><a href="${memberRoot}predeposit/recharge/list">充值明细</a></li>
+        <li><a href="${memberRoot}predeposit/cash/list">余额提现</a></li>
+      </ul>
+      <a class="btn btn-sm btn-success" href="${memberRoot}predeposit/recharge" style="right: 107px;"><i class="icon-shield"></i>在线充值</a>
+      <a class="btn btn-sm btn-warning" href="${memberRoot}predeposit/cash"><i class="icon-money"></i>申请提现</a>
+    </div>
+    <div class="alert">
+      <span class="mr30">可用金额：<strong class="mr5 red" style="font-size: 18px;">${(member.predepositAvailable?string("0.00"))!"0.00"}</strong> 元</span>
+      <!--<span>冻结金额：<strong style="font-size: 18px;" class="mr5 blue">${(member.predepositFreeze?string("0.00"))!"0.00"}</strong> 元</span>-->
+    </div>
+    <table class="ncm-default-table">
+      <thead>
+      <tr>
+        <th class="w250">创建时间</th>
+        <th class="w200">金额(元)</th>
+        <th class="tl">变更说明</th>
+      </tr>
+      </thead>
+      <tbody>
+      <#if logList?exists && (logList?size>0)>
+          <#list logList as info>
+            <tr class="bd-line">
+              <td class="goods-time">${info.addTime!""}</td>
+              <#if info.availableAmount gte 0>
+              <td class="red">+${info.availableAmount?string["0.00"]!"0.00"}</td>
+              <#elseif info.availableAmount lt 0>
+              <td class="green">${info.availableAmount?string["0.00"]!"0.00"}</td>
+              <#else>
+              <td class="red">0.00</td>
+              </#if>
+              <td class="tl">${info.description}</td>
+            </tr>
+          </#list>
+      <#else>
+          <tr>
+            <td colspan="20" class="norecord"><div class="warning-option"><i>&nbsp;</i><span>暂无符合条件的数据记录</span></div></td>
+          </tr>
+      </#if>
+      </tbody>
+      <tfoot>
+      <#if logList?exists && (logList?size>0)>
+      <tr>
+          <#noescape>
+        <td colspan="20"><div class="pagination">${showPage}</div></td>
+              </#noescape>
+      </tr>
+      </#if>
+      </tfoot>
+    </table>
+  </div>
+</@c.html>

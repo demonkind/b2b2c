@@ -1,0 +1,23 @@
+<#import "/layout.html" as c>
+  <#import "/list_layout.html" as list>
+    <#assign alertList = []/>
+    <#assign alertList = alertList + ["此处展示了预存款详细的变更日志信息。"]/>
+    <@c.html title="Index">
+    <!-- ================== 开始页面级CSS调用 ================== -->
+    <link href="${toolkitRoot}bootstrap-wizard/css/bwizard.min.css" rel="stylesheet"/>
+    <!-- 日历控件 -->
+    <link href="${toolkitRoot}/jquery.dtGrid/dependents/datePicker/skin/WdatePicker.css" rel="stylesheet"/>
+    <link href="${toolkitRoot}/jquery.dtGrid/dependents/datePicker/skin/default/datepicker.css" rel="stylesheet"/>
+    <!-- ================== 结束页面级CSS调用 ================== -->
+    <@list.html title="预存款明细" subTitle="商城注册会员账户预存款日志明细" alertList=alertList addBtn=false searchHint="请输入会员名称">
+  </@list.html>
+  <!-- ================== 开始页面级JavaScrip调用 ================== -->
+  <script src="${toolkitRoot}bootstrap-wizard/js/bwizard.js"></script>
+  <!-- 表单checkbox项 -->
+  <script src="${toolkitRoot}bootstrap-switch/bootstrap-switch.min.js"></script>
+  <!-- 日历控件 -->
+  <script src="${toolkitRoot}/jquery.dtGrid/dependents/datePicker/WdatePicker.js" defer="defer"></script>
+
+  <script src="${jsRoot}member/predepositlog.handle.js"></script>
+  <!-- ================== 结束页面级JavaScrip调用 ================== -->
+</@c.html>

@@ -1,0 +1,295 @@
+<#import "/layout/seller_layout.html" as c>
+    <@c.html title="Index">
+    <div class="ncsc-oredr-show m-t-15">
+        <div class="ncsc-order-info">
+            <div class="ncsc-order-details">
+                <div class="title">订单信息</div>
+                <div class="content">
+                    <dl>
+                        <dt>收&nbsp;&nbsp;货&nbsp;&nbsp;人：</dt>
+                        <dd>${ordersVo.receiverName}&nbsp;${ordersVo.receiverPhone}&nbsp;${ordersVo.receiverAreaInfo}${ordersVo.receiverAddress}</dd>
+                    </dl>
+                    <dl>
+                        <dt>支付方式：</dt>
+                        <dd>${ordersVo.paymentName}(付款单号：${ordersVo.paySn})</dd>
+                    </dl>
+                    <dl>
+                        <dt>发&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;票：</dt>
+                        <dd>
+                            <#list ordersVo.invoiceList.keySet() as key>
+                                <span>${key} (<strong>${ordersVo.invoiceList.get(key)}</strong>)</span>
+                            </#list>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>买家留言：</dt>
+                        <dd>${ordersVo.receiverMessage!''}</dd>
+                    </dl>
+                    <dl class="line">
+                        <dt>订单编号：</dt>
+                        <dd>${ordersVo.ordersSn}<a href="javascript:void(0);">更多<i class="icon-angle-down"></i>
+                            <div class="more"><span class="arrow"></span>
+                                <ul>
+                                    <li><span>${ordersVo.createTime}</span>买家下单</li>
+                                    <#if ordersVo.cancelTime??>
+                                        <li><span>${ordersVo.cancelTime}</span>${ordersVo.cancelRole!""} 取消订单<#if ordersVo.cancelReasonContent??>（${ordersVo.cancelReasonContent}）</#if></li>
+                                    </#if>
+                                    <#if ordersVo.paymentTime??>
+                                        <li><span>${ordersVo.paymentTime}</span>买家付款</li>
+                                    </#if>
+                                    <#if ordersVo.sendTime??>
+                                        <li><span>${ordersVo.sendTime}</span>商家发货</li>
+                                    </#if>
+                                    <#if ordersVo.finishTime??>
+                                        <li><span>${ordersVo.finishTime}</span>订单完成</li>
+                                    </#if>
+                                    <#if ordersVo.evaluationTime??>
+                                        <li><span>${ordersVo.evaluationTime}</span>买家评价订单</li>
+                                    </#if>
+                                </ul>
+                            </div>
+                        </a></dd>
+                    </dl>
+                    <dl>
+                        <dt></dt>
+                        <dd></dd>
+                    </dl>
+                </div>
+            </div>
+<!--c2VsbGVyL29yZGVyL2luY2x1ZGUgamF2YSBieSBzaG9wbmMubmV0-->
+            <#if ordersVo.ordersStateIsCancel == 1>
+            <div class="ncsc-order-condition">
+                <dl>
+                    <dt><i class="icon-off orange"></i>订单状态：</dt>
+                    <dd>交易关闭</dd>
+                </dl>
+                <ul>
+                    <li>
+                        ${ordersVo.cancelRole!""} 于 ${ordersVo.cancelTime!""} 取消订单<#if ordersVo.cancelReasonContent??>（${ordersVo.cancelReasonContent}）</#if>
+                    </li>
+                </ul>
+            </div>
+            </#if>
+
+            <#if ordersVo.ordersStateIsNew == 1>
+            <div class="ncsc-order-condition">
+                <dl>
+                    <dt><i class="icon-ok-circle green"></i>订单状态：</dt>
+                    <dd>订单已经提交，等待买家付款</dd>
+                </dl>
+                <ul>
+                    <li>1. 买家尚未对该订单进行支付。</li>
+                    <li>2. 如果买家未对该笔订单进行支付操作，系统将于订单生成<time>${ordersVo.autoCancelCycle}</time>小时后自动关闭。</li>
+                </ul>
+            </div>
+            </#if>
+
+            <#if ordersVo.ordersStateIsPay == 1>
+            <div class="ncsc-order-condition">
+                <dl>
+                    <dt><i class="icon-ok-circle green"></i>订单状态：</dt>
+                    <dd>
+                        <#if ordersVo.isOffLineOrders == 1>
+                        订单已提交，等待发货
+                        <#else>
+                        ${ordersVo.ordersStateName}
+                        </#if>
+                    </dd>
+                </dl>
+                <ul>
+                    <#if ordersVo.isOffLineOrders == 1>
+                    <li>1. 买家已经选择货到付款方式下单成功。</li>
+                    <li>2. 订单已提交商家进行备货发货准备。</li>
+                    <#else>
+                    <li>1. 买家已使用“${ordersVo.paymentName}”方式成功对订单进行支付，支付单号 “${ordersVo.paySn}”。</li>
+                    <li>2. 订单已提交商家进行备货发货准备。</li>
+                    </#if>
+                </ul>
+            </div>
+            </#if>
+
+            <#if ordersVo.ordersStateIsSend == 1>
+            <div class="ncsc-order-condition">
+                <dl>
+                    <dt><i class="icon-ok-circle green"></i>订单状态：</dt>
+                    <dd>已发货</dd>
+                </dl>
+                <ul>
+                    <li>1. 商品已发出；
+                        <#if ordersVo.shipSn??>
+                            物流公司：${ordersVo.shipName}；单号：${ordersVo.shipSn}。
+                            <#if ordersVo.isShipTrack == 1>
+                                查看 <a href="#order-step" class="">“物流跟踪”</a> 情况。
+                            </#if>
+                            <#else>
+                                无需要物流。
+                        </#if>
+                    </li>
+                    <li>2. 如果买家没有及时进行收货，系统将于<time>${ordersVo.autoReceiveTime!''}</time>自动完成“确认收货”，完成交易。</li>
+                </ul>
+            </div>
+            </#if>
+
+
+
+            <#if ordersVo.ordersStateIsFinish == 1>
+            <#if ordersVo.ordersStateIsEvaluation == 1>
+            <div class="ncsc-order-condition">
+                <dl>
+                    <dt><i class="icon-ok-circle c-success"></i>订单状态：</dt>
+                    <dd>评价完成。</dd>
+                </dl>
+                <ul>
+                    <li>1. 买家已对该笔订单进行了商品及交易评价。</li>
+                    <li>2. 可以在<a href="" class="btn btn-xs btn-white">评价管理</a>查看详细内容。</li>
+                </ul>
+            </div>
+            <#else>
+            <div class="ncsc-order-condition">
+                <dl>
+                    <dt><i class="icon-ok-circle c-success"></i>订单状态：</dt>
+                    <dd>已经收货。</dd>
+                </dl>
+                <ul>
+                    <li>1. 交易已完成，买家可以对购买的商品及服务进行评价。</li>
+                    <li>2. 评价后的情况会在商品详细页面中显示，以供其它会员在购买时参考。</li>
+                </ul>
+            </div>
+            </#if>
+            </#if>
+        </div>
+        <#if ordersVo.ordersStateIsCancel == 0>
+        <div class="ncsc-order-step" id="order-step">
+            <dl class="step-first current">
+                <dt>提交订单</dt>
+                <dd class="bg"></dd>
+                <dd title="下单时间" class="date">${ordersVo.createTime}</dd>
+            </dl>
+            <#if ordersVo.isOffLineOrders == 0>
+                <dl class="<#if ordersVo.paymentTime??>current</#if>">
+                    <dt>完成付款</dt>
+                    <dd class="bg"> </dd>
+                    <dd title="付款时间" class="date">${ordersVo.paymentTime!''}</dd>
+                </dl>
+            </#if>
+            <dl class="<#if ordersVo.sendTime??>current</#if>">
+                <dt>商家发货</dt>
+                <dd class="bg"> </dd>
+                <dd title="发货时间" class="date">${ordersVo.sendTime!''}</dd>
+            </dl>
+            <dl class="<#if ordersVo.finishTime??>current</#if>">
+                <dt>确认收货</dt>
+                <dd class="bg"> </dd>
+                <dd title="完成时间" class="date">${ordersVo.finishTime!''}</dd>
+            </dl>
+            <dl class="<#if ordersVo.evaluationTime??>current</#if>">
+                <dt>评价</dt>
+                <dd class="bg"></dd>
+                <dd title="评价时间" class="date">${ordersVo.evaluationTime!''}</dd>
+            </dl>
+        </div>
+        </#if>
+<!--c2VsbGVyL29yZGVyL2luY2x1ZGUgamF2YSBieSBzaG9wbmMubmV0-->
+        <div class="ncsc-order-contnet">
+            <table class="ncsc-default-table order">
+                <thead>
+                <tr>
+                    <th class="w10">&nbsp;</th>
+                    <th colspan="2">商品</th>
+                    <th class="w120">单价(元)</th>
+                    <th class="w60">数量</th>
+                    <!--<th class="w100">优惠活动</th>-->
+                    <th class="w200"><strong>实付 * 佣金比 = 应付佣金(元)</strong></th>
+                    <th class="w100">交易操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <#if (ordersVo.ordersGoodsVoList?size>0)>
+                <#list ordersVo.ordersGoodsVoList as ordersGoodsVo>
+                <tr class="bd-line">
+                    <td>&nbsp;</td>
+                    <td class="w70"><div class="pic-thumb"><a href="${c.func.ncGoodsUrl(ordersGoodsVo.goodsId)}" target="_blank"><img src="${c.func.ncImage(ordersGoodsVo.imageSrc,60,60)}"></a></div></td>
+                    <td class="tl">
+                        <dl class="goods-name">
+                            <dt>
+                                <a href="${c.func.ncGoodsUrl(ordersGoodsVo.goodsId)}"
+                                   target="_blank">${ordersGoodsVo.goodsName}</a>
+                                <!--<a class="blue ml5" href="" target="_blank">[交易快照]</a>-->
+                            </dt>
+                            <dd>
+                                <#--S 退款单号-->
+                                    <#if ordersGoodsVo.showRefund ==1 >
+                                        <#if  ordersGoodsVo.refundType == 1 >
+                                            退款单号：<a target="_blank" href="${sellerRoot}refund/info/${ordersGoodsVo.refundId}">${ordersGoodsVo.refundSn}</a>
+                                        <#else />
+                                            退款单号：<a target="_blank" href="${sellerRoot}return/info/${ordersGoodsVo.refundId}">${ordersGoodsVo.refundSn}</a>
+                                        </#if>
+                                    </#if>
+                                <#--E退款单号-->
+                            </dd>
+                        </dl>
+                    </td>
+                    <td>${ordersGoodsVo.goodsPrice?string("0.00")}<p class="green"></p></td>
+                    <td>${ordersGoodsVo.buyNum}</td>
+                    <!--<td></td>-->
+                    <td class="commis bdl bdr">
+                        <#if ordersGoodsVo.commissionRate??>
+                            ${ordersGoodsVo.goodsPayAmount?string("0.00")} * ${ordersGoodsVo.commissionRate}% = ${ordersGoodsVo.commissionAmount?string("0.00")}<b></b>
+                        </#if>
+                    </td>
+
+                    <!-- S 合并TD -->
+                    <#if (ordersGoodsVo?size>0 && ordersGoodsVo_index==0) || ordersGoodsVo?size==1>
+                    <td rowspan="${ordersVo.ordersGoodsVoList?size}" class="bdl bdr">${ordersVo.ordersStateName}
+                        <#if ordersVo.showRefundWaiting!=1>
+                            <!-- 取消订单 -->
+                            <#if ordersVo.showStoreCancel==1>
+                                <p><a ncType="cancel" dataOrdersId="${ordersVo.ordersId}" dataOrdersSn="${ordersVo.ordersSn}" style="color:#F30; text-decoration:underline;"  href="javascript:void(0)">取消订单</a></p>
+                            </#if>
+                            <!-- 修改价格 -->
+                            <#if ordersVo.showStoreModifyFreight==1>
+                                <p><a ncType="modifyFreight" dataOrdersId="${ordersVo.ordersId}" dataOrdersSn="${ordersVo.ordersSn}" dataMemberName="${ordersVo.memberName}" dataFreightAmount="${ordersVo.freightAmount?string('0.00')}" href="javascript:void(0)" class="btn btn-sm btn-white" />修改运费</a></p>
+                            </#if>
+                            <#if ordersVo.showStoreSend==1>
+                                <p><a ncType="send" dataOrdersId="${ordersVo.ordersId}" dataSendModify="" class="btn btn-sm btn-success" href="javascript:void(0);">发货</a></p>
+                            </#if>
+                            <#if ordersVo.showStoreSendModify==1>
+                                <p><a ncType="send" dataOrdersId="${ordersVo.ordersId}" dataSendModify="1" class="btn btn-sm btn-primary" href="javascript:void(0);">编辑发货</a></p>
+                            </#if>
+
+                        </#if>
+                        <!-- S 显示退款退货中文字-->
+                        <#if ordersVo.showRefundWaiting==1>
+                            <p>退款退货中</p>
+                        </#if>
+                        <!-- E 显示退款退货中文字-->
+                    </td>
+                    </#if>
+                    <!-- E 合并TD -->
+                </tr>
+                </#list>
+                </#if>
+
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="20"><dl class="freight">
+                        <dd>
+                            <#if ordersVo.freightAmount?? && (ordersVo.freightAmount>0)>
+                                运费：<span>${ordersVo.freightAmount?string("0.00")}</span>
+                                <#else>
+                                    （免运费）
+                            </#if>
+                        </dd>
+                    </dl>
+                        <dl class="sum">
+                            <dt>订单应付金额：</dt>
+                            <dd><em>${ordersVo.ordersAmount?string("0.00")}</em>元</dd>
+                        </dl></td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div><!--c2VsbGVyL29yZGVyL2luY2x1ZGUgamF2YSBieSBzaG9wbmMubmV0-->
+</@c.html>
+<#include "/orders/include.html" >

@@ -1,0 +1,40 @@
+<#import "/layout.html" as c>
+<@c.html title="Index"> 
+  <!-- 开始页面内容 -->
+  <div id="content" class="content"> <#include "/bill/include.html"></div>
+  <div id="content2" class="content"><ul class="nav nav-tabs nav-tabs-inverse nav-justified nav-justified-mobile">
+      <li class=""> <a href="${adminRoot}bill/orders/list/${bill.billId}" class="f-s-14" data-toggle="modal"> <i class="fa fa-files-o m-r-5"></i> <span class="hidden-xs">订单列表</span> </a> </li>
+      <li class="active"> <a href="${adminRoot}bill/refund/list/${bill.billId}" class="f-s-14" data-toggle="modal"> <i class="fa fa-clipboard m-r-5"></i> <span class="hidden-xs">退单列表</span> </a> </li>
+    </ul>
+  <!-- 开始布局行 -->
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-inverse"> 
+        <div class="panel-body"> 
+        <!-- 开始列表相关操作 -->
+        <div class="clearfix">
+          <div class="col-md-3 p-l-0"><a id=" " class="btn btn-white pull-left m-r-5 m-b-5" href="${adminRoot}bill/list"><i class="fa fa-lg fa-level-up m-r-5"></i>返回结算列表</a></div>
+            <div class="col-md-9 p-r-0">
+            <form class="search-dtGrid-form" action="">
+              <div class="form-group">
+                <input type="text" id="keyword" name="keyword" class="form-control" placeholder="请输入退单编号进行精确搜索"/>
+                <a href="javascript:;" id="customSearch" class="btn btn-search"> <i class="fa fa-search"></i> </a> </div>
+            </form>
+          </div>
+        </div>
+        <!-- 结束列表相关操作 -->
+        <div id="dtGridContainer" class="dt-grid-container"></div>
+        <div id="dtGridToolBarContainer" class="dt-grid-toolbar-container"></div>
+      </div>
+    </div>
+  </div></div>
+  </div>
+  <#noescape>
+  <script>
+    var ordersGlobal = {
+      billinfo: $.parseJSON('${billJson}')
+    };
+  </script>
+  </#noescape>
+  <script src="${jsRoot}bill/refund/list.js"></script> 
+</@c.html>

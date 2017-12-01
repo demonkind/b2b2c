@@ -1,0 +1,88 @@
+<#import "/layout.html" as c>
+<#import "/list_layout.html" as list>
+<#assign alertList = []/>
+<#assign alertList = alertList + ["在商品详细页，提交商品咨询时所需要选择的咨询类型。提交咨询时，咨询类型必须选择，请谨慎删除。"]/>
+<@c.html title="Index">
+<!-- ================== 开始页面级CSS调用 ================== -->
+<link href="${toolkitRoot}bootstrap-wizard/css/bwizard.min.css" rel="stylesheet"/>
+<!-- ================== 结束页面级CSS调用 ================== -->
+<@list.html title="会员列表" subTitle="设置商品咨询类型" alertList=alertList addBtn=true searchHint="请输入类型名称进行搜索">
+    <!-- 开启新增类型模态窗口 -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title"> 新增类型 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsAdd" aria-expanded="true" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+          </div>
+          <div class="modal-body">
+            <ul class="text-info p-b-15 p-l-15 collapse in" role="tabpanel" id="OperationTipsAdd">
+              <li class="m-b-3">请将类型名称和排序填写完整，便于商品详细页面显示</li>
+            </ul>
+            <form id="addForm" autocomplete="off" action="${adminRoot}consult/class/add" method="post" data-parsley-validate="true">
+              <div class="form-group">
+                <label class="control-label"> 类型名称 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+                <input type="text" name="className" class="form-control" data-tip="tooltip" data-placement="auto" data-parsley-required="true" data-parsley-required-message="类型名称不能为空"/>
+              </div>
+              <div class="form-group">
+                <label class="control-label"> 排序 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+                <input type="text" name="classSort" class="form-control" data-tip="tooltip" data-placement="auto" data-parsley-required="true" data-parsley-required-message="排序不能为空" data-parsley-type="integer" data-parsley-min="0"/>
+              </div>
+              <div class="form-group">
+                <label class="control-label"> 备注 &nbsp;: </label>
+                <script id="contentEditorAdd" style="height: 200px;"></script>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer"> <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a> <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-ajax-submit-target="addForm" nc-ajax-submit>确认提交</a> </div>
+        </div>
+      </div>
+    </div>
+    <!-- 结束新增类型模态窗口 -->
+    <!-- 开启编辑类型模态窗口 -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title"> 编辑类型 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsEdit" aria-expanded="true" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+          </div>
+          <div class="modal-body">
+            <ul class="text-info p-b-15 p-l-15 collapse in" role="tabpanel" id="OperationTipsEdit">
+              <li class="m-b-3">请将类型名称和排序填写完整，便于商品详细页面显示</li>
+            </ul>
+            <form id="editForm" autocomplete="off" action="${adminRoot}consult/class/edit" method="post" data-parsley-validate="true">
+              <input type="hidden" name="classId" />
+              <div class="form-group">
+                <label class="control-label"> 类型名称 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+                <input type="text" name="className" class="form-control" data-tip="tooltip" data-placement="auto" data-parsley-required="true" data-parsley-required-message="类型名称不能为空"/>
+              </div>
+              <div class="form-group">
+                <label class="control-label"> 排序 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+                <input type="text" name="classSort" class="form-control" data-tip="tooltip" data-placement="auto" data-parsley-required="true" data-parsley-required-message="排序不能为空" data-parsley-type="integer" data-parsley-min="0"/>
+              </div>
+              <div class="form-group">
+                <label class="control-label"> 备注 &nbsp;: </label>
+                <script id="contentEditorEdit" style="height: 200px;"></script>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer"> <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a> <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-ajax-submit-target="editForm" nc-ajax-submit>确认提交</a> </div>
+        </div>
+      </div>
+    </div>
+    <!-- 结束编辑类型模态窗口 -->
+</@list.html>
+<!-- 结束页面内容 -->
+<!-- ================== 开始页面级JavaScrip调用 ================== -->
+<script src="${toolkitRoot}bootstrap-wizard/js/bwizard.js"></script>
+<!-- 表单checkbox项 -->
+<script src="${toolkitRoot}bootstrap-switch/bootstrap-switch.min.js"></script>
+<!-- 富文本编辑器 -->
+<script src="${toolkitRoot}ueditor/ueditor.config.js"></script>
+<script src="${toolkitRoot}ueditor/ueditor.all.js"></script>
+<script src="${toolkitRoot}ueditor/lang/zh-cn/zh-cn.js"></script>
+
+<script src="${jsRoot}consult/consult_class.handle.js"></script>
+<!-- ================== 结束页面级JavaScrip调用 ================== -->
+</@c.html>

@@ -1,0 +1,23 @@
+<#function ncImage imageName width height>
+    <#if imageName?ends_with(".jpg") >
+        <#return imageName + "_" + width + "x" + height + ".jpg" />
+    </#if>
+    <#if imageName?ends_with(".png") >
+        <#return imageName + "_" + width + "x" + height + ".png" />
+    </#if>
+    <#if imageName?ends_with(".gif") >
+        <#return imageName + "_" + width + "x" + height + ".gif" />
+    </#if>
+</#function>
+<!--cG93ZXJlZCBieSBzaG9wbmMubmV0-->
+<#function ncGoodsUrl goodsId>
+    <#return webRoot + "goods/" + goodsId />
+</#function>
+<!--cG93ZXJlZCBieSBzaG9wbmMubmV0-->
+<#function ncStoreUrl storeId>
+    <#return webRoot + "store/" + storeId />
+</#function>
+
+<#function ncStoreOrdersInfoUrl ordersId>
+    <#return sellerRoot + "orders/info/" + ordersId />
+</#function>

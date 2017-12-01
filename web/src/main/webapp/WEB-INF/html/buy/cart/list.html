@@ -1,0 +1,124 @@
+<#import "/buy/layout.html" as c>
+<@c.html title="Index">
+  <div class="ncc-main">
+    <div class="ncc-title">
+      <h3>我的购物车</h3>
+      <h5>查看购物车商品清单，增加减少商品数量，并勾选想要的商品进入下一步操作。</h5>
+    </div>
+    <form action="${webRoot}buy" method="POST" id="form_buy" name="form_buy">
+      <input type="hidden" value="1" name="isCart">
+      <table class="ncc-table-style" nc_type="table_cart">
+        <thead>
+          <tr>
+            <th class="w50"><label for="selectAll" ><input type="checkbox" class="checkbox vm" value="1" id="selectAll" /> 全选</label ></th >
+            <th></th>
+            <th>商品</th>
+            <th class="w150">单价(元)</th>
+            <th class="w100">数量</th>
+            <th class="w150">小计(元)</th>
+            <th class="w80 tl">操作</th>
+          </tr>
+        </thead>
+        
+        <!-- 开始循环--> 
+        <#if cartStoreVoList?exists && (cartStoreVoList?size>0) >
+        
+        <#list cartStoreVoList as cartStoreVo>
+        <tbody data-cart-store="${cartStoreVo.storeId}">
+          <tr>
+            <th colspan="20">
+                <!-- S 店铺名称 -->
+                <div class="ncc-store-name"><input class="checkbox" type="checkbox" data-store-all-check="${cartStoreVo.storeId}"/>店铺：<a href="${webRoot}store/${cartStoreVo.storeId}">${cartStoreVo.storeName}</a></div>
+              
+              <!-- E 店铺名称 --> </th>
+          </tr>
+          <!-- S 商品列表 --> 
+        <#list cartStoreVo.cartItemVoList as cartItemVo>
+       <!--  ${cartItemVo} -->
+        <tr id="cart_item_${cartItemVo.cartId}"
+                        data-goods-price = '${cartItemVo.goodsPrice?string("#0.00#")}'
+                        data-cart-id="${cartItemVo.cartId}"
+                        nc_group="${cartItemVo.cartId}"
+                        class="shop-list ${(cartItemVo.goodsStatus==0 || cartItemVo.goodsStorage == 0)?string('item_disabled','')}">
+          <td class="td-border-left">
+          	<!-- 没有活动 -->
+          	 <#if cartItemVo.activityType ==0 || cartItemVo.activityType ==2 >
+          	 	<#if cartItemVo.goodsStatus==0 ||cartItemVo.goodsStorage == 0>
+	                  <p style="margin-top: 30px;color: #cccccc" title="商品被下架、删除或库存不足">失效</p>
+	              <#else />
+	                  <input type="checkbox" ${(cartItemVo.goodsStatus!=1 || cartItemVo.storageStatus ==0)?string('disabled','')}
+	                         data-goods-checkbox="${cartItemVo.cartId}"
+	                         data-store-id="${cartItemVo.storeId}"
+	                         value="${cartItemVo.cartId}|${cartItemVo.buyNum}"
+	                         id="cart_id${cartItemVo.cartId}" name="cartId" class="checkbox m-t-10"/>
+	              </#if>
+          	 </#if>
+          	 <#if cartItemVo.activityType ==1>
+          	 	<p style="margin-top: 30px;color: #cccccc" title="活动未开始">活动<br>未开始</p>
+          	 </#if>
+          	 <#if cartItemVo.activityType ==3>
+          	 	<p style="margin-top: 30px;color: #cccccc" title="活动未开始">活动<br>已结束</p>
+       	   	 </#if>
+              
+          </td>
+          <td class="w100"><a href="${webRoot}/activity/activityInfo?goodsId=${cartItemVo.goodsId}" target="_blank" class="ncc-goods-thumb"> <img src="${c.func.ncImage(cartItemVo.imageSrc, 80, 80)}" alt="${cartItemVo.goodsName}" /> </a></td>
+          <td class="tl">
+              <dl class="ncc-goods-info">
+                <dt> <a href="${webRoot}/activity/activityInfo?goodsId=${cartItemVo.goodsId}" target="_blank">${cartItemVo.goodsName}</a> </dt>
+                <dd class="goods-spec">${cartItemVo.goodsFullSpecs}</dd>
+            </dl>
+          </td>
+          <td><!-- S 商品单价 --> 
+            <em id="itemcart_info${cartItemVo.cartId}_price" class="goods-price">${cartItemVo.goodsPrice?string("#0.00#")}</em> 
+            <!-- E 商品单价 --></td>
+          <!-- S 商品数量修改 -->
+          <td class="ws0">
+            <#if cartItemVo.goodsStatus==1 && cartItemVo.goodsStorage gt 0>
+                <a href="JavaScript:void(0);" btn-goods-cut="${cartItemVo.cartId}" title="减少商品件数" class="add-substract-key tip <#if cartItemVo.buyNum lte 1  >sub-disable</#if>"> - </a>
+                <input id="input_item_${cartItemVo.cartId}" btn-goods-mod = "${cartItemVo.cartId}" value="${cartItemVo.buyNum}" orig="${cartItemVo.buyNum}" changed="${cartItemVo.buyNum}" type="text" class="text tc w30" maxlength="3"/>
+                <a href="JavaScript:void(0);" btn-goods-add="${cartItemVo.cartId}" title="增加商品件数" class="add-substract-key tip" >+</a>
+            <#else>
+              <input type="hidden" value="${cartItemVo.cartId}" name="invalid_cart[]"></td>
+            </#if>
+            <#-- S 库存提示框-->
+            <p id="storageErrorPanel${cartItemVo.cartId}"  class="storage-error" <#if cartItemVo.storageStatus == 0 && cartItemVo.goodsStorage != 0 >style="display: block"</#if>>
+                <em class="error-msg">当前库存 <span id="goodsStorageError${cartItemVo.cartId}">${cartItemVo.goodsStorage}</span> 件</em>
+            </p>
+            <#-- E 库存提示框-->
+            </td>
+          <!-- E 商品数量修改 --> 
+          
+          <!-- S 商品价格小计-->
+          <td><#if cartItemVo.goodsStatus==1><em id="item_subtotal_${cartItemVo.cartId}" class="goods-subtotal">${cartItemVo.itemAmount?string("#0.00#")}</em></#if></td>
+          <!-- E 商品价格小计-->
+          
+          <td class="tl td-border-right"><a href="javascript:void(0)" class="btn btn-xs btn-white" data-goods-favorites='${cartItemVo.goodsId}' data-cart-id="${cartItemVo.cartId}">移入关注</a> <br/>
+            <a href="javascript:void(0)" class="btn btn-xs btn-danger m-t-5" data-del-cart-id="${cartItemVo.cartId}" data-goods-id="${cartItemVo.goodsId}">删除商品</a></td>
+        </tr>
+        <tr id="cart_item_tr_${cartItemVo.cartId}"><td colspan="20"></td></tr>
+        </#list> 
+        <!-- E 商品列表 -->
+          </tbody>
+        
+        </#list>
+        </#if>
+        <tfoot>
+          <tr>
+            <td colspan="20"><!--
+                        <div class="ncc-all-account">商品总价（不含运费）<em id="cartTotal">${cartAmount?string("#0.00#")}</em>元</div>
+-->
+              
+              <div class="ncc-all-account">商品总价（不含运费）<em id="cartTotal">0.00</em>元</div>
+              <a id="next_submit" href="javascript:void(0)" class="ncc-next-submit">确认订单</a></td>
+          </tr>
+        </tfoot>
+      </table>
+    </form>
+  </div>
+  
+  <!-- 最近浏览 -->
+  <div id="goodsbrowse_div" class="nc-goods-borowse"></div>
+  <link href="${publicRoot}toolkit/bxslider/jquery.bxslider.css" rel="stylesheet" />
+  <script src="${publicRoot}toolkit/bxslider/jquery.bxslider.js"></script> 
+  <script src="${jsRoot}buy/cart.js"></script> 
+</@c.html>

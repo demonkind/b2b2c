@@ -1,0 +1,112 @@
+<#import "/member/layout.html" as c />
+<#import "/member/refund/right_order_info.html" as orderinfo />
+<@c.html title="Index">
+<div class="ncm-flow-layout" >
+    <div class="ncm-flow-container" >
+        <div class="title" >
+            <h3 >退款服务</h3 >
+        </div >
+        <div class="alert" >
+            <h4 >提示：</h4 >
+            <ul >
+                <li >1. 若提出申请后，商家拒绝退款或退货，可再次提交申请。</li >
+                <li >2. 成功完成退款/退货；经过商城审核后，会将退款金额以<em >“预存款”</em >的形式返还到您的余额账户中。</li >
+            </ul >
+        </div >
+        <div id="saleRefund" show_id="1" >
+            <div class="ncm-flow-step" >
+                <dl class="step-first current" >
+                    <dt >买家申请退款</dt >
+                    <dd class="bg" ></dd >
+                </dl >
+                <dl class="<#if refundItemVo.sellerTime ??>current</#if>" >
+                    <dt >商家处理退款申请</dt >
+                    <dd class="bg" ></dd >
+                </dl >
+                <dl class="<#if refundItemVo.adminTime ??>current</#if>" >
+                    <dt >平台审核，退款完成</dt >
+                    <dd class="bg" ></dd >
+                </dl >
+            </div >
+            <div class=" ncm-default-form" >
+                <h3 >我的退款申请</h3 >
+                <dl >
+                    <dt >退款编号：</dt >
+                    <dd >${refundItemVo.refundSn}</dd >
+                </dl >
+                <dl >
+                    <dt >退款原因：</dt >
+                    <dd> ${refundItemVo.reasonInfo}</dd >
+                </dl >
+                <dl >
+                    <dt >退款金额：</dt >
+                    <dd >¥${refundItemVo.refundAmount?string('0.00')}</dd >
+                </dl >
+                <dl >
+                    <dt >退款说明：</dt >
+                    <dd >${refundItemVo.buyerMessage!""}</dd >
+                </dl >
+                <dl >
+                    <dt >凭证上传：</dt >
+                    <dd >
+                        <ul class="ncm-evidence-pic" id="imageList"></ul >
+                    </dd >
+                </dl >
+
+                <h3 >商家退款处理</h3 >
+                <dl >
+                    <dt >审核状态：</dt >
+                    <dd >${refundItemVo.sellerStateText}</dd >
+                </dl >
+                <#if refundItemVo.sellerTime??>
+                    <dl >
+                        <dt >卖家处理意见：</dt >
+                        <dd >${refundItemVo.sellerMessage}</dd >
+                    </dl >
+                </#if>
+
+                <#if refundItemVo.sellerState == 2>
+                    <h3 >商城退款审核</h3 >
+                    <dl>
+                        <dt >平台确认：</dt >
+                        <dd >${refundItemVo.refundStateText}</dd >
+                    </dl >
+                </#if>
+
+                <#if refundItemVo.adminTime??>
+                    <dl >
+                        <dt >平台备注：</dt >
+                        <dd >${refundItemVo.adminMessage!""}</dd >
+                    </dl >
+                    <#if (refundDetailVo??) && (refundDetailVo.refundState == 2 ) >
+                        <h3>退款详细</h3>
+                        <dl>
+                            <dt>支付方式：</dt>
+                            <dd>${refundDetailVo.paymentName}</dd>
+                        </dl>
+                        <dl>
+                            <dt>在线退款金额：</dt>
+                            <dd>${refundDetailVo.payAmount?string('0.00')}</dd>
+                        </dl>
+                        <dl>
+                            <dt>预存款金额：</dt>
+                            <dd>${refundDetailVo.pdAmount?string('0.00')}</dd>
+                        </dl>
+                        </#if>
+                </#if>
+                <div class="bottom" ><a href="javascript:history.go(-1);" class="btn btn-white m-t-10" ><i class="icon-reply" ></i >返回列表
+                </a ></div >
+            </div >
+        </div >
+    </div >
+    <@orderinfo.html />
+</div >
+<#noescape>
+<script>
+    ncGlobal.refundBuyerImageList = '${refundItemVo.picJson}';
+</script>
+</#noescape>
+<link href="${publicRoot}toolkit/lightbox/css/lightbox.css" rel="stylesheet" />
+<script src="${publicRoot}toolkit/lightbox/js/lightbox-2.6.min.js"></script>
+<script src="${jsRoot}member/refund/info.js" ></script >
+</@c.html>

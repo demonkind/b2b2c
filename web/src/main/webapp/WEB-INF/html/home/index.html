@@ -1,0 +1,794 @@
+<#import "/home/layout.html" as c>
+<@c.html title="Index">
+  <link href="${cssRoot}web_index.css" rel="stylesheet"/>
+  <div class="home-focus-layout">
+    <div class="focus">
+      <ul id="homeTopBanner">
+        <li ><img src="${imgRoot}homepage/1.jpg" alt=""/></li >
+        <li ><img src="${imgRoot}homepage/2.jpg" alt=""/></li >
+        <li ><img src="${imgRoot}homepage/3.jpg" alt=""/></li >
+      </ul >
+    </div>
+    <div class="right-bar">
+      <div class="title">
+        <h2>商城快讯</h2>
+      </div>
+      <div class="content-news">
+        <ul>
+          <#if newsArticleList?exists && (newsArticleList?size gt 0) >
+            <#list newsArticleList as info>
+              <li><a href="<#if info.url != ''>${info.url}<#else>${webRoot}article/info/${info.articleId}</#if>">${info.title}</a></li>
+            </#list>
+          </#if>
+        </ul>
+      </div>
+      <div class="title">
+        <h2>商城服务</h2>
+      </div>
+      <div class="contnet-function">
+        <ul>
+          <li><a href="${sellerRoot}open"><i class="tb-01"></i>招商入驻</a></li>
+          <li><a href="${sellerRoot}"><i class="tb-02"></i>商家中心</a></li>
+          <li><a href="javascript:;"><i class="tb-03"></i>积分等级</a></li>
+          <li><a href="javascript:;"><i class="tb-04"></i>正品保障</a></li>
+          <li><a href="javascript:;"><i class="tb-05"></i>闪电发货</a></li>
+          <li><a href="javascript:;"><i class="tb-06"></i>七天退换</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="home-sale-layout">
+    <ul>
+      <li><a href="${webRoot}search?&cat=398">
+        <h3>电脑数码</h3>
+        <h5>Bi格年货6折起</h5>
+        <img src="${imgRoot}homepage/sale_layout_01.png" alt=""/></a></li>
+      <li><a href="${webRoot}search?cat=1035">
+        <h3>小米手机</h3>
+        <h5>小米现货抢 红米note3 ￥978</h5>
+        <img src="${imgRoot}homepage/sale_layout_02.png" alt=""/></a></li>
+      <li><a href="${webRoot}search?cat=605">
+        <h3>进口咖啡</h3>
+        <h5>进口咖啡品类中心</h5>
+        <img src="${imgRoot}homepage/sale_layout_03.png" alt=""/></a></li>
+      <li><a href="${webRoot}search?cat=997">
+        <h3>儿童玩具</h3>
+        <h5>满199减60 满299减100</h5>
+        <img src="${imgRoot}homepage/sale_layout_04.png" alt=""/></a></li>
+    </ul>
+  </div>
+  <ul id="nav" class="page-nav">
+    <li><a href="#floor01" class="txt">服装百货</a><a href="#floor01" class="img"><i class="f-icon-01"></i></a></li>
+    <li><a href="#floor02" class="txt">手机通讯</a><a href="#floor02" class="img"><i class="f-icon-02"></i></a></li>
+    <li><a href="#floor03" class="txt">生活日用</a><a href="#floor03" class="img"><i class="f-icon-03"></i></a></li>
+    <li><a href="#floor04" class="txt">食品酒水</a><a href="#floor04" class="img"><i class="f-icon-04"></i></a></li>
+    <li><a href="#floor05" class="txt">母婴玩具</a><a href="#floor05" class="img"><i class="f-icon-05"></i></a></li>
+    <li><a href="#floor06" class="txt">美妆个护</a><a href="#floor06" class="img"><i class="f-icon-06"></i></a></li>
+    <li><a href="#floor07" class="txt">电脑数码</a><a href="#floor07" class="img"><i class="f-icon-07"></i></a></li>
+    <li><a href="#floor08" class="txt">生活电器</a><a href="#floor08" class="img"><i class="f-icon-08"></i></a></li>
+  </ul>
+  <div id="floor01" class="home-standard-layout home-style-01">
+    <div class="title-bar">
+      <div class="txt-type"><span>1F</span>
+        <h3>服装百货</h3>
+      </div>
+      <div class="tabs-nav">
+        <ul data-tabs-nav>
+          <li><a href="javascript:;" class="tabs-selected">热门活动</a></li>
+          <li><a href="javascript:;">热销商品</a></li>
+        </ul>
+      </div>
+      <div class="hot-keyowrds"><a href="${webRoot}search?keyword=女士羽绒服" class="" target="_blank" title="">女士羽绒服</a><a href="${webRoot}search?keyword=男士羽绒服" class="" target="_blank" title="">男士羽绒服</a><a href="${webRoot}search?keyword=保暖内衣" class="sp" target="_blank" title="">保暖内衣</a><a href="${webRoot}search?keyword=休闲鞋" class="" target="_blank" title="">休闲鞋</a><a href="${webRoot}search?keyword=机油" class="sp" target="_blank" title="">机油</a><a href="${webRoot}search?keyword=黄金" class="" target="_blank" title="">黄金</a><a href="${webRoot}search?keyword=手表" class="" target="_blank" title="">手表</a><a href="${webRoot}search?keyword=跑步鞋" class="" target="_blank" title="">跑步鞋</a></div>
+    </div>
+    <div class="container">
+      <div class="sideber">
+        <div class="bg-layout"><a href="${webRoot}search?cat=1" target="_blank">
+          <h3>年货巨惠周</h3>
+          <h4>购春季新品 享新春新意</h4>
+          <img src="${imgRoot}homepage/f1/f1_side_bg.jpg" alt=""/></a></div>
+        <div class="recom-sort">
+          <ul>
+            <li><a href="${webRoot}search?cat=1">男装女装</a></li>
+            <li><a href="${webRoot}search?cat=1">新春促销</a></li>
+            <li><a href="${webRoot}search?cat=1">珠宝手表</a></li>
+            <li><a href="${webRoot}search?cat=1">鞋帽箱包</a></li>
+          </ul>
+        </div>
+        <div class="recom-brand">
+          <#if brandList1?size gt 0>
+            <ul>
+              <#list brandList1 as brand>
+                <li><a href="${webRoot}search?brand=${brand.brandId}"><img src="${brand.brandImageSrc}" title="${brand.brandName}" /></a></li>
+              </#list>
+            </ul>
+          </#if>
+        </div>
+      </div>
+      <div class="tabs-panel">
+        <div class="zone z_a_1">
+          <ul data-floor-slider>
+            <li><a href="${webRoot}search?cat=1"><img src="${imgRoot}homepage/f1_z_a_1.jpg"/></a></li>
+          </ul>
+        </div>
+        <div class="zone z_b_1"><a href="${webRoot}search?cat=1" target="_blank" title="">
+          <h3>时尚皮带防水男表</h3>
+          <h5>简洁、实用、时尚、显气质</h5>
+          <img src="${imgRoot}homepage/f1/f1_z_b_1.jpg" alt=""/></a></div>
+        <div class="zone z_b_2"><a href="${webRoot}search?cat=1" target="_blank" title="">
+          <h3>七匹狼衬衫99元起</h3>
+          <h5>男人不止一面</h5>
+          <img src="${imgRoot}homepage/f1/f1_z_b_2.jpg" alt=""/></a></div>
+        <div class="zone z_c_1"><a href="${webRoot}search?cat=1" target="_blank" title="">
+          <h3>女装美衣3折起</h3>
+          <h5>春节不打烊</h5>
+          <img src="${imgRoot}homepage/f1/f1_z_c_1.jpg" alt=""/></a></div>
+        <div class="zone z_c_2"><a href="${webRoot}search?cat=1" target="_blank" title="">
+          <h3>自营机油不打烊</h3>
+          <h5>美孚速霸48元</h5>
+          <img src="${imgRoot}homepage/f1/f1_z_c_2.jpg" alt=""/></a></div>
+        <div class="zone z_d_1"><a href="${webRoot}search?cat=1" target="_blank" title="">
+          <h3>新年好货买买买</h3>
+          <h5>猴年精选好礼</h5>
+          <img src="${imgRoot}homepage/f1/f1_z_d_1.jpg" alt=""/></a></div>
+        <div class="zone z_d_2"><a href="${webRoot}search?cat=1" target="_blank" title="">
+          <h3>顺丰到家 让爱不迟到</h3>
+          <h5>珠宝钟表情人节</h5>
+          <img src="${imgRoot}homepage/f1/f1_z_d_2.jpg" alt=""/></a></div>
+        <div class="zone z_d_3"><a href="${webRoot}search?cat=1" target="_blank" title="">
+          <h3>0首付 30天免息</h3>
+          <h5>我想为你生猴子</h5>
+          <img src="${imgRoot}homepage/f1/f1_z_d_3.jpg" alt=""/></a></div>
+      </div>
+      <div class="tabs-panel">
+        <div class="goods-list">
+          <#if goodsList1.size() gt 0>
+          <ul>
+            <#list goodsList1 as goods>
+            <li><a href="${c.func.ncGoodsUrl(goods.goodsId)}"><img src="${c.func.ncImage(goods.imageSrc, 130, 130)}" class="U2hvcE5DDQo=-goods-img" alt=""/>
+              <h4 class="goods-name">${goods.goodsName}</h4>
+              <h5 class="goods-price">￥${goods.goodsPrice?string("0.00")}</h5>
+              </a></li>
+            </#list>
+          </ul>
+          </#if>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="floor02" class="home-standard-layout home-style-02">
+    <div class="title-bar">
+      <div class="txt-type"><span>2F</span>
+        <h3>手机通讯</h3>
+      </div>
+      <div class="tabs-nav">
+        <ul data-tabs-nav>
+          <li><a href="javascript:;" class="tabs-selected">热门活动</a></li>
+          <li><a href="javascript:;">国际大牌</a></li>
+        </ul>
+      </div>
+      <div class="hot-keyowrds"><a href="${webRoot}search?keyword=iPhone 6s" class="" target="_blank" title="">iPhone 6s</a><a href="${webRoot}search?keyword=努比亚" class="" target="_blank" title="">努比亚</a><a href="${webRoot}search?keyword=红米" class="" target="_blank" title="">红米</a><a href="${webRoot}search?keyword=note3" class="" target="_blank" title="">note3</a><a href="${webRoot}search?keyword=锤子手机" class="" target="_blank" title="">锤子手机</a><a href="${webRoot}search?keyword=荣耀7" class="" target="_blank" title="">荣耀7</a><a href="${webRoot}search?keyword=华为Mate8" class="" target="_blank" title="">华为Mate8</a><a href="${webRoot}search?keyword=华硕电神5000" class="sp" target="_blank" title="">华硕电神5000</a><a href="${webRoot}search?keyword=三星A9" class="" target="_blank" title="">三星A9</a> </div>
+    </div>
+    <div class="container">
+      <div class="sideber">
+        <div class="bg-layout"><a href="${webRoot}search?cat=1035" target="_blank">
+          <h3>手机年货节</h3>
+          <h4>送礼大作战<br/>
+            华为Mate8/红米3现货抢</h4>
+          <img src="${imgRoot}homepage/f2/f2_side_bg.jpg" alt=""/></a></div>
+        <div class="recom-sort">
+          <ul>
+            <li><a href="${webRoot}search?cat=1035">数码相机</a></li>
+            <li><a href="${webRoot}search?cat=1035">精品手机</a></li>
+            <li><a href="${webRoot}search?cat=1035">蓝牙耳机</a></li>
+            <li><a href="${webRoot}search?cat=1035">手机饰品</a></li>
+          </ul>
+        </div>
+        <div class="recom-brand">
+          <#if brandList2?size gt 0>
+            <ul>
+              <#list brandList2 as brand>
+                <li><a href="${webRoot}search?brand=${brand.brandId}"><img src="${brand.brandImageSrc}" title="${brand.brandName}" /></a></li>
+              </#list>
+            </ul>
+          </#if>
+        </div>
+      </div>
+      <div class="tabs-panel">
+        <div class="zone z_a_1">
+          <ul data-floor-slider>
+            <li><a href="${webRoot}search?cat=1035"><img src="${imgRoot}homepage/f2_z_a_1.jpg" alt=""/></a></li>
+          </ul>
+        </div>
+        <div class="zone z_b_1"><a href="${webRoot}search?cat=1035" target="_blank" title="">
+          <h3>户外三防老人手机</h3>
+          <h5>防水 防摔 防压 防尘</h5>
+          <img src="${imgRoot}homepage/f2/f2_z_b_1.jpg" alt=""/></a></div>
+        <div class="zone z_b_2"><a href="${webRoot}search?cat=1035" target="_blank" title="">
+          <h3>过年送潮品 首选上商城</h3>
+          <h5>小米手环 19元秒不停</h5>
+          <img src="${imgRoot}homepage/f2/f2_z_b_2.jpg" alt=""/></a></div>
+        <div class="zone z_c_1"><a href="${webRoot}search?cat=1035" target="_blank" title="">
+          <h3>魅族年货节 壕礼相送</h3>
+          <h5>新年大礼包 精美耳机</h5>
+          <img src="${imgRoot}homepage/f2/f2_z_c_1.jpg" alt=""/></a></div>
+        <div class="zone z_c_2"><a href="${webRoot}search?cat=1035" target="_blank" title="">
+          <h3>华硕电神5000</h3>
+          <h5>699元限量抢购</h5>
+          <img src="${imgRoot}homepage/f2/f2_z_c_2.jpg" alt=""/></a></div>
+        <div class="zone z_d_1"><a href="${webRoot}search?cat=1035" target="_blank" title="">
+          <h3>新年购机赢平板</h3>
+          <h5>荣耀6plus ￥1599</h5>
+          <img src="${imgRoot}homepage/f2/f2_z_d_1.jpg" alt=""/></a></div>
+        <div class="zone z_d_2"><a href="${webRoot}search?cat=1035" target="_blank" title="">
+          <h3>辞旧迎新 手机贺礼</h3>
+          <h5>手机29.9元抢</h5>
+          <img src="${imgRoot}homepage/f2/f2_z_d_2.jpg" alt=""/></a></div>
+        <div class="zone z_d_3"><a href="${webRoot}search?cat=1035" target="_blank" title="">
+          <h3>小米粉丝狂欢周</h3>
+          <h5>新品、晒单有礼</h5>
+          <img src="${imgRoot}homepage/f2/f2_z_d_3.jpg" alt=""/></a></div>
+      </div>
+      <div class="tabs-panel">
+        <div class="goods-list">
+          <#if goodsList2.size() gt 0>
+            <ul>
+              <#list goodsList2 as goods>
+                <li><a href="${c.func.ncGoodsUrl(goods.goodsId)}"><img src="${c.func.ncImage(goods.imageSrc, 130, 130)}" class="U2hvcE5DDQo=-goods-img" alt=""/>
+                  <h4 class="goods-name">${goods.goodsName}</h4>
+                  <h5 class="goods-price">￥${goods.goodsPrice?string("0.00")}</h5>
+                </a></li>
+              </#list>
+            </ul>
+          </#if>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="floor03" class="home-standard-layout home-style-03">
+    <div class="title-bar">
+      <div class="txt-type"><span>3F</span>
+        <h3>生活日用</h3>
+      </div>
+      <div class="tabs-nav">
+        <ul data-tabs-nav>
+          <li><a href="javascript:;" class="tabs-selected">热门活动</a></li>
+          <li><a href="javascript:;">闪购商品</a></li>
+        </ul>
+      </div>
+      <div class="hot-keyowrds"><a href="${webRoot}search?keyword=洗衣液" class="sp" target="_blank" title="">洗衣液</a><a href="${webRoot}search?keyword=四件套" class="" target="_blank" title="">四件套</a><a href="${webRoot}search?keyword=保温杯" class="" target="_blank" title="">保温杯</a><a href="${webRoot}search?keyword=卷纸" class="" target="_blank" title="">卷纸</a><a href="${webRoot}search?keyword=安全避孕" class="" target="_blank" title="sp">安全避孕</a><a href="${webRoot}search?keyword=被子" class="" target="_blank" title="">被子</a><a href="${webRoot}search?keyword=抽纸" class="" target="_blank" title="">抽纸</a><a href="${webRoot}search?keyword=厨卫清洁" class="" target="_blank" title="">厨卫清洁</a></div>
+    </div>
+    <div class="container">
+      <div class="sideber">
+        <div class="bg-layout"><a href="${webRoot}search?cat=3" target="_blank">
+          <h3>满199元减20元</h3>
+          <h4>春节不打烊 购主粮送零食<br/>
+            满119元再送萌宠玩具</h4>
+          <img src="${imgRoot}homepage/f3/f3_side_bg.jpg" alt=""/></a></div>
+        <div class="recom-sort">
+          <ul>
+            <li><a href="${webRoot}search?cat=3">床品件套</a></li>
+            <li><a href="${webRoot}search?cat=3">毛品家纺</a></li>
+            <li><a href="${webRoot}search?cat=3">抱枕坐垫</a></li>
+            <li><a href="${webRoot}search?cat=3">床单被罩</a></li>
+          </ul>
+        </div>
+        <div class="recom-brand">
+          <#if brandList3?size gt 0>
+            <ul>
+              <#list brandList3 as brand>
+                <li><a href="${webRoot}search?brand=${brand.brandId}"><img src="${brand.brandImageSrc}" title="${brand.brandName}" /></a></li>
+              </#list>
+            </ul>
+          </#if>
+        </div>
+      </div>
+      <div class="tabs-panel">
+        <div class="zone z_a_1">
+          <ul data-floor-slider>
+            <li><a href="${webRoot}search?cat=3"><img src="${imgRoot}homepage/f3_z_a_1.jpg"/></a></li>
+          </ul>
+        </div>
+        <div class="zone z_b_1"><a href="${webRoot}search?cat=3" target="_blank" title="">
+          <h3>低至1折</h3>
+          <h5>品质生活 浪漫由我</h5>
+          <img src="${imgRoot}homepage/f3/f3_z_b_1.jpg" alt=""/></a></div>
+        <div class="zone z_b_2"><a href="${webRoot}search?cat=3" target="_blank" title="">
+          <h3>收纳洗晒4折起</h3>
+          <h5>年货送到家</h5>
+          <img src="${imgRoot}homepage/f3/f3_z_b_2.jpg" alt=""/></a></div>
+        <div class="zone z_c_1"><a href="${webRoot}search?cat=3" target="_blank" title="">
+          <h3>优惠4折起</h3>
+          <h5>清风 柔韧更安心</h5>
+          <img src="${imgRoot}homepage/f3/f3_z_c_1.jpg" alt=""/></a></div>
+        <div class="zone z_c_2"><a href="${webRoot}search?cat=3" target="_blank" title="">
+          <h3>每日1元秒</h3>
+          <h5>清洁一路省回家</h5>
+          <img src="${imgRoot}homepage/f3/f3_z_c_2.jpg" alt=""/></a></div>
+        <div class="zone z_d_1"><a href="${webRoot}search?cat=3" target="_blank" title="">
+          <h3>温暖1折起</h3>
+          <h5>精益求精 卓越品质</h5>
+          <img src="${imgRoot}homepage/f3/f3_z_d_1.jpg" alt=""/></a></div>
+        <div class="zone z_d_2"><a href="${webRoot}search?cat=3" target="_blank" title="">
+          <h3>低至2折</h3>
+          <h5>威露士新年惠</h5>
+          <img src="${imgRoot}homepage/f3/f3_z_d_2.jpg" alt=""/></a></div>
+        <div class="zone z_d_3"><a href="${webRoot}search?cat=3" target="_blank" title="">
+          <h3>哈尔斯品牌惠</h3>
+          <h5>春节不打烊</h5>
+          <img src="${imgRoot}homepage/f3/f3_z_d_3.jpg" alt=""/></a></div>
+      </div>
+      <div class="tabs-panel">
+        <div class="goods-list">
+          <#if goodsList3.size() gt 0>
+            <ul>
+              <#list goodsList3 as goods>
+                <li><a href="${c.func.ncGoodsUrl(goods.goodsId)}"><img src="${c.func.ncImage(goods.imageSrc, 130, 130)}" class="U2hvcE5DDQo=-goods-img" alt=""/>
+                  <h4 class="goods-name">${goods.goodsName}</h4>
+                  <h5 class="goods-price">￥${goods.goodsPrice?string("0.00")}</h5>
+                </a></li>
+              </#list>
+            </ul>
+          </#if>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="floor04" class="home-standard-layout home-style-04">
+    <div class="title-bar">
+      <div class="txt-type"><span>4F</span>
+        <h3>食品酒水</h3>
+      </div>
+      <div class="tabs-nav">
+        <ul data-tabs-nav>
+          <li><a href="javascript:;" class="tabs-selected">热门活动</a></li>
+          <li><a href="javascript:;">闪购商品</a></li>
+        </ul>
+      </div>
+      <div class="hot-keyowrds"><a href="${webRoot}search?keyword=大米" class="sp" target="_blank" title="">大米</a><a href="${webRoot}search?keyword=牛奶乳品" class="" target="_blank" title="">牛奶乳品</a><a href="${webRoot}search?keyword=饼干糕点" class="" target="_blank" title="">饼干糕点</a><a href="${webRoot}search?keyword=食用油" class="" target="_blank" title="">食用油</a><a href="${webRoot}search?keyword=白酒" class="" target="_blank" title="">白酒</a><a href="${webRoot}search?keyword=零食" class="" target="_blank" title="">零食</a><a href="进口休闲" class="" target="_blank" title="">进口休闲</a><a href="${webRoot}search?keyword=酸奶" class="sp" target="_blank" title="">酸奶</a></div>
+    </div>
+    <div class="container">
+      <div class="sideber">
+        <div class="bg-layout"><a href="${webRoot}search?cat=593" target="">
+          <h3>全场低至3折</h3>
+          <h4>满98减5 满178减10<br/>
+            三只松鼠旗舰店</h4>
+          <img src="${imgRoot}homepage/f4/f4_side_bg.jpg" alt=""/></a></div>
+        <div class="recom-sort">
+          <ul>
+            <li><a href="${webRoot}search?cat=593">进口食品</a></li>
+            <li><a href="${webRoot}search?cat=593">饼干蛋糕</a></li>
+            <li><a href="${webRoot}search?cat=593">休闲零食</a></li>
+            <li><a href="${webRoot}search?cat=593">骨骼健康</a></li>
+          </ul>
+        </div>
+        <div class="recom-brand">
+          <#if brandList4?size gt 0>
+            <ul>
+              <#list brandList4 as brand>
+                <li><a href="${webRoot}search?brand=${brand.brandId}"><img src="${brand.brandImageSrc}" title="${brand.brandName}" /></a></li>
+              </#list>
+            </ul>
+          </#if>
+        </div>
+      </div>
+      <div class="tabs-panel">
+        <div class="zone z_a_1">
+          <ul data-floor-slider>
+            <li><a href="${webRoot}search?cat=593"><img src="${imgRoot}homepage/f4_z_a_1.jpg"/></a></li>
+          </ul>
+        </div>
+        <div class="zone z_b_1"><a href="${webRoot}search?cat=593" target="_blank" title="">
+          <h3>何止5折</h3>
+          <h5>零食闹新春</h5>
+          <img src="${imgRoot}homepage/f4/f4_z_b_1.jpg" alt=""/></a></div>
+        <div class="zone z_b_2"><a href="${webRoot}search?cat=593" target="_blank" title="">
+          <h3>贺新年5折起</h3>
+          <h5>春节快递不打烊</h5>
+          <img src="${imgRoot}homepage/f4/f4_z_b_2.jpg" alt=""/></a></div>
+        <div class="zone z_c_1"><a href="${webRoot}search?cat=593" target="_blank" title="">
+          <h3>粮油5.1折起</h3>
+          <h5>年终盛宴</h5>
+          <img src="${imgRoot}homepage/f4/f4_z_c_1.jpg" alt=""/></a></div>
+        <div class="zone z_c_2"><a href="${webRoot}search?cat=593" target="_blank" title="">
+          <h3>幸福好奶5折起</h3>
+          <h5>春节快递不打烊</h5>
+          <img src="${imgRoot}homepage/f4/f4_z_c_2.jpg" alt=""/></a></div>
+        <div class="zone z_d_1"><a href="${webRoot}search?cat=593" target="_blank" title="">
+          <h3>1元秒杀</h3>
+          <h5>吃遍全球</h5>
+          <img src="${imgRoot}homepage/f4/f4_z_d_1.jpg" alt=""/></a></div>
+        <div class="zone z_d_2"><a href="${webRoot}search?cat=593" target="_blank" title="">
+          <h3>保健5.8折起</h3>
+          <h5>年货大作战</h5>
+          <img src="${imgRoot}homepage/f4/f4_z_d_2.jpg" alt=""/></a></div>
+        <div class="zone z_d_3"><a href="${webRoot}search?cat=593" target="_blank" title="">
+          <h3>生鲜2折起</h3>
+          <h5>生鲜年货专场</h5>
+          <img src="${imgRoot}homepage/f4/f4_z_d_3.jpg" alt=""/></a></div>
+      </div>
+      <div class="tabs-panel">
+        <div class="goods-list">
+          <#if goodsList4.size() gt 0>
+            <ul>
+              <#list goodsList4 as goods>
+                <li><a href="${c.func.ncGoodsUrl(goods.goodsId)}"><img src="${c.func.ncImage(goods.imageSrc, 130, 130)}" class="U2hvcE5DDQo=-goods-img" alt=""/>
+                  <h4 class="goods-name">${goods.goodsName}</h4>
+                  <h5 class="goods-price">￥${goods.goodsPrice?string("0.00")}</h5>
+                </a></li>
+              </#list>
+            </ul>
+          </#if>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="floor05" class="home-standard-layout home-style-05">
+    <div class="title-bar">
+      <div class="txt-type"><span>5F</span>
+        <h3>母婴玩具</h3>
+      </div>
+      <div class="tabs-nav">
+        <ul data-tabs-nav>
+          <li><a href="javascript:;" class="tabs-selected">热门活动</a></li>
+          <li><a href="javascript:;">闪购商品</a></li>
+        </ul>
+      </div>
+      <div class="hot-keyowrds"><a href="${webRoot}search?keyword=宝宝奶粉" class="" target="_blank" title="">宝宝奶粉</a><a href="${webRoot}search?keyword=婴儿床椅" class="sp" target="_blank" title="">婴儿床椅</a><a href="${webRoot}search?keyword=奶瓶" class="" target="_blank" title="">奶瓶</a><a href="${webRoot}search?keyword=孕妇装" class="" target="_blank" title="">孕妇装</a><a href="${webRoot}search?keyword=益智玩具" class="sp" target="_blank" title="">益智玩具</a><a href="${webRoot}search?keyword=科学育儿" class="" target="_blank" title="">科学育儿</a></div>
+    </div>
+    <div class="container">
+      <div class="sideber">
+        <div class="bg-layout"><a href="${webRoot}search?cat=959" target="">
+          <h3>宝宝洗护清洁</h3>
+          <h4>满场9.9元起<br/>
+            满199减100</h4>
+          <img src="${imgRoot}homepage/f5/f5_side_bg.jpg" alt=""/></a></div>
+        <div class="recom-sort">
+          <ul>
+            <li><a href="${webRoot}search?cat=959">宝宝奶粉</a></li>
+            <li><a href="${webRoot}search?cat=959">婴儿床椅</a></li>
+            <li><a href="${webRoot}search?cat=959">益智玩具</a></li>
+            <li><a href="${webRoot}search?cat=959">科学育儿</a></li>
+          </ul>
+        </div>
+        <div class="recom-brand">
+          <#if brandList5?size gt 0>
+          <ul>
+            <#list brandList5 as brand>
+            <li><a href="${webRoot}search?brand=${brand.brandId}"><img src="${brand.brandImageSrc}" title="${brand.brandName}" /></a></li>
+            </#list>
+          </ul>
+          </#if>
+        </div>
+      </div>
+      <div class="tabs-panel">
+        <div class="zone z_a_1">
+          <ul data-floor-slider>
+            <li><a href="${webRoot}search?cat=959"><img src="${imgRoot}homepage/f5_z_a_1.jpg"/></a></li>
+          </ul>
+        </div>
+        <div class="zone z_b_1"><a href="${webRoot}search?cat=959" target="_blank" title="">
+          <h3>达能系列奶粉5折起</h3>
+          <h5>进口大牌 性价比之王</h5>
+          <img src="${imgRoot}homepage/f5/f5_z_b_1.jpg" alt=""/></a></div>
+        <div class="zone z_b_2"><a href="${webRoot}search?cat=959" target="_blank" title="">
+          <h3>纸尿裤精选</h3>
+          <h5>宝宝舒适好睡眠</h5>
+          <img src="${imgRoot}homepage/f5/f5_z_b_2.jpg" alt=""/></a></div>
+        <div class="zone z_c_1"><a href="${webRoot}search?cat=959" target="_blank" title="">
+          <h3>大牌奶粉5折起</h3>
+          <h5>辅食营养1元购</h5>
+          <img src="${imgRoot}homepage/f5/f5_z_c_1.jpg" alt=""/></a></div>
+        <div class="zone z_c_2"><a href="${webRoot}search?cat=959" target="_blank" title="">
+          <h3>童车床座椅</h3>
+          <h5>满358减50 满488减100</h5>
+          <img src="${imgRoot}homepage/f5/f5_z_c_2.jpg" alt=""/></a></div>
+        <div class="zone z_d_1"><a href="${webRoot}search?cat=959" target="_blank" title="">
+          <h3>孕婴洗护&用具</h3>
+          <h5>低至9块9</h5>
+          <img src="${imgRoot}homepage/f5/f5_z_d_1.jpg" alt=""/></a></div>
+        <div class="zone z_d_2"><a href="${webRoot}search?cat=959" target="_blank" title="">
+          <h3>辣妈春装上新</h3>
+          <h5>满99减20</h5>
+          <img src="${imgRoot}homepage/f5/f5_z_d_2.jpg" alt=""/></a></div>
+        <div class="zone z_d_3"><a href="${webRoot}search?cat=959" target="_blank" title="">
+          <h3>春节玩具宅急送</h3>
+          <h5>亲友团必BUY专长</h5>
+          <img src="${imgRoot}homepage/f5/f5_z_d_3.jpg" alt=""/></a></div>
+      </div>
+      <div class="tabs-panel">
+        <div class="goods-list">
+          <#if goodsList5.size() gt 0>
+            <ul>
+              <#list goodsList5 as goods>
+                <li><a href="${c.func.ncGoodsUrl(goods.goodsId)}"><img src="${c.func.ncImage(goods.imageSrc, 130, 130)}" class="U2hvcE5DDQo=-goods-img" alt=""/>
+                  <h4 class="goods-name">${goods.goodsName}</h4>
+                  <h5 class="goods-price">￥${goods.goodsPrice?string("0.00")}</h5>
+                </a></li>
+              </#list>
+            </ul>
+          </#if>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="floor06" class="home-standard-layout home-style-06">
+    <div class="title-bar">
+      <div class="txt-type"><span>6F</span>
+        <h3>美妆个护</h3>
+      </div>
+      <div class="tabs-nav">
+        <ul data-tabs-nav>
+          <li><a href="javascript:;" class="tabs-selected">热门活动</a></li>
+          <li><a href="javascript:;">闪购商品</a></li>
+        </ul>
+      </div>
+      <div class="hot-keyowrds"><a href="${webRoot}search?keyword=面膜" class="sp" target="_blank" title="">面膜</a><a href="${webRoot}search?keyword=洗面奶" class="" target="_blank" title="">洗面奶</a><a href="${webRoot}search?keyword=水乳" class="" target="_blank" title="">水乳</a><a href="${webRoot}search?keyword=彩妆" class="" target="_blank" title="">彩妆</a><a href="${webRoot}search?keyword=洗发水" class="" target="_blank" title="">洗发水</a><a href="j${webRoot}search?keyword=沐浴露" class="" target="_blank" title="">沐浴露</a><a href="${webRoot}search?keyword=牙膏" class="" target="_blank" title="">牙膏</a><a href="${webRoot}search?keyword=卫生巾" class="sp" target="_blank" title="">卫生巾</a></div>
+    </div>
+    <div class="container">
+      <div class="sideber">
+        <div class="bg-layout"><a href="${webRoot}search?cat=470" target="_blank">
+          <h3>年货巨惠周</h3>
+          <h4>购春季新品 享新春新意</h4>
+          <img src="${imgRoot}homepage/f6/f6_side_bg.jpg" alt=""/></a></div>
+        <div class="recom-sort">
+          <ul>
+            <li><a href="${webRoot}search?cat=470">T区护理</a></li>
+            <li><a href="${webRoot}search?cat=470">眼部护理</a></li>
+            <li><a href="${webRoot}search?cat=470">面膜面贴</a></li>
+            <li><a href="${webRoot}search?cat=470">乳液面霜</a></li>
+          </ul>
+        </div>
+        <div class="recom-brand">
+          <#if brandList6?size gt 0>
+            <ul>
+              <#list brandList6 as brand>
+                <li><a href="${webRoot}search?brand=${brand.brandId}"><img src="${brand.brandImageSrc}" title="${brand.brandName}" /></a></li>
+              </#list>
+            </ul>
+          </#if>
+        </div>
+      </div>
+      <div class="tabs-panel">
+        <div class="zone z_a_1">
+          <ul data-floor-slider>
+            <li><a href="${webRoot}search?cat=470"><img src="${imgRoot}homepage/f6_z_a_1.jpg"/></a></li>
+          </ul>
+        </div>
+        <div class="zone z_b_1"><a href="${webRoot}search?cat=470" target="_blank" title="">
+          <h3>个护专场5折起</h3>
+          <h5>满199减100</h5>
+          <img src="${imgRoot}homepage/f6/f6_z_b_1.jpg" alt=""/></a></div>
+        <div class="zone z_b_2"><a href="${webRoot}search?cat=470" target="_blank" title="">
+          <h3>满199减100</h3>
+          <h5>姨妈巾专场</h5>
+          <img src="${imgRoot}homepage/f6/f6_z_b_2.jpg" alt=""/></a></div>
+        <div class="zone z_c_1"><a href="${webRoot}search?cat=470" target="_blank" title="">
+          <h3>购物车7折</h3>
+          <h5>国内美妆 爆款4折起</h5>
+          <img src="${imgRoot}homepage/f6/f6_z_c_1.jpg" alt=""/></a></div>
+        <div class="zone z_c_2"><a href="${webRoot}search?cat=470" target="_blank" title="">
+          <h3>爆款5折起</h3>
+          <h5>国际美妆大牌</h5>
+          <img src="${imgRoot}homepage/f6/f6_z_c_2.jpg" alt=""/></a></div>
+        <div class="zone z_d_1"><a href="${webRoot}search?cat=470" target="_blank" title="">
+          <h3>年终4折起</h3>
+          <h5>宝洁献礼</h5>
+          <img src="${imgRoot}homepage/f6/f6_z_d_1.jpg" alt=""/></a></div>
+        <div class="zone z_d_2"><a href="${webRoot}search?cat=470" target="_blank" title="">
+          <h3>爆款4折起</h3>
+          <h5>彩妆专长</h5>
+          <img src="${imgRoot}homepage/f6/f6_z_d_2.jpg" alt=""/></a></div>
+        <div class="zone z_d_3"><a href="${webRoot}search?cat=470" target="_blank" title="">
+          <h3>七度空间6.2元起</h3>
+          <h5>少女专属</h5>
+          <img src="${imgRoot}homepage/f6/f6_z_d_3.jpg" alt=""/></a></div>
+      </div>
+      <div class="tabs-panel">
+        <div class="goods-list">
+          <#if goodsList6.size() gt 0>
+            <ul>
+              <#list goodsList6 as goods>
+                <li><a href="${c.func.ncGoodsUrl(goods.goodsId)}"><img src="${c.func.ncImage(goods.imageSrc, 130, 130)}" class="U2hvcE5DDQo=-goods-img" alt=""/>
+                  <h4 class="goods-name">${goods.goodsName}</h4>
+                  <h5 class="goods-price">￥${goods.goodsPrice?string("0.00")}</h5>
+                </a></li>
+              </#list>
+            </ul>
+          </#if>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="floor07" class="home-standard-layout home-style-07">
+    <div class="title-bar">
+      <div class="txt-type"><span>7F</span>
+        <h3>电脑数码</h3>
+      </div>
+      <div class="tabs-nav">
+        <ul data-tabs-nav>
+          <li><a href="javascript:;" class="tabs-selected">热门活动</a></li>
+          <li><a href="javascript:;">闪购商品</a></li>
+        </ul>
+      </div>
+      <div class="hot-keyowrds"><a href="${webRoot}search?keyword=iPad" class="" target="_blank" title="">iPad</a><a href="${webRoot}search?keyword=笔记本" class="sp" target="_blank" title="">笔记本</a><a href="${webRoot}search?keyword=台式机" class="" target="_blank" title="">台式机</a><a href="${webRoot}search?keyword=DIY" class="" target="_blank" title="">DIY</a><a href="${webRoot}search?keyword=单反" class="sp" target="_blank" title="">单反</a><a href="${webRoot}search?keyword=微单" class="" target="_blank" title="">微单</a><a href="${webRoot}search?keyword=佳能" class="" target="_blank" title="">佳能</a><a href="${webRoot}search?keyword=小天才" class="" target="_blank" title="">小天才</a></div>
+    </div>
+    <div class="container">
+      <div class="sideber">
+        <div class="bg-layout"><a href="${webRoot}search?cat=390" target="">
+          <h3>年货巨惠周</h3>
+          <h4>购春季新品 享新春新意</h4>
+          <img src="${imgRoot}homepage/f7/f7_side_bg.jpg" alt=""/></a></div>
+        <div class="recom-sort">
+          <ul>
+            <li><a href="${webRoot}search?cat=390">平板电脑</a></li>
+            <li><a href="${webRoot}search?cat=390">超级本</a></li>
+            <li><a href="${webRoot}search?cat=390">电脑工具</a></li>
+            <li><a href="${webRoot}search?cat=390">UPS电源</a></li>
+          </ul>
+        </div>
+        <div class="recom-brand">
+          <#if brandList7?size gt 0>
+            <ul>
+              <#list brandList7 as brand>
+                <li><a href="${webRoot}search?brand=${brand.brandId}"><img src="${brand.brandImageSrc}" title="${brand.brandName}" /></a></li>
+              </#list>
+            </ul>
+          </#if>
+        </div>
+      </div>
+      <div class="tabs-panel">
+        <div class="zone z_a_1">
+          <ul data-floor-slider>
+            <li><a href="${webRoot}search?cat=390"><img src="${imgRoot}homepage/f8_z_a_1.jpg"/></a></li>
+          </ul>
+        </div>
+        <div class="zone z_b_1"><a href="${webRoot}search?cat=390" target="_blank" title="">
+          <h3>联想新年狂欢</h3>
+          <h5>每1000减100</h5>
+          <img src="${imgRoot}homepage/f7/f7_z_b_1.jpg" alt=""/></a></div>
+        <div class="zone z_b_2"><a href="${webRoot}search?cat=390" target="_blank" title="">
+          <h3>摄像机 开年大惠</h3>
+          <h5>百元优惠券 现领现用</h5>
+          <img src="${imgRoot}homepage/f7/f7_z_b_2.jpg" alt=""/></a></div>
+        <div class="zone z_c_1"><a href="${webRoot}search?cat=390" target="_blank" title="">
+          <h3>平板年欢惠</h3>
+          <h5>平板399元起 每千减百</h5>
+          <img src="${imgRoot}homepage/f7/f7_z_c_1.jpg" alt=""/></a></div>
+        <div class="zone z_c_2"><a href="${webRoot}search?cat=390" target="_blank" title="">
+          <h3>玩转新概念 智能生活馆</h3>
+          <h5>挑逗好奇心 刺激新动力</h5>
+          <img src="${imgRoot}homepage/f7/f7_z_c_2.jpg" alt=""/></a></div>
+        <div class="zone z_d_1"><a href="${webRoot}search?cat=390" target="_blank" title="">
+          <h3>配件优惠不间断</h3>
+          <h5>部分商品满99元立减10元</h5>
+          <img src="${imgRoot}homepage/f7/f7_z_d_1.jpg" alt=""/></a></div>
+        <div class="zone z_d_2"><a href="${webRoot}search?cat=390" target="_blank" title="">
+          <h3>尾货清仓</h3>
+          <h5>平板159元</h5>
+          <img src="${imgRoot}homepage/f7/f7_z_d_2.jpg" alt=""/></a></div>
+        <div class="zone z_d_3"><a href="${webRoot}search?cat=390" target="_blank" title="">
+          <h3>购卡西欧TR550立减200</h3>
+          <h5>春节不打烊</h5>
+          <img src="${imgRoot}homepage/f7/f7_z_d_3.jpg" alt=""/></a></div>
+      </div>
+      <div class="tabs-panel">
+        <div class="goods-list">
+          <#if goodsList7.size() gt 0>
+            <ul>
+              <#list goodsList7 as goods>
+                <li><a href="${c.func.ncGoodsUrl(goods.goodsId)}"><img src="${c.func.ncImage(goods.imageSrc, 130, 130)}" class="U2hvcE5DDQo=-goods-img" alt=""/>
+                  <h4 class="goods-name">${goods.goodsName}</h4>
+                  <h5 class="goods-price">￥${goods.goodsPrice?string("0.00")}</h5>
+                </a></li>
+              </#list>
+            </ul>
+          </#if>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="floor08" class="home-standard-layout home-style-08">
+    <div class="title-bar">
+      <div class="txt-type"><span>8F</span>
+        <h3>生活电器</h3>
+      </div>
+      <div class="tabs-nav">
+        <ul data-tabs-nav>
+          <li><a href="javascript:;" class="tabs-selected">热门活动</a></li>
+          <li><a href="javascript:;">闪购商品</a></li>
+        </ul>
+      </div>
+      <div class="hot-keyowrds"><a href="${webRoot}search?keyword=电热饭盒" class="" target="_blank" title="">电热饭盒</a><a href="微波炉" class="" target="_blank" title="">微波炉</a><a href="${webRoot}search?keyword=取暖电器" class="" target="_blank" title="">取暖电器</a><a href="${webRoot}search?keyword=电吹风" class="" target="_blank" title="">电吹风</a><a href="${webRoot}search?keyword=足浴盆" class="" target="_blank" title="">足浴盆</a><a href="${webRoot}search?keyword=电压力锅" class="" target="_blank" title="">电压力锅</a><a href="${webRoot}search?keyword=电饭煲" class="" target="_blank" title="">电饭煲</a></div>
+    </div>
+    <div class="container">
+      <div class="sideber">
+        <div class="bg-layout"><a href="${webRoot}search?cat=308" target="_blank">
+          <h3>年货巨惠周</h3>
+          <h4>购春季新品 享新春新意</h4>
+          <img src="${imgRoot}homepage/f8/f8_side_bg.jpg" alt=""/></a></div>
+        <div class="recom-sort">
+          <ul>
+            <li><a href="${webRoot}search?cat=308">平拍电视</a></li>
+            <li><a href="${webRoot}search?cat=308">迷你音响</a></li>
+            <li><a href="${webRoot}search?cat=308">取暖电器</a></li>
+            <li><a href="${webRoot}search?cat=308">净水设备</a></li>
+          </ul>
+        </div>
+        <div class="recom-brand">
+          <#if brandList8?size gt 0>
+            <ul>
+              <#list brandList8 as brand>
+                <li><a href="${webRoot}search?brand=${brand.brandId}"><img src="${brand.brandImageSrc}" title="${brand.brandName}" /></a></li>
+              </#list>
+            </ul>
+          </#if>
+        </div>
+      </div>
+      <div class="tabs-panel">
+        <div class="zone z_a_1">
+          <ul data-floor-slider>
+            <li><a href="${webRoot}search?cat=308"><img src="${imgRoot}homepage/f3_z_a_1.jpg"/></a></li>
+          </ul>
+        </div>
+        <div class="zone z_b_1"><a href="${webRoot}search?cat=308" target="_blank" title="">
+          <h3>一熨即平</h3>
+          <h5>轻松搞定全家衣物</h5>
+          <img src="${imgRoot}homepage/f8/f8_z_b_1.jpg" alt=""/></a></div>
+        <div class="zone z_b_2"><a href="${webRoot}search?cat=308" target="_blank" title="">
+          <h3>你的第二把剃须刀</h3>
+          <h5>自信生活从早上开始</h5>
+          <img src="${imgRoot}homepage/f8/f8_z_b_2.jpg" alt=""/></a></div>
+        <div class="zone z_c_1"><a href="${webRoot}search?cat=308" target="_blank" title="">
+          <h3>美味年夜饭就用苏泊尔</h3>
+          <h5>爆款不止五折</h5>
+          <img src="${imgRoot}homepage/f8/f8_z_c_1.jpg" alt=""/></a></div>
+        <div class="zone z_c_2"><a href="${webRoot}search?cat=308" target="_blank" title="">
+          <h3>美到了福到了</h3>
+          <h5>低至89元</h5>
+          <img src="${imgRoot}homepage/f8/f8_z_c_2.jpg" alt=""/></a></div>
+        <div class="zone z_d_1"><a href="${webRoot}search?cat=308" target="_blank" title="">
+          <h3>风雨回家路</h3>
+          <h5>置办年货先领券</h5>
+          <img src="${imgRoot}homepage/f8/f8_z_d_1.jpg" alt=""/></a></div>
+        <div class="zone z_d_2"><a href="${webRoot}search?cat=308" target="_blank" title="">
+          <h3>迎新纳福“锅”春节</h3>
+          <h5>五折疯抢</h5>
+          <img src="${imgRoot}homepage/f8/f8_z_d_2.jpg" alt=""/></a></div>
+        <div class="zone z_d_3"><a href="${webRoot}search?cat=308" target="_blank" title="">
+          <h3>科沃斯新年年欢会</h3>
+          <h5>直降+返现</h5>
+          <img src="${imgRoot}homepage/f8/f8_z_d_3.jpg" alt=""/></a></div>
+      </div>
+      <div class="tabs-panel">
+        <div class="goods-list">
+          <#if goodsList8.size() gt 0>
+            <ul>
+              <#list goodsList8 as goods>
+                <li><a href="${c.func.ncGoodsUrl(goods.goodsId)}"><img src="${c.func.ncImage(goods.imageSrc, 130, 130)}" class="U2hvcE5DDQo=-goods-img" alt=""/>
+                  <h4 class="goods-name">${goods.goodsName}</h4>
+                  <h5 class="goods-price">￥${goods.goodsPrice?string("0.00")}</h5>
+                </a></li>
+              </#list>
+            </ul>
+          </#if>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hr16"></div>
+  <link href="${publicRoot}toolkit/bxslider/jquery.bxslider.css" rel="stylesheet"/>
+  <script src="${publicRoot}toolkit/bxslider/jquery.bxslider.js"></script> 
+  <script src="${jsRoot}home/home_index.js"></script> 
+  <script>
+	$(function(){
+	//页内导航条位置
+	$('#nav').onePageNav({
+		filter: ':not(.exception)'
+	});
+	//滚动固定分类导航条
+    $(".pinned").pin({
+    containerSelector: ".main-layout"
+    });
+	});
+	</script> 
+</@c.html>

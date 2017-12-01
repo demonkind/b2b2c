@@ -1,0 +1,31 @@
+<#import "/home/layout.html" as c>
+<#import "/home/article_left.html" as article_left>
+    <@c.html title="Index">
+    <div class="nch-container wrapper">
+        <@article_left.html />
+        <div class="right">
+            <div class="nch-article-con">
+                <h1>${article.title}</h1>
+                <h2>${article.createTime}</h2>
+                <div class="default">
+                    <#noescape>
+                    <p>${article.content}</p>
+                     </#noescape>
+                </div>
+                <div class="more_article"> <span class="fl">上一篇：
+                    <#if articlePrev?exists>
+                    <a href="<#if articlePrev.url != ''>${articlePrev.url}<#else>${webRoot}article/info/${articlePrev.articleId}</#if>">${articlePrev.title}</a> <time>${articlePrev.createTime}</time>
+                    <#else>
+                    没有符合条件的文章
+                    </#if>
+        </span> <span class="fr">下一篇：
+                    <#if articleNext?exists>
+                        <a href="<#if articleNext.url != ''>${articleNext.url}<#else>${webRoot}article/info/${articleNext.articleId}</#if>">${articleNext.title}</a> <time>${articleNext.createTime}</time>
+                        <#else>
+                            没有符合条件的文章
+                    </#if>
+        </span> </div>
+            </div>
+        </div>
+    </div>
+</@c.html>

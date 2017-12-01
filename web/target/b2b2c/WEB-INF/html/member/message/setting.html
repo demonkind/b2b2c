@@ -1,0 +1,34 @@
+<#import "/member/layout.html" as c />
+<@c.html title="接收设置">
+  <div class="wrap">
+    <div class="tabmenu">
+      <ul class="tab">
+        <li class="normal"><a href="${memberRoot}message/list">消息列表</a></li>
+        <#list messageClassVoList as messageClassVo>
+          <li class="normal"><a href="${memberRoot}message/list?tplClass=${messageClassVo.id}">${messageClassVo.name}</a></li>
+        </#list>
+        <li class="active"><a href="javascript:;">接收设置</a></li>
+      </ul>
+    </div>
+    <div class="ncm-message-setting m-t-30">
+      <form id="settingForm">
+        <#list messageClassList as memberClass>
+        <dl>
+          <dt><i class="ico-msg-${memberClass.id}"></i>${memberClass.name}</dt>
+          <dd>
+            <ul>
+              <#list memberClass.messageTemplateCommonList as memberTemplateCommon>
+              <li><div class="m-b-5">${memberTemplateCommon.tplName}</div>
+                <div data-input-name="isReceive" data-on-text="接收" data-off-text="不接收" data-default-value="${memberTemplateCommon.isReceive}" data-post-data='{"tplCode":"${memberTemplateCommon.tplCode}"}' data-post-url="${memberRoot}message/setting/save.json"></div>
+              </li>
+              </#list>
+            </ul>
+          </dd>
+        </dl>
+        </#list>
+       
+      </form>
+    </div>
+  </div>
+  <script src="${jsRoot}member/message/setting.js"></script> 
+</@c.html>

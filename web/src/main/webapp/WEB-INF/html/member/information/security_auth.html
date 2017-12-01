@@ -1,0 +1,102 @@
+<#import "/member/layout.html" as c>
+<@c.html title="账户安全">
+  <div class="wrap">
+    <div class="tabmenu">
+      <ul class="tab pngFix">
+        <li><a href="${webRoot}member/security">账户安全</a></li>
+        <li class="active"><a href="javascript:;">安全验证</a></li>
+      </ul>
+    </div>
+    <div class="alert alert-success">
+      <h4>操作提示：</h4>
+      <ul>
+        <li>1. 请选择“绑定邮箱”或“绑定手机”方式其一作为安全校验码的获取方式并正确输入。</li>
+        <li>2. 如果您的邮箱已失效，可以 <a href="${memberRoot}security/mobile">绑定手机</a> 后通过接收手机短信完成验证。</li>
+        <li>3. 如果您的手机已失效，可以 <a href="${memberRoot}security/email">绑定邮箱</a> 后通过接收邮件完成验证。</li>
+      </ul>
+    </div>
+    <div class="ncm-default-form">
+      <input type="hidden" id="mobileEncrypt" value="${member.mobileEncrypt}">
+      <input type="hidden" id="emailEncrypt" value="${member.emailEncrypt}">
+      <input type="hidden" id="type" value="${type}" />
+      <form method="post" id="authFormFirst">
+        <dl>
+          <dt><i class="required">*</i>选择身份认证方式：</dt>
+          <dd>
+            <select name="authType" id="authType">
+              <#if member.mobileIsBind==1 && member.mobile?? && member.mobile?length gt 0>
+              <option value="mobile">手机 [${member.mobileEncrypt}]</option>
+              </#if>
+              <#if member.emailIsBind==1 && member.email?? && member.email?length gt 0>
+              <option value="email">邮箱 [${member.emailEncrypt}]</option>
+              </#if>
+            </select>
+          </dd>
+        </dl>
+        <dl>
+          <dt><i class="required">*</i>图形验证码：</dt>
+          <dd>
+            <input type="text" name="authCaptcha" class="text" id="authCaptcha" maxlength="4" size="10" autocomplete="off" />
+            <img id="auth_codeimage" src="${webRoot}captcha/getcaptcha" border="0" class="m-l-5 vm"/> <a href="JavaScript:void(0);" id="changeCaptcha" onclick="javascript:document.getElementById('auth_codeimage').src='${webRoot}captcha/getcaptcha?t='+Math.random();" class="m-l-5 blue">看不清，换一张</a> </dd>
+        </dl>
+        <dl class="bottom">
+          <dt>&nbsp;</dt>
+          <dd>
+            <label class="submit-border">
+              <input type="submit" class="submit" id="firstButton" value="发送动态码"/>
+            </label>
+          </dd>
+        </dl>
+      </form>
+      <form method="post" id="authFormSecondEmail" style="display: none;">
+        <dl>
+          <dt style="width: 80px;"></dt>
+          <dd><span id="emailMsg"></span></dd>
+        </dl>
+        <dl>
+          <dt><i class="required">*</i>动态码：</dt>
+          <dd>
+            <input type="text" class="text" maxlength="6" value="" name="authCode" id="authCodeEmail" />
+            <a href="javascript:void(0);" ncType="sendAuthCode" class="btn btn-sm btn-white m-l-5">重新获取动态码</a>
+            <a href="javascript:void(0);" ncType="sendAuthCodeAgain" class="btn btn-sm btn-white m-l-5" style="display: none;"><span class="send_success_tips"><strong ncType="sendAuthCodeTimes" class="red mr5"></strong>秒后再次</span>获取动态码</a>
+            <label for="authCodeEmail" generated="true" class="error"></label>
+            <p class="send_success_tips hint mt10" ncType="sendAuthCodeTip">“安全动态码”已发出，请注意查收，请在“<strong ncType="sendAuthCodeTipTimes"></strong>”内完成验证。</p>
+          </dd>
+        </dl>
+        <dl class="bottom">
+          <dt>&nbsp;</dt>
+          <dd>
+            <label class="submit-border">
+              <input type="submit" class="submit" id="secondButtonEmail" value="确定"/>
+            </label>
+          </dd>
+        </dl>
+      </form>
+      <form method="post" id="authFormSecondMobile" style="display: none;">
+        <dl>
+          <dt style="width: 80px;"></dt>
+          <dd><span id="mobileMsg"></span></dd>
+        </dl>
+        <dl>
+          <dt><i class="required">*</i>动态码：</dt>
+          <dd>
+            <input type="text" class="text" maxlength="6" value="" name="authCode" id="authCodeMobile" />
+            <a href="javascript:void(0);" ncType="sendAuthCode" class="btn btn-sm btn-white m-l-5" style="display: none;">重新获取动态码</a>
+            <a href="javascript:void(0);" ncType="sendAuthCodeAgain" class="btn btn-sm btn-white m-l-5" style="display: none;"><span class="send_success_tips"><strong ncType="sendAuthCodeTimes" class="red mr5"></strong>秒后再次</span>获取动态码</a>
+            <label for="authCodeMobile" generated="true" class="error"></label>
+            <p class="send_success_tips hint mt10" ncType="sendAuthCodeTip">“安全动态码”已发出，请注意查收，请在“<strong ncType="sendAuthCodeTipTimes"></strong>”内完成验证。</p>
+          </dd>
+        </dl>
+        <dl class="bottom">
+          <dt>&nbsp;</dt>
+          <dd>
+            <label class="submit-border">
+              <input type="submit" class="submit" id="secondButtonMobile" value="确定"/>
+            </label>
+          </dd>
+        </dl>
+      </form>
+    </div>
+  </div>
+  <script type="text/javascript" src="${jsRoot}member/information_security_auth.js"></script> 
+</@c.html>

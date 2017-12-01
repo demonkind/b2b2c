@@ -1,0 +1,83 @@
+<#import "../footer.html" as footer>
+<#import "../func.html" as funcList>
+<#macro html title pageType>
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,IE=EmulateIE8,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="generator" content="UG93ZXJlZCBCeSBTaG9wTkMubmV0"/>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="author" content="ShopNC-Developers"/>
+<#if title == "Index">
+    <title>${config.siteName}</title>
+<#else>
+    <title>${title}</title>
+</#if>
+<!-- ================== 开始基础CSS调用 ================== -->
+<link href="${publicRoot}css/base.css" rel="stylesheet" type="text/css">
+<link href="${cssRoot}web_common.css" rel="stylesheet" type="text/css">
+<link href="${toolkitRoot}font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
+<!--[if IE 7]>
+<link href="${toolkitRoot}font-awesome/css/font-awesome-ie7.min.css" rel="stylesheet">
+<![endif]-->
+<!-- ================== 结束基础CSS调用 ================== -->
+<!-- ================== 开始页面CSS调用 ================== -->
+<link href="${cssRoot}web_login.css" rel="stylesheet" type="text/css">
+<!-- ================== 结束页面CSS调用 ================== -->
+<!-- ================== 开始基础JavaScript调用 ================== -->
+  <script >
+    //全局方法设置
+    var ncGlobal = {
+      webRoot: "${webRoot}",
+      adminRoot: "${adminRoot}",
+      memberRoot: "${memberRoot}",
+      sellerRoot: "${sellerRoot}",
+      jsRoot: "${jsRoot}",
+      cssRoot: "${cssRoot}",
+      imgRoot: "${imgRoot}",
+      toolkitRoot: "${toolkitRoot}",
+      uploadRoot: "${uploadRoot}"
+    };
+  </script >
+  <!--[if lt IE 9]>
+  <script src="${publicRoot}toolkit/crossbrowserjs/es5-shim.min.js"></script>
+  <script src="${publicRoot}toolkit/crossbrowserjs/html5shiv.js"></script>
+  <script src="${publicRoot}toolkit/crossbrowserjs/excanvas.min.js"></script>
+  <script src="${publicRoot}toolkit/crossbrowserjs/respond.min.js"></script>
+  <![endif]-->
+<script type="text/javascript" src="${publicRoot}toolkit/jquery/1.8.3/jquery.js"></script>
+<script type="text/javascript" src="${publicRoot}toolkit/layer/layer.js"></script>
+<script type="text/javascript" src="${publicRoot}toolkit/jquery-nc/jquery.nc.js"></script>
+<script type="text/javascript" src="${publicRoot}toolkit/jquery-validation/jquery.validation.min.js"></script>
+
+
+<!-- ================== 结束基础JavaScript调用 ================== -->
+</head>
+<body>
+<div class="header-wrap">
+  <header class="public-head-layout wrapper">
+    <h1 class="site-logo"><a href="${webRoot}"><img src="${config.siteLogoUrl}" alt=""/></a></h1>
+    <#if pageType == "login">
+    <div class="nc-regist-now">
+      <span class="avatar">
+        <#if member??>
+          <img src="${funcList.ncImage(member.avatarUrl,120,120)}">
+        <#else>
+          <img src="${publicRoot}img/avatar.gif_120x120.gif">
+        </#if>
+      </span>
+      <span class="register">您好，欢迎来到${config.siteName}<br/>已注册的会员请登录，或立即<a title="" href="${webRoot}register" class="register">注册新会员</a></span>
+    </div>
+    <#else>
+    <div class="nc-login-now">我已经注册，现在就<a href="${webRoot}login" title="" class="register">登录</a></div>
+    </#if>
+  </header>
+</div>
+<#nested/>
+<@footer.html />
+</body>
+</html>
+</#macro>

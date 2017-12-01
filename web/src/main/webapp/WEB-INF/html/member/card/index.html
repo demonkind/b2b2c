@@ -1,0 +1,142 @@
+<#import "/member/layout.html" as c>
+<@c.html title="我的卡券">
+
+  <div class="wrap">
+    <div class="tabmenu">
+      <ul class="tab pngFix">
+        <li class="active"><a href="javascript:;">未使用</a></li>
+        <li><a href="javascript:void(0);">已使用</a></li>
+        <li><a href="javascript:void(0);">已失效</a></li>
+      </ul>
+    </div>
+	      <div class="alert alert-block">
+	      <h4>使用说明</h4>
+	      <ul><li>使用的说明，该如何去使用，使用说明，使用说明，使用说明，使用说明，使用说明，使用说明，使用说明</li>
+	      </ul>
+	    </div>
+<ul id="tab_main">
+    	<li class="cur">
+	    <table class="ncm-default-table">
+	      <thead>
+	      <tr>
+	        <th class="w200">到期时间</th>
+	        <th class="w150">K码</th>
+	        <th class="w300">商品价格</th>
+	        <th class="tl">注意事项</th>
+	      </tr>
+	      </thead>
+	      <tbody>
+	      <#if coupons1?? && (coupons1?size>0)>
+	          <#list coupons1 as c >
+	          <tr class="bd-line">
+	            <td class="goods-time">${c.dueTime}</td>
+	            <td class="goods-price">${c.kCode}</td>
+	            <td>${c.amountMoney}</td>
+	            <td class="tl">K码输入时请注意大小写，申请路由器退货将取消活动所得奖励活动专用卡，不记名、不兑换现金</td>
+	          </tr>
+	          </#list>
+	      <#else>
+	          <tr>
+	            <td colspan="20" class="norecord"><div class="warning-option"><i>&nbsp;</i><span>暂无符合条件的数据记录</span></div></td>
+	          </tr>
+	      </#if>
+	      </tbody>
+	      <tfoot>
+	      <#if logList?exists && (logList?size>0)>
+	      <tr>
+	          <#noescape>
+	        <td colspan="20"><div class="pagination">${showPage}</div></td>
+	              </#noescape>
+	      </tr>
+	      </#if>
+	      </tfoot>
+	    </table>
+
+	  
+  	</li>
+
+      <li>
+    <table class="ncm-default-table">
+      <thead>
+      <tr>
+        <th class="w200">到期时间</th>
+        <th class="w150">K码</th>
+        <th class="w300">商品价格</th>
+        <th class="tl">注意事项</th>
+      </tr>
+      </thead>
+      <tbody>
+      <#if coupons0?exists && (coupons0?size>0)>
+          <#list coupons0 as c >
+          <tr class="bd-line">
+            <td class="goods-time">${c.dueTime}</td>
+            <td class="goods-price">${c.kCode}</td>
+            <td>${c.amountMoney}</td>
+            <td class="tl">K码输入时请注意大小写，申请路由器退货将取消活动所得奖励活动专用卡，不记名、不兑换现金</td>
+          </tr>
+          </#list>
+      <#else>
+          <tr>
+            <td colspan="20" class="norecord"><div class="warning-option"><i>&nbsp;</i><span>暂无符合条件的数据记录</span></div></td>
+          </tr>
+      </#if>
+      </tbody>
+      <tfoot>
+      <#if logList?exists && (logList?size>0)>
+      <tr>
+          <#noescape>
+        <td colspan="20"><div class="pagination">${showPage}</div></td>
+              </#noescape>
+      </tr>
+      </#if>
+      </tfoot>
+    </table>
+  </li>
+  
+  <li>
+    <table class="ncm-default-table">
+      <thead>
+      <tr>
+        <th class="w200">到期时间</th>
+        <th class="w150">K码</th>
+        <th class="w300">商品价格</th>
+        <th class="tl">注意事项</th>
+      </tr>
+      </thead>
+      <tbody>
+      <#if coupons2?exists && (coupons2?size>0)>
+          <#list coupons2 as c >
+          <tr class="bd-line">
+            <td class="goods-time">${c.dueTime}</td>
+            <td class="goods-price">${c.kCode}</td>
+            <td>${c.amountMoney}</td>
+            <td class="tl">K码输入时请注意大小写，申请路由器退货将取消活动所得奖励活动专用卡，不记名、不兑换现金</td>
+          </tr>
+          </#list>
+      <#else>
+          <tr>
+            <td colspan="20" class="norecord"><div class="warning-option"><i>&nbsp;</i><span>暂无符合条件的数据记录</span></div></td>
+          </tr>
+      </#if>
+      </tbody>
+      <tfoot>
+      <#if logList?exists && (logList?size>0)>
+      <tr>
+          <#noescape>
+        <td colspan="20"><div class="pagination">${showPage}</div></td>
+              </#noescape>
+      </tr>
+      </#if>
+      </tfoot>
+    </table>
+  </li>
+</ul>
+</div>
+<script type="text/javascript">
+
+    $("li").click(function(){
+    	$(this).addClass("active").siblings().removeClass("active");
+    	$("#tab_main>li").eq($(this).index()).addClass("cur").siblings().removeClass("cur");
+    })
+</script>
+</@c.html>

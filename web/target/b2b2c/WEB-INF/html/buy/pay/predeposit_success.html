@@ -1,0 +1,16 @@
+<#import "/buy/layout.html" as c>
+<@c.html title="支付提交">
+  <div class="ncc-main">
+    <div class="ncc-title">
+      <h3>支付完成</h3>
+      <h5>预存款已充值成功，您可以使用预存款购物了。</h5>
+    </div>
+    <div class="ncc-receipt-info mb30">
+      <div class="ncc-finish-a"><i></i>充值成功！您已成功支付金额<em>￥${rechargeInfo.amount?string('0.00')}</em>。</div>
+      <div class="ncc-finish-b">可通过用户中心<a href="${memberRoot}predeposit/recharge/list">账户余额——充值明细</a>查看详细信息。</div>
+      <div class="ncc-finish-c mb30">
+        <a href="${webRoot}" class="ncbtn-mini ncbtn-mint mr15"><i class="icon-shopping-cart"></i>继续逛逛</a>&emsp;
+        <a href="${memberRoot}predeposit/recharge/list" class="ncbtn-mini ncbtn-aqua"><i class="icon-file-text-alt"></i>充值明细</a></div>
+    </div>
+  </div>
+</@c.html>

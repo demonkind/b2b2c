@@ -1,0 +1,68 @@
+<#import "/layout.html" as c>
+<@c.html title="Index">
+  <div id="content" class="content"> 
+    <!-- 开始面包屑导航 -->
+    <ol class="breadcrumb pull-right">
+      <li><a href="javascript:;">首页</a></li>
+      <li><a href="javascript:;">运营管理</a></li>
+      <li class="active">店铺保障服务</li>
+    </ol>
+    <!-- 结束面包屑导航 --> 
+    <!-- 开始页头区域 -->
+    <h1 class="page-header">店铺保障服务日志<a href="${adminRoot}contract/contract" class="btn btn-sm btn-white m-l-10"><i class="fa fa-lg fa-level-up m-r-5"></i>返回上一页</a> </h1>
+    
+    <!-- 结束页头区域 --> 
+    <!-- 开始布局行 -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-inverse" data-sortable-id="form-stuff-1">
+          <div class="panel-heading">
+            <div class="panel-heading-btn"><a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"> <i class="fa fa-expand"></i></a><a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a></div>
+            <h4 class="panel-title">保障服务基本信息</h4>
+          </div>
+          <div class="panel-body">
+            <input type="hidden" id="itemId" value="${contractVo.ctItemid}" />
+            <input type="hidden" id="storeId" value="${contractVo.ctStoreid}" />
+            <form class="form-horizontal form-bordered" data-parsley-validate="true" method="POST">
+              <div class="form-group">
+                <label for="siteName" class="control-label col-lg-2 col-md-3 col-sm-3"> 店铺名称  &nbsp;: </label>
+                <div class="col-lg-6 col-md-7 col-sm-8"><span style="display: inline-block; margin-top: 8px;">${contractVo.ctStorename}</span></div>
+              </div>
+              <div class="form-group">
+                <label for="siteName" class="control-label col-lg-2 col-md-3 col-sm-3"> 项目名称  &nbsp;: </label>
+                <div class="col-lg-6 col-md-7 col-sm-8"><span style="display: inline-block; margin-top: 8px;">${contractVo.ctItemname}</span></div>
+              </div>
+              <div class="form-group">
+                <label for="siteName" class="control-label col-lg-2 col-md-3 col-sm-3"> 保证金余额  &nbsp;: </label>
+                <div class="col-lg-6 col-md-7 col-sm-8"><span style="display: inline-block; margin-top: 8px;">${contractVo.ctCost}</span></div>
+              </div>
+              <div class="form-group">
+                <label for="siteName" class="control-label col-lg-2 col-md-3 col-sm-3"> 状态  &nbsp;: </label>
+                <div class="col-lg-6 col-md-7 col-sm-8"><span style="display: inline-block; margin-top: 8px;">${contractVo.ctState}</span></div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-inverse" data-sortable-id="form-stuff-1">
+          <div class="panel-heading">
+            <div class="panel-heading-btn"><a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"> <i class="fa fa-expand"></i></a><a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a></div>
+            <h4 class="panel-title">保障服务全部日志</h4>
+          </div>
+          <div class="panel-body">
+            <div id="dtGridContainer" class="dt-grid-container"></div>
+            <div id="dtGridToolBarContainer" class="dt-grid-toolbar-container"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 结束布局行 --> 
+  </div>
+  <script src="${toolkitRoot}bootstrap-wizard/js/bwizard.js"></script> 
+  <script src="${toolkitRoot}bootstrap-switch/bootstrap-switch.min.js"></script> 
+  <script src="${publicRoot}toolkit/fileupload/jquery.fileupload.js"></script> 
+  <script src="${jsRoot}contract/contract_detail.js"></script> 
+</@c.html>

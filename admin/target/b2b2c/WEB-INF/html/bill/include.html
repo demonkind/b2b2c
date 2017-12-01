@@ -1,0 +1,31 @@
+<!-- 开始面包屑导航 -->
+
+<ol class="breadcrumb pull-right">
+  <li class="">首页</li>
+  <#list adminMenuState.breadCrumbList as breadCrumb>
+  <li class="">${breadCrumb}</li>
+  </#list>
+</ol>
+<!-- 结束面包屑导航 --> 
+<!-- 开始页头区域 -->
+<h1 class="page-header"> 账单详情 <small>查看账单详细信息</small> </h1>
+<!-- 结束页头区域 --> 
+
+<!-- begin invoice -->
+<div class="invoice">
+  <div class="invoice-company"> <span class="pull-right hidden-print"> 
+    <!--<a href="javascript:;" class="btn btn-sm btn-success m-b-10"><i class="fa fa-download m-r-5"></i> Export as PDF</a>--> 
+    <a href="${adminRoot}bill/print/${bill.billId}" class="btn btn-sm btn-success m-b-10" target="_blank"><i class="fa fa-print m-r-5"></i> 打印</a> </span> 账单编号&nbsp;:&nbsp;${bill.billSn!''}</div>
+  <div class="invoice-header">
+    <div class="invoice-from">
+      <address class="m-t-5 m-b-5">
+      商家&nbsp;:&nbsp;${bill.storeName!''}<br />
+      起止日期&nbsp;:&nbsp;${bill.startDate!''} 至 ${bill.endDate!''}<br/>
+      出账日期&nbsp;:&nbsp;${bill.createDate!''}<br/>
+      平台应结金额（元）&nbsp;:&nbsp;${bill.billAmount?string('0.00')} = ${bill.ordersAmount?string('0.00')} (订单金额) - ${bill.commissionAmount?string('0.00')} (收取佣金) - ${bill.refundAmount?string('0.00')} (退单金额) + ${bill.refundCommissionAmount?string('0.00')} (退还佣金)<br/>
+      结算状态&nbsp;:&nbsp;${bill.billStateName}
+      </address>
+    </div>
+  </div>
+</div>
+<!-- end invoice -->

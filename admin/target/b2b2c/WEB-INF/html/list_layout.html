@@ -1,0 +1,87 @@
+<#macro html title subTitle alertList addBtn searchHint tipUrl="" tipTip="" tipTitle="" tipCount="" topBtn="">
+<div id="content" class="content">
+
+    <!-- 开始面包屑导航 -->
+    <ol class="breadcrumb pull-right">
+      <li class="">首页</li>
+        <#list adminMenuState.breadCrumbList as breadCrumb>
+      <li class="">${breadCrumb}</li>
+            </#list>
+    </ol>
+    <!-- 结束面包屑导航 -->
+
+    <!-- 开始页头区域 -->
+    <h1 class="page-header">${title}<small class="m-l-10">${subTitle}</small> </h1>
+    <!-- 结束页头区域 -->
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-inverse" data-sortable-id="form-stuff-1">
+                <div class="panel-heading">
+                    <div class="panel-heading-btn"><a href="#listTip" class="btn btn-xs btn-icon btn-circle btn-info" role="button" data-toggle="collapse" aria-expanded="true" title="操作提示"><i class="fa fa-lightbulb-o"></i></a><a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"> <i class="fa fa-expand"></i></a><a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a> </div>
+                    <h4 class="panel-title">
+                        ${title}
+                        <#if tipUrl != "" && tipCount != "0">
+                        <span style="display: inline-block; margin-left: 20px;">
+                            <a href="${adminRoot}${tipUrl}"
+                               class="btn btn-xs btn-white"
+                               data-tip="tooltip"
+                               data-placement="auto"
+                               data-original-title="${tipTip}">${tipTitle}
+                                <span class="badge badge-success m-l-10">${tipCount}</span>
+                            </a>
+                        </span>
+                        </#if>
+                    </h4>
+                </div>
+                <div class="panel-body">
+                    <!-- 开始操作提示 -->
+
+                    <#if alertList?has_content>
+
+                    <div class="alert alert-info collapse in" role="tabpanel" id="listTip">
+                      <h4>操作提示</h4>
+                        <ul>
+                            <#list alertList as alert>
+                                <#noescape>
+                                    <li>${alert}</li>
+                                </#noescape>
+                            </#list>
+                        </ul>
+                    </div>
+                    </#if>
+                    <!-- 结束操作提示 -->
+                    <!-- 开始列表相关操作 -->
+                    <div class="clearfix">
+                      <div class="col-md-4 p-l-0">
+                          <#if addBtn>
+                              <a id="returnParent" href="javascript:;" class="btn btn-white pull-left m-r-5 m-b-5 hidden"> <i class="fa fa-lg fa-level-up m-r-5"></i>返回上级</a>
+                              <a href="#addModal" class="btn btn-success pull-left" data-toggle="modal"> <i class="fa fa-lg fa-plus m-r-10"></i> 新增数据 </a>
+                          </#if>
+                          <#if topBtn != "">
+                              <#noescape>
+                              ${topBtn}
+                              </#noescape>
+                          </#if>
+                      </div>
+                      <div class="col-md-8 p-r-0">
+                          <#if searchHint?? && searchHint != "">
+                        <form class="search-dtGrid-form" action="">
+                          <div class="form-group">
+                            <input type="text" id="keyword" name="keyword" class="form-control" placeholder="${searchHint}" autocomplete="off"/>
+                            <a href="javascript:;" id="customSearch" class="btn btn-search"> <i class="fa fa-search"></i> </a> </div>
+                        </form>
+                          </#if>
+                      </div>
+                    </div>
+                    <!-- 结束列表相关操作 -->
+                    <div id="dtGridContainer" class="dt-grid-container"></div>
+                    <div id="dtGridToolBarContainer" class="dt-grid-toolbar-container"></div>
+                    <#nested/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</#macro>
+

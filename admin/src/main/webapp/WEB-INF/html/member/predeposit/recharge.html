@@ -1,0 +1,72 @@
+<#import "/layout.html" as c>
+  <#import "/list_layout.html" as list>
+    <#assign alertList = []/>
+    <#assign alertList = alertList + ["如果系统平台已确认收到充值款，但系统的充值单还是未支付状态，可以点击审核按钮手动更改成已支付状态"]/>
+    <@c.html title="Index">
+    <!-- ================== 开始页面级CSS调用 ================== -->
+    <link href="${toolkitRoot}bootstrap-wizard/css/bwizard.min.css" rel="stylesheet"/>
+    <!-- 日历控件 -->
+    <link href="${toolkitRoot}/jquery.dtGrid/dependents/datePicker/skin/WdatePicker.css" rel="stylesheet"/>
+    <link href="${toolkitRoot}/jquery.dtGrid/dependents/datePicker/skin/default/datepicker.css" rel="stylesheet"/>
+    <!-- ================== 结束页面级CSS调用 ================== -->
+    <@list.html title="充值列表" subTitle="商城注册会员账户预存款充值管理" alertList=alertList addBtn=false searchHint="请输入会员名称">
+    <!-- 开始编辑会员模态窗口 -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title"> 充值审核 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsEdit" aria-expanded="true" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+          </div>
+          <div class="modal-body">
+            <ul class="text-info p-b-15 p-l-15 collapse in" role="tabpanel" id="OperationTipsEdit">
+              <li class="m-b-3">手动审核预存款充值信息是否充值成功，审核后将自动增加相应会员的预存款金额且该充值记录将不可再进行修改，请慎重操作。</li>
+            </ul>
+            <form id="editForm" autocomplete="off" action="${adminRoot}predeposit/recharge/audit" method="post" data-parsley-validate="true">
+              <div class="form-group">
+                <label class="control-label"> 充值单号：</label>
+                <input type="text" id="rechargeSn" name="rechargeSn" class="form-control" disabled/>
+                <input type="hidden" id="rechargeId" name="rechargeId" class="form-control"/>
+              </div>
+              <div class="form-group">
+                <label class="control-label"> 充值金额：</label>
+                <input type="text" id="amount" name="amount" class="form-control" disabled/>
+              </div>
+              <div class="form-group">
+                <label class="control-label"> 会员名称：</label>
+                <input type="text" id="memberName" name="memberName" class="form-control" disabled/>
+              </div>
+              <div class="form-group">
+                <label class="control-label"> 付款时间<i class="f-s-14 text-danger">*</i>: </label>
+                <input type="text" id="payTime" name="payTime" class="form-control" data-parsley-required="true" data-parsley-required-message="请选择付款时间"/>
+              </div>
+              <div class="form-group">
+                <label class="control-label">付款方式<i class="f-s-14 text-danger">*</i>：</label>
+                <select class="form-control selectpicker" id="paymentCodeSelect" name="paymentCode" data-parsley-required="true" data-parsley-required-message="请选择付款方式">
+                  <option value="">- 请选择 -</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="control-label"> 第三方支付平台交易号<i class="f-s-14 text-danger">*</i>：</label>
+                <input type="text" id="tradeSn" name="tradeSn" class="form-control" data-parsley-required="true" data-parsley-required-message="请填写交易号"/>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-ajax-submit-target="editForm" nc-ajax-submit>确认支付完成</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 结束编辑会员模态窗口 -->
+  </@list.html>
+  <!-- ================== 开始页面级JavaScrip调用 ================== -->
+  <script src="${toolkitRoot}bootstrap-wizard/js/bwizard.js"></script>
+  <!-- 表单checkbox项 -->
+  <script src="${toolkitRoot}bootstrap-switch/bootstrap-switch.min.js"></script>
+  <!-- 日历控件 -->
+  <script src="${toolkitRoot}/jquery.dtGrid/dependents/datePicker/WdatePicker.js" defer="defer"></script>
+
+  <script src="${jsRoot}member/predepositrecharge.handle.js"></script>
+  <!-- ================== 结束页面级JavaScrip调用 ================== -->
+</@c.html>

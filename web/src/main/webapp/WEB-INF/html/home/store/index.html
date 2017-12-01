@@ -1,0 +1,103 @@
+<#import "/home/layout.html" as c>
+<@c.html title="${storeInfo.storeName} - ${config.siteName}" keywords="${storeInfo.storeSeoKeywords}" description="${storeInfo.storeSeoDescription}" >
+<#include "store_header_widget.html">
+  <div class="wrapper mt10">
+    <div class="ncs-main"> 
+      <!-- 幻灯 -->
+      <div class="focus">
+        <ul id="storeSlide">
+          <#list storeSlideList as storeSlide>
+          <#if storeSlide.image??>
+          <li><img src="${storeSlide.imageUrl}" alt=""/></li>
+          </#if>
+          </#list>
+        </ul>
+      </div>
+      <!-- 幻灯 --> 
+      <!-- 推荐商品 -->
+      <div class="ncs-main-container">
+        <div class="title"> <span><a class="more" href="${webRoot}store/search?storeId=${storeInfo.storeId}">更多</a></span>
+          <h4>店铺推荐</h4>
+        </div>
+        <div class="content ncs-goods-list">
+          <ul>
+            <#if commendGoodsVoList??>
+            <#list commendGoodsVoList as goodsVo>
+            <li>
+              <dl>
+                <dt> <a target="_blank" class="goods-thumb" href="${c.func.ncGoodsUrl(goodsVo.goodsId)}"> <img alt="${goodsVo.goodsName}" src="${c.func.ncImage(goodsVo.imageSrc, 180, 180)}" alt=""> </a>
+                  <#if goodsVo.goodsImageList??>
+                    <ul class="goods-thumb-scroll-show">
+                      <#list goodsVo.goodsImageList as goodsImage>
+                        <li class="<#if goodsImage?index == 0>selected</#if>"><a href="javascript:void(0)"><img src="${c.func.ncImage(goodsImage.imageSrc, 18, 18)}" alt=""/></a></li>
+                      </#list>
+                    </ul>
+                  </#if>
+                </dt>
+                <dd class="goods-name"><a target="_blank" title="${goodsVo.goodsName}" href="${c.func.ncGoodsUrl(goodsVo.goodsId)}">${goodsVo.goodsName}</a></dd>
+                <dd class="goods-price">¥<em>${goodsVo.goodsPrice?string["0.00"]}</em></dd>
+              </dl>
+            </li>
+            </#list>
+            </#if>
+          </ul>
+        </div>
+      </div>
+      <!-- 推荐商品 --> 
+      <!-- 新品 -->
+      <div class="ncs-main-container">
+        <div class="title"><span><a class="more" href="${webRoot}store/search?storeId=${storeInfo.storeId}">更多</a></span>
+          <h4>最新上架</h4>
+        </div>
+        <div class="content ncs-goods-list">
+          <ul>
+            <#if newGoodsVoList??>
+            <#list newGoodsVoList as goodsVo>
+            <li>
+              <dl>
+                <dt> <a target="_blank" class="goods-thumb" href="${c.func.ncGoodsUrl(goodsVo.goodsId)}"> <img alt="${goodsVo.goodsName}" src="${c.func.ncImage(goodsVo.imageSrc, 180, 180)}" alt=""> </a>
+                  <#if goodsVo.goodsImageList??>
+                  <div class="goods-thumb-scroll-show">
+                    <ul>
+                      <#list goodsVo.goodsImageList as goodsImage>
+                        <li class="<#if goodsImage?index == 0>selected</#if>"><a href="javascript:void(0)"><img src="${c.func.ncImage(goodsImage.imageSrc, 18, 18)}" alt=""/></a></li>
+                      </#list>
+                    </ul>
+                    </div>
+                  </#if>
+                </dt>
+                <dd class="goods-name"><a target="_blank" title="${goodsVo.goodsName}" href="${c.func.ncGoodsUrl(goodsVo.goodsId)}">${goodsVo.goodsName}</a></dd>
+                <dd class="goods-price">¥<em>${goodsVo.goodsPrice?string["0.00"]}</em></dd>
+              </dl>
+            </li>
+            </#list>
+            </#if>
+          </ul>
+        </div>
+      </div>
+      <!-- 新品 --> 
+    </div>
+    <div class="ncs-sidebar"> <#include "store_goods_label_widget.html">
+      <#include "store_rank_list_widget.html"> </div>
+  </div>
+  <link href="${publicRoot}toolkit/bxslider/jquery.bxslider.css" rel="stylesheet" />
+  <script src="${publicRoot}toolkit/bxslider/jquery.bxslider.js"></script> 
+  <script>
+  $(function(){
+    $('#storeSlide').bxSlider({
+        auto: true,
+        infiniteLoop: true,
+        autoHover: true,
+        hideHoverControls:true
+    });
+  
+            // 图片切换效果
+            $('.goods-thumb-scroll-show').find('a').mouseover(function(){
+                $(this).parents('li:first').addClass('selected').siblings().removeClass('selected');
+                var _src = $(this).find('img').attr('src');
+                _src = _src.replace('_18x18.', '_180x180.');
+                $(this).parents('dt').find('.goods-thumb').find('img').attr('src', _src);
+            });
+        });
+</script> 
+</@c.html>

@@ -1,0 +1,110 @@
+<#import "/member/layout.html" as c>
+<@c.html title="会员基本信息">
+  <div class="wrap">
+    <div class="tabmenu">
+      <ul class="tab pngFix">
+        <li class="active"><a href="javascript:;">基本信息</a></li>
+        <li><a href="${memberRoot}information/avatar">更换头像</a></li>
+      </ul>
+    </div>
+    <div class="ncm-default-form">
+      <form method="post" id="infoForm" action="">
+        <dl>
+          <dt>用户名称：</dt>
+          <dd>
+              <span class="w400">
+                <#if member.modifyNum == 0>
+                  <input type="text" name="memberName" value="${member.memberName!''}" />
+                <#else>
+                    ${member.memberName!''}
+                  <input type="hidden" name="memberName" value="${member.memberName!''}" />
+                </#if>
+              </span>
+          </dd>
+        </dl>
+        <dl>
+          <dt>邮箱：</dt>
+          <dd><span class="w400">${member.emailEncrypt!""}
+            &nbsp;&nbsp;<a href="${memberRoot}security/email"><#if member.emailIsBind == 1>更换邮箱<#else>绑定邮箱</#if></a>
+          </span>
+          </dd>
+        </dl>
+        <dl>
+          <dt>手机号：</dt>
+          <dd><span class="w400">
+            <#if member.mobile?? && member.mobile?length gt 0>
+              ${member.mobile?substring(0,3)}****${member.mobile?substring(8,11)}
+            </#if>
+            &nbsp;&nbsp;<a href="${memberRoot}security/mobile"><#if member.mobileIsBind == 1>更换手机<#else>绑定手机</#if></a>
+          </span>
+          </dd>
+        </dl>
+        <dl>
+          <dt>真实姓名：</dt>
+          <dd><span class="w400">
+            <input type="text" class="text" maxlength="20" id="trueName" name="trueName" value="${member.trueName!''}" />
+            </span>
+          </dd>
+        </dl>
+        <dl>
+          <dt>性别：</dt>
+          <dd>
+            <span class="w400">
+              <label><input type="radio" name="memberSex" value="0" <#if member.memberSex == 0>checked="true"</#if>/>保密</label>
+              &nbsp;&nbsp;
+              <label><input type="radio" name="memberSex" value="1" <#if member.memberSex == 1>checked="true"</#if>/>男</label>
+              &nbsp;&nbsp;
+              <label><input type="radio" name="memberSex" value="2" <#if member.memberSex == 2>checked="true"</#if>/>女</label>
+            </span>
+          </dd>
+        </dl>
+        <dl>
+          <dt>生日：</dt>
+          <dd><span class="w400">
+            <input type="text" class="text" id="birthday" name="birthday" value='${(member.birthday?string("yyyy-MM-dd"))!""}' readonly/>
+            </span>
+          </dd>
+        </dl>
+        <dl>
+          <dt>所在地区：</dt>
+          <dd>
+            <span class="w400">
+                <div id="divAddress" data-area-text="${member.addressAreaInfo!''}" data-area-id="${member.addressAreaId!0}">
+                  <input type="hidden" value="${member.addressProvinceId!0}" name="memberAddress_1" data-deep="1">
+                  <input type="hidden" value="${member.addressCityId!0}" name="memberAddress_2" data-deep="2">
+                </div>
+            </span>
+          </dd>
+        </dl>
+        <dl>
+          <dt>QQ：</dt>
+          <dd>
+            <span class="w400">
+              <input type="text" class="text" id="memberQQ" name="memberQQ" value="${member.memberQQ!''}" />
+            </span>
+          </dd>
+        </dl>
+        <dl>
+          <dt>阿里旺旺：</dt>
+          <dd><span class="w400">
+            <input name="memberWW" type="text" class="text" id="memberWW" value="${member.memberWW!''}" />
+            </span>
+          </dd>
+        </dl>
+        <dl class="bottom">
+          <dt></dt>
+          <dd>
+            <label class="submit-border">
+              <input type="submit" class="submit" id="submitBtn" value="保存修改" />
+            </label>
+          </dd>
+        </dl>
+      </form>
+    </div>
+  </div>
+  <!-- 日历控件 -->
+  <link href="${toolkitRoot}datePicker/skin/WdatePicker.css" rel="stylesheet"/>
+  <link href="${toolkitRoot}datePicker/skin/default/datepicker.css" rel="stylesheet"/>
+  <script type="text/javascript" src="${toolkitRoot}datePicker/WdatePicker.js" defer="defer"></script>
+  <script type="text/javascript" src="${jsRoot}member/information_base.js"></script>
+</@c.html>

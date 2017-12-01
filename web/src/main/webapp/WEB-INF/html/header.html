@@ -1,0 +1,81 @@
+<#import "./category.html" as category>
+<#macro html>
+<div class="header-wrap">
+  <header class="public-head-layout wrapper">
+    <h1 class="site-logo"><a href="${webRoot}"><img src="${config.siteLogoUrl}" alt=""/></a></h1>
+    <div class="head-search-layout">
+      <div class="head-search-bar" id="head-search-bar">
+        <!--<div class="head-search-select" id="hdSearchTab" data-type="1" > <a href="javascript:;" data-type="1" >商品</a > <a href="javascript:;" data-type="2" >店铺</a > <i ></i > </div>-->
+        <form action="${webRoot}search" method="get" class="search-form" id="top_search_form">
+          <input name="searchType" id="searchType" value="1" type="hidden">
+          <input name="keyword" id="keyword" type="text" class="input-text m-l-5" value="<#if keyword??>${keyword}</#if>" maxlength="60" placeholder=" 请输入您要搜索的商品关键字"  autocomplete="off" />
+          <input type="submit" id="button" value="搜索" class="input-submit">
+        </form>
+      </div>
+      <div class="keyword">热门搜索：
+        <ul>
+          <#list defaultSearch as searchText>
+          <li><a href="${webRoot}search?searchType=1&keyword=${searchText}">${searchText}</a></li>
+          </#list>
+        </ul>
+      </div>
+    </div>
+    <!-- S 顶部购物车-->
+    <div class="head-user-menu" >
+      <dl id="topMyCart" >
+        <div class="addcart-goods-num" data-red-point style="display: none;"></div >
+        <dt > <span class="ico" ></span >我的购物车<i class="arrow" ></i ></dt >
+        <dd >
+          <div class="sub-title" >
+            <h4 >最新加入的商品</h4 >
+          </div >
+          <div class="incart-goods-box">
+            <div class="incart-goods" data-cart-goods-list> <img class="loading" src="${imgRoot}/loading.gif" /> </div >
+          </div >
+          <div class="checkout" data-goods-price></div>
+        </dd >
+      </dl >
+    </div >
+    <!-- E 顶部购物车--> 
+  </header>
+</div>
+<nav class="public-nav-layout">
+  <div class="wrapper">
+    <div class="all-category">
+      <@category.html />
+    </div>
+    <ul class="site-menu">
+      <li><a href="${webRoot}" class="current">首页</a></li>
+      <li><a href="${webRoot}brand">品牌</a></li>
+      <li><a href="${webRoot}activity/activityList?activityId=1">斐讯0元购</a></li>
+      <li><a href="${webRoot}activity/activityList?activityId=2">预售</a></li>
+      <#if navList?exists>
+      <#list navList.get("body") as list>
+      <li><a href="${list.url}" target="${(list.openType == 1)?string('_blank','_self')}">${list.title}</a></li>
+      </#list>
+      </#if>
+    </ul>
+    <div class="mobil-mall-ad"><img src="${imgRoot}top_app_c2hvcG5j.gif"/></div>
+  </div>
+</nav>
+<#if crumbsList?? && crumbsList.size() gt 0>
+<div class="nch-breadcrumb-layout">
+  <div class="nch-breadcrumb wrapper"><i class="icon-home"></i> <#list crumbsList as crumbs>
+    <#if crumbs?has_next> <span><a href="${crumbs.url}">${crumbs.name}</a></span><span class="arrow">></span> <#else> <span>${crumbs.name}</span> </#if>
+    </#list> </div>
+</div>
+</#if>
+<script>
+$(function(){
+    //商品搜索提示
+    $("#keyword").autocomplete({
+        source: ncGlobal.webRoot + "search/suggest.json",
+        select: function(ev, ui) {
+            $("#keyword").val(ui.item.label);
+            $("#top_search_form").submit();
+        },
+        delay: 500
+    });
+});
+</script>
+</#macro>

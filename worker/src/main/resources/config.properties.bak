@@ -1,0 +1,12 @@
+#cache
+cacheOpen=true
+emayUri=http://hprpt2.eucp.b2m.cn:8080/sdk/SDKService?wsdl
+emaySoftwareSerialNo=6SDK-EMY-6688-JDVMM
+emayKey=419559
+emailHost=smtp@shopnc.cn
+emailPort=25
+emailUsername=service05@shopnc.cn
+emailPassword=******
+emailFrom=shopnc@shopnc.cn
+
+

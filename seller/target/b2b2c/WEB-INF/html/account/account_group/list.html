@@ -1,0 +1,38 @@
+<#import "/layout/seller_layout.html" as c>
+<@c.html title="Index">
+  <div class="top-btn-layout"> <a href="${sellerRoot}account_group/add" class="btn btn-sm btn-success" title="新增账户权限组"> <i class="icon icon-plus"></i> 新增账户权限组 </a> </div>
+  <div class="alert mt15 mb5"><strong>操作提示：</strong>
+    <ul>
+      <li>根据不同的权限建立账号组</li>
+    </ul>
+  </div>
+  <table class="ncsc-default-table">
+    <thead>
+      <tr>
+        <th class="w30"></th>
+        <th class="tl">账户权限组</th>
+        <th class="w150">操作</th>
+      </tr>
+    </thead>
+    <!--amF2YV9zZWxsZXIvYWNjb3VudC9hY2NvdW50X2dyb3VwL2xpc3QgYnkgc2hvcG5jLm5ldA==-->
+    <tbody>
+    <#if sellerGroupList.size() gt 0>
+    <#list sellerGroupList as group>
+    <tr class="bd-line">
+      <td class="tc"></td>
+      <td class="tl">${group.groupName}</td>
+      <td><a href="${sellerRoot}account_group/edit?groupId=${group.groupId}" class="btn btn-sm btn-primary m-r-10"><i class="icon icon-edit"></i>编辑</a> <a href="javascript:void(0)" onclick="javascript:list.delete(${group.groupId})" class="btn btn-sm btn-danger"><i class="icon icon-trash"></i>删除</a></td>
+    </tr>
+    </#list>
+    <#else>
+    <tr>
+      <td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span></div></td>
+    </tr>
+    </#if>
+      </tbody>
+    <!--amF2YV9zZWxsZXIvYWNjb3VudC9hY2NvdW50X2dyb3VwL2xpc3QgYnkgc2hvcG5jLm5ldA==-->
+    <tfoot>
+    </tfoot>
+  </table>
+  <script src="${jsRoot}account/account_group.js"></script> 
+</@c.html>

@@ -1,0 +1,168 @@
+<#import "/layout.html" as c />
+<#import "/list_layout.html" as list />
+<#assign alertList = []/>
+<#assign alertList = alertList + ["商户类消息模板，主要用于需要操作或有必要通知的商户类信息。"]/>
+<#assign alertList = alertList + ["消息可以以三种形式发送，站内信、短信、邮箱。站内信为必须发送选项，短信、邮箱为可选择发送选项，管理员可以自由设定"]/>
+<#assign alertList = alertList + ["在编辑消息模板时不能添加新的变量函数，但可以修改变量函数的位置。"]/>
+<@c.html title="Index">
+
+  <@list.html title="店铺系统消息" subTitle="店铺系统消息对应新增及编辑" alertList=alertList addBtn=false searchHint="请输入模板名称作为关键词进行搜索">
+</@list.html>
+<!-- 结束列表相关操作 -->
+  <script src="${toolkitRoot}ueditor/ueditor.config.js"></script>
+  <script src="${toolkitRoot}ueditor/ueditor.all.js"></script>
+  <script src="${toolkitRoot}ueditor/lang/zh-cn/zh-cn.js"></script>
+  <script src="${toolkitRoot}bootstrap-switch/bootstrap-switch.min.js"></script>
+<script src="${jsRoot}setting/message_template/store_list.js"></script>
+</@c.html>
+
+<!-- 开始编辑站内信消息模态窗口 -->
+<div class="modal fade" id="editModalNotice" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title"> 编辑系统消息 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsNotice" aria-expanded="false" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+      </div>
+      <div class="modal-body">
+        <!-- 开始操作提示 -->
+        <ul class="collapse in text-info m-b-20 p-l-15" role="tabpanel" id="OperationTipsNotice">
+          <li class="m-b-10">插入的变量必需包括花括号“{}”，当应用范围不支持该变量时，该变量将不会在前台显示(变量后边的分隔符也不会显示)，留空为系统默认设置。</li>
+          <li class="m-b-10">变量函数说明：站点名称 {$siteName} | 时间点 {$time} | 验证码 {$verifyCode}</li>
+        </ul>
+        <!-- 结束操作提示 -->
+        <!-- 开始系统消息设置模块 -->
+        <form action="${adminRoot}message_template/common/notice/update.json" id="editFormNotice" method="post" autocomplete="off" data-parsley-validate="true">
+          <div class="form-group">
+            <label class="control-label"> 模板编号 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+            <input type="text" name="tplCode" id="tplCodeNotice" class="form-control"  value="" readonly>
+          </div>
+          <div class="form-group">
+            <label class="control-label"> 模板名称 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+            <input type="text" name="tplName" id="tplNameNotice" class="form-control" readonly />
+          </div>
+          <div class="form-group">
+            <label class="control-label"> 模板内容 <i class="f-s-14 text-danger">*</i>&nbsp;:</label>
+                            <textarea name="noticeContent" id="noticeContent" class="form-control"
+                                      data-parsley-required="true"
+                                      placeholder="" rows="5"></textarea>
+          </div>
+        </form>
+        <!-- 结束系统消息设置模块--> </div>
+      <div class="modal-footer"> <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a> <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-ajax-submit-target="editFormNotice" nc-ajax-submit>确认提交</a> </div>
+    </div>
+  </div>
+</div>
+<!-- 结束编辑站内信消息模态窗口 -->
+
+<!-- 开始编辑短信消息模态窗口 -->
+<div class="modal fade" id="editModalSms" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title"> 编辑系统消息 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTips" aria-expanded="false" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+      </div>
+      <div class="modal-body">
+        <!-- 开始操作提示 -->
+        <ul class="collapse in text-info p-b-10 p-l-15" role="tabpanel" id="OperationTips">
+          <li class="m-b-10">插入的变量必需包括花括号“{}”，当应用范围不支持该变量时，该变量将不会在前台显示(变量后边的分隔符也不会显示)，留空为系统默认设置。</li>
+          <li class="m-b-10">变量函数说明：站点名称 {$siteName} | 时间点 {$time} | 验证码 {$verifyCode}</li>
+        </ul>
+        <!-- 结束操作提示 -->
+        <!-- 开始系统消息设置模块 -->
+        <form action="${adminRoot}message_template/common/sms/update.json" id="editFormSms" method="post" autocomplete="off" data-parsley-validate="true">
+          <div class="form-group">
+            <label class="control-label"> 模板编号 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+            <input type="text" name="tplCode" id="tplCodeSms" class="form-control"  value="" readonly>
+          </div>
+          <div class="form-group">
+            <label class="control-label"> 模板名称 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+            <input type="text" name="tplName" id="tplNameSms" class="form-control" readonly />
+          </div>
+          <div class="form-group">
+            <label class="control-label"> 是否发送短信  &nbsp;: </label>
+            <div>
+              <input type="checkbox" id="smsState" autocomplete="off"
+                     data-input-name="smsState"
+                     data-size="small"
+                     data-on-color="primary"
+                     data-on-text="是"
+                     data-off-text="否"
+                     data-input-true="1"
+                     data-input-false="0" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label"> 短信模板内容 <i class="f-s-14 text-danger">*</i>&nbsp;:</label>
+                        <textarea name="smsContent" id="smsContent" class="form-control"
+                                  data-parsley-required="true"
+                                  placeholder="" rows="5"></textarea>
+          </div>
+        </form>
+        <!-- 结束系统消息设置模块--> </div>
+      <div class="modal-footer"> <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a> <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-ajax-submit-target="editFormSms" nc-ajax-submit>确认提交</a> </div>
+    </div>
+  </div>
+</div>
+<!-- 结束编辑短信消息模态窗口 -->
+
+<!-- 开始编辑邮件系统消息模态窗口 -->
+<div class="modal fade" id="editModalEmail" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title"> 编辑系统消息 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsEmail" aria-expanded="false" title="操作提示"> <i class="fa fa-question-circle"></i> &nbsp;提示 </a> </h4>
+      </div>
+      <div class="modal-body">
+        <!-- 开始操作提示 -->
+        <ul class="text-info p-b-15 p-l-15 collapse" role="tabpanel" id="OperationTipsEmail">
+          <li class="m-b-3">插入的变量必需包括花括号“{}”，当应用范围不支持该变量时，该变量将不会在前台显示(变量后边的分隔符也不会显示)，留空为系统默认设置。</li>
+          <li class="m-b-10">变量函数说明：站点名称 {$siteName} | 时间点 {$time} | 验证码 {$verifyCode}</li>
+        </ul>
+        <!-- 结束操作提示 -->
+        <!-- 开始系统消息设置模块 -->
+        <form class="form-horizontal form-bordered p-0" action="${adminRoot}message_template/common/email/update.json" id="editFormEmail" method="post" autocomplete="off" data-parsley-validate="true">
+          <div class="form-group">
+            <label class="control-label col-md-2 col-sm-3"> 模板编号 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+            <div class="col-md-9 col-sm-8">
+              <input type="text" name="tplCode" id="tplCodeEmail" class="form-control"  value="" readonly>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-2 col-sm-3"> 模板名称 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+            <div class="col-md-9 col-sm-8">
+              <input type="text" name="tplName" id="tplNameEmail" class="form-control" readonly />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-2 col-sm-3"> 是否发送邮件 &nbsp;: </label>
+            <div class="col-md-9 col-sm-8">
+              <input type="checkbox" id="emailState" autocomplete="off"
+                     data-input-name="emailState"
+                     data-size="small"
+                     data-on-color="primary"
+                     data-on-text="是"
+                     data-off-text="否"
+                     data-input-true="1"
+                     data-input-false="0" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-2 col-sm-3"> 邮件模板标题 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+            <div class="col-md-9 col-sm-8">
+              <input type="text" autocomplete="off" name="emailTitle" id="emailTitle" class="form-control" data-tip="tooltip" data-placement="auto" data-original-title="必填项，请填写邮件标题。"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-2 col-sm-3"> 邮件模板内容 <i class="f-s-14 text-danger">*</i>&nbsp;:</label>
+            <div class="col-md-9 col-sm-8"><script id="contentEdit" style="width: 100%; height: 200px;"></script></div>
+          </div>
+        </form>
+        <!-- 结束系统消息设置模块--> </div>
+      <div class="modal-footer"> <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a> <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-ajax-submit-target="editFormEmail" nc-ajax-submit>确认提交</a> </div>
+    </div>
+  </div>
+</div>
+<!-- 结束编辑邮件系统消息模态窗口 -->

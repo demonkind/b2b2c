@@ -1,0 +1,76 @@
+<#import "/layout.html" as c>
+<@c.html title="Index"> 
+  
+  <!-- 开始页面内容 -->
+  <div id="content" class="content"> 
+    <!-- 开始面包屑导航 -->
+    <ol class="breadcrumb pull-right">
+      <li> <a href="javascript:;">首页</a> </li>
+      <li>积分管理</li>
+      <li class="active">积分增减</li>
+    </ol>
+    <!-- 结束面包屑导航 --> 
+    <!-- 开始页头区域 -->
+    <h1 class="page-header"> 积分增减 <small>商城会员积分手动增减</small> </h1>
+    <!-- 结束页头区域 --> 
+    <!-- 开始布局行 -->
+    <div class="row">
+      <div class="col-md-12"> 
+        <!-- 积分增减模块 -->
+        <div class="panel panel-inverse">
+          <div class="panel-heading">
+            <div class="panel-heading-btn"> <a href="#listTip" class="btn btn-xs btn-icon btn-circle btn-info" role="button" data-toggle="collapse" aria-expanded="true" title="操作提示"> <i class="fa fa-lightbulb-o"></i> </a> <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"> <i class="fa fa-expand"></i> </a> <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"> <i class="fa fa-minus"></i> </a> </div>
+            <h4 class="panel-title">积分增减</h4>
+          </div>
+          <div class="panel-body" > 
+            <!-- 开始操作提示 --> 
+            <!-- 结束操作提示 -->
+            <form class="form-horizontal form-bordered" name="addForm" id="addForm" method="POST" action="${adminRoot}points/addpoints" data-parsley-excluded="input[type=button], input[type=submit], input[type=reset], [disabled]">
+              <div class="form-group">
+                <label for="memberName" class="control-label col-lg-2 col-md-3 col-sm-3">会员名称：</label>
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                  <input type="text" id="memberName" name="memberName" value="" class="form-control" data-tip="tooltip" data-parsley-required="true"/>
+                </div>
+              </div>
+              <div class="form-group" style="display: none;" id="memberInfoModule">
+                <label class="control-label col-lg-2 col-md-3 col-sm-3">符合条件的会员：</label>
+                <div class="col-lg-4 col-md-6 col-sm-6" style="padding-top: 20px;"> <span id="memberInfo"></span>
+                  <input type="hidden" id="memberId" name="memberId" value="" class="form-control" data-tip="tooltip" data-parsley-required="true" data-parsley-min="1" data-parsley-min-message="会员信息错误"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="operateType" class="control-label col-lg-2 col-md-3 col-sm-3">增减类型：</label>
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                  <select name="operateType" id="operateType" data-parsley-required="true" class="selectpicker form-control">
+                    <option value="1" selected>增加</option>
+                    <option value="2">减少</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="points" class="control-label col-lg-2 col-md-3 col-sm-3">积分值：</label>
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                  <input type="text" id="points" name="points" class="form-control" data-tip="tooltip" data-parsley-required="true" data-parsley-min="1"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="description" class="control-label col-lg-2 col-md-3 col-sm-3">描述：</label>
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                  <textarea id="description" name="description" class="form-control" data-parsley-required="true"></textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-lg-2 col-md-3 col-sm-3"></label>
+                <div class="col-lg-4 col-md-6 col-sm-6"> <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-q-submit-target="addForm" nc-q-submit>提交设置</a> </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- 结束设置模块--> </div>
+    </div>
+    <!-- 结束布局行 --> </div>
+  <!-- 结束页面内容 --> 
+  <!-- ================== 开始页面级JavaScrip调用 ================== --> 
+  <script src="${jsRoot}member/addpoints.handle.js"></script> 
+  <!-- ================== 结束页面级JavaScrip调用 ================== --> 
+</@c.html>

@@ -1,0 +1,48 @@
+<#import "../../func.html" as funcList>
+<#import "/layout/seller_layout.html" as c>
+<@c.html title="Index">
+  <div class="ncsc-form-default" style="overflow:hidden;"><#list contractVoList as entity>
+      <div style="float: left; width: 50%;">
+        <div style="border: 1px solid #f5f5f5;background: none repeat scroll 0 0 #f5f5f5; margin: 20px 20px 0px 0px; height: 60px; padding: 30px;">
+          <div style="float: left; width: 60px; height: 60px;"> <img style="width: 60px;" src="${funcList.ncImage(entity.iconUrl,60,60)}"> </div>
+          <div class="fl m-l-15" style="width: 320px;">
+            <div style="height: 35px;"> <em style="float:left; margin-bottom: 12px;font-size: 16px;font-weight: 700;">${entity.ctItemname}</em> 
+            <#if entity.ctClosestate==1> <span style="float:right;"> 
+            <#if entity.ctAuditstate==0>
+              等待审核
+              </#if>
+              <#if entity.ctAuditstate==1>
+              审核通过，<a href="${sellerRoot}contract/paycost?itemid=${entity.ctItemid}">点击支付保证金</a> </#if>
+              <#if entity.ctAuditstate==2>
+              审核未通过，<a href="${sellerRoot}contract/detail?itemid=${entity.ctItemid}">查看详情</a> </#if>
+              <#if entity.ctAuditstate==3>
+              保证金待审核
+              </#if>
+              <#if entity.ctAuditstate==5>
+              保证金审核失败，<a href="${sellerRoot}contract/paycost?itemid=${entity.ctItemid}">重新提交</a> </#if>
+              <#if entity.ctQuitstate==1>
+              退出审核中
+              </#if>
+              <#if entity.ctQuitstate==2>
+              退出失败，<a href="${sellerRoot}contract/detail?itemid=${entity.ctItemid}">点击查看详情</a> </#if> </span> </#if> 
+            </div>
+            <div class="tl"> <#if entity.ctClosestate==0>
+              <span class="c-danger vm">永久禁止使用</span>
+              <#elseif entity.ctJoinstate==2>
+              <span class="c-success vm">已加入</span>
+              <#elseif entity.ctJoinstate==1>
+              <span class="c-info vm">申请进行中</span>
+              <#else> <a title="申请开通" class="btn btn-sm btn-primary" nc_type="applybtn" data-param="" href="javascript:;" onclick="join('${entity.ctItemid}')">申请开通</a> </#if> <a href="${sellerRoot}contract/detail?itemid=${entity.ctItemid}" class="btn btn-sm btn-white m-l-5">查看服务详情
+              <#if entity.ctClosestate==1>
+              <#if entity.ctJoinstate==2 && entity.ctQuitstate!=1> <a href="javascript:;" onclick="quit('${entity.ctItemid}')" class="btn btn-sm btn-danger m-l-5">退出</a> </#if>
+              </#if> </a> </div>
+          </div>
+        </div>
+        <div>
+          <div style="min-height: 60px; margin-right: 20px; padding: 10px; color: #9c9c9c; border: 1px solid #f5f5f5;"> ${entity.desc} </div>
+        </div>
+      </div>
+      </#list>
+  </div>
+  <script src="${jsRoot}store/contract.js"></script> 
+</@c.html>

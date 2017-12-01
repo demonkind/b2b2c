@@ -1,0 +1,113 @@
+<#import "/layout/seller_layout.html" as c>
+<@c.html title="Index">
+  <div class="alert mt15 mb5"><strong>操作提示：</strong>
+    <ul>
+      <li>下面信息可以在前台店铺相关页面展示出来。如：店铺首页、店铺商品列表页、商品详情页等等。</li>
+    </ul>
+  </div>
+  <div class="ncsc-form-default">
+    <form id="settingForm" action="${sellerRoot}store/setting/save.json" method="post">
+      <dl>
+        <dt>商家公司名称：</dt>
+        <dd>
+          <input class="text w400" type="text" name="companyName" value="${storeInfo.companyName}"/>
+          <p class="hint">请输入公司名称,长度不要超过20个字符。</p>
+        </dd>
+      </dl>
+      <dl>
+        <dt>商家所在地区：</dt>
+        <dd id="divCompanyArea" data-area-text="${storeInfo.companyArea}">
+        </dd>
+      </dl>
+      <dl>
+        <dt>店铺主营商品：</dt>
+        <dd>
+          <textarea class="textarea w400 h50" name="storeZy" >${storeInfo.storeZy}</textarea>
+          <p class="hint">请输入店铺主营商品名称关键字，请用','进行分隔，例如'男装,女装,童装，内容长度不要超过50个字符。</p>
+        </dd>
+      </dl>
+      <dl>
+        <dt>店铺logo：</dt>
+        <dd>
+          <input type="hidden" id="storeLogo" name="storeLogo" value="${storeInfo.storeLogo}">
+          <div id="divImgStoreLogo" class="m-b-10" style="width: 200px; height: 60px;"><img src="${storeInfo.storeLogoUrl}" id="imgStoreLogo" alt=""></div>
+            <div class="btn-upload-box"> <span>
+              <input id="fileStoreLogo" class="input-file" type="file" multiple name="file" hidefocus="true" autocomplete="off">
+              </span> <a class="btn btn-sm btn-default" href="javascript:;"> <i class="icon icon-picture"></i> 图片上传 </a> </div>
+            <p class="hint">建议使用宽200像素*高60像素内的GIF或PNG透明图片；点击下方"提交"按钮后生效。</p>
+         
+        </dd>
+      </dl>
+      <dl>
+        <dt>店铺条幅：</dt>
+        <dd>
+          <input type="hidden" id="storeBanner" name="storeBanner" value="${storeInfo.storeBanner}">
+          <div id="divImgStoreBanner" class="m-b-10 over_hidden" style="width: 672px; height: 70px;"><img src="${storeInfo.storeBannerUrl}" id="imgStoreBanner" alt=""></div>
+          
+            <div class="btn-upload-box"> <span>
+              <input id="fileStoreBanner" class="input-file" type="file" multiple name="file" hidefocus="true" autocomplete="off">
+              </span> <a class="btn btn-sm btn-default" href="javascript:;"> <i class="icon icon-picture"></i> 图片上传 </a> </div>
+            <p class="hint">建议使用宽度在1200~1920像素图片；点击下方"提交"按钮后生效。</p>
+         
+        </dd>
+      </dl>
+      <dl>
+        <dt>店铺头像：</dt>
+        <dd>
+          <input type="hidden" id="storeAvatar" name="storeAvatar" value="${storeInfo.storeAvatar}">
+          <div id="divImgStoreAvatar" class="m-b-10 over_hidden" style="width:60px; height: 60px;" ><img src="${storeInfo.storeAvatarUrl}" id="imgStoreAvatar" alt=""></div>
+         
+            <div class="btn-upload-box"> <span>
+              <input id="fileStoreAvatar" class="input-file" type="file" multiple name="file" hidefocus="true" autocomplete="off">
+              </span> <a class="btn btn-sm btn-default" href="javascript:;"> <i class="icon icon-picture"></i> 图片上传 </a> </div>
+            <p class="hint">建议使用宽100像素*高100像素内的方型图片；点击下方"提交"按钮后生效。</p>
+         
+        </dd>
+      </dl>
+      <dl>
+        <dt>店铺客服电话：</dt>
+        <dd>
+          <input name="storePhone" type="text" class="text w400" value ="${storeInfo.storePhone}"/>
+          <p class="hint">请输入用于交易联系的电话号码，方便买家进行咨询沟通。</p>
+        </dd>
+      </dl>
+      <dl>
+        <dt>店铺联系QQ：</dt>
+        <dd>
+          <input name="storeQq" type="text" class="text w400" value = "${storeInfo.storeQq}"/>
+          <p class="hint">如您使用腾讯QQ进行交易联系方式，可在此处填写。</p>
+        </dd>
+      </dl>
+      <dl>
+        <dt>店铺联系旺旺：</dt>
+        <dd>
+          <input name="storeWw" type="text" class="text w400" value = "${storeInfo.storeWw}"/>
+          <p class="hint">如您使用淘宝旺旺进行交易联系方式，可在此处填写</p>
+        </dd>
+      </dl>
+      <dl>
+        <dt>店铺联系微信：</dt>
+        <dd>
+          <input name="storeWeixin" type="text" class="text w400" value = "${storeInfo.storeWeixin}"/>
+           <p class="hint">如您使用微信进行交易联系方式，可在此处填写。</p>
+        </dd>
+      </dl>
+      <dl>
+        <dt>SEO关键字：</dt>
+        <dd>
+          <input name="storeSeoKeywords" type="text" class="text w400" value = "${storeInfo.storeSeoKeywords}">
+          <p class="hint">用于店铺搜索引擎的优化，关键字之间请用英文逗号分隔。</p>
+        </dd>
+      </dl>
+      <dl>
+        <dt>SEO店铺描述：</dt>
+        <dd>
+          <textarea class="text w400 h50" name="storeSeoDescription">${storeInfo.storeSeoDescription}</textarea>
+          <p class="hint">用于店铺搜索引擎的优化，建议输入120字以内对店铺经营内容的简单描述。</p>
+        </dd>
+      </dl>
+      <div class="bottom"><a id="formSubmit" href="javascript:;" class="btn btn-primary">确认提交</a></div>
+    </form>
+  </div>
+  <script src="${jsRoot}store/setting.js"></script> 
+</@c.html>

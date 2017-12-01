@@ -1,0 +1,190 @@
+<#import "/layout.html" as c>
+<#import "/list_layout.html" as list>
+<#assign alertList = []/>
+<#assign alertList = alertList + ["商品品牌建立后可与商品分类进行绑定，新增一个品牌则需要重新与商品分类建立所属关系。"]/>
+<#assign alertList = alertList + ["品牌绑定商品分类后，商家发布商品时，可根据发布的商品所在分类找到对应的所属品牌并选择。"]/>
+<#assign alertList = alertList + ["品牌标签用于对品牌的类型进行区分，应先行建立品牌标签后再选择品牌要绑定的标签，一个品牌可绑定多个品牌标签。例如：品牌“Nike耐克”可与标签“服装”“运动装备”等多个标签建立关系。 "]/>
+<#assign alertList = alertList + ["被推荐品牌，将在前台品牌推荐模块出显示。"]/>
+<@c.html title="Index"> 
+  <!-- ================== 开始页面级CSS调用 ================== -->
+  <link href="${toolkitRoot}lightbox/css/lightbox.css" rel="stylesheet" />
+  <!-- ================== 结束页面级CSS调用 ================== -->
+  <@list.html title="品牌设置" subTitle="商品品牌对应新增及审核" alertList=alertList addBtn=true searchHint="使用品牌名称作为关键字查找" tipUrl="brand/verify/list" tipTip="管理商家提交的待审核品牌" tipTitle="待审核品牌" tipCount="${noPassCount}">
+  <!-- 开始页面内容 -->
+
+  <!-- 开始新增品牌模态窗口 -->
+  <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title"> 新增商品品牌 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsAdd" aria-expanded="false" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+        </div>
+        <div class="modal-body">
+          <!-- 开始操作提示 -->
+          <ul class="text-info p-b-15 p-l-15 collapse" role="tabpanel" id="OperationTipsAdd">
+            <li class="m-b-3">品牌图片按照规定尺寸宽150像素、高50像素，格式为jpg\gif\png的图片上传。</li>
+            <li class="m-b-3">展示方式为图片时排列顺序先于文字形式；品牌推荐用于品牌列表页面中推荐位显示使用。</li>
+            <li class="m-b-3">品牌标签用于对品牌的类型进行区分，应先行建立品牌标签后再进行本页内操作。一个品牌可绑定多个品牌标签，例如：品牌“Nike耐克”可与标签“服装”“运动装备”等多个标签建立关系。 </li>
+          </ul>
+          <!-- 结束操作提示 -->
+          <!-- 开始新增品牌设置模块-->
+          <form class="form-horizontal form-bordered p-0" id="addForm" autocomplete="off" action="${adminRoot}brand/save.json" method="post" data-parsley-validate="true">
+            <div class="form-group">
+              <label class="control-label col-md-2 col-sm-3"> 品牌名称 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+              <div class="col-md-9 col-sm-8">
+                <input id="addFormBrandName" type="text" name="brandName" class="form-control" placeholder="请输入品牌名称" autocomplete="off" data-tip="tooltip" data-placement="auto" data-original-title="必填项，输入内容控制在30个字符内。" data-parsley-required="true" data-parsley-maxlength="30" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-2 col-sm-3"> 英文名称 &nbsp;: </label>
+              <div class="col-md-9 col-sm-8">
+                <input id="addFormBrandEnglish" type="text" name="brandEnglish" class="form-control" placeholder="请输入英文名称，如无英文名称请使用拼音拼写" autocomplete="off" data-tip="tooltip" data-placement="auto" data-original-title="选填项，输入内容控制在30个字符内。"  data-parsley-maxlength="30" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-2 col-sm-3">品牌图片&nbsp;:</label>
+              <div class="col-md-9 col-sm-8">
+                <input type="hidden" id="addFormBrandImage" name="brandImage">
+                <div class="brand-logo m-b-15"><img src="${imgRoot}default_image.gif" id="addFormBrandImageImg" alt="" class="media-object"></div>
+                <p class="text-info">品牌LOGO尺寸要求宽度为150像素、高度为50像素，比例为3:1的图片；支持格式gif，jpg，png。</p>
+                          <span class="btn btn-sm btn-white fileinput-button"> <i class="fa fa-upload"></i> <span>文件上传</span>
+                          <input id="addFormFile" type="file" name="file" autocomplete="off" multiple>
+                          </span> </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-2 col-sm-3">品牌标签&nbsp;:</label>
+              <div class="col-md-9 col-sm-8">
+                <h5>已选标签</h5>
+                <div class="tag-input-block m-b-10" id="addFormBrandLabelsChecked" data-tip="tooltip" data-placement="top" data-original-title="从下方可选标签中点击添加品牌标签，如无标签供选择，应先从“品牌标签”管理中建立数据。"></div>
+                <h5>可选标签</h5>
+                <div class="tag-input-block wait" id="addFormBrandLabelsAll"> <#list brandLabels as brandLabel>
+                  <div class="btn btn-xs btn-white" data-id="${brandLabel.brandLabelId}"> ${brandLabel.brandLabelName} <i class="fa fa-plus m-l-5"></i> </div>
+                </#list> </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-2 col-sm-3">展示方式&nbsp;:</label>
+              <div class="col-md-9 col-sm-8"> <span data-tip="tooltip" data-placement="right" data-original-title="该选项用于品牌专区的显示形式使用，图片优先于文字排序。">
+                          <label class="radio-inline">
+                            <input id="show_type_0" name="showType" type="radio" value="1" checked="">
+                            图片</label>
+                          <label class="radio-inline">
+                            <input id="show_type_1" name="showType" type="radio" value="0">
+                            文字</label>
+                          </span> </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-2 col-sm-3">品牌推荐&nbsp;:</label>
+              <div class="col-md-9 col-sm-8"> <span data-tip="tooltip" data-placement="right" data-original-title="推荐的品牌将在品牌专区顶部显示。">
+                          <input id="addFormIsRecommend" type="checkbox" name="isRecommend" autocomplete="off" data-size="small" data-on-color="primary" data-on-text="是" data-off-text="否" value="1"/>
+                          </span> </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-2 col-sm-3">品牌排序<i class="f-s-14 text-danger">*</i> &nbsp;:</label>
+              <div class="col-md-9 col-sm-8">
+                <input id="addFormBrandSort" type="text" value="0" placeholder="请输入品牌标签排序" autocomplete="off" name="brandSort" class="form-control" data-tip="tooltip" data-placement="auto" data-original-title="必填项，排序从0~999顺序排列。"/>
+              </div>
+            </div>
+          </form>
+          <!-- 结束新增品牌设置模块--> </div>
+        <div class="modal-footer"> <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a> <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-ajax-submit-target="addForm" nc-ajax-submit>确认提交</a> </div>
+      </div>
+    </div>
+  </div>
+  <!-- 结束新增品牌模态窗口 -->
+
+  <!-- 开始编辑品牌模态窗口 -->
+  <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title"> 编辑商品品牌 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsEdit" aria-expanded="false" title="操作提示"> <i class="fa fa-question-circle"></i> &nbsp;提示 </a> </h4>
+        </div>
+        <div class="modal-body">
+          <!-- 开始操作提示 -->
+          <ul class="text-info p-b-15 p-l-15 collapse" role="tabpanel" id="OperationTipsEdit">
+            <li class="m-b-3">品牌图片按照规定尺寸宽150像素、高50像素，格式为jpg\gif\png的图片上传。</li>
+            <li class="m-b-3">展示方式为图片时排列顺序先于文字形式；品牌推荐用于品牌列表页面中推荐位显示使用。</li>
+            <li class="m-b-3">品牌标签用于对品牌的类型进行区分，应先行建立品牌标签后再进行本页内操作。一个品牌可绑定多个品牌标签，例如：品牌“Nike耐克”可与标签“服装”“运动装备”等多个标签建立关系。 </li>
+          </ul>
+          <!-- 结束操作提示 -->
+          <!-- 开始编辑品牌设置模块-->
+          <form class="form-horizontal form-bordered p-0" autocomplete="off" action="${adminRoot}brand/update.json" method="post" data-parsley-validate="true" id="editForm">
+            <input type="hidden" id="editFormBrandId" name="brandId" >
+            <input type="hidden" id="editFormApplyState" name="applyState">
+            <div class="form-group">
+              <label class="control-label col-md-2 col-sm-3"> 品牌名称 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+              <div class="col-md-9 col-sm-8">
+                <input type="text" id="editFormBrandName" name="brandName" class="form-control" placeholder="请输入品牌名称" autocomplete="off" data-tip="tooltip" data-placement="auto" data-original-title="必填项，输入内容控制在30个字符内。" data-parsley-required="true" data-parsley-maxlength="30" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-2 col-sm-3"> 英文名称 &nbsp;:</label>
+              <div class="col-md-9 col-sm-8">
+                <input id="editFormBrandEnglish" type="text" name="brandEnglish" class="form-control" placeholder="请输入英文名称，如无英文名称请使用拼音拼写" autocomplete="off" data-tip="tooltip" data-placement="auto" data-original-title="选填项，输入内容控制在30个字符内。" data-parsley-maxlength="30" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="" class="control-label col-md-2 col-sm-3">品牌图片&nbsp;:</label>
+              <div class="col-md-9 col-sm-8">
+                <input type="hidden" id="editFormBrandImage" name="brandImage">
+                <div class="brand-logo m-b-15"> <img src="${imgRoot}default_image.gif" id="editFormBrandImageImg" alt="" class="media-object"></div>
+                <p class="text-info">品牌LOGO尺寸要求宽度为150像素、高度为50像素，比例为3:1的图片；支持格式gif，jpg，png。</p>
+                          <span class="btn btn-sm btn-white fileinput-button m-r-10"> <i class="fa fa-upload"></i> <span>文件上传</span>
+                          <input type="file" id="editFormFile" name="file" autocomplete="off" multiple>
+                          </span><a href="javascript:;" class="btn btn-sm btn-danger" onclick="brand.delBrandImg()"><i class="fa fa-trash-o"></i>&nbsp;删除图片&nbsp;</a> </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-2 col-sm-3">品牌标签&nbsp;:</label>
+              <div class="col-md-9 col-sm-8">
+                <h5>已选标签</h5>
+                <div class="tag-input-block m-b-10" id="editFormBrandLabelsChecked" data-tip="tooltip" data-placement="top" data-original-title="从下方可选标签中点击添加品牌标签，如无标签供选择，应先从“品牌标签”管理中建立数据。"></div>
+                <h5>可选标签</h5>
+                <div class="tag-input-block wait" id="editFormBrandLabelsAll"> <#list brandLabels as brandLabel>
+                  <div class="btn btn-xs btn-white" data-id="${brandLabel.brandLabelId}"> ${brandLabel.brandLabelName} <i class="fa fa-plus m-l-5"></i> </div>
+                </#list> </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-2 col-sm-3">展示方式&nbsp;:</label>
+              <div class="col-md-9 col-sm-8"> <span data-tip="tooltip" data-placement="right" data-original-title="该选项用于品牌专区的显示形式使用，图片优先于文字排序。">
+                          <label class="radio-inline">
+                            <input id="editFormShowType1" name="showType" type="radio" value="1" checked="">
+                            图片</label>
+                          <label class="radio-inline">
+                            <input id="editFormShowType0" name="showType" type="radio" value="0">
+                            文字</label>
+                          </span> </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-2 col-sm-3">品牌推荐&nbsp;:</label>
+              <div class="col-md-9 col-sm-8"> <span data-tip="tooltip" data-placement="right" data-original-title="推荐的品牌将在品牌专区顶部显示。">
+                          <input type="checkbox" name="isRecommend" id="editFormIsRecommend" autocomplete="off" data-size="small" data-on-color="primary" data-on-text="是" data-off-text="否" value="1"/>
+                          </span> </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-2 col-sm-3">品牌排序&nbsp;:</label>
+              <div class="col-md-9 col-sm-8">
+                <input type="text" autocomplete="off" name="brandSort" id="editFormBrandSort" class="form-control" data-tip="tooltip" data-placement="auto" data-original-title="必填项，排序从0~999顺序排列。"/>
+              </div>
+            </div>
+          </form>
+          <!-- 结束编辑品牌设置模块--> </div>
+        <div class="modal-footer"> <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a> <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-ajax-submit-target="editForm" nc-ajax-submit>确认提交</a> </div>
+      </div>
+    </div>
+  </div>
+  <!-- 结束编辑品牌模态窗口 -->
+  </@list.html>
+  <!-- 结束页面内容 --> 
+  <!-- ================== 开始页面级JavaScrip调用 ================== --> 
+  <!-- 表单checkbox项 --> 
+  <script src="${toolkitRoot}bootstrap-switch/bootstrap-switch.min.js"></script> 
+  <!-- 图片点击放大窗口 --> 
+  <script src="${publicRoot}toolkit/tooltip/tooltip.js"></script> 
+
+  <!-- ================== 结束页面级JavaScrip调用 ================== -->
+  <script src="${jsRoot}goods/brand.js"></script> 
+</@c.html>

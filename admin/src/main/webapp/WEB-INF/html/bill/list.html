@@ -1,0 +1,63 @@
+<#import "/layout.html" as c>
+    <#import "/list_layout.html" as list>
+        <#assign alertList = []/>
+        <#assign alertList = alertList + ["每个商家都有自己的结算周期，每个结算周期都会生成一个结算账单，平台依据据结算单与商家进行结算。"]/>
+        <#assign alertList = alertList + ["账单计算公式：平台应结金额 = 订单金额 - 收取佣金 - 退单金额 + 退还佣金。"]/>
+        <#assign alertList = alertList + ["账单处理流程为：系统自动出账 > 商家确认 > 平台审核 > 财务支付(完成结算) 4个环节，其中平台审核和财务支付需要平台介入，请予以关注。"]/>
+        <@c.html title="Index">
+  <@list.html title="结算列表" subTitle="商品订单结算单管理" alertList=alertList addBtn=false searchHint="请输入账单编号进行精确搜索"> </@list.html>
+  
+  <!-- 开始支付模态窗口 -->
+  <div class="modal fade" id="payModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+      <div class="modal-content">
+                <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title"> 确认账单支付 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsEdit" aria-expanded="false" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+        </div>
+                <div class="modal-body">
+          <ul class="collapse in text-info p-b-10 p-l-15" role="tabpanel" id="OperationTipsEdit">
+                    <li>账单确认支付后，此账单的处理流程全部结束。</li>
+                  </ul>
+          <form action="${adminRoot}bill/pay" id="payForm" method="post" autocomplete="off" data-parsley-validate="true">
+                    <input type="hidden" name="billId" value="">
+                    <div class="form-group">
+              <label class="control-label"> 账单编号&nbsp;: </label>
+              <div class="clearfix m-b-15" ncType="billSn"></div>
+            </div>
+                    <div class="form-group">
+              <label class="control-label"> 账单金额&nbsp;: </label>
+              <div class="clearfix m-b-15" ncType="billAmount"></div>
+            </div>
+                    <div class="form-group">
+              <label class="control-label"> 商家&nbsp;: </label>
+              <div class="clearfix m-b-15" ncType="storeName"></div>
+            </div>
+                    <div class="form-group">
+              <label class="control-label">付款时间&nbsp;:</label>
+              <input type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});" placeholder="请选择付款时间" format="yyyy-MM-dd" name="paymentTime" id="paymentTime" data-parsley-required="true" class="form-control">
+            </div>
+                    <div class="form-group">
+              <label class="control-label">付款备注&nbsp;:</label>
+              <textarea placeholder="汇款单号、支付方式等付款凭证" name="paymentNote" id="paymentNote" class="form-control"></textarea>
+            </div>
+                  </form>
+        </div>
+                <div class="modal-footer"> <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a> <a href="javascript:;" class="btn btn-success" data-loading-text="Loading..." nc-ajax-submit-target="payForm" nc-ajax-submit>确认提交</a> </div>
+              </div>
+    </div>
+          </div>
+  <!-- 结束支付模态窗口 --> 
+  
+  <!-- 时间控件 --> 
+  <script type="text/javascript" src="${toolkitRoot}/jquery.dtGrid/dependents/datePicker/WdatePicker.js" defer="defer"></script> 
+  <#noescape>
+  <script>
+    var billGlobal = {
+        billStateList:$.parseJSON('${billStateListJson}'),
+        billStateType:"${type}"
+    };
+</script>
+</#noescape>
+  <script src="${jsRoot}bill/list.js"></script> 
+</@c.html>

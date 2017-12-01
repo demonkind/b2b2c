@@ -1,0 +1,94 @@
+<#import "/layout/seller_layout.html" as c>
+<@c.html title="Index">
+  <form method="get">
+    <table class="search-form">
+      <tr>
+        <td>&nbsp;</td>
+        <th> <select name="type">
+          <option value="1" <#if type == 0 || type == 1>selected</#if>>商品名称</option>
+          <option value="2" <#if type == 2>selected</#if>>商家货号</option>
+          <option value="3" <#if type == 3>selected</#if>>SPU</option>
+        </select>
+        </th>
+        <td class="w160"><input type="text" class="text w150" name="keyword" value="${keyword}"/></td>
+        <td class="tc w70"><label class="submit-border">
+          <input type="submit" class="submit" value="搜索" />
+        </label></td>
+      </tr>
+    </table>
+  </form>
+  <table class="ncsc-default-table">
+    <thead>
+      <tr nc_type="table_header">
+        <th class="w40">&nbsp;</th>
+        <th colspan="2" class="tl">商品名称</th>
+        <th class="w200 tl">规格/规格值</th>
+        <th class="w80">价格(元)</th>
+        <th class="w80">总库存</th>
+        <th class="w100">发布时间</th>
+        <th class="w200">操作<!--c2VsbGVyL2dvb2RzL29mZmxpbmUvbGlzdF93YWl0IGJ5IHNob3BuYy5uZXQ=--></th>
+      </tr>
+    </thead>
+    <tbody>
+    <#if goodsCommonList.size() gt 0>
+    <#list goodsCommonList as goods>
+    <tr>
+      <td>
+        <#if goods.isCommend == 1><span class="open" title="店铺推荐商品">推荐</span></#if> </td>
+      </td>
+      <td colspan="2" class="tl"><div class="table-list-thumb"><img src="${c.func.ncImage(goods.imageSrc, 60, 60)}" alt="${goods.goodsName}"/></div><dl class="goods-name">
+          <dt> <a href="${c.func.ncGoodsUrl(goods.goodsId)}" target="_blank">${goods.goodsName}</a></dt>
+          <dd class="serve"><span>商品SPU：${goods.commonId}</span> </dd>
+        </dl></td>
+      <td class="tl">
+        <#if goods.specJson.size() gt 0>
+          <div class="goods-spec">
+          <#list goods.specJson as specJson>
+          <p>${specJson.specName}：<#list specJson.specValueList as specValue><span>${specValue.specValueName}</span></#list></p>
+          </#list>
+          </div>
+        <#else>
+          --
+        </#if>
+        <div><a href="javascript:;"  onclick="list.getGoods(${goods.commonId}, '${goods.goodsName}')" class="btn btn-xs btn-default m-t-5">查看全部规格 </a></div></td>
+      <td>${goods.priceRange}</td>
+      <td>${goods.storage}</td>
+      <td class="goods-time">${goods.createTime?date}</td>
+      <td><a href="${sellerRoot}goods/edit/${goods.commonId}" class="btn btn-sm btn-primary m-r-10"><i class="icon-edit"></i>编辑</a><a href="javascript:void(0);" onclick="list.deleteGoods(${goods.commonId}, '${goods.goodsName}')" class="btn btn-sm btn-danger"><i class="icon-trash"></i>删除<!--c2VsbGVyL2dvb2RzL29mZmxpbmUvbGlzdF93YWl0IGJ5IHNob3BuYy5uZXQ=--></a></td>
+    </tr>
+    </#list>
+    <tr style="display:none;">
+      <td colspan="20"><div class="ncsc-goods-sku ps-container"></div></td>
+    </tr>
+    <#else>
+    <tr>
+      <td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span></div></td>
+    </tr>
+    </#if>
+      </tbody>
+    
+    <tfoot>
+      <tr>
+          <#noescape>
+          <td colspan="20"><div class="pagination"> ${showPage}</div></td>
+              </#noescape>
+      </tr>
+    </tfoot>
+  </table>
+  <script src="${jsRoot}goods/list.js"></script>
+</@c.html>
+<table id="skuTable" class="ncsc-default-table">
+  <thead>
+    <tr>
+      <th class="w10"></th>
+      <th class="wtl">商品规格</th>
+      <th class="w80">价格(元)</th>
+      <th class="w80">库存</th>
+      <th class="w100">库存预警</th>
+      <th class="w100">商家编号</th>
+      <th class="w80">操作</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>

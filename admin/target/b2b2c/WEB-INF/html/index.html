@@ -1,0 +1,95 @@
+<#import "/layout.html" as c>
+<@c.html title="Index"> 
+  <!-- 开始页面内容 -->
+  <div id="content" class="content">
+    <!-- begin page-header -->
+    <h1 class="page-header">管理首页<small>商城综合概况及统计...</small></h1>
+    <!-- end page-header --> 
+    <!-- begin row -->
+    <div class="row"> 
+      <!-- begin col-3 -->
+      <div class="col-md-3 col-sm-6">
+        <div class="widget widget-stats bg-green">
+          <div class="stats-icon"><i class="fa fa-cube"></i></div>
+          <div class="stats-info">
+            <h4>商品概况</h4>
+            <p>${goodsCommonCount}</p>
+          </div>
+          <div class="stats-link"> <a href="${adminRoot}goods/list">商品列表 <i class="fa fa-arrow-circle-o-right"></i></a> </div>
+        </div>
+      </div>
+      <!-- end col-3 --> 
+      <!-- begin col-3 -->
+      <div class="col-md-3 col-sm-6">
+        <div class="widget widget-stats bg-blue">
+          <div class="stats-icon"><i class="fa fa-university"></i></div>
+          <div class="stats-info">
+            <h4>店铺概况</h4>
+            <p>${storeCount}</p>
+          </div>
+          <div class="stats-link"> <a href="${adminRoot}store/list">店铺列表 <i class="fa fa-arrow-circle-o-right"></i></a> </div>
+        </div>
+      </div>
+      <!-- end col-3 --> 
+      <!-- begin col-3 -->
+      <div class="col-md-3 col-sm-6">
+        <div class="widget widget-stats bg-purple">
+          <div class="stats-icon"><i class="fa fa-users"></i></div>
+          <div class="stats-info">
+            <h4>商城会员</h4>
+            <p>${memberCount}</p>
+          </div>
+          <div class="stats-link"> <a href="${adminRoot}member/list">会员列表 <i class="fa fa-arrow-circle-o-right"></i></a> </div>
+        </div>
+      </div>
+      <!-- end col-3 --> 
+      <!-- begin col-3 -->
+      <div class="col-md-3 col-sm-6">
+        <div class="widget widget-stats bg-red">
+          <div class="stats-icon"><i class="fa fa-calendar"></i></div>
+          <div class="stats-info">
+            <h4>交易订单</h4>
+            <p>${ordersCount}</p>
+          </div>
+          <div class="stats-link"> <a href="${adminRoot}orders/list">订单列表 <i class="fa fa-arrow-circle-o-right"></i></a> </div>
+        </div>
+      </div>
+      <!-- end col-3 --> 
+    </div>
+    <!-- end row --> 
+    <!-- begin row -->
+    <div class="row"> 
+      <!-- begin col-6 -->
+      <div class="col-md-6">
+        <div data-sortable-id="morris-chart-1" class="panel panel-inverse">
+          <div class="panel-heading">
+            <div class="panel-heading-btn"> <a data-click="panel-expand" class="btn btn-xs btn-icon btn-circle btn-default" href="javascript:;"><i class="fa fa-expand"></i></a> <a data-click="panel-reload" class="btn btn-xs btn-icon btn-circle btn-success" href="javascript:;"><i class="fa fa-repeat"></i></a> </div>
+            <h4 class="panel-title">近7天热销品类销售额走势</h4>
+          </div>
+          <div class="panel-body">
+            <div class="height-sm" style="position: relative;" id="container_goodscategory"></div>
+          </div>
+        </div>
+      </div>
+      <!-- end col-6 --> 
+      <!-- begin col-6 -->
+      <div class="col-md-6">
+        <div data-sortable-id="morris-chart-2" class="panel panel-inverse">
+          <div class="panel-heading">
+            <div class="panel-heading-btn"> <a data-click="panel-expand" class="btn btn-xs btn-icon btn-circle btn-default" href="javascript:;"><i class="fa fa-expand"></i></a> <a data-click="panel-reload" class="btn btn-xs btn-icon btn-circle btn-success" href="javascript:;"><i class="fa fa-repeat"></i></a> </div>
+            <h4 class="panel-title">最新时间段销售额走势</h4>
+          </div>
+          <div class="panel-body">
+            <div class="height-sm" style="position: relative;" id="container_hourtrend"></div>
+          </div>
+        </div>
+      </div>
+      <!-- end col-6 --> 
+    </div>
+    <!-- end row --> 
+  </div>
+</@c.html>
+<link href="${publicRoot}toolkit/morris/morris.css" rel="stylesheet"/>
+<script src="${publicRoot}toolkit/morris/raphael.min.js"></script> 
+<script src="${publicRoot}toolkit/morris/morris.js"></script> 
+<script src="${jsRoot}index.js"></script>

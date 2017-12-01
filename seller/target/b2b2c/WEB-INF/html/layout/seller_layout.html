@@ -1,0 +1,169 @@
+<#import "../func.html" as func>
+<#macro html title>
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,IE=EmulateIE8,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="generator" content="UG93ZXJlZCBCeSBTaG9wTkMubmV0"/>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="author" content="ShopNC-Developers"/>
+<#if title == "Index">
+    <title>${config.siteName} - 商家中心</title>
+<#else>
+    <title>${title}</title>
+</#if>
+<!-- ================== 开始基础CSS调用 ================== -->
+<link href="${publicRoot}css/base.css" rel="stylesheet" type="text/css">
+<link href="${toolkitRoot}font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
+<!--[if IE 7]>
+<link href="${toolkitRoot}font-awesome/css/font-awesome-ie7.min.css" rel="stylesheet">
+<![endif]-->
+<!-- ================== 结束基础CSS调用 ================== -->
+<!-- ================== 开始页面CSS调用 ================== -->
+<link href="${cssRoot}seller_center.css" rel="stylesheet" type="text/css">
+<!-- ================== 结束页面CSS调用 ================== -->
+<!-- ================== 开始基础JavaScript调用 ================== -->
+<!--[if lt IE 9]>
+  <script src="${publicRoot}toolkit/crossbrowserjs/es5-shim.min.js"></script>
+  <script src="${publicRoot}toolkit/crossbrowserjs/html5shiv.js"></script>
+  <script src="${publicRoot}toolkit/crossbrowserjs/excanvas.min.js"></script>
+  <script src="${publicRoot}toolkit/crossbrowserjs/respond.min.js"></script>
+  <script src="${publicRoot}toolkit/json2/json2.js"></script>
+  <![endif]-->
+<script src="${publicRoot}toolkit/jquery/1.8.3/jquery.js"></script>
+<script src="${publicRoot}toolkit/waypoints/waypoints.js"></script>
+<script src="${publicRoot}toolkit/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+<script src="${publicRoot}toolkit/jquery-validation/jquery.validation.min.js"></script>
+<script src="${publicRoot}toolkit/layer/layer.js"></script>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+<script>
+//全局方法设置
+	var ncGlobal = {
+		webRoot:"${webRoot}",
+		adminRoot:"${adminRoot}",
+		memberRoot:"${memberRoot}",
+		sellerRoot:"${sellerRoot}",
+		jsRoot:"${jsRoot}",
+		cssRoot:"${cssRoot}",
+		imgRoot:"${imgRoot}",
+		toolkitRoot:"${toolkitRoot}",
+		uploadRoot:"${uploadRoot}",
+		filesType:{
+			outside:"${filesType.outside}",
+			goods:"${filesType.goods}",
+			setting:"${filesType.setting}"
+		},
+		publicRoot:"${publicRoot}"
+	};
+</script>
+<script src="${publicRoot}toolkit/jquery-thumb/jqthumb.js"></script>
+<script src="${publicRoot}toolkit/jquery-nc/jquery.nc.js"></script>
+<!-- 图片上传 -->
+<script src="${publicRoot}toolkit/fileupload/jquery.fileupload.js"></script>
+<!-- ================== 结束基础JavaScript调用 ================== -->
+<script src="${jsRoot}seller.js"></script>
+</head>
+
+<body>
+<header class="ncsc-head-layout">
+  <div class="topbar">
+    <div class="web-nav"><a href="javascript:;"><i class="arrow"></i>欢迎回到商家管理中心，祝您生意兴隆。</a></div>
+    <ul class="admin-plus">
+      <li><a href="${webRoot}"><i class="icon-home"></i>商城首页</a></li>
+      <#if messagePrompt.count gt 0>
+      <li> <a href="javascript:;" id="store-message-top-show"><i class="icon-bell"></i>通知提示<em>!</em></a>
+        <div class="ncsc-admin-message" data-dropdown-menu>
+          <div class="header">最新消息(${messagePrompt.storeMessageList.size()})</div>
+          <#list messagePrompt.storeMessageList as storeMessage> <a href="${sellerRoot}message/list/1" class="msg-${storeMessage.tplClass}" title="${storeMessage.messageContent}"><span class="icon-pic"></span>
+          <dl>
+            <dt>${storeMessage.messageContent}</dt>
+            <dd>${storeMessage.addTime}</dd>
+          </dl>
+          </a> </#list>
+          <div class="footer"><a href="${sellerRoot}message/list/1">查看全部${messagePrompt.count}条消息</a></div>
+           </div>
+      </li>
+      </#if>
+      <li> <a href="javascript:;" id="member-top-show" class="admin-function-click"> <span class="admin-avatar"> <img src="${c.func.ncImage(sellerAvatarUrl, 60, 60)}" width="32" alt=""/></span>${sellerName}<i class="arrow"></i> </a>
+        <div class="ncsc-admin-function" data-dropdown-menu> <a href="${func.ncStoreUrl(storeId)}" title="前往店铺" target="_blank">前往店铺首页</a> <a id="btnEditProfile" href="javascript:;" title="编辑账号信息">编辑账号信息</a> <a href="${sellerRoot}logout" title="安全退出">管理安全退出</a> </div>
+      </li>
+    </ul>
+  </div>
+  <div class="wrapper">
+    <div class="center-logo"> <a href="${sellerRoot}"> <img src="${config.sellerLogoUrl}" alt=""/> </a> </div>
+    <nav class="ncsc-nav">
+      <dl class="<#if '首页' == sellerMenuState.currentMainMenu>current</#if>">
+        <dt><a href="${sellerRoot}">首页</a></dt>
+      </dl>
+      <#list sellerMenu.keySet() as mainMenu>
+      <dl class="<#if mainMenu == sellerMenuState.currentMainMenu>current</#if>">
+        <#assign subMenuList=sellerMenu[mainMenu]/>
+        <#if subMenuList?hasContent>
+        <dt><a href="${sellerRoot}${subMenuList[0].url}">${mainMenu}</a></dt>
+        <dd>
+          <ul>
+            <#list subMenuList as subMenu>
+            <li><a href="${sellerRoot}${subMenu.url}">${subMenu.name}</a></li>
+            </#list>
+          </ul>
+        </dd>
+        <dd class="arrow"></dd>
+        <#else>
+        <dt><a href="${sellerRoot}">${mainMenu}</a></dt>
+        </#if>
+      </dl>
+      </#list> </nav>
+  </div>
+</header>
+<div class="ncsc-layout wrapper">
+  <div id="layoutLeft" class="ncsc-layout-left">
+    <div id="sidebar" class="sidebar">
+      <div class="column-title" id="main-nav"> <span class="ico-${sellerMenuState.currentMenuTitle}"></span>
+        <h2>${sellerMenuState.currentMainMenu}</h2>
+        <h4>${sellerMenuState.currentMenuTitle}</h4>
+      </div>
+      <div class="column-menu">
+        <ul id="seller_center_left_menu">
+          <#if sellerMenu[sellerMenuState.currentMainMenu]??>
+          <#assign subMenuList=sellerMenu[sellerMenuState.currentMainMenu]/>
+          <#if subMenuList?hasContent>
+          <#list subMenuList as subMenu>
+          <li class="<#if subMenu.name == sellerMenuState.currentSubMenu>current</#if>"> <a href="${sellerRoot}${subMenu.url}">${subMenu.name}</a> </li>
+          </#list>
+          </#if>
+          </#if>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div id="layoutRight" class="ncsc-layout-right">
+    <div class="ncsc-path"> <i class="icon-desktop"></i>商家管理中心
+      <#list sellerMenuState.breadCrumbList as breadCrumb> <i class="icon-angle-right"></i>${breadCrumb}
+      </#list> </div>
+    <div class="main-content" id="mainContent"> <#if sellerTabMenuMap?hasContent>
+      <div class="tabmenu">
+        <ul class="tab pngFix">
+          <#list sellerTabMenuMap.keySet() as tabMenu>
+          <#if tabMenu == sellerMenuState.currentPath>
+          <li class="active"><a href="javascript:;">${sellerTabMenuMap[tabMenu]}</a></li>
+          <#else>
+          <li><a href="${sellerRoot}${tabMenu}">${sellerTabMenuMap[tabMenu]}</a></li>
+          </#if>
+          </#list>
+        </ul>
+      </div>
+      </#if>
+      <#nested/> </div>
+  </div>
+</div>
+<div id="tbox">
+  <div class="btn" id="gotop" style="display:none;"><i class="top"></i><a href="javascript:void(0);">返回顶部</a> </div>
+</div>
+<#include "/profile.html">
+</body>
+</html>
+</#macro>

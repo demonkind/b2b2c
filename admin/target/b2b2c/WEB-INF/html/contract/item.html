@@ -1,0 +1,125 @@
+<#import "/layout.html" as c>
+<@c.html title="Index">
+  <div id="content" class="content"> 
+    <!-- 开始面包屑导航 -->
+    <ol class="breadcrumb pull-right">
+      <li><a href="javascript:;">首页</a></li>
+      <li><a href="javascript:;">运营管理</a></li>
+      <li class="active">保障服务管理</li>
+    </ol>
+    <!-- 结束面包屑导航 --> 
+    <!-- 开始页头区域 -->
+    <h1 class="page-header">运营管理<small class="m-l-10">保障服务管理</small></h1>
+    <!-- 结束页头区域 --> 
+    <!-- 开始布局行 -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-inverse" data-sortable-id="form-stuff-1">
+          <div class="panel-heading">
+            <div class="panel-heading-btn"><a href="#listTip" class="btn btn-xs btn-icon btn-circle btn-info" role="button" data-toggle="collapse" aria-expanded="true" title="操作提示"><i class="fa fa-lightbulb-o"></i></a><a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"> <i class="fa fa-expand"></i></a><a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a></div>
+            <h4 class="panel-title">保障服务管理列表</h4>
+          </div>
+          <div class="panel-body"> 
+            <!-- 开始操作提示 -->
+            <div class="alert alert-info collapse in" role="tabpanel" id="listTip">
+              <h4>操作提示</h4>
+              <ul>
+                <li>列表为平台消费者保障服务项目</li>
+                <li>当保障项目状态为“开启”时，店铺可以申请加入该服务；状态为“关闭”时，平台将会禁用该保障服务。</li>
+              </ul>
+            </div>
+            <!-- 结束操作提示 --> 
+            <!-- 开始列表相关操作 -->
+            <div class="clearfix" style="display:none">
+              <div class="col-md-4 p-l-0"></div>
+              <div class="col-md-8 p-r-0">
+                <form class="search-dtGrid-form" action="">
+                  <div class="form-group">
+                    <input type="text" id="keyword" name="keyword" class="form-control" placeholder="请输入评价人关键字进行搜索" />
+                    <a href="javascript:;" class="btn btn-search" id="customSearch"><i class="fa fa-search"></i></a></div>
+                </form>
+              </div>
+            </div>
+            <!-- 结束列表相关操作 -->
+            <div> </div>
+            <div id="dtGridContainer" class="dt-grid-container"></div>
+            <div id="dtGridToolBarContainer" class="dt-grid-toolbar-container"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 结束布局行 --> 
+  </div>
+  <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog  modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title"> 保障服务管理 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsAdd" aria-expanded="true" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+        </div>
+        <div class="modal-body">
+          <ul class="text-info p-b-15 p-l-15 collapse in" role="tabpanel" id="OperationTipsAdd">
+            <li class="m-b-3">消费者保障服务查看与管理</li>
+          </ul>
+          <form class="form-horizontal form-bordered p-0" id="editForm" autocomplete="off" action="${adminRoot}contract/update_item" method="post" data-parsley-validate="true">
+            <input type="hidden" id="ctiId" name="ctiId"/>
+            <div class="form-group">
+              <label class="control-label col-md-2 col-sm-3"> 项目名称 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+              <div class="col-md-9 col-sm-8">
+                <input type="text" class="form-control" id="ctiName" name="ctiName" placeholder="请填写项目名称" data-tip="tooltip" data-placement="auto" data-original-title="必填项，项目名称请尽量使用4-8字短语，例如“正品保障”。" data-parsley-required="true" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-2 col-sm-3"> 保证金 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+              <div class="col-md-9 col-sm-8">
+                <input type="text" id="ctiCost" name="ctiCost" class="form-control" placeholder="请填写保证金" data-tip="tooltip" data-placement="auto" data-original-title="必填项，保证金为店铺开通该项服务时所需交纳金额。" data-parsley-required="true"  />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-2 col-sm-3"> 项目图标 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+              <div class="col-md-9 col-sm-8">
+                <input type="hidden" id="editFormContractImage" name="contractImage">
+                <div class="m-b-15" id="brand-logo"> <img src="${imgRoot}default_image.gif" id="editFormBrandImageImg" alt="" class="media-object"></div>
+                <p class="text-info">消保项目图标要求宽度为150像素、高度为150像素，比例为1:1的图片；支持格式gif，jpg，png。</p>
+                          <span class="btn btn-sm btn-white fileinput-button m-r-10"> <i class="fa fa-upload"></i> <span>文件上传</span>
+                          <input type="file" id="ctiIconFile" name="file" autocomplete="off" multiple>
+                          </span>
+              </div>
+              <input type="hidden" class="form-control" id="ctiIcon" name="ctiIcon"/>
+              <p id="itemIcon"></p>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-2 col-sm-3"> 项目描述 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+              <div class="col-md-9 col-sm-8">
+                <textarea rows="5" cols="50" class="form-control height-100 " id="ctiDescribe" name="ctiDescribe" data-tip="tooltip" data-original-title="必填项，用于在商家中心该服务开通时对于服务情况的基本描述文字。" data-parsley-required="true"></textarea>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-2 col-sm-3"> 说明文章链接地址 &nbsp;: </label>
+              <div class="col-md-9 col-sm-8">
+                <input type="text" class="form-control" id="ctiDescurl" name="ctiDescurl" data-tip="tooltip" data-original-title="可选项，可预先在文章中对消费者服务保障项目进行详细说明并复制文章链接插入到该位置，则商城前台点击服务图标可跳转至此帮助文章内容页面。"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-2 col-sm-3"> 排序 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+              <div class="col-md-9 col-sm-8">
+                <input type="text" id="ctiSort" name="ctiSort" class="form-control" placeholder="" data-tip="tooltip" data-placement="auto" data-original-title="必填项，排序从0~999顺序排列。" value="0" data-parsley-required="true" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-2 col-sm-3"> 状态 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+              <div class="col-md-9 col-sm-8"> <span data-tip="tooltip" data-placement="right" data-original-title="该选项用于开启或关闭商家中心及前台该服务选项。">
+                <input id="ctiState" name="ctiState" type="checkbox" data-size="small" data-on-color="primary" data-input-true="1" data-input-false="0" data-input-name="state" data-on-text="开启" data-off-text="关闭"></span>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer"> <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a> <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-ajax-submit-target="editForm" nc-ajax-submit>确认提交</a> </div>
+      </div>
+    </div>
+  </div>
+  <script src="${toolkitRoot}bootstrap-wizard/js/bwizard.js"></script> 
+  <script src="${toolkitRoot}bootstrap-switch/bootstrap-switch.min.js"></script> 
+  <script src="${publicRoot}toolkit/fileupload/jquery.fileupload.js"></script> 
+  <script src="${jsRoot}contract/item.js"></script> 
+</@c.html>

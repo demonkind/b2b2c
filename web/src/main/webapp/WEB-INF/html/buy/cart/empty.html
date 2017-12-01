@@ -1,0 +1,17 @@
+<#import "/buy/layout.html" as c>
+<@c.html title="Index">
+  <div class="ncc-null-shopping"><i class="ico"></i>
+    <h4>您的购物车还没有商品</h4>
+    <p><a class="btn btn-sm btn-success m-r-10" href="${webRoot}"><i class="icon-reply-all"></i>马上去购物</a> <a class="btn btn-sm btn-default" href="${memberRoot}orders/list"><i class="icon-file-text"></i>查看自己的订单</a></p>
+  </div>
+  <!-- 最近浏览 -->
+  <div id="goodsbrowse_div" class="nc-goods-borowse"></div>
+  <link href="${publicRoot}toolkit/bxslider/jquery.bxslider.css" rel="stylesheet" />
+  <script src="${publicRoot}toolkit/bxslider/jquery.bxslider.js"></script> 
+  <script>
+        $(function() {
+            //最近浏览
+            $('#goodsbrowse_div').ncGoodsBrowse();
+        });
+    </script> 
+</@c.html>

@@ -1,0 +1,54 @@
+<#import "/layout/seller_layout.html" as c>
+<@c.html title="Index">
+  <div class="ncsc-form-default">
+    <div class="top-btn-layout"> </div>
+    <div class="alert mt15 mb5"><strong>操作提示：</strong>
+      <ul>
+        <li>说明：客服信息需要填写完整，不完整信息将不会被保存。 </li>
+      </ul>
+    </div>
+    <form id="addForm" class="ncs-message" action="${sellerRoot}service/save.json" method="post">
+      <input type="hidden" id="storePresales" name="storePresales" value='${storePresales}'>
+      <input type="hidden" id="storeAftersales" name="storeAftersales" value='${storeAftersales}'>
+      <dl>
+        <dt>售前客服：</dt>
+        <dd>
+          <div class="ncs-message-title"><span class="name">客服名称</span><span class="tool">客服工具</span><span class="number">客服账号</span></div>
+          <div id="preList"></div>
+          <p><span><a data-shop-nc="btnAddPre" class="btn btn-sm btn-white m-t-5" href="javascript:void(0);"><i class="icon-plus"></i>添加客服</a></span></p>
+        </dd>
+      </dl>
+      <dl nctype="after">
+        <dt>售后客服：</dt>
+        <dd>
+          <div class="ncs-message-title"><span class="name">客服名称</span><span class="tool">客服工具</span><span class="number">客服账号</span></div>
+          <div id="afterList"></div>
+          <p><span><a data-shop-nc="btnAddAfter" class="btn btn-sm btn-white m-t-5" href="javascript:void(0);"><i class="icon-plus"></i>添加客服</a></span></p>
+        </dd>
+      </dl>
+      <dl>
+        <dt><em class="pngFix">工作时间：</em></dt>
+        <dd>
+          <div class="ncs-message-title"><span>例：（工作时间 AM 10:00 - PM 18:00）</span></div>
+          <div>
+            <textarea class="textarea w500 h50" name="storeWorkingTime">${storeWorkingTime}</textarea>
+          </div>
+        </dd>
+      </dl>
+      <div class="bottom"><a class="btn btn-primary" href="javascript:;" id="formSubmit">确认提交</a></div>
+    </form>
+  </div>
+  <div id="_serviceItem" style="display:none;">
+    <div data-shop-nc="item" class="ncs-message-list"> <span title="使用默认值或修改您自己的客服名称" class="name tip">
+      <input data-shop-nc="name" type="text" maxlength="10" value="" class="text w60">
+      </span> <span title="请选择即时通讯工具类型" class="tool tip">
+      <select data-shop-nc="type">
+        <option value="1">QQ</option>
+        <option value="2">旺旺</option>
+      </select>
+      </span> <span title="根据您所选择的即时通讯工具类型输入正确的用户账号" class="number tip">
+      <input data-shop-nc="num" type="text" class="text w180">
+      </span> <span class="del"><a data-shop-nc="btnDel" class="btn btn-sm btn-danger" href="javascript:void(0);"><i class="icon-trash"></i>删除</a></span> </div>
+  </div>
+  <script src="${jsRoot}service/service.js"></script> 
+</@c.html>

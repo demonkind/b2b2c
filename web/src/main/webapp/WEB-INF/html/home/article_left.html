@@ -1,0 +1,34 @@
+<#macro html>
+<div class="left">
+    <div class="nch-module nch-module-style01">
+        <div class="title">
+            <h3>文章分类</h3>
+        </div>
+        <div class="content">
+            <ul class="nch-sidebar-article-class">
+                <#if articleCategoryList?exists && (articleCategoryList?size>0) >
+                    <#list articleCategoryList as list>
+                        <li><a href="${webRoot}article/list/${list.categoryId}">${list.title}</a></li>
+                    </#list>
+                </#if>
+            </ul>
+        </div>
+    </div>
+    <div class="nch-module nch-module-style03">
+        <div class="title">
+            <h3>最新文章</h3>
+        </div>
+        <div class="content">
+            <ul class="nch-sidebar-article-list">
+                <#if articleNewList?exists && (articleNewList?size>0) >
+                    <#list articleNewList as article>
+                        <li><i></i><a href="<#if article.url != ''>${article.url}<#else>${webRoot}article/info/${article.articleId}</#if>">${article.title}</a></li>
+                    </#list>
+                    <#else>
+                        <li>没有最新文章</li>
+                </#if>
+            </ul>
+        </div>
+    </div>
+</div>
+</#macro>

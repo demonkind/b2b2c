@@ -1,0 +1,60 @@
+<#import "/layout/seller_layout.html" as c>
+<@c.html title="Index">
+  <div class="alert mt15 mb5"><strong>操作提示：</strong>
+    <ul>
+      <li></li>
+    </ul>
+  </div>
+  <div class="ncsc-form-default">
+  <form id="addForm" action="${sellerRoot}account_group/save.json" method="post">
+    <#if sellerGroup??>
+    <input name="groupId" type="hidden" value="${sellerGroup.groupId}"/>
+    </#if>
+    <dl>
+      <dt><i class="required">*</i>组名称：</dt>
+      <dd> <input name="groupName" type="text" class="text w300"
+                  <#if sellerGroup??>
+        value = ${sellerGroup.groupName}
+        </#if>
+        ><!--amF2YV9zZWxsZXIvYWNjb3VudC9hY2NvdW50X2dyb3VwL2FkZCBieSBzaG9wbmMubmV0--></dd>
+    </dl>
+    <dl>
+      <dt><i class="required">*</i>基本权限：</dt>
+      <dd><div class="ncsc-account-all">
+        <label>
+          <input id="checkAll" type="checkbox" />
+          全选</label></div>
+        <input id="groupPermission" name="groupPermission" type="hidden"/>
+        <div id="divCheck"> <#list sellerMenu.keySet() as mainMenu>
+        
+          <div class="<#if mainMenu == sellerMenuState.currentMainMenu>current</#if> ncsc-account-container">
+            <#assign subMenuList=sellerMenu[mainMenu]/>
+            <h4>
+              <label>
+                <input type="checkbox" data-menu1="" value="${mainMenu}"/>
+                ${mainMenu}</label>
+            </h4>
+            <#if subMenuList?hasContent>
+              <ul class="ncsc-account-container-list">
+                <#list subMenuList as subMenu>
+                <li>
+                  <label><input class="checkbox" type="checkbox" data-menu1-name="${mainMenu}" data-menu2="" data-group-id="${subMenu.groupId}" value="${subMenu.id}"
+                                <#if groupMenuIdList??>
+                    <#list groupMenuIdList as menuId>
+                    <#if subMenu.id == menuId>checked="checked"<#break></#if>
+                    </#list>
+                    </#if>
+                    />${subMenu.name}</label>
+                </li>
+                </#list>
+              </ul>
+            </#if>
+          </div>
+          </#list> </div>
+      </dd>
+    </dl><!--amF2YV9zZWxsZXIvYWNjb3VudC9hY2NvdW50X2dyb3VwL2FkZCBieSBzaG9wbmMubmV0-->
+    <div class="bottom"><a id="formSubmit" href="javascript:;" class="btn btn-primary">确认提交</a></div>
+  </form>
+  </div>
+  <script src="${jsRoot}account/account_group.add.js"></script> 
+</@c.html>

@@ -1,0 +1,218 @@
+<#import "/layout.html" as c>
+<@c.html title="Index"> 
+  
+  <!-- 开始页面内容 -->
+  <div id="content" class="content"> 
+    <!-- 开始面包屑导航 -->
+    <ol class="breadcrumb pull-right">
+      <li><a href="javascript:;">首页</a></li>
+      <li><a href="javascript:;">站点设置</a></li>
+      <li class="active">地区设置</li>
+    </ol>
+    <!-- 结束面包屑导航 --> 
+    <!-- 开始页头区域 -->
+    <h1 class="page-header">地区设置<small class="m-l-10">管理网站相关地区类型内容设置</small></h1>
+    <!-- 结束页头区域 --> 
+    <!-- 开始布局行 -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-inverse">
+          <div class="panel-heading">
+            <div class="panel-heading-btn"><a href="#listTip" class="btn btn-xs btn-icon btn-circle btn-info" role="button" data-toggle="collapse" aria-expanded="true" title="操作提示"><i class="fa fa-lightbulb-o"></i></a><a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"> <i class="fa fa-expand"></i></a><a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a></div>
+            <h4 class="panel-title">地区列表</h4>
+          </div>
+          <div class="panel-body"> 
+            <!-- 开始操作提示 -->
+            <div class="alert alert-info collapse in" role="tabpanel" id="listTip">
+              <h4>操作提示</h4>
+              <ul>
+                <li>网站所涉及的所有地区内容均来源于此设置项，强烈建议对该项慎重进行操作修改。</li>
+                <li>所属大区为默认的全国性的几个大区域，只有省级地区才需要填写大区域，目前全国几大区域有:华北、东北、华东、华南、西南、西北、港澳台、海外。</li>
+                <li>所在层级为该地区的所在的层级深度，如北京&nbsp;&#8250;&nbsp;北京市&nbsp;&#8250;&nbsp;朝阳区，其中北京层级为1，北京市层级为2，朝阳区层级为3。</li>
+              </ul>
+            </div>
+            <!-- 结束操作提示 --> 
+            <!-- 开始列表相关操作 -->
+            <div class="clearfix">
+              <div class="col-md-3 p-l-0"><a id="returnParent" href="javascript:;" class="btn btn-white pull-left m-r-5 m-b-5 hidden"> <i class="fa fa-lg fa-level-up m-r-5"></i>返回上级</a> <a href="#addModal" class="btn btn-success pull-left m-r-5 m-b-5" data-toggle="modal"> <i class="fa fa-lg fa-plus m-r-5"></i>新增数据</a> </div>
+              <div class="col-md-9 p-r-0">
+                <form class="search-dtGrid-form" action="">
+                  <div class="form-group">
+                    <input type="text" id="keyword" name="keyword" class="form-control" placeholder="请输入地区名称作为关键字进行搜索" />
+                    <a href="javascript:;" class="btn btn-search" id="customSearch"> <i class="fa fa-search"></i></a> </div>
+                </form>
+              </div>
+            </div>
+            <!-- 结束列表相关操作 -->
+            <div id="dtGridContainer" class="dt-grid-container"></div>
+            <div id="dtGridToolBarContainer" class="dt-grid-toolbar-container"></div>
+            <!-- 开始新增地区模态窗口 -->
+            <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">新增地区<a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTips" aria-expanded="false" title="操作提示"><i class="fa fa-exclamation"></i>&nbsp;提示</a></h4>
+                  </div>
+                  <div class="modal-body"> 
+                    <!-- 开始操作提示 -->
+                    <ul class="collapse text-info p-b-10 p-l-15" role="tabpanel" id="OperationTips">
+                      <li  class="m-b-10">请认真填写地区名称,地区设定后将直接印象订单,收货地址等重要信息,请慎重操作</li>
+                      <li  class="m-b-10">系统将根据所选的上级菜单层级决定新增项的所在级,即选择上级菜单为"北京",则新增项为北京地区的下级区域,依次类推.</li>
+                      <li  class="m-b-10">默认只有升级地区才需要填写大区项,目前全国极大区域有:华北\东北\华东\华南\华中\西南\西北\港澳台\海外.</li>
+                    </ul>
+                    <!-- 结束操作提示 --> 
+                    <!-- 开始新增地区设置模块 -->
+                    <form id="addForm" action="${adminRoot}area/save" method="post" autocomplete="off" data-parsley-validate="true">
+                      <div class="form-group">
+                        <label for="areaName" class="control-label">地区名称<i class="f-s-14 text-danger">*</i>&nbsp;:</label>
+                        <input type="text" class="form-control" id="areaName" name="areaName" autocomplete="off" placeholder="请输入地区名称" data-tip="tooltip" data-placement="auto" data-original-title="必填选项，可使用中英文、内容长度控制在2-30个字符。" data-parsley-required="true" data-parsley-length="[2, 30]"/>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label">上级地区<i class="f-s-14 text-danger">*</i>&nbsp;:</label>
+                        <!-- S bycj地区-->
+                        <div class="clearfix m-b-15" id="add_area_panel" style="height: 35px;"> 
+                          <!--E bycj地区--> 
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="areaRegion" class="control-label">所属大区&nbsp;:</label>
+                        <input type="text"
+                                 id="areaRegion" name="areaRegion" class="form-control"
+                                 placeholder="如新增地区为省级地区,请填写此项,填写内容参照提示内容" autocomplete="off"
+                                 value="" data-tip="tooltip" data-placement="auto"
+                                 data-original-title="选填选项，可使用中英文、内容长度控制在1-30个字符。" data-parsley-length="[2, 30]"/>
+                      </div>
+                    </form>
+                    <!-- 结束新增地区设置模块--> 
+                  </div>
+                  <div class="modal-footer"> <a href="javascript:;" class="btn btn-white" data-dismiss="modal">取消编辑</a> <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-ajax-submit-target="addForm" nc-ajax-submit>确认提交</a> </div>
+                </div>
+              </div>
+            </div>
+            <!-- 结束新增地区模态窗口 --> 
+            
+            <!-- 开始编辑地区模态窗口 -->
+            <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">编辑地区 </h4>
+                  </div>
+                  <div class="modal-body"> 
+                    <!-- 开始操作提示 -->
+                    <ul class="collapse text-info p-b-10 p-l-15" role="tabpanel" id="addOperationTips">
+                      <li  class="m-b-10">请认真填写地区名称，地区设定后将直接印象订单，收货地址等重要信息，请慎重操作</li>
+                      <li  class="m-b-10">系统将根据所选的上级菜单层级决定新增项的所在级，即选择上级菜单为“北京”，则新增项为北京地区的下级区域，依次类推。</li>
+                      <li  class="m-b-10">默认只有升级地区才需要填写大区项，目前全国极大区域有：华北\东北\华东\华南\华中\西南\西北\港澳台\海外。</li>
+                    </ul>
+                    <!-- 结束操作提示 --> 
+                    <!-- 开始编辑地区设置模块 -->
+                    <form id="editForm" action="${adminRoot}area/edit" method="post" autocomplete="off" data-parsley-validate="true">
+                      <input type="hidden" name="areaId" value="">
+                      <div class="form-group">
+                        <label for="areaName" class="control-label">地区名称<i class="f-s-14 text-danger">*</i>&nbsp;:</label>
+                        <input type="text"
+                                             class="form-control"
+                                             name="areaName"
+                                             autocomplete="off"
+                                             placeholder="请输入地区名称"
+                                             data-tip="tooltip"
+                                             data-placement="auto"
+                                             data-original-title="必填选项，可使用中英文、内容长度控制在2-30个字符。"
+                                             data-parsley-required="true"
+                                             data-parsley-length="[2, 30]"/>
+                      </div>
+                      <div class="form-group">
+                        <label for="areaRegion" class="control-label">所属大区&nbsp;:</label>
+                        <input type="text"
+                                             name="areaRegion"
+                                             class="form-control"
+                                             placeholder="如新增地区为省级地区，请填写此项，填写内容参照提示内容"
+                                             autocomplete="off"
+                                             value="" data-tip="tooltip" data-placement="auto"
+                                             data-original-title="选填选项，可使用中英文、内容长度控制在2-30个字符。"
+                                             data-parsley-length="[2, 30]"/>
+                      </div>
+                      <div class="form-group">
+                        <label for="editFormAreaDeep" class="control-label">所在层级&nbsp;:</label>
+                        <input id="editFormAreaDeep" disabled type="text" class="form-control"/>
+                        <input name="areaDeep" type="hidden" />
+                      </div>
+                      <div class="form-group">
+                        <label for="editFormAreaParentId" class="control-label">父级ID&nbsp;:</label>
+                        <input id="editFormAreaParentId" disabled type="text" class="form-control"/>
+                        <input name="areaParentId"  type="hidden" />
+                      </div>
+                    </form>
+                    <!-- 结束新增地区设置模块--> 
+                  </div>
+                  <div class="modal-footer"> <a href="javascript:;"
+                                 class="btn btn-white"
+                                 data-dismiss="modal">取消编辑</a> <a href="javascript:;" class="btn btn-primary"
+                                 data-loading-text="Loading..."
+                                 nc-ajax-submit-target="editForm"
+                                 nc-ajax-submit>确认提交</a> </div>
+                </div>
+              </div>
+            </div>
+            <!-- 结束新增地区模态窗口 --> 
+            
+            <!-- 开始新增下级地区模态窗口 -->
+            <div class="modal fade" id="addChildModal" tabindex="-1" role="dialog">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">新增地区<a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#addChildOperationTips" aria-expanded="false" title="操作提示"><i class="fa fa-exclamation"></i>&nbsp;提示</a></h4>
+                  </div>
+                  <div class="modal-body"> 
+                    <!-- 开始操作提示 -->
+                    <ul class="collapse text-info p-b-10 p-l-15" role="tabpanel" id="addChildOperationTips">
+                      <li  class="m-b-10">请认真填写地区名称，地区设定后将直接印象订单，收货地址等重要信息，请慎重操作</li>
+                      <li  class="m-b-10">系统将根据所选的上级菜单层级决定新增项的所在级，即选择上级菜单为“北京”，则新增项为北京地区的下级区域，依次类推。</li>
+                      <li  class="m-b-10">默认只有升级地区才需要填写大区项，目前全国极大区域有：华北\东北\华东\华南\华中\西南\西北\港澳台\海外。</li>
+                    </ul>
+                    <!-- 结束操作提示 --> 
+                    <!-- 开始新增地区设置模块 -->
+                    <form id="addChildForm" action="${adminRoot}area/save" method="post" autocomplete="off" data-parsley-validate="true">
+                      <div class="form-group">
+                        <label for="areaName" class="control-label">地区名称<i class="f-s-14 text-danger">*</i>&nbsp;:</label>
+                        <input type="text" class="form-control" id="addChildAreaName" name="areaName" autocomplete="off" placeholder="请输入地区名称" data-tip="tooltip" data-placement="auto" data-original-title="必填选项，可使用中英文、内容长度控制在2-30个字符。" data-parsley-required="true" data-parsley-length="[2, 30]"/>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label">上级地区<i class="f-s-14 text-danger">*</i>&nbsp;:</label>
+                        <div id="areaRegionPanel" class="input-group clearfix m-b-15" style="height: 35px;"></div>
+                      </div>
+                      <div class="form-group">
+                        <label for="areaRegion" class="control-label">所属大区&nbsp;:</label>
+                        <input type="text"
+                                             id="addChildAreaRegion" name="areaRegion" class="form-control"
+                                             placeholder="如新增地区为省级地区，请填写此项，填写内容参照提示内容" autocomplete="off"
+                                             value="" data-tip="tooltip" data-placement="auto"
+                                             data-original-title="选填选项，可使用中英文、内容长度控制在1-30个字符。" data-parsley-length="[2, 30]"/>
+                      </div>
+                    </form>
+                    <!-- 结束新增地区设置模块--> 
+                  </div>
+                  <div class="modal-footer"> <a href="javascript:;" class="btn btn-white" data-dismiss="modal">取消编辑</a> <a id="addChildBtn" href="javascript:;" class="btn btn-primary"
+                                 data-loading-text="Loading..." nc-ajax-submit-target="addChildForm" nc-ajax-submit>确认提交</a></div>
+                </div>
+              </div>
+            </div>
+            <!-- 结束新增下级地区模态窗口 --> 
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 结束布局行 --> 
+  </div>
+  <!-- 结束页面内容 --> 
+  
+  <!-- ================== 开始页面级JavaScrip调用 ================== --> 
+  <!-- 表单select项 -->
+  <script src="${toolkitRoot}bootstrap-select/bootstrap-select.min.js"></script> 
+  <script src="${jsRoot}setting/area.js"></script> 
+</@c.html>

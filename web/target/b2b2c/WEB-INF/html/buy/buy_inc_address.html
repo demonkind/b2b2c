@@ -1,0 +1,59 @@
+
+<div class="ncc-receipt-info">
+	<div class="ncc-receipt-info-title">
+		<h3>收货人信息</h3>
+		<a href="javascript:void(0)" id="editReciver" data-buy-edit>[修改]</a>
+		<a href="javascript:void(0)" id="addReciver" style="display:none;">[新增收货地址]</a>
+	</div>
+	
+	<!-- S 地址列表 -->
+	<div id="addrList" class="ncc-candidate-items" style="display:none;">
+		
+		<ul>
+		<#if addressList?exists && (addressList?size>0) >
+		<#assign current = addressList.get(0) />
+			<#list addressList as address>
+			<li class="receive_add address_item">
+			<input name="addr" id="addr_${address.addressId}" 
+			type="radio" class="radio" value="${address.addressId !''}" 
+			data-address="${address.address!''}" 
+			data-real-name="${address.realName!''}" 
+			data-area-id="${address.areaId!''}"
+			 data-mob-phone="${address.mobPhone!''}" 
+			 data-tel-phone="${address.telPhone!''}"
+			  data-area-info="${address.areaInfo!''}" 
+			  <#if address.isDefault == 1><#assign current = address /></#if> />
+			  <label for="addr_${address.addressId}">
+			  <span class="true-name">${address.realName!''}</span>
+			  <span class="address">${address.areaInfo!''}  ${address.address!''}</span>
+			  <span class="phone"> <i class="icon-mobile-phone"></i>${address.mobPhone!address.telPhone}</span>
+			  </label><a href="javascript:void(0);" data-del-address-id="${address.addressId}" 
+			  class="del">[ 删除 ]</a></li>
+		</#list>
+		</#if>
+		</ul>
+		<div class="hr16">
+			<a id="hideAddrList" class="btn btn-sm btn-danger" href="javascript:void(0);">保存收货人信息</a>
+		</div>
+	</div>
+	<!-- E 地址列表 -->
+	
+	<!-- S 已选择的收货地址信息 -->
+	<div id="addrSelectInfo" class="ncc-candidate-items">
+		<ul>
+			<#if current?? >
+			<li>
+				<span class="true-name">${current.realName!''}</span>
+				<span class="address">${current.areaInfo!''}  ${current.address}</span>
+				<span class="phone"><i class="icon-mobile-phone"></i>${current.mobPhone!current.telPhone}
+				</span>
+			</li>
+			</#if>
+		</ul>
+	</div>
+	<!-- E 已选择的收货地址信息 -->
+
+	<!-- S 隐藏地区id-->
+	<input value="<#if current?? >${current.addressId}</#if>" type="hidden" name="addressId" id="addressId">
+	<!-- E 隐藏地区id-->
+</div>

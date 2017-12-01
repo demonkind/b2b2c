@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<meta charset="UTF-8">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="generator" content="UG93ZXJlZCBCeSBTaG9wTkMubmV0"/>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="author" content="ShopNC-Developers"/>
+<title>登录</title>
+<!-- ================== 开始基础CSS调用 ================== -->
+<link href="${publicRoot}css/base.css" rel="stylesheet" type="text/css">
+<link href="${toolkitRoot}font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
+<!--[if IE 7]>
+<link href="${toolkitRoot}font-awesome/css/font-awesome-ie7.min.css" rel="stylesheet">
+<![endif]-->
+<!-- ================== 结束基础CSS调用 ================== -->
+<!-- ================== 开始页面CSS调用 ================== -->
+<link href="${cssRoot}seller_login.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+.bns-01 { background-image: url(${imgRoot}joinin/banner_01_repeat.png); }
+.bns-01 .con { background-image: url(${imgRoot}joinin/banner_01.png); }
+.bns-02 { background-image: url(${imgRoot}joinin/banner_02_repeat.png); }
+.bns-02 .con { background-image: url(${imgRoot}joinin/banner_02.png); }
+</style>
+<!-- ================== 结束页面CSS调用 ================== -->
+<!-- ================== 开始基础JavaScript调用 ================== -->
+<script src="${publicRoot}toolkit/jquery/1.8.3/jquery.js"></script>
+<script src="${publicRoot}toolkit/jquery-validation/jquery.validation.min.js"></script>
+<script src="${publicRoot}toolkit/layer/layer.js"></script>
+<!--[if lt IE 9]>
+  <script src="${publicRoot}toolkit/crossbrowserjs/es5-shim.min.js"></script>
+  <script src="${publicRoot}toolkit/crossbrowserjs/html5shiv.js"></script>
+  <script src="${publicRoot}toolkit/crossbrowserjs/excanvas.min.js"></script>
+  <script src="${publicRoot}toolkit/crossbrowserjs/respond.min.js"></script>
+<![endif]-->
+<script>
+//全局方法设置
+var ncGlobal = {
+	webRoot:"${webRoot}",
+	adminRoot:"${adminRoot}",
+	memberRoot:"${memberRoot}",
+	sellerRoot:"${sellerRoot}",
+	jsRoot:"${jsRoot}",
+	cssRoot:"${cssRoot}",
+	imgRoot:"${imgRoot}",
+	toolkitRoot:"${toolkitRoot}",
+	uploadRoot:"${uploadRoot}"
+};
+</script>
+<script type="text/javascript" src="${publicRoot}toolkit/jquery-nc/jquery.nc.js"></script>
+<!-- ================== 结束基础JavaScript调用 ================== -->
+<!--cG93ZXJlZCBieSBzaG9wbmMubmV0-->
+</head>
+<body>
+<div class="header">
+  <div class="header-box">
+    <h2 class="header_logo"><a href="javascript:;"><img src="${sellerLogoUrl}" alt=""/></a></h2>
+    <!--<ul class="header_menu">
+      <li class="current"><a href="javascript:;" class="joinin"><i></i>商家入驻申请</a></li>
+      <li class=""><a href="javascript:;" class="login"><i></i>商家管理中心</a></li>
+      <li class=""><a href="javascript:;" class="faq"><i></i>商家帮助指南</a></li>
+    </ul>-->
+  </div>
+</div>
+<div class="login-banner">
+  <div class="banner-show" id="js_ban_content">
+    <div class="cell bns-01">
+      <div class="con"> </div>
+    </div>
+    <div class="cell bns-02" style="display:none;">
+      <div class="con"> <a href="javascript:;" target="_blank" class="banner-link"></a> </div>
+    </div>
+  </div>
+  <div class="banner-control" id="js_ban_button_box"> <a href="javascript:;" class="left">左</a> <a href="javascript:;" class="right">右</a> </div>
+  <div class="seller-login-box">
+    <h3>商户卖家登录</h3>
+    <h5>请使用卖家账户可登录后进入店铺或申请开店</h5>
+    <form id="loginForm" action="${sellerRoot}login" method="post" class="login-form">
+      <dl class="form-cell">
+        <dt>商家帐号：</dt>
+        <dd><input type="text" class="text" name="username" maxlength="20" placeholder="可使用已注册的商家帐号登录" autocomplete="off"/></dd>
+      </dl>
+      <dl class="form-cell">
+        <dt>登录密码：</dt>
+        <dd><input type="password" class="text" name="password" maxlength="20" placeholder="输入商家帐号登录密码" autocomplete="off"/></dd>
+      </dl>
+      <dl class="form-cell">
+        <dt>验&nbsp;&nbsp;证&nbsp;&nbsp;码：</dt>
+        <dd><input id="captcha" class="text w100" type="text" name="captcha" maxlength="4" placeholder="输入验证码" autocomplete="off"/>
+        <span class="code-span"><img id="captcha_image" src="${sellerRoot}captcha/captcha.jpg" class="codeimg" name="codeimage" alt=""/><a href="JavaScript:void(0);" id="captchaImageChange" class="code-pic">看不清，换一张</a></span></dd></dl>
+      <div class="form-bottom">
+        <a href="javascript:;" id="submitLogin" class="btn btn-lg btn-success w300"  onclick="$('#loginForm').submit();">确认登录</a>
+      </div>
+    </form>
+    <div class="register">还没有成为我们的合作伙伴？ <a id="btnShowRegisterDialog" href="javascript:;" >快速注册</a></div>
+  </div>
+</div>
+<!--cG93ZXJlZCBieSBzaG9wbmMubmV0-->
+<div class="login-main">
+  <h2 class="index-title">申请开店流程</h2>
+  <h5 class="index-title-sub">商家按照下面的流程步骤，即可在本商城开设您的店铺。</h5>
+  <div class="index-joinin-step">
+    <dl class="step">
+      <dt class="a"></dt>
+      <dd>注册卖家帐号</dd>
+      <dd>登录后申请开店</dd>
+    </dl>
+    <span class="arrow"></span>
+    <dl class="step">
+      <dt class="b"></dt>
+      <dd>在线申请开店</dd>
+      <dd>提交相关信息</dd>
+    </dl>
+    <span class="arrow"></span>
+    <dl class="step">
+      <dt class="c"></dt>
+      <dd>申请提交平台</dd>
+      <dd>审核商家资料</dd>
+    </dl>
+    <span class="arrow"></span>
+    <dl class="step">
+      <dt class="d"></dt>
+      <dd>缴纳相关费用</dd>
+      <dd>提交付款凭证</dd>
+    </dl>
+    <span class="arrow"></span>
+    <dl class="step">
+      <dt class="e"></dt>
+      <dd>平台审核开通</dd>
+      <dd>进入店铺管理</dd>
+    </dl>
+  </div>
+  <h2 class="index-title">入驻指南</h2>
+  <h5 class="index-title-sub">了解商家入驻指南，提供完善的资料，快速开通店铺。</h5>
+  <div class="index-joinin-info">
+    <ul class="tabs-nav">
+      <#list articleList as list> <li <#if list_index == 0>class="tabs-selected"</#if>>
+      <h3>${list.title}</h3>
+      </li>
+      </#list>
+    </ul>
+    <#list articleList as list>
+    <#noescape>
+    <div class="tabs-panel<#if list_index !=0> tabs-hide</#if>"> ${list.content} </div>
+     </#noescape>
+    </#list> </div>
+</div>
+<div id="dialogRegister" style="display:none;">
+  <div class="reg-faq">ShopNC【B2B2C】平台提供各类专业管家服务，协助您开通店铺、运营店铺、组织营销活动及分析运营数据，悉心为您解答各类疑问，引导您按相关规则展开运营；我们将竭尽全力，为您的店铺保驾护航。</div>
+  <form id="registerForm" class="reg-form" action="${sellerRoot}register.json" method="post" data-parsley-validate>
+    <dl class="form-cell">
+      <dt>商家账号：</dt>
+     <dd><input id="sellerName" class="text text-reg" type="text" name="sellerName" maxlength="20" placeholder="请使用3-20个中、英文、数字及“-”符号" autocomplete="off"/></dd>
+    </dl>
+    <dl class="form-cell">
+      <dt>设置密码：</dt>
+      <dd><input id="sellerPassword" class="text text-reg" type="password" name="sellerPassword" maxlength="20" placeholder="6-20个大小写英文字母、符号或数字" autocomplete="off"/></dd>
+    </dl>
+    <dl class="form-cell">
+      <dt>确认密码：</dt>
+      <dd><input type="password" class="text text-reg" name="sellerPassword2" maxlength="20" placeholder="请再次输入密码" autocomplete="off"/></dd>
+    </dl>
+    <dl class="form-cell">
+      <dt>常用邮箱：</dt>
+      <dd><input id="sellerEmail" class="text text-reg" type="text" name="sellerEmail" placeholder="输入常用邮箱作为验证使用" autocomplete="off"/></dd>
+    </dl>
+    <dl class="form-cell">
+      <dt>验&nbsp;&nbsp;证&nbsp;&nbsp;码：</dt>
+      <dd><input id="captchaRegister" class="text w100" type="text" name="captcha" maxlength="4" maxlength="4" placeholder="输入验证码" autocomplete="off"/><span class="code-span"><img id="captcha_register_image" src="${sellerRoot}captcha/captcha.jpg" class="codeimg" alt=""/>
+      <a href="JavaScript:void(0);" class="code-pic" id="captchaRegisterChange" >看不清，更换一张</a></span></dd></dl>
+    <div class="form-bottom"><a href="javascript:;" class="btn btn-lg btn-primary w200" id="submitRegister" nc-ajax-submit-target="registerForm" onclick="$('#registerForm').submit();" >提交注册</a> </div>
+  </form>
+</div>
+</body>
+<!--cG93ZXJlZCBieSBzaG9wbmMubmV0-->
+<!-- ================== 开始页面JavaScript调用 ================== -->
+<script src="${jsRoot}login.js"></script>
+<!-- ================== 结束页面JavaScript调用 ================== -->
+</html>

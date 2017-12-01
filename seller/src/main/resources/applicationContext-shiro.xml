@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+
+    <bean id="captchaFilter" class="net.shopnc.b2b2c.seller.shiro.FormAuthenticationCaptchaFilter"/>
+
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <!-- 可根据项目的URL进行替换 -->
+        <property name="loginUrl" value="/login"/>
+        <property name="successUrl" value="/"/>
+        <property name="unauthorizedUrl" value="/"/>
+        <property name="filters">
+            <map>
+                <entry key="authc" value-ref="captchaFilter"/>
+            </map>
+        </property>
+        <property name="filterChainDefinitions">
+            <value>
+                /login = authc
+                /logout = logout
+                /register.json = anon
+                /register/** = anon
+                /captcha/** = anon
+                /static/** = anon
+                /account/** = perms[account/list]
+                /account_group/** = perms[account_group/list]
+                /album/** = perms[album/list]
+                /bill/** = perms[bill/list]
+                /brand/** = perms[brand/list]
+                /consult/** = perms[consult/list/all]
+                /contract/** = perms[contract/list]
+                /evaluate/** = perms[evaluate]
+                /format_template/** = perms[format_template/list]
+                /freight/** = perms[freight/template/list]
+                /goods/** = perms[goods/add/step_one]
+                /label/** = perms[label/list]
+                /message/** = perms[message/list/1]
+                /open/** = perms[open]
+                /orders/** = perms[orders/list/default]
+                /refund/** = perms[refund/list]
+                /return/** = perms[return/list]
+                /service/** = perms[service/list]
+                /ship/** = perms[ship/company/list]
+                /spec/** = perms[spec/list]
+                /store/navigation/** = perms[store/navigation/list]
+                /store/setting/** = perms[store/setting]
+                /store/slide/** = perms[store/setting]
+                /** = authc
+            </value>
+        </property>
+    </bean>
+
+    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager"/>
+
+    <bean id="sessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"/>
+
+    <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg value="sid"/>
+        <property name="httpOnly" value="true"/>
+        <property name="maxAge" value="28800"/>
+    </bean>
+
+    <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
+        <property name="activeSessionsCacheName" value="shiro-activeSessionCache"/>
+        <property name="sessionIdGenerator" ref="sessionIdGenerator"/>
+    </bean>
+
+    <bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.quartz.QuartzSessionValidationScheduler">
+        <property name="sessionValidationInterval" value="1800000"/>
+        <property name="sessionManager" ref="sessionManager"/>
+    </bean>
+
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <property name="globalSessionTimeout" value="1800000"/>
+        <property name="deleteInvalidSessions" value="true"/>
+        <property name="sessionValidationSchedulerEnabled" value="true"/>
+        <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
+        <property name="sessionDAO" ref="sessionDAO"/>
+        <property name="sessionIdCookieEnabled" value="true"/>
+        <property name="sessionIdCookie" ref="sessionIdCookie"/>
+    </bean>
+
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="sellerRealm"/>
+        <property name="sessionManager" ref="sessionManager"/>
+        <property name="cacheManager" ref="cacheManager"/>
+    </bean>
+
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <!-- Realm实现 -->
+    <bean id="sellerRealm" class="net.shopnc.b2b2c.seller.shiro.SellerRealm">
+        <!--<property name="cachingEnabled" value="false"/>-->
+    </bean>
+
+</beans>

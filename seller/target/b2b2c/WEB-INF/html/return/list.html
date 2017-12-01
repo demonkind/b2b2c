@@ -1,0 +1,151 @@
+<#import "/layout/seller_layout.html" as c>
+    <@c.html title="Index">
+    <form target="_self" action="${sellerRoot}return/list" method="get">
+        <table class="search-form">
+            <tbody>
+            <td>
+                <td>&nbsp;</td>
+                <!--<td><input type="checkbox" name="skip_off" checked="checked" value="1" id="skip_off">-->
+                <!--<label for="skip_off">不显示已关闭的订单</label></td>-->
+                <th>下单时间</th>
+                <td class="w250">
+                    <input type="text" id="addTimeStart" name="addTimeStart" class="text w70"
+                           value='${addTimeStart?default("")}'>
+                    <label class="add-on"><i class="icon-calendar"></i></label>
+                    &nbsp;&#8211;&nbsp;
+                    <input type="text" id="addTimeEnd" name="addTimeEnd" class="text w70"
+                           value='${addTimeEnd?default("")}'>
+                    <label class="add-on"><i class="icon-calendar"></i></label></td>
+
+                <th>处理类型</th>
+                <td class="w80">
+                    <select name="stateType" id="stateType">
+                        <option value="all"  <#if  stateType?? && stateType=="all">selected</#if> >全部</option>
+                        <option value="waiting" <#if  stateType?? && stateType=="waiting">selected</#if> >待处理</option>
+                        <option value="agree" <#if  stateType?? && stateType=="agree">selected</#if> >同意</option>
+                        <option value="disagree" <#if  stateType?? && stateType=="disagree">selected</#if> >不同意</option>
+                    </select>
+
+                </td>
+
+                <th>
+                    <select name="searchType" id="searchType">
+                        <option value="memberName" <#if  searchType?? && searchType=="memberName">selected</#if> >买家会员名</option>
+                        <option value="goodsName" <#if  searchType?? && searchType=="goodsName">selected</#if> >商品名称</option>
+                        <option value="ordersSn" <#if  searchType?? && searchType=="ordersSn">selected</#if> >订单编号</option>
+                    </select>
+                </th>
+                <td class="w160">
+                    <input type="text" value="${keyword?default('')}" name="keyword" class="text w200">
+                </td>
+                <td class="w70 tc">
+                    <label class="submit-border">
+                        <input type="submit" value="搜索" class="submit">
+                    </label>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+    <!--c2VsbGVyL29yZGVyL2lsaXN0IGphdmEgYnkgc2hvcG5jLm5ldA==-->
+    <table class="ncsc-default-table order">
+        <thead>
+        <tr>
+            <th class="w10"></th>
+            <th colspan="2">商品/订单号/退款号</th>
+            <th class="w100">退款金额</th>
+            <th class="w200">买家会员名</th>
+            <th class="w120">申请时间</th>
+            <th class="w120">处理状态</th>
+            <th class="w120">平台确认	</th>
+            <th class="w200">操作</th>
+        </tr>
+        </thead>
+        <#if refundItemVoList?? && (refundItemVoList?size>0)>
+
+            <#list refundItemVoList as refundItemVo>
+                <tbody>
+                <tr>
+                    <td class="sep-row" colspan="20"></td>
+                </tr>
+                <tr>
+                    <th colspan="20">
+                        <a href="${c.func.ncStoreOrdersInfoUrl(refundItemVo.ordersId)}">
+                            <span class="m-l-10">订单编号：<em>${refundItemVo.ordersSn}</em> </span>
+                        </a>
+                        <span class="m-l-10">退款编号：<em>${refundItemVo.refundSn}</em> </span>
+                    </th>
+                </tr>
+
+                    <tr>
+                        <td class="bdl"></td>
+                        <!--商品图片-->
+
+                        <!--商品名称-->
+                        <td class="tl" colspan="2">
+                            <#if refundItemVo.goodsId gt 0>
+                                <div class="table-list-thumb">
+                                    <a target="_blank" href="${c.func.ncGoodsUrl(refundItemVo.goodsId)}">
+                                        <img src="${c.func.ncImage(uploadRoot + refundItemVo.goodsImage,60,60)}" >
+                                    </a>
+                                </div>
+                            </#if>
+                            <dl class="goods-name">
+
+                                <dt>
+                                    <#if refundItemVo.goodsId gt 0 >
+                                        <a href="${c.func.ncGoodsUrl(refundItemVo.goodsId)}" target="_blank">${refundItemVo.goodsName}</a>
+                                    <#else />
+                                        <a href="${c.func.ncStoreOrdersInfoUrl(refundItemVo.ordersId)}" target="_blank">${refundItemVo.goodsName}</a>
+                                    </#if>
+                                </dt>
+                            </dl>
+                        </td>
+                        <!--退款金额-->
+                        <td><p>${"¥" +refundItemVo.refundAmount?string("0.00")}</p></td>
+                        <!--会员名称-->
+                        <td>${refundItemVo.memberName}</td>
+
+                        <td>${refundItemVo.addTime}</td>
+                        <td>${refundItemVo.sellerStateText}</td>
+                        <td>${refundItemVo.refundStateText}</td>
+                        <td>
+                            <#if refundItemVo.sellerState == 1 >
+                                <a href="${sellerRoot}return/info/${refundItemVo.refundId}" class="btn btn-sm btn-primary m-r-10"><i class="icon-edit"></i>处理</a>
+                                <#else />
+                                <a href="${sellerRoot}return/info/${refundItemVo.refundId}" class="btn btn-sm btn-default"><i class="icon-list-alt"></i>查看</a>
+                            </#if>
+                            <#if refundItemVo.showStoreReturnReceive ==1  >
+                                <a href="javascript:;" class="btn btn-sm btn-primary" data-receive-id="${refundItemVo.refundId}"><i class="icon-check-sign"></i>收货</a>
+                            </#if>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </#list>
+            <#else>
+                <tr>
+                    <td colspan="20" class="norecord">
+                        <div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span></div>
+                    </td>
+                </tr>
+        </#if>
+        <tfoot>
+        <tr>
+            <td colspan="20">
+                <#noescape>
+                <div class="pagination">${showPage}</div>
+                    </#noescape>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+
+    <!-- 日历控件 -->
+    <link href="${toolkitRoot}datePicker/skin/WdatePicker.css" rel="stylesheet"/>
+    <link href="${toolkitRoot}datePicker/skin/default/datepicker.css" rel="stylesheet"/>
+    <script type="text/javascript" src="${toolkitRoot}datePicker/WdatePicker.js" defer="defer"></script>
+    <script src="${jsRoot}return/list.js"></script>
+</@c.html>
+

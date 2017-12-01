@@ -1,0 +1,112 @@
+<#import "/layout/seller_layout.html" as c>
+<@c.html title="咨询列表">
+  <form target="_self" action="" method="get">
+    <table class="search-form">
+      <tbody>
+        <tr>
+          <td>&nbsp;</td>
+          <th> <select name="cid">
+              <option value="0">- 请选择 -</option>
+              <#if consultClassList?exists && (consultClassList?size gt 0) >
+                <#list consultClassList as info>
+                    <option value="${info.classId}" <#if RequestParameters["cid"]?? && RequestParameters["cid"]?string==info.classId?string>selected</#if>>${info.className!""}</option>
+                </#list>
+              </#if>
+            </select>
+          </th>
+          <td class="w70 tc"><label class="submit-border">
+              <input type="submit" value="搜索" class="submit">
+            </label></td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+  <form id="listForm" action="${sellerRoot}consult/delbatch" method="post">
+    <!--SkFWQV9zZWxsZXIvYWZ0ZXJzYWxlcy9jb25zdWx0X2xpc3QgYnkgc2hvcG5jLm5ldA==-->
+    <table class="ncsc-default-table">
+      <thead>
+        <tr>
+          <th class="w30"></th>
+          <th>咨询/回复</th>
+          <th class="w30"></th>
+          <th class="w150">操作</th>
+        </tr>
+      <#if consultList?exists && (consultList?size gt 0) >
+      <tr>
+        <td class="tc"><input type="checkbox" class="checkall" nc-check-all/></td>
+        <td colspan="3"><label>全选</label>
+          <a href="javascript:void(0);" class="btn btn-xs btn-white" nc_type="batchDel"><i class="icon-trash"></i>删除</a></td>
+      </tr>
+      </#if>
+        </thead>
+      
+      <tbody>
+      <#if consultList?exists && (consultList?size gt 0) >
+      <#list consultList as info>
+      <tr>
+        <th class="tc"> <input type="checkbox" name="consultId" nc_type="checkitem" value="${info.consultId}" class="checkitem m-l-10 m-r-10" nc-check-item/>
+        </th>
+        <th colspan="3" class="tl">
+          <span><a href="${c.func.ncGoodsUrl(info.goodsId)}" target="_blank">${info.goodsName}</a></span>
+          <span class="ml20">咨询用户：<#if info.memberId lte 0>游客</#if><#if info.memberId gt 0 && info.anonymousState==1>${info.memberName}</#if><#if info.memberId gt 0 && info.anonymousState==0>${info.memberName}</#if></span>
+          <#if info.className??><span class="ml20">咨询类型：${info.className!""}</span></#if>
+          <span class="ml20">咨询时间：<em class="goods-time">${info.addTime}</em></span>
+        </th>
+        <!--SkFWQV9zZWxsZXIvYWZ0ZXJzYWxlcy9jb25zdWx0X2xpc3QgYnkgc2hvcG5jLm5ldA==--> 
+      </tr>
+      <tr>
+        <td rowspan="2"></td>
+        <td class="tl"><strong>咨询内容：</strong><span class="gray" id='consultContent${info.consultId}'>${info.consultContent}</span></td>
+        <td rowspan="2"></td>
+        <td rowspan="2" class="vt"><#if info.consultReply?? && (info.consultReply)?length gt 0 ><a href="javascript:void(0);" class="btn btn-sm btn-primary m-r-10" nc_type="editReply" data-param="{consultId:${info.consultId}}"><i class="icon-edit"></i>编辑</a><#else><a href="javascript:void(0);" class="btn btn-sm btn-info m-r-10" nc_type="editReply" data-param="{consultId:${info.consultId}}"><i class="icon-comments-alt "></i>回复</a></#if><a href="javascript:void(0);" nc_type="delConsult" data-param="{consultId:${info.consultId}}" class="btn btn-sm btn-danger"><i class="icon icon-trash"></i>删除</a></td>
+      </tr>
+      <tr> <#if info.consultReply?? && (info.consultReply)?length gt 0 >
+        <td class="tl"><strong>客服回复：</strong> <span class="gray" id='replyContent${info.consultId}'>${info.consultReply!""}</span> <span class="m-l-10 goods-time">(${info.replyTime!""})</span></td>
+        <td colspan="2"></td>
+        </#if> </tr>
+      </#list>
+      <#else>
+      <tr>
+        <td colspan="4" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span></div></td>
+      </tr>
+      </#if>
+        </tbody>
+      
+      <tfoot>
+      <#if consultList?exists && (consultList?size gt 0) >
+      <tr>
+        <th class="tc"><input type="checkbox" class="checkall" nc-check-all/></th>
+        <th colspan="3"> <label>全选</label>
+          <a href="javascript:void(0);" class="btn btn-xs btn-white" nc_type="batchDel"><i class="icon-trash"></i>删除</a> </th>
+      </tr>
+      <!--SkFWQV9zZWxsZXIvYWZ0ZXJzYWxlcy9jb25zdWx0X2xpc3QgYnkgc2hvcG5jLm5ldA==-->
+      <tr>
+        <#noescape>
+        <td colspan="4"><div class="pagination">${showPage}</div></td>
+         </#noescape>
+      </tr>
+      </#if>
+        </tfoot>
+    </table>
+  </form>
+</@c.html>
+
+<!-- 回复咨询s -->
+<div id="replyDialog"  style="display: none">
+  <form id="replyForm" name="replyForm" action="${sellerRoot}consult/reply" method="post" >
+    <input type="hidden" name="consultId" value="">
+    <dl>
+      <dt>咨询内容：</dt>
+      <dd><div class="text-box"><span name="consultContent"></span></div></dd>
+    </dl>
+    <dl>
+      <dt>回复咨询：</dt>
+      <dd>
+        <textarea name="consultReply" class="textarea w400"></textarea>
+      </dd>
+    </dl>
+    <!--SkFWQV9zZWxsZXIvYWZ0ZXJzYWxlcy9jb25zdWx0X2xpc3QgYnkgc2hvcG5jLm5ldA==-->
+  </form>
+</div>
+<!-- 回复咨询e --> 
+<script type="text/javascript" src="${jsRoot}aftersales/consult_list.js"></script> 

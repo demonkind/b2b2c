@@ -1,0 +1,52 @@
+<#import "/home/layout.html" as c>
+<@c.html title="Index">
+    <style type="text/css">
+        .nc-appbar-tabs a.compare { display: none !important;}
+    </style>
+    <div class="nch-container wrapper">
+        <div class="nch-all-menu">
+            <ul class="tab-bar">
+                <li class="current"><a href="javascript:void(0);">全部商品分类</a></li>
+                <li><a href="${webRoot}brand">全部品牌</a></li>
+                <li><a href="${webRoot}search">全部商品</a></li>
+            </ul>
+        </div>
+        <div class="nch-category-all">
+            <#if categoryList?? && categoryList.size() gt 0>
+            <ul class="nch-category-container" id="categoryList">
+                <#list categoryList as category>
+                <li class="classes">
+                    <div class="title"><i></i>
+                        <a href=""${webRoot}search?cat=${category.categoryId}"">${category.categoryName}</a>
+                    </div>
+                    <#if category.categoryList.size() gt 0>
+                    <#list category.categoryList as categoryChild>
+                    <dl>
+                        <dt><a href="${webRoot}search?cat=${categoryChild.categoryId}">${categoryChild.categoryName}</a></dt>
+                        <dd>
+                            <#if categoryChild.categoryList.size() gt 0>
+                            <#list categoryChild.categoryList as categoryChildChild>
+                            <a href="${webRoot}search?cat=${categoryChildChild.categoryId}">${categoryChildChild.categoryName}</a>
+                            </#list>
+                            </#if>
+                        </dd>
+                    </dl>
+                    </#list>
+                    </#if>
+                </li>
+                </#list>
+            </ul>
+            </#if>
+        </div>
+    </div>
+
+    <script src="${publicRoot}toolkit/masonry/jquery.masonry.js"></script>
+    <script>
+        $(function(){
+            $("#categoryList").masonry({
+                itemSelector : '.classes'
+            });
+        });
+    </script>
+
+</@c.html>

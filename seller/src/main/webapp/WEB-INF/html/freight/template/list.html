@@ -1,0 +1,75 @@
+<#import "/layout/seller_layout.html" as c>
+<@c.html title="Index">
+  <div class="top-btn-layout"><a href="${sellerRoot}freight/template/add" class="btn btn-success" title="新增物流配送规则"><i class="icon icon-plus"></i>新增物流配送规则</a></div>
+  <div class="alert mt15 mb5"><strong>操作提示：</strong>
+    <ul>
+      <li>1、如果商品选择使用了配送规则，则该商品只售卖配送规则中指定的地区，运费为指定地区的运费。<!--c2VsbGVyL2ZyZWlnaHQvdGVtcGxhdGUvbGlzdC1qYXZhIGJ5IHNob3BuYy5uZXQ=--></li>
+    </ul>
+  </div>
+  <#if freightTemplateList?exists && (freightTemplateList?size>0)>
+  <#list freightTemplateList as freightTemplate>
+  <table class="ncsc-default-table order m-b-30">
+    <tbody>
+      <tr>
+        <td class="sep-row" colspan="20"></td>
+      </tr>
+      <tr>
+        <th colspan="20"><h3>${freightTemplate.title}</h3>
+          <span class="fr m-r-5">
+          <time title="最后编辑时间"><i class="icon-time"></i>${freightTemplate.editTime}</time>
+          <a dataFreightId="${freightTemplate.freightId}" ncType="clone" href="javascript:void(0)" class="J_Clone btn btn-xs btn-info"><i class="iocn icon-copy"></i>复制</a> <a data-id="2" href="${sellerRoot}freight/template/add?calcType=${freightTemplate.calcType}&freightId=${freightTemplate.freightId}" class="J_Modify btn btn-xs btn-primary"><i class="icon icon-edit"></i>修改</a> <a dataFreightId="${freightTemplate.freightId}" ncType="delete" href="javascript:void(0)" class="J_Delete btn btn-xs btn-danger"><i class="icon icon-trash"></i>删除</a></span></th>
+      </tr>
+      <tr>
+        <td class="w10 bdl"></td>
+        <td class="cell-area tl">运送到</td>
+        <td class="w150"><#if freightTemplate.calcType=="number">首件(件)</#if>
+          <#if freightTemplate.calcType=="weight">首重(kg)</#if>
+          <#if freightTemplate.calcType=="volume">首体积(m<sup>3</sup>)</#if> </td>
+        <td class="w150">运费(元)</td>
+        <td class="w150"><#if freightTemplate.calcType=="number">续件(件)</#if>
+          <#if freightTemplate.calcType=="weight">续重(kg)</#if>
+          <#if freightTemplate.calcType=="volume">续体积(m<sup>3</sup>)</#if> </td>
+        <td class="w150 bdr">运费(元)</td>
+      </tr>
+    <#if freightAreaList?exists && (freightAreaList?size>0)>
+    <#if freightAreaList.get(freightTemplate.freightId)??>
+    <#assign subList=freightAreaList.get(freightTemplate.freightId)>
+    <#list subList as sub>
+    <tr>
+      <td class="bdl"></td>
+      <td class="cell-area tl">${sub.areaName}</td>
+      <td><#if freightTemplate.calcType=="number">
+        ${(sub.item1?string("0"))!"1"}
+        <#else>
+        ${(sub.item1?string("0.00"))!"0.00"}
+        </#if> </td>
+      <td>${(sub.price1?string("0.00"))!"0.00"}</td>
+      <!--c2VsbGVyL2ZyZWlnaHQvdGVtcGxhdGUvbGlzdC1qYXZhIGJ5IHNob3BuYy5uZXQ=-->
+      <td><#if freightTemplate.calcType=="number">
+        ${(sub.item2?string("0"))!"1"}
+        <#else>
+        ${(sub.item2?string("0.00"))!"0.00"}
+        </#if> </td>
+      <td class="bdr">${(sub.price2?string("0.00"))!"0.00"}</td>
+    </tr>
+    </#list>
+    </#if>
+    </#if>
+      </tbody>
+    
+  </table>
+  </#list>
+  <#else>
+  <table class="ncsc-default-table">
+    <tbody>
+      <tr>
+        <td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无相关查询信息</span></div></td>
+      </tr>
+    </tbody>
+  </table>
+  </#if>
+    <#noescape>
+    <div class="pagination">${showPage}</div>
+        </#noescape>
+  <script src="${jsRoot}freight/template/list.js"></script> 
+</@c.html>

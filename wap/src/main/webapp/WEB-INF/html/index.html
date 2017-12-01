@@ -1,0 +1,204 @@
+
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-touch-fullscreen" content="yes" />
+<meta name="format-detection" content="telephone=no"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="msapplication-tap-highlight" content="no" />
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,minimum-scale=1" />
+<title>首页</title>
+<link rel="stylesheet" type="text/css" href="${cssRoot}base.css">
+<link rel="stylesheet" type="text/css" href="${cssRoot}myindex.css">
+<link rel="apple-touch-icon" href="${imgRoot}touch-icon-iphone.png"/>
+</head>
+<body>
+	<div id="header01" class="index_header" >
+		<h1 class="index_header_title">智慧仓</h1>
+		<div class="header-r" style="left:85%;text-align:left;"><a id="header-nav" href="javascript:void(0);"><i class="more"></i><sup></sup></a> </div>
+	</div>
+	<div class="nctouch-nav-layout" style="z-index:100001;">
+		<div class="nctouch-nav-menu"><span class="arrow"></span>
+		      <ul>
+		        <li><a href="/wap"><i class="home"></i>首页</a></li>
+		        <li><a href="/wap/cart/list"><i class="cart"></i>购物车<sup></sup></a></li>
+		        <li><a href="javascript:void(0);" onclick="_MEIQIA._SHOWPANEL()"><i class="search"></i>联系客服</a></li>
+		       <!--  <li><a href="#"><i class="share"></i>分享</a></li> -->
+		        <li><a href="/wap/members/index"><i class="message"></i>我的<sup></sup></a></li>
+		      </ul>
+		</div>
+	</div>
+<!-- 
+1 0元购
+2 预售
+3 0元购+预售
+	 -->
+<section id="index_main">
+<div class="index_banner"><a href="#"><img src="${imgRoot}banner.png" alt=""/></a></div>
+	<ul>
+		<#if goodsList9?exists && (goodsList9?size>0) >
+			 <#list goodsList9 as goods>
+			 		<li class="product_info" href="javascript:;" >		
+			 			<input type="hidden" value="${goods.goodsId}"/>
+						<div class="pic_left">
+							<img class="pic_main" src="${goods.imageSrc}" alt=""/>														
+							<#if goods.activityType == '1'>
+								 <img class="pic_icon" src="${imgRoot}lyg.png" alt=""/> 								 															
+							</#if>
+							<#if goods.activityType == '2'>
+								 <img class="pic_icon" src="${imgRoot}ys_icon.png" alt=""/> 								 															
+							</#if>	
+							<#if goods.activityType == '3'>
+								 <img class="pic_icon" src="${imgRoot}lyys_icon.png" alt=""/> 								 															
+							</#if>
+														
+						</div>
+						<div class="info_right">
+							<h3>${goods.goodsName}</h3>									
+								<div class="time"  
+									data-startTime=" <#if goods.startTime??>${goods.startTime?string('yyyy/MM/dd HH:mm:ss') }</#if>"
+									data-endTime=" <#if goods.endTime??>${goods.endTime?string('yyyy/MM/dd HH:mm:ss')}</#if>"
+									data-activityIsStart="${goods.activityIsStart}"	
+									goods-Storage="${goods.commonStorage}"
+									>										
+								</div>																  																																																																																					
+							<div class="price">
+								<div class="x_price">
+									<i>￥</i>
+									<span>${goods.goodsPrice}</span>
+								</div>
+								<span class="y_price">￥${goods.markerPrice}</span>
+								
+								<#if goods.activityType == '1' || goods.activityType == '3'>
+								<div class="return_cash">
+									<em>返</em>
+									<span>${goods.returnAmount}</span>
+								</div> 							 															
+								</#if>																																															
+							</div>	
+							<div class="progress">
+								<div class="bar" ></div>
+								<!-- 活动没开始的时候，显示为已抢0件 -->
+								<#if  goods.activityIsStart == 0>
+									<div class="pro_fixed" style="width:0% "></div>
+									<p>已抢0件</p>
+									<!-- 活动已经开始，判断下库存是不是0 -->
+									<#else>
+										<#if goods.commonStorage = 0>
+											<div class="pro_fixed" style="width: 100%"></div>
+									    	<p>已抢完</p>
+									    	<#else>
+												<div class="pro_fixed" style="width:${goods.commonSaleNum/(goods.commonStorage+goods.commonSaleNum)*100}%"></div>
+											    <p>已抢${goods.commonSaleNum}件</p>
+										</#if>										
+								</#if>									    	
+							</div>		
+							<!-- 活动没有开始，马上抢按钮不能点，活动开始可以点 -->																	
+							<#if goods.activityIsStart == 0 || goods.commonStorage = 0>
+						 		<input class="grab_btn disabled" disabled type="button" value="马上抢&nbsp>" />
+						 		<#else>
+						 		<input class="grab_btn" type="button" value="马上抢&nbsp>" />									 															
+							</#if>																  								
+								
+								
+						</div>				
+					</li>
+			 </#list>
+		</#if>
+	</ul>
+</section>
+<footer id="index_footer" style="margin:0;">
+	<ul>
+		<li id="page">
+			<a href="javascript:;">
+				<img src="${imgRoot}home.png" alt=""/><br/>
+				首页
+			</a>
+		</li>		
+		<li id="mine" >
+			<a href="javascript:;" style="color:#737373;" >
+				<img src="${imgRoot}my_icon.png" alt=""/><br/>
+				我的
+			</a>
+		</li>
+	</ul>
+</footer>
+<div class="fix-block-r" style="z-index:100000;">
+	<a href="javascript:void(0);" class="gotop-btn gotop hide" id="goTopBtn"><i></i></a>
+</div>
+
+<script type="text/javascript" src="${jsRoot}zepto.min.js"></script> 
+<script type="text/javascript" src="${jsRoot}common.js"></script>
+<script type="text/javascript" src="${jsRoot}jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="${jsRoot}meiqia.js"></script>
+<script type="text/javascript" src="${jsRoot}config.js"></script> 
+<script type="text/javascript" src="${jsRoot}zepto.min.js"></script> 
+<script type="text/javascript" src="${jsRoot}template.js"></script> 
+<script type="text/javascript" src="${jsRoot}common.js"></script> 
+<script type="text/javascript" src="${jsRoot}swipe.js"></script> 
+<script type="text/javascript" src="${jsRoot}tmpl/footer.js"></script>
+<script type="text/javascript" src="${jsRoot}meiqia.js"></script>
+<script type="text/javascript" src="${jsRoot}addtohomescreen.js"></script>
+<script type="text/javascript" src="${jsRoot}TimeObjectUtil.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$("#header-nav").click(function () {
+			if ($('.nctouch-nav-layout').hasClass('show')) {
+				$('.nctouch-nav-layout').removeClass('show');
+			} else {
+				$('.nctouch-nav-layout').addClass('show');
+			}
+		})
+		$(".nctouch-nav-layout").click(function () {
+			 $('.nctouch-nav-layout').removeClass('show');
+		})
+		var $tims = $("#index_main ul li .time");
+		$.each($tims,function(i,v){
+			var starttime = $(this).attr("data-startTime"); //开始时间
+			var endtime = $(this).attr("data-endTime");
+			var type= $(this).attr("data-activityIsStart");  //是否是开始
+			var storage=$(this).attr("goods-Storage");
+			starttime = starttime.trim();
+			endtime = endtime.trim();
+			var _this = $(this);
+			
+			var ss ; // 时间戳
+			ss = TimeObjectUtil.timeStamp("",starttime); //活动未开始   开始时间-当前时间   活动未开始
+			type = 0;
+			if(ss <0 ){
+				ss = TimeObjectUtil.timeStamp("",endtime);//活动已开始  结束时间-当前时间
+				type =1;
+			}
+			
+			var t;
+			if(ss !=undefined){
+				 t = setInterval(function(){
+					var d = TimeObjectUtil.getTime(ss);
+					//活动未开始
+					if(type ==0){
+						$(_this).text("距开始："+d.toString);
+						$(_this).parents(".product_info").find(".grab_btn").attr("disabled",true).addClass("disabled");
+						if(ss <= 0){
+							ss = TimeObjectUtil.timeStamp("",endtime);//改变为活动已开始
+							type = 1;
+						}
+					}else{
+						$(_this).text("距结束："+d.toString);
+						if(ss <= 0 || storage==0){
+							$(_this).text("活动已结束");
+							clearInterval(t);
+							$(_this).parents(".product_info").find(".grab_btn").attr("disabled",true).addClass("disabled");
+						}
+					}
+					ss -=1000;
+				},1000)
+			}
+		})
+	})		
+</script>
+</body>
+</html>

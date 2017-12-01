@@ -1,0 +1,95 @@
+<#import "/layout.html" as c>
+<@c.html title="Index"> 
+  <!-- 开始页面内容 -->
+  <div id="content" class="content"> 
+    <!-- 开始面包屑导航 -->
+    <ol class="breadcrumb pull-right">
+      <li class="">首页</li>
+      <#list adminMenuState.breadCrumbList as breadCrumb>
+      <li class="">${breadCrumb}</li>
+      </#list>
+    </ol>
+    <!-- 结束面包屑导航 --> 
+    <!-- 开始页头区域 --> 
+    <#if adminGroup??>
+    <h1 class="page-header">编辑权限组<small>编辑管理员权限组</small></h1>
+    <#else>
+    <h1 class="page-header">新增权限组<small>添加新的管理员权限组</small></h1>
+    </#if>
+    <div class="tab-content">
+      <div class="tab-pane fade active in" id="baseSet"> 
+        <!-- 开始操作提示 -->
+        <div class="alert alert-info" role="tabpanel" id="listTip">
+          <h4>操作提示</h4>
+          <ul>
+            <li>可在标题处全选所有功能或根据功能模块逐一选择操作权限，提交保存后生效。</li>
+          </ul>
+        </div>
+        <!--结束操作提示 --> 
+        <!-- 开始基础设置表单 -->
+        <form class="form-horizontal form-bordered"
+                      data-parsley-validate="true" id="form" name="form"
+                      data-parsley-excluded=":checkbox"
+                      method="POST" action="${adminRoot}admin_group/save.json">
+          <#if adminGroup??>
+          <input type="hidden" name="groupId" value="${adminGroup.groupId}" />
+          </#if>
+          <input type="hidden" name="permission" value=""/>
+          <div class="form-group">
+            <label for="groupName" class="control-label col-lg-2 col-md-3 col-sm-3"> 权限组 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+            <div class="col-lg-6 col-md-7 col-sm-8">
+              <input type="text" id="groupName" name="groupName" value="<#if adminGroup??>${adminGroup.groupName}</#if>" class="form-control" data-parsley-required="true"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="groupName" class="control-label col-lg-2 col-md-3 col-sm-3"> 权限操作设置详情 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+            <div id="divCheck" class="col-lg-10 col-md-9 col-sm-9">
+              <div class="row m-b-10">
+                <div class="btn btn-sm btn-default">
+                  <label class="m-b-0" style="color: #FFF;">
+                    <input id="adminMenuAll" type="checkbox" style="vertical-align: middle; margin: 0 5px 0 0;"/>
+                    选择全部</label>
+                </div>
+              </div>
+              <#if adminMenuList?hasContent>
+              <#list adminMenuList as adminMenu1>
+              <div class="row p-b-20 m-b-20" style="border-bottom: dashed 1px #DDD;">
+                <div class="col-lg-2 col-md-3" >
+                  <div class="checkbox" >
+                    <label class="f-w-700" >
+                      <input id="adminMenu1_${adminMenu1.id}" type="checkbox" value="${adminMenu1.id}" data-menu1/>
+                      ${adminMenu1.name} </label >
+                  </div >
+                </div >
+                <#if adminMenu1.subMenu?hasContent>
+                <div class="col-lg-10 col-md-9"><#list adminMenu1.subMenu as adminMenu2>
+                  <div class="checkbox col-lg-2 col-md-3 col-sm-4">
+                    <label> <input type="checkbox" value="${adminMenu2.id}" data-menu1-id="${adminMenu1.id}" data-menu2
+                                              <#if groupMenuIdList??>
+                      <#list groupMenuIdList as menuId>
+                      <#if adminMenu2.id == menuId>checked="checked"<#break></#if>
+                      </#list>
+                      </#if>
+                      />
+                      ${adminMenu2.name} </label>
+                  </div>
+                  </#list> </div>
+                </#if> </div>
+              </#list>
+              </#if> </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-lg-2 col-md-3 col-sm-3"></label>
+            <div class="col-lg-6 col-md-7 col-sm-8"> <a id="formSubmit" href="javascript:;" class="btn btn-primary"
+                               data-q-text="Loading..." nc-q-submit-target="form"
+                               nc-data-permission=""
+                               nc-q-submit-reload="true"> 提交设置 </a> </div>
+          </div>
+        </form>
+        <!-- 结束基础设置表单 --> 
+      </div>
+    </div>
+  </div>
+  <!-- 结束页面内容 --> 
+  <script src="${jsRoot}admin/group.add.js"></script > 
+</@c.html>

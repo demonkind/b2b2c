@@ -1,0 +1,53 @@
+<#import "../../func.html" as funcList>
+<div class="outline">
+    <div class="title">
+        <h3>交易提醒</h3>
+        <ul>
+            <li> <a href="${memberRoot}orders/list?ordersState=new">待付款<em>${count.ordersStateNewCount}</em></a> </li>
+            <li> <a href="${memberRoot}orders/list?ordersState=send">待收货<em>${count.ordersStateSendCount}</em></a> </li>
+            <li> <a href="${memberRoot}orders/list?ordersState=noeval">待评价<em>${count.ordersStateEvaluationCount}</em></a> </li>
+        </ul>
+    </div>
+    <#if ordersVoList ?? && ordersVoList.size() gt 0 >
+    <div class="order-list">
+        <ul>
+            <#list ordersVoList as ordersVo>
+            <#assign ordersGoodsVo=ordersVo.ordersGoodsVoList.get(0)>
+            <li>
+                <div class="ncm-goods-thumb"><a target="_blank" href="${memberRoot}orders/info/${ordersVo.ordersId}"><img src="${funcList.ncImage(ordersGoodsVo.imageSrc,60,60)}" /></a><em>
+                    ${(ordersVo.ordersGoodsVoList?size>1)?string(ordersVo.ordersGoodsVoList?size,'')}
+                </em></div>
+                <dl class="ncm-goods-info">
+                    <dt><a href="${memberRoot}orders/info/${ordersVo.ordersId}" target="_blank">${ordersGoodsVo.goodsName}</a>
+                        <#if ordersVo.ordersGoodsVoList.size() gt 1>
+                        <span>等<strong>${ordersVo.ordersGoodsVoList?size}</strong>种商品</span>
+                        </#if>
+                    </dt>
+                    <dd><span class="order-date">下单时间：${ordersVo.createTime}</span><span class="ncm-order-price">订单金额：<em>￥${(ordersVo.ordersAmount?string('0.00'))!'0.00'}</em></span></dd>
+                    <dd><span class="order-state">订单状态： ${ordersVo.ordersStateName}</span> </dd>
+                </dl>
+                <#if ordersVo.showMemberPay==1>
+                <a href="${webRoot}buy/pay/payment/list/${ordersVo.payId}" target="_blank" class="btn btn-xs btn-warning"><i class="icon-shield"></i>订单支付</a>
+                </#if>
+                <#if ordersVo.showMemberReceive==1>
+                <a href="${memberRoot}orders/info/${ordersVo.ordersId}" class="btn btn-xs btn-success"><i class="icon-ok-sign"></i>确认收货</a>
+                </#if>
+                <#if ordersVo.showEvaluation==1>
+                <a href="${memberRoot}evaluate/evaluate_add?orderid=${ordersVo.ordersId}" target="_blank" class="btn btn-xs btn-info"><i class="icon-comments-alt"></i>交易评价</a>
+                </#if>
+                <#if ordersVo.showMemberPay!=1 && ordersVo.showMemberReceive!=1 && ordersVo.showEvaluation!=1>
+                <a href="${memberRoot}orders/info/${ordersVo.ordersId}" target="_blank" class="btn btn-xs btn-white"><i class="icon-eye-open"></i>查看订单</a> </li>
+                </#if>
+            </#list>
+        </ul>
+    </div>
+    <#else>
+    <dl class="null-tip">
+        <dt></dt>
+        <dd>
+            <h4>您好久没在商城购物了</h4>
+            <h5>交易提醒可帮助您了解订单状态和物流情况</h5>
+        </dd>
+    </dl>
+    </#if>
+</div>

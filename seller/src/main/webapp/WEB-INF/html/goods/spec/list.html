@@ -1,0 +1,96 @@
+<#import "/layout/seller_layout.html" as c>
+<@c.html title="Index">
+<div class="top-btn-layout"><a id="addSpecBtn" href="javascript:void(0)" class="btn btn-sm btn-success" onclick="javascript:;"  title="新增商品规格"><i class="icon icon-plus"></i>新增商品规格</a></div>
+  <div class="alert mt15 mb5"><strong>操作提示：</strong>
+    <ul>
+      <li>1、关联版式可以把预设内容插入到商品描述的顶部或者底部，方便商家对商品描述批量添加或修改。</li>
+    </ul>
+  </div>
+  <table class="ncsc-default-table">
+    <thead>
+      <tr><!--c2hvcG5jLWphdmEvc2VsbGVyL2dvb2RzL3NwZWMvbGlzdCBieSBzaG9wbmMubmV0-->
+        <th class="w30"></th>
+        <th class="tl w200">规格</th>
+        <th class="tl">规格值</th>
+        <th class="w150">操作</th>
+      </tr>
+    </thead>
+    <tbody>
+    <#if specAndValueList.size() gt 0>
+    <#list specAndValueList as specAndValue>
+    <tr class="bd-line">
+      <td class="tc"></td>
+      <td class="tl">${specAndValue.specName}</td>
+      <td class="tl">${specAndValue.specValueNames}</td>
+      <td><#if specAndValue.storeId == 0>
+        <span class="btn btn-sm btn-default" style="cursor: not-allowed;">平台预设规格</span>
+        <#else> <a href="javascript:spec.edit(${specAndValue.specId})" class="btn btn-sm btn-primary m-r-10"><i class="icon icon-edit"></i>编辑</a> <a href="javascript:spec.delete('${specAndValue.specName}', ${specAndValue.specId})" class="btn btn-sm btn-danger"><i class="icon icon-trash"></i>删除</a> </#if> </td>
+    </tr>
+    </#list>
+    <#else>
+    <tr>
+      <td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span></div></td>
+    </tr>
+    </#if>
+      </tbody>
+    
+    <tfoot>
+    </tfoot>
+  </table>
+  <script src="${jsRoot}goods/spec.js"></script> 
+</@c.html><!--c2hvcG5jLWphdmEvc2VsbGVyL2dvb2RzL3NwZWMvbGlzdCBieSBzaG9wbmMubmV0-->
+<!-- S 添加规格对话框 -->
+<div id="addSpecModal" style="display: none">
+  <form id="addSpecForm" action="${sellerRoot}spec/save.json" method="post">
+    <dl>
+      <dt><i class="required">*</i>规格名称：</dt>
+      <dd>
+        <input id="spec-input-name" name="specName" type="text" class="text w300" data-rule-required="true">
+        <p class="hint">请填写常用的商品规格的名称；例如：颜色；尺寸等。</p>
+      </dd>
+    </dl>
+    <dl>
+      <dt><i class="required">*</i>规格值：</dt>
+      <dd id="spec-value-input-group">
+        <div id="specValueInputGroup" style="max-height: 260px; overflow: auto;">
+          <div>
+            <input type="text" class="text w300" name="specValueName" data-rule-required="true">
+          </div>
+        </div>
+       <a id="addSpecValueBtn" href="javascript:;" class="btn btn-xs btn-default m-t-10"><i class="icon icon-plus"></i>添加规格值</a>
+      </dd>
+    </dl>
+  </form><!--c2hvcG5jLWphdmEvc2VsbGVyL2dvb2RzL3NwZWMvbGlzdCBieSBzaG9wbmMubmV0-->
+</div>
+<!-- E 添加规格对话框 -->
+
+<!-- S 编辑规格值对话框-->
+<div id="editModal" style="display: none" >
+  <input type="hidden" id="editSpecId" >
+  <dl >
+    <dt >规格名称：</dt >
+    <dd >
+      <div class="spec-item" id="editSpecNamePanel">
+        <input id="editSpecName" name="specName" type="text" class="text w300 m-r-10" value="现在的规格名称" />
+
+        <a href="javascript:spec.submitSpecName();" id="editSpecNameBtn"  class="btn btn-sm btn-primary" ><i class="icon icon-ok-sign" ></i >确定
+        </a >
+      </div >
+    </dd >
+  </dl >
+  <dl >
+    <dt >规格值：</dt >
+    <dd id="ddEditSpecValue" ></dd >
+  </dl >
+  <dl >
+    <dt >添加规格值</dt >
+    <dd >
+      <div class="" ><input id="addSpecValue" type="text" class="text w300 m-r-10" value="" />
+<!--c2hvcG5jLWphdmEvc2VsbGVyL2dvb2RzL3NwZWMvbGlzdCBieSBzaG9wbmMubmV0-->
+        <a href="javascript:spec.saveSpecValue();" class="btn btn-sm btn-primary" ><i class="icon icon-ok-sign" ></i >提交
+        </a ></div >
+    </dd >
+  </dl >
+</div >
+
+<!-- E 编辑规格值对话框-->

@@ -1,0 +1,78 @@
+<#import "/layout.html" as c>
+    <@c.html title="Index">
+
+    <!-- 开始页面内容 -->
+    <div id="content" class="content">
+        <!-- 开始面包屑导航 -->
+        <ol class="breadcrumb pull-right">
+            <li>
+                <a href="javascript:;">首页</a>
+            </li>
+            <li>等级经验值</li>
+            <li class="active">等级设置</li>
+        </ol>
+        <!-- 结束面包屑导航 -->
+        <!-- 开始页头区域 -->
+        <h1 class="page-header">
+            等级设置
+            <small>商城注册会员的等级设置</small>
+        </h1>
+        <!-- 结束页头区域 -->
+        <!-- 开始布局行 -->
+        <div class="row">
+            <div class="col-md-12">
+                <!-- 级别设置模块 -->
+                <div class="panel panel-inverse">
+                    <div class="panel-heading">
+                        <div class="panel-heading-btn">
+                            <a href="#listTip" class="btn btn-xs btn-icon btn-circle btn-info" role="button" data-toggle="collapse" aria-expanded="true" title="操作提示"> <i class="fa fa-lightbulb-o"></i>
+                            </a>
+                            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"> <i class="fa fa-expand"></i>
+                            </a>
+                            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse">
+                                <i class="fa fa-minus"></i>
+                            </a>
+                        </div>
+                        <h4 class="panel-title">级别设置</h4>
+                    </div>
+                    <div class="panel-body" >
+                        <!-- 开始操作提示 -->
+                        <div class="alert alert-info">
+                            <h4>操作提示</h4>
+                            <ul>
+                                <li>“会员等级设置”提交后，当会员符合某个等级条件后将自动升至该等级，请谨慎设置会员等级</li>
+                                <li>建议：等级应该是逐层递增，例如“等级2”所需经验值高于“等级1”；二、设置的第一个等级所需经验值应为0；三、信息应填写完整；</li>
+                            </ul>
+                        </div>
+                        <!-- 结束操作提示 -->
+                        <form class="form-horizontal form-bordered" name="gradeForm" id="gradeForm" method="POST" action="${adminRoot}experience/membergrade">
+                            <#list gradeList as grade>
+                            <div class="form-group">
+                                <label class="control-label col-lg-2 col-md-3 col-sm-3">会员级别<b>${grade.gradeName}</b></label>
+                                <div class="col-lg-4 col-md-6 col-sm-6">
+                                    <div class="input-group">
+                                        <input type="hidden" name="gradeId[]" value="${grade.gradeId}"/>
+                                        <input type="hidden" name="gradeLevel[]" value="${grade.gradeLevel}"/>
+                                        <input type="hidden" name="gradeName[]" value="${grade.gradeName}"/>
+                                        <span class="input-group-addon">晋级需</span>
+                                        <input type="text" id="" name="expPoints[]" value="${grade.expPoints}" class="form-control" data-tip="tooltip" data-parsley-required="true" data-parsley-type="integer" data-parsley-min="0" autocomplete="off" <#if grade_index==0>readonly</#if>/>
+                                        <span class="input-group-addon">经验值</span>
+                                    </div>
+                                </div>
+                            </div>
+                            </#list>
+                            <div class="form-group">
+                                <label class="control-label col-lg-2 col-md-3 col-sm-3"></label>
+                                <div class="col-lg-6 col-md-7 col-sm-8">
+                                    <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-q-submit-target="gradeForm" nc-q-submit>提交设置</a>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+                <!-- 结束邮件设置模块--> </div>
+        </div>
+        <!-- 结束布局行 --> </div>
+    <!-- 结束页面内容 -->
+</@c.html>

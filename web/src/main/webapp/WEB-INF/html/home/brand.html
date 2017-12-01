@@ -1,0 +1,49 @@
+<#import "/home/layout.html" as c>
+<@c.html title="Index">
+  <style type="text/css">
+        .nc-appbar-tabs a.compare { display: none !important;}
+    </style>
+  <div class="nch-container wrapper">
+    <div class="nch-all-menu">
+      <ul class="tab-bar">
+        <li><a href="${webRoot}category">全部商品分类</a></li>
+        <li class="current"><a href="javascript:void(0);">全部品牌</a></li>
+        <li><a href="${webRoot}search">全部商品</a></li>
+      </ul>
+    </div>
+    <#if brandList.size() gt 0>
+    <div class="nch-recommend-borand">
+      <div class="title" title="推荐品牌"></div>
+      <div class="nch-barnd-list">
+        <ul>
+          <#list brandList as brand>
+          <li>
+            <dl>
+              <dt><a href="${webRoot}search?brand=${brand.brandId}"><img src="${brand.brandImageSrc}" alt="${brand.brandName}" /></a></dt>
+              <dd><a href="${webRoot}search?brand=${brand.brandId}">${brand.brandName}</a></dd>
+            </dl>
+          </li>
+          </#list>
+        </ul>
+      </div>
+    </div>
+    </#if>
+    <div class="nch-brand-class">
+      <div class="nch-brand-class-tab"> <#if brandLabelList.size() gt 0>
+        <ul class="tabs-nav" id="btnBrandLabel">
+          <#list brandLabelList as brandLabel> 
+          <!--<li class="tabs-selected"><a href="javascript:void(0);">${brandLabel.brandLabelName}</a></li>-->
+          <li class=""> <a href="javascript:;" data-label-id="${brandLabel.brandLabelId}">${brandLabel.brandLabelName}</a> </li>
+          </#list>
+        </ul>
+        </#if> </div>
+      <!-- S 品牌显示区域-->
+      <div class="nch-barnd-list tabs-panel">
+        <ul id="brandLabelList">
+        </ul>
+      </div>
+      <!-- E 品牌显示区域--> 
+    </div>
+  </div>
+  <script src="${jsRoot}home/brand.js"></script > 
+</@c.html>

@@ -1,0 +1,169 @@
+*{
+	margin:0;
+	padding:0;
+}
+/*
+* float
+*/
+.fr{
+  float: right;
+  display: block;
+}
+.fl{
+  float: left;
+  display: block;
+}
+/*
+* clear float
+*/
+.clear-fix:after{
+  content: "";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+.content{
+	width:100%;
+	height:1.8rem;	
+	background: white;
+	margin-top:1.95rem;
+
+}
+	
+.content a{
+	color:#5e656e;
+}
+.menu{
+	font-size:0.8rem;
+	width:33%;
+	border-right:1px solid #f0eff5;
+    text-align: center;
+    height: 1.8rem;
+    line-height: 1.8rem;
+    color:#5e656e;
+	}
+.right{
+	width:33%;
+	font-size:0.8rem;
+	text-align: center;
+    height: 1.8rem;
+    color:#5e656e;
+    line-height: 1.8rem;
+}
+.text_detail{
+    background: url("../images/card_bg.png");
+    background-size: 100% 100%;
+    margin: 0.3rem;
+    height: 5.5rem;
+    position: relative;
+    overflow: hidden;
+    top:0.2rem;
+}
+.left{
+    width: 31%;
+    text-align: center;
+    height: 5.5rem;
+}
+.left h2{
+    color: red;
+    margin-top: 1rem;
+}
+.left span{
+    color: #737373;
+    font-size: 0.7rem;
+}
+.text_right{
+    width: 68%;
+    height: 5.5rem;
+}
+.text_right .top{
+    margin: 0.3rem;
+    color: black;
+}
+.text_right .top span{
+    font-size: 0.6rem;
+}
+.text_right .bottom ul li{
+    font-size: 0.5rem;
+    list-style: disc;
+    color: #737373;
+}
+.text_right .bottom ul{
+    margin: 0.3rem 0rem 0.5rem 0.8rem;
+}
+.text_detail .invalid{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.24);
+    overflow: hidden;
+}
+.text_detail .left
+{
+    border-right: 1px dashed #f0eff5;
+    position: relative;
+}
+.text_detail .left .top{
+    position: absolute;
+    right: -.5rem;
+    top: -.5rem;
+    z-index: 99;
+}
+.text_detail .left .bottom{
+    position: absolute;
+    right: -.5rem;
+    bottom: -.5rem;
+    z-index: 99;
+}
+.circle{
+    width: 1rem;
+    height: 1rem;
+    border-radius: 100%;
+    background: #f5f5f5;
+}
+.invalid img{
+    width: 100%;
+    height: 100%;
+}
+/*
+.text_detail .invalid::after{
+    position: absolute;
+    width: 120%;
+    height: 1px;
+    transform:rotate(20deg);
+    background: white;
+    content: '';
+    left: 0;
+    top: 50%;
+}*/
+.top_area{
+    margin-top: 2rem;
+}
+.useBtn{
+    margin: 0.3rem;
+    background: white;
+    height: 13rem;
+    margin-top:0.5rem;
+}
+.useBtn .text{
+    padding: 0.5rem;
+}
+.useBtn span{
+    color: #737373;
+    font-size: 0.5rem;
+}
+
+
+
+#tab_main{
+	
+}
+#tab_main>li{
+	display:none;
+	
+}
+#tab_main>li.cur{
+	display:block;
+	
+}

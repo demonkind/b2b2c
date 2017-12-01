@@ -1,0 +1,37 @@
+<#import "/member/layout.html" as c>
+<@c.html title="修改登录密码">
+  <div class="wrap">
+    <div class="tabmenu">
+      <ul class="tab pngFix">
+        <li><a href="${memberRoot}security">账户安全</a></li>
+        <li class="active"><a href="javascript:;">修改登录密码</a></li>
+      </ul>
+    </div>
+    <div class="ncm-default-form">
+      <form method="post" id="password_form">
+        <dl>
+          <dt><i class="required">*</i>设置新密码：</dt>
+          <dd>
+            <input type="password"  maxlength="40" class="password" name="password" id="password"/>
+            <label for="password" generated="true" class="error"></label>
+            <p class="hint">6-20位字符，可由英文、数字及标点符号组成。</p></dd>
+        </dl>
+        <dl>
+          <dt><i class="required">*</i>确认新密码：</dt>
+          <dd>
+            <input type="password" maxlength="40" class="password" name="confirm_password" id="confirm_password" />
+            <label for="confirm_password" generated="true" class="error"></label>
+          </dd>
+        </dl>
+        <dl class="bottom">
+          <dt>&nbsp;</dt>
+          <dd><label class="submit-border">
+            <input type="submit" class="submit" id="submitButton" value="确定" /></label>
+          </dd>
+        </dl>
+      </form>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="${jsRoot}member/information_security_pwd.js"></script>
+</@c.html>

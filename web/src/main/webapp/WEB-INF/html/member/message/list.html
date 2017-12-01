@@ -1,0 +1,67 @@
+<#import "/member/layout.html" as c />
+<@c.html title="消息列表">
+  <div class="wrap">
+    <div class="tabmenu">
+      <ul class="tab">
+        <li class="<#if tplClass == 1>active<#else/>normal</#if>"><a href="javascript:;">消息列表</a></li>
+        <#list messageClassVoList as messageClassVo>
+          <li class="<#if tplClass == messageClassVo.id>active<#else/>normal</#if>"><a href="${memberRoot}message/list?tplClass=${messageClassVo.id}">${messageClassVo.name}</a></li>
+        </#list>
+        <li class="normal"><a href="${memberRoot}message/setting">接收设置</a></li>
+      </ul>
+    </div>
+    <table class="ncm-default-table">
+      <thead>
+        <tr>
+          <th colspan="2">全选</th>
+          <th class="tl">内容</th>
+          <th class="w300">时间</th>
+          <th class="w110">操作</th>
+        </tr>
+      <#if memberMessageList.size() gt 0>
+      <tr>
+        <td colspan="2"><input id="all" nc-check-all type="checkbox" class="checkbox m-l-5" /></td>
+        <td colspan="20"><label for="all">全选</label>
+          <a href="javascript:void(0);" class="btn btn-xs btn-danger"
+           nc-check-url="${memberRoot}message/delete.json"
+           nc-check-confirm-title="是否删除消息？"
+           nc-check-confirm="true"><i class="icon-trash"></i>删除</a>
+          <a href="javascript:;" class="btn btn-xs btn-default"
+             nc-check-url="${memberRoot}message/mark_read.json"
+             nc-check-confirm="false"><i class="icon-flag"></i>标记已读</a></td>
+      </tr>
+      </#if>
+        </thead>
+      
+      <tbody>
+      <#if memberMessageList.size() gt 0>
+      <#list memberMessageList as memberMessage>
+      <tr class="bd-line <#if memberMessage.isRead == 0>unread</#if>">
+        <td class="w30"><input type="checkbox" nc-check-item  class="checkbox" nc-check-item name="messageId" value="${memberMessage.messageId}"/></td>
+        <td class="w30 tl"><a href="javascript:;" nc-read data-id="${memberMessage.messageId}" class="read m-l-5" title="标记已读"></a></td>
+        <td class="tl"><a href="${memberMessage.messageUrl}" nc-read data-id="${memberMessage.messageId}" target="_blank">${memberMessage.messageContent}</a></td>
+        <td>${memberMessage.addTime}</td>
+        <td><a href="javascript:message.delete(${memberMessage.messageId})" onclick="" class="btn btn-sm btn-danger"><i class="icon-trash"></i> 删除 </a></td>
+      </tr>
+      </#list>
+      <#else/>
+      <tr>
+        <td colspan="20" class="norecord"><div class="warning-option"><i>&nbsp;</i><span>暂无符合条件的数据记录</span></div></td>
+      </tr>
+      </#if>
+        </tbody>
+      
+      <tfoot>
+      <#if memberMessageList.size() gt 0>
+      <tr>
+          <#noescape>
+        <td colspan="20"><div class="pagination">${showPage}</div></td>
+              </#noescape>
+      </tr>
+      </#if>
+        </tfoot>
+      
+    </table>
+  </div>
+  <script src="${jsRoot}member/message/list.js"></script> 
+</@c.html>

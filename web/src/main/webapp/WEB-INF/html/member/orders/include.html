@@ -1,0 +1,124 @@
+<!-- S 取消订单modal-->
+
+<div id="cancelOrdersDialog" style="display:none">
+  <form id="cancelOrdersForm" name="cancelOrdersForm" action="${memberRoot}orders/cancel" method="post">
+    <input type="hidden" name="ordersId" value="">
+    <dl>
+      <dt>订单号：</dt>
+      <dd>
+        <div class="text-box"><span id="cancelOrdersDialogOrdersSn" class="c-success"></span></div>
+      </dd>
+    </dl>
+    <dl>
+      <dt>取消原因：</dt>
+      <dd>
+        <ul class="eject_con-list">
+          <li>
+            <input type="radio" value="1" id="reasonRadio1" name="cancelReason" checked class="radio">
+            <label for="reasonRadio1">我不想买了</label>
+          </li>
+          <li>
+            <input type="radio" value="2" id="reasonRadio2" name="cancelReason" class="radio">
+            <label for="reasonRadio2">信息填写错误</label>
+          </li>
+          <li>
+            <input type="radio" value="3" id="reasonRadio3" name="cancelReason" class="radio">
+            <label for="reasonRadio3">卖家缺货</label>
+          </li>
+          <li>
+            <input type="radio" value="4" id="reasonRadio4" name="cancelReason" class="radio">
+            <label for="reasonRadio4">付款遇到问题</label>
+          </li>
+          <li>
+            <input type="radio" value="5" id="reasonRadio5" name="cancelReason" class="radio">
+            <label for="reasonRadio5">买错了</label>
+          </li>
+          <li>
+            <input type="radio" value="6" id="reasonRadio6" name="cancelReason" class="radio">
+            <label for="reasonRadio6">其它原因</label>
+          </li>
+        </ul>
+      </dd>
+    </dl>
+  </form>
+</div>
+<!-- E 取消订单modal--> 
+
+<!-- S 确认收货modal-->
+<div id="receiveOrdersDialog" style="display:none">
+  <form id="receiveOrdersForm" name="receiveOrdersForm" action="${memberRoot}orders/receive" method="post">
+    <input type="hidden" name="ordersId" value="">
+    <h2 class="importance"><i class="icon-lightbulb"></i>您是否确认<strong class="c-success">“订单编号<em id="receiveOrdersDialogOrdersSn"></em>”</strong>收货完成？</h2>
+    <h3 class="no-border c-warning">请注意： 如果你尚未收到货品请不要点击“确认”。大部分被骗案件都是由于提前确认付款被骗的，请谨慎操作！ </h3>
+  </form>
+</div>
+<!-- E 确认收货modal--> 
+
+<!-- S 物流跟踪modal-->
+<div id="shipOrdersDialog" style="display:none">
+<dl>
+  <dt>订单号：</dt>
+  <dd>
+    <div ncType="ordersSn" class="text-box"></div>
+  </dd>
+</dl>
+<dl>
+<dl>
+  <dt>物流公司：</dt>
+  <dd>
+    <div class="text-box"><a href="javascript:;" target="_blank" ncType="shipName"></a></div>
+  </dd>
+</dl>
+<dl>
+  <dt>运单号码：</dt>
+  <dd>
+    <div class="text-box" ncType="shipSn"></div>
+  </dd>
+</dl>
+<ul id="shipResult" class="express-log">
+  <li>正在查询。。。</li>
+</ul>
+</div>
+<!-- E 物流跟踪modal--> 
+
+<!-- S 延迟收货modal -->
+<div id="delayReceiveOrdersDialog" style="display:none">
+  <form id="delayReceiveOrdersForm" name="delayReceiveOrdersForm" action="${memberRoot}orders/delay/receive" method="post">
+    <input type="hidden" name="ordersId" value="">
+    <dl>
+      <dt>订单号：</dt>
+      <dd>
+        <div class="text-box"><span id="delayReceiveOrdersDialogOrdersSn" class="c-success"></span></div>
+      </dd>
+    </dl>
+    <dl>
+      <dt>最晚收货时间：</dt>
+      <dd>
+        <div class="text-box"><span id="delayReceiveOrdersDialogAutoReceiveTime" class="c-danger"></span></div>
+        <p class="hint">如果超过该时间买家未点击收货，系统将自动更改为收货状态</p>
+      </dd>
+    </dl>
+    <dl>
+      <dt>延迟：</dt>
+      <dd>
+        <select name="delayDay" class="valid">
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+        </select><label class="add-on">天</label>
+      </dd>
+    </dl>
+  </form>
+</div>
+<!-- E 延迟收货modal-->
+
+<script>
+    var orderGlobal = {
+        ordersState : '${RequestParameters["ordersState"]?default("")}'
+    }
+</script>
+<!-- 日历控件 -->
+<link href="${toolkitRoot}datePicker/skin/WdatePicker.css" rel="stylesheet"/>
+<link href="${toolkitRoot}datePicker/skin/default/datepicker.css" rel="stylesheet"/>
+<script type="text/javascript" src="${toolkitRoot}datePicker/WdatePicker.js" defer="defer"></script> 
+<script type="text/javascript" src="${jsRoot}member/orders/list.js"></script>

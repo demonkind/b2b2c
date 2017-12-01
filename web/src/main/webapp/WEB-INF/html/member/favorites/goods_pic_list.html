@@ -1,0 +1,31 @@
+<#import "../../func.html" as funcList>
+
+<#if favoritesList?exists && (favoritesList?size gt 0) >
+<div class="favorite-goods-list" nc_type="favoritesGoodsPage">
+  <ul>
+    <#list favoritesList as info>
+    <li class="favorite-pic-list" id="favoriteGoodsItem${info.goodsId!0}">
+      <div class="favorite-goods-thumb">
+        <a href="${funcList.ncGoodsUrl(info.goodsId!0)}" target="_blank" title="${info.goodsName!''}">
+          <img src="${funcList.ncImage(info.goods.imageSrc,150,150)}" nc_type="favoriteGoodsItemImg"/></a> </div>
+      <div class="handle">
+        <a href="javascript:void(0);" class="fr m-l-5" title="删除" nc_type="favoritesDel" favorites_id="${info.favoritesId!0}"><i class="icon-trash"></i></a>
+        <a href="javascript:void(0);" class="fr" title="加入购物车" nc_type="favoritesAddCart" goods_id="${info.goodsId!0}"><i class="icon-shopping-cart"></i></a>
+        <a href="javascript:void(0);" nc_type="favoritesSharegoods" goods_id="${info.goodsId!0}" class="fl w40" title="分享"><i class="icon-share"></i>分享</a>
+      </div>
+      <dl class="favorite-goods-info">
+        <dt><a href="${funcList.ncGoodsUrl(info.goodsId!0)}" target="_blank" title="${info.goodsName!''}">${info.goodsName!''}</a></dt>
+        <!--<dd class="lose"><em></em>商品已失效</dd>-->
+        <dd class="goods-price">
+          <#if info.favGoodsPrice gt info.goods.goodsPrice>
+            <em class="down"></em>&yen;<strong>${info.goods.goodsPrice?string["0.00"]!0.00}</strong><span>&yen;${info.favGoodsPrice?string["0.00"]!0.00}</span>
+          <#else>
+          &yen;<strong>${info.goods.goodsPrice?string["0.00"]!0.00}</strong>
+          </#if>
+        </dd>
+      </dl>
+    </li>
+    </#list>
+  </ul>
+</div>
+</#if>

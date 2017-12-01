@@ -1,0 +1,609 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-touch-fullscreen" content="yes" />
+<meta name="format-detection" content="telephone=no"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="msapplication-tap-highlight" content="no" />
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,minimum-scale=1" />
+<title>商品详情</title>
+<link rel="stylesheet" type="text/css" href="${cssRoot}base.css">
+<link rel="stylesheet" type="text/css" href="${cssRoot}nctouch_common.css">
+<link rel="stylesheet" type="text/css" href="${cssRoot}nctouch_products_detail.css">
+<link rel="stylesheet" type="text/css" href="${cssRoot}myindex.css">
+<link rel="stylesheet" type="text/css" href="${cssRoot}swiper.css">
+<style>
+      html,body{
+        width:100%;
+        height: 100%;
+        position: relative;
+      }
+      #pageTicket{background:#ccc;}
+</style>
+</head>
+<body>                 
+<header id="header01" class="index_header" style="z-index:10;">
+  <div class="header-wrap">
+    <div class="header-l"> <a href="javascript:history.go(-1)"> <i class="back return back"></i> </a> </div>
+    <div class="header-m" style="margin:0;">智慧仓</div>
+    <div class="header-r" style="left:85%;text-align:left;"> <a id="header-nav" href="javascript:void(0);"><i class="more"></i><sup></sup></a> </div>
+  </div>
+  <div class="nctouch-nav-layout">
+    <div class="nctouch-nav-menu"> <span class="arrow"></span>
+      <ul>
+        <li><a href="/wap"><i class="home"></i>首页</a></li>
+		<li><a href="/wap/cart/list" ><i class="cart"></i>购物车<sup></sup></a></li>
+		<li><a href="javascript:void(0);" onclick="_MEIQIA._SHOWPANEL()"><i class="search"></i>联系客服</a></li>
+		<li><a href="/wap/members/index"><i class="message"></i>我的<sup></sup></a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+<section id="product_detail" style="position:relative;">
+	<div class="swiper-container">
+        <ul class="swiper-wrapper">
+        	<#if goodsDetail.goodsImageList?exists && (goodsDetail.goodsImageList?size>0) >
+	    		<#list goodsDetail.goodsImageList as imageList>	    			
+						<li class="swiper-slide"><img src="${imageList.imageSrc}" alt=""/></li>
+			    </#list>
+	    	</#if>
+        </ul>
+        <div class="swiper-pagination"></div>
+        <input type="hidden" id="favoritesId" value="${favoritesId}"/>
+        <#if isFavorites == '0'>
+        	<div id="enshrine" class="round pd-collect"><i></i></div>
+        </#if>
+         <#if isFavorites == '1'>
+        	<div id="enshrine" class="round pd-collect favorate"><i></i></div>
+        </#if>
+    </div>			
+	<div class="product_info_main02">
+		<input type="hidden" id="goodsId" value="${goodsDetail.goodsId}"/>
+		<h2>${goodsDetail.goodsName}</h2>	
+
+		<div class="time"  
+			data-startTime=" <#if goodsDetail.startTime??>${goodsDetail.startTime?string('yyyy/MM/dd HH:mm:ss') }</#if>"
+			data-endTime=" <#if goodsDetail.endTime??>${goodsDetail.endTime?string('yyyy/MM/dd HH:mm:ss')}</#if>"
+			data-activityIsStart=" <#if goodsDetail.activityIsStart??>${goodsDetail.activityIsStart  }</#if>"	
+			goods-Storage="${goodsDetail.commonStorage}"	
+		>										
+		</div>	
+		<div class="price">
+			<div class="x_price">
+				<span>¥</span>
+				<em>${goodsDetail.goodsPrice}</em>				
+			</div>
+			<p class="y_price">¥${goodsDetail.markerPrice}</p>
+				<#if goodsDetail.activityType == 1 || goodsDetail.activityType == 3>
+					 <div class="return">
+						<em>返</em>
+						<b>${goodsDetail.returnAmount}</b>
+					</div>								 															
+				</#if>	
+			<b>
+				<!-- <span class="goods-storage">库存：<span id="goodsSaleNum">${goodsDetail.goodsStorage}</span>件</span> -->
+				
+			</b>
+		</div>
+		<p class="freight"><span>免运费</span><span>送至全国</span></p>						
+	</div>
+	<div class="product_explain">
+		<div class="fl">
+			<#if goodsDetail.activityType == 1>
+				 <img class="pic_icon" src="${imgRoot}purchase_icon.png" alt="" style="margin-top:1rem;"/> 								 															
+			</#if>	
+			<#if goodsDetail.activityType ==2>
+				 <img class="pic_icon" src="${imgRoot}ys.png" alt="" style="margin-top:0.8rem;"/> 								  								
+			</#if>
+			<#if goodsDetail.activityType ==3>
+				 <img class="pic_icon" src="${imgRoot}lyys.png" alt="" style="width:2.5rem;margin-top:0.3rem;"/> 								  								
+			</#if>									
+		</div>
+		 <div class="explain_main">${goodsDetail.description!''}</div>								 																			
+	</div>		
+	<div class="goods-detail-item" id="goods_spec_selected">
+		<div class="itme-name">选择颜色型号</div>
+		<div class="item-more"></div>
+	</div>
+	<div class="tabWrap" >
+	<div class="tab" id="tab_fixed">
+	    <span class="cur">商品详情</span>
+	    <span>活动介绍</span>
+	    <span>联璧铃铛</span>
+	</div>
+	<ul class="tab_main">
+	    <li class="cur">
+	    	 <#if goodsDetail.goodsBody?? && goodsDetail.goodsBody != "">
+	    	 	<#noescape>${goodsDetail.goodsBody}</#noescape>
+	    		<#else>
+	    	 	<img src="${imgRoot}no_goodsdetail.png" alt=""/>
+	    	</#if>	    
+	    </li>
+	    <li>	    	
+	    	<img src="${imgRoot}hd_xq.png" alt=""/>
+	    	<img src="${imgRoot}hb.png" alt=""/>
+	    	<img src="${imgRoot}foot_hd.png" alt=""/>	    	
+	    </li>
+	    <li>
+	    	<img src="${imgRoot}productPic.jpg" alt=""/>
+	    	<img src="${imgRoot}productPic.jpg" alt=""/>
+	    	<img src="${imgRoot}productPic.jpg" alt=""/>
+	    	<img src="${imgRoot}productPic.jpg" alt=""/>
+	    	<img src="${imgRoot}productPic.jpg" alt=""/>
+	    	<img src="${imgRoot}productPic.jpg" alt=""/>
+	    	<img src="${imgRoot}productPic.jpg" alt=""/>
+	    </li>
+	</ul>
+</div>
+<div id="product_detail_spec_html" class="nctouch-bottom-mask" style="display:block;">
+<div class="nctouch-bottom-mask-bg" style="position:fixed;left:0;top:0;display:none;background: rgba(0, 0, 0, 0.36);"></div>
+<div class="nctouch-bottom-mask-block" style="position:fixed;left:0;bottom:0;display:none;">
+  
+  <div class="nctouch-bottom-mask-top goods-options-info">
+    <div class="goods-pic" id="flyItem">
+      <img src="${goodsDetail.imageSrc}" alt="" id="popImageSrc"/>
+    </div>
+    <dl>
+      <dt id="popGoodsName">${goodsDetail.goodsName}</dt>
+      <dd class="goods-price">
+        ￥<em id="popGoodsPrice">${goodsDetail.goodsPrice}</em>
+        <span class="goods-storage">库存：<span id="popGoodsStorage" popGoodsStorage="${goodsDetail.goodsStorage}">${goodsDetail.goodsStorage}    
+        </span>件</span>
+        
+      </dd>
+    </dl>
+    <a href="javascript:void(0);" class="nctouch-bottom-mask-close"><i></i></a>
+  </div>
+  <div class="nctouch-bottom-mask-rolling" id="product_roll">
+    <div class="goods-options-stock" style="transition-timing-function: cubic-bezier(0.1, 0.57, 0.1, 1); transition-duration: 0ms; transform: translate(0px, 0px) translateZ(0px);">
+        <#if goodsDetail.specJson?exists && (goodsDetail.specJson?size>0) >
+    		<#list goodsDetail.specJson as colorList>	
+    			<dl class="spec">
+		            <dt spec_id="">${colorList.specName}：</dt>
+		            <input type="hidden" id="goodsColorsId"/>
+		            <dd>
+	    				<#list colorList.specValueList as colorName>
+	    					<#assign a = colorName_index/>
+	    					<#list goodsDetail.specValueIds as specValuesId>
+	    						<#if specValuesId == colorName.specValueId>
+	    							<a href="javascript:void(0);"  class="current"  goodsSpecValueJson="${goodsDetail.goodsSpecValueJson}" data-specValueId="${colorName.specValueId}" specs_value_id="202">${colorName.specValueName}</a>
+	    						</#if>
+	    					</#list>
+	    					<#if a !=0>
+	    						<a href="javascript:void(0);"    goodsSpecValueJson="${goodsDetail.goodsSpecValueJson}" data-specValueId="${colorName.specValueId}" specs_value_id="202">${colorName.specValueName}</a>
+	    					</#if>
+	    				</#list> 
+		            </dd>
+		        </dl>
+		    </#list>
+   		</#if>
+    </div>
+    </div>
+  <div class="goods-option-value">购买数量：
+  <span class="goods-storage">(每人限购<span style="color:red;">${goodsDetail.maxBuyNum}</span>件)</span>
+    <div class="value-box">
+		<span class="minus">
+			<a href="javascript:void(0);">&nbsp;</a>
+		</span>
+		<span>
+			<input type="text" pattern="[0-9]*" class="buy-num" id="buynum" value="1" maxWeight="${goodsDetail.maxBuyNum}">
+		</span>
+		<span class="add">
+			<a href="javascript:void(0);">&nbsp;</a>
+		</span>
+    </div>
+  </div>
+  <div class="goods-option-foot">
+	<div class="otreh-handle">
+	    <a href="javascript:void(0);" onclick="_MEIQIA._SHOWPANEL()" class="kefu"><i></i><p>客服</p></a>
+	    <a class="cart" style="position:relative;">
+	    	<i></i>
+	    	<p>购物车</p>
+	    	<span id="cart_count1" maxWeight="${goodsDetail.maxBuyNum}"></span>
+	    </a>
+	</div>
+    <div class="buy-handle">
+    	<a href="javascript:void(0);" class="add-cart" id="add-cart" style="background:#ffb31f;">加入购物车</a>
+		<a href="javascript:void(0);" class="buy-now" id="buy-now" style="background:#fe353b;" maxWeight02=${goodsDetail.maxBuyNum}>立即购买</a>     
+    </div>
+</div>
+  </div>		
+	</div>		
+</section>
+<!-- 页面底部 -->
+	<div class="goods-option-foot" style="background:#f5f5f5;position:fixed;left:0;bottom:0;">
+	<div class="otreh-handle">
+	    <a href="javascript:void(0);"  onclick="_MEIQIA._SHOWPANEL()" class="kefu"><i></i><p>客服</p></a>
+	    <a href="javascript:void(0);" class="cart" style="position:relative;">
+	    	<i></i>
+	    	<p>购物车</p>
+	    	<span id="cart_count"></span>
+	    </a>
+	</div>
+    <div class="buy-handle">
+    	<a href="javascript:void(0);" class="add-cart"   id="add-cart" style="background:#ffb31f;">加入购物车</a>
+		<a href="javascript:void(0);" class="buy-now"  style="background:#fe353b;">立即购买</a>     
+    </div>
+</div>
+<div class="fix-block-r">
+	<a href="javascript:void(0);" class="gotop-btn gotop hide" id="goTopBtn"><i></i></a>
+</div>
+<div id="product_detail_html" style="position: relative; z-index: 1;"></div>
+<div id="product_detail_spec_html" class="nctouch-bottom-mask"></div>
+<div id="voucher_html" class="nctouch-bottom-mask"></div> 
+<script type="text/javascript" src="${jsRoot}touchScroll.js"></script>
+<script type="text/javascript" src="${jsRoot}zepto.min.js"></script> 
+<script type="text/javascript" src="${jsRoot}config.js"></script> 
+<script type="text/javascript" src="${jsRoot}template.js"></script> 
+<script type="text/javascript" src="${jsRoot}swipe.js"></script> 
+<script type="text/javascript" src="${jsRoot}swiper.min.js"></script> 
+<script type="text/javascript" src="${jsRoot}common.js"></script> 
+<script type="text/javascript" src="${jsRoot}iscroll.js"></script> 
+<script type="text/javascript" src="${jsRoot}simple-plugin.js"></script> 
+<script type="text/javascript" src="${jsRoot}tmpl/footer.js"></script> 
+<script type="text/javascript" src="${jsRoot}tmpl/product_detail.js"></script>
+<!-- <script type="text/javascript" src="${jsRoot}countdown.js"></script> -->
+<script type="text/javascript" src="${jsRoot}meiqia.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript" src="${jsRoot}TimeObjectUtil.js"></script>
+<!-- 购物车飞入效果 -->
+<script src="http://www.lanrenzhijia.com/ajaxjs/1.4.4/jquery-1.4.4.min.js"></script>
+<script type="text/javascript">
+	// 画面打开时
+    var mt = 0;
+    window.onload = function () {
+        var mydiv = document.getElementById("tab_fixed");
+        var mt = mydiv.offsetTop;
+        window.onscroll = function () {
+            var t = document.documentElement.scrollTop || document.body.scrollTop;
+            if (t > mt) {
+                mydiv.style.position = "fixed";
+                mydiv.style.top = "2rem";
+            }
+            else {                   
+                mydiv.style.position = "static";
+                mydiv.style.margin =0;
+            }
+        }
+    }
+       
+    // 数字 + - 按钮  
+    $(function(){
+    	var count = $("#buynum").val();
+        var maxWeight=$("#buynum").attr("maxWeight");
+        //console.log(maxWeight);
+        $(".add").click(function(){
+        	count++;          	   	
+            if(count > maxWeight){
+            	count = maxWeight; 
+            	alert("超出最大购买数量")
+            }
+            $("#buynum").val(count); 
+        })
+        
+        $(".minus").click(function(){
+        	 count--;
+             if(count<=1){
+                 count=1;
+             }
+             $("#buynum").val(count); 
+        }) 
+          
+    })       
+    // 加入购物车
+    $('#add-cart').bind('click',function(){
+	     var img = $(".goods-pic").find('img');
+	     console.log(img);
+	     var flyElm = img.clone().css('opacity', 0.5);
+	     $('body').append(flyElm);
+	     flyElm.css({
+	         'z-index': 9000,
+	         'display': 'block',
+	         'position': 'absolute',
+	         'top': img.offset().top +'px',
+	         'left': img.offset().left +'px',
+	         'width': img.width() +'px',
+	         'height': img.height() +'px'
+	
+	     });
+	     flyElm.animate({
+	          top: $('#cart_count1').offset().top,
+	          left: $('#cart_count1').offset().left,
+	          width: 20,
+	           height: 32
+	     	}, 'slow', function() {
+	           flyElm.remove();
+	     });	     
+	     var key = getCookie('key');//登录标记
+	     if(key == null  || key == undefined || "NULL" == key.toUpperCase()){
+	    	 key = ""
+	     }
+         var buynum = parseInt($('#buynum').val());
+         var goods_id=$("#goodsId").val();
+         var quantity = $("#buynum").val();
+         if(key == ""){
+             var goods_info = decodeURIComponent(getCookie('goods_cart'));
+             if (goods_info == null  || goods_info == undefined || "NULL" == goods_info.toUpperCase()) {
+                 goods_info = '';
+             }
+             
+             if(goods_id<1){
+                 show_tip();
+                 return false;
+             }
+             var cart_count = 0;
+             if(!goods_info){
+                 goods_info = goods_id+','+quantity;
+                 cart_count = 1;
+             }else{
+                 var goodsarr = goods_info.split(';');
+                 for (var i=0; i<goodsarr.length; i++) {
+                     var arr = goodsarr[i].split(',');
+                     if(contains(arr,goods_id)){
+                         show_tip();
+                         return false;
+                     }
+                 }
+                 goods_info+=';'+goods_id+','+quantity;
+                 cart_count = goodsarr.length;
+             }
+             // 加入cookie
+             addCookie('goods_cart',goods_info);
+             // 更新cookie中商品数量
+             addCookie('cart_count1',cart_count);
+             show_tip();
+             getCartCount();
+             $('#cart_count,#cart_count1').html('<sup>'+cart_count+'</sup>');
+             return false;
+         }else{
+            $.ajax({
+               url:WapSiteUrl+"/cart/add",
+               data:{key:key,goodsId:goods_id,buyNum:buynum},
+               type:"post",
+               success:function (result){
+            	   if (result.code ==200){
+            		   // TODO 逻辑不清楚。暂时删除
+            			// 更新购物车中商品数量
+                       //delCookie('cart_count');
+                       //getCartCount();
+                       //$('#cart_count,#cart_count1').html('<sup>'+getCookie('cart_count')+'</sup>');
+                       //show_tip();
+            	   }else{
+            		   $.sDialog({
+                           skin:"red",
+                           content:result.message,
+                           okBtn:false,
+                           cancelBtn:false
+                         });
+            	   }
+               }
+            })
+         }
+    });       
+    //加入购物车，点击判断加入购物车的数量必须小于限购的数量    
+    $(function(){
+    	var num = 0;
+        var maxWeight01=$("#cart_count1").attr("maxWeight");  
+        var saleNum=$("#popGoodsStorage").attr("popGoodsStorage");
+        var val = $("#cart_count1").html();
+        $("#add-cart").click(function(){
+        	num+=1;  
+            if(num > maxWeight01){
+            	num = maxWeight01;
+            	 alert("超出最大购买数量")
+            } 
+            if(saleNum<=0){
+        		alert("库存不足，无法购买")
+        		
+        	}            
+            
+            console.log(parseInt(val))
+            $("#cart_count1").html(num)
+        })       
+    })    
+</script>
+<!-- 导航固定 -->
+<script type="text/javascript">
+        var mt = 0;
+        window.onload = function () {
+            var mydiv = document.getElementById("tab_fixed");
+            var mt = mydiv.offsetTop;
+            window.onscroll = function () {
+                var t = document.documentElement.scrollTop || document.body.scrollTop;
+                if (t > mt) {
+                    mydiv.style.position = "fixed";
+                    mydiv.style.top = "2rem";
+                }
+                else {                   
+                    mydiv.style.position = "static";
+                    mydiv.style.margin =0;
+                }
+            }
+        }
+        
+</script>
+<script type="text/javascript">
+$(function () {
+    $(".swiper-container .round.pd-collect").click(function () {
+    	var goods_id=$('#goodsId').val();
+    	var favoritesId=$('#favoritesId').val();
+        if ($(this).hasClass('favorate')) {
+            if (dropFavoriteGoods(favoritesId)) {
+            	$(this).removeClass('favorate');
+            }
+        } else {
+            if (favoriteGoods(goods_id)){
+            	$(this).addClass('favorate');
+            }
+        }
+    	$(this).toggleClass("favorate");
+    })
+})
+</script>
+<script type="text/javascript">
+    $(function () {
+        $(".tabWrap .tab span").click(function () {
+            $(this).addClass("cur").siblings().removeClass("cur");
+            $(".tab_main li").eq($(this).index()).addClass("cur").siblings().removeClass("cur");          
+        })
+    })    
+</script>
+<script type="text/javascript">
+    function show() {
+        $(".nctouch-bottom-mask-bg").css("display","block")
+        $(".nctouch-bottom-mask-block").css("display","block");
+    }
+    function hide() {
+        $(".nctouch-bottom-mask-bg").css("display","none")
+        $(".nctouch-bottom-mask-block").css("display","none");
+    }
+</script>
+<script>
+$(function() {
+    $("#goods_spec_selected").click(function () {
+    	show();
+    })
+    $(".nctouch-bottom-mask-close").click(function () {
+    	hide();
+    })	
+    })    
+</script>
+<script type="text/javascript">
+$(function () {
+    $(".goods-options-stock dd a").click(function () {
+        $(this).addClass("current").siblings().removeClass("current");
+        //var specValueId = $(this).attr("data-specValueId");
+        var current = $(".current");
+        var specValueId = "";
+        $('.current').each(function(){ 
+        	specValueId  = specValueId + "," + $(this).attr("data-specValueId");
+        }); 
+        specValueId = specValueId.substr(1);
+        var goodsSpecValueJson = $(this).attr("goodsSpecValueJson");
+        $.ajax({
+            url:WapSiteUrl+"/productData/product/getInfoBySpec",
+            data:{specValueId: "["+specValueId+"]",goodsSpecValueJson:goodsSpecValueJson},
+            type:"post",
+            dataType:'json',
+            success:function (result){
+         	   if (result.code ==200){
+         		   console.log(result);
+         	        $("#goodsId").val(result.data.goodId);
+         	        $("#popGoodsName").html(result.data.goodName);
+         	        $("#popImageSrc").attr("src", result.data.goodsImageSrc);
+         	        $("#popGoodsStorage").html(result.data.goodsStorage);
+         	        $("#popGoodsPrice").html(result.data.goodsPrice);
+         	   }else{
+         		   
+         	   }
+            }
+         })
+         
+         
+    })
+})
+</script>
+<script type="text/javascript">
+	$(function(){
+		$("#header-nav").click(function () {
+			if ($('.nctouch-nav-layout').hasClass('show')) {
+				$('.nctouch-nav-layout').removeClass('show');
+			} else {
+				$('.nctouch-nav-layout').addClass('show');
+			}
+		})
+		$(".nctouch-nav-layout").click(function () {
+			 $('.nctouch-nav-layout').removeClass('show');
+		})
+		$("#product_tab>.tab_head>span").click(function () {
+			$(this).addClass("cur").siblings().removeClass("cur");
+		})
+	})
+		
+</script>
+<script>
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        paginationClickable: true
+    });
+</script>
+<script>
+var $tims = $(".product_info_main02 .time");
+$.each($tims,function(i,v){
+	var starttime = $(this).attr("data-startTime"); //开始时间
+	var endtime = $(this).attr("data-endTime");
+	var type= $(this).attr("data-activityIsStart");  //是否是开始
+	var storage=$(this).attr("goods-Storage");
+	starttime = starttime.trim();
+	endtime = endtime.trim();
+	var _this = $(this);
+	var ss ; // 时间戳
+	ss = TimeObjectUtil.timeStamp("",starttime); //活动未开始   开始时间-当前时间   活动未开始
+	type = 0;
+	if(ss <0 ){
+		ss = TimeObjectUtil.timeStamp("",endtime);//活动已开始  结束时间-当前时间
+		type =1;
+	}	
+	var t;
+	if(ss !=undefined){
+		 t = setInterval(function(){
+			var d = TimeObjectUtil.getTime(ss);
+			//活动未开始
+			if(type ==0){
+				$(_this).text("距开始："+d.toString);
+				$(".buy-now").css("background","#bbb");
+				$(".buy-now").click(function(){
+					alert("活动未开始")
+				})
+				$(".add-cart").click(function(){
+						show();
+					})		
+				
+				if(ss <= 0){
+					ss = TimeObjectUtil.timeStamp("",endtime);//改变为活动已开始
+					type = 1;
+					$(".buy-now").css("background","#fe353b");
+					$(".add-cart").css("background","#ffcc00");
+					$(".buy-now").click(function(){
+						show();
+					})
+					$(".add-cart").click(function(){
+						show();
+					})	
+					
+				}
+			}else{
+				$(_this).text("距结束："+d.toString);			
+				$(".buy-now").click(function(){
+					show();
+				})
+				$(".add-cart").click(function(){
+					show();
+				})	
+				if(ss <= 0 || storage==0){
+					$(_this).text("活动已结束");
+					$(".buy-now").css("background","#bbb");
+
+					$(".buy-now").click(function(){
+						hide();
+						alert("活动已结束");						
+					})
+					$(".add-cart").click(function(){
+						show();
+					})
+					clearInterval(t);					
+				}
+			}
+			ss -=1000;
+		},1000)
+	}
+})
+</script>
+
+
+</body>
+</html>

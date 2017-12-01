@@ -1,0 +1,14 @@
+<#import "/home/layout.html" as c>
+<@c.html title="${storeInfo.storeName} - ${config.siteName}" keywords="${storeInfo.storeSeoKeywords}" description="${storeInfo.storeSeoDescription}" >
+<#include "store_header_widget.html">
+  <div class="wrapper">
+    <div class="ncs-main-container">
+      <div class="title-all">
+        <h3>${navInfo.title}</h3>
+      </div>
+      <#noescape>
+      <div class="content ncs-article">${navInfo.content}</div>
+      </#noescape>
+    </div>
+  </div>
+</@c.html>

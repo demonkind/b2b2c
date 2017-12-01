@@ -1,0 +1,58 @@
+<#import "/layout.html" as c>
+<#import "/list_layout.html" as list>
+<#assign alertList = []/>
+<#assign alertList = alertList + ["通过主营业务管理，您可以添加修改现有业务"]/>
+<#assign alertList = alertList + ["商家入驻时需要选择相应的主营业务，并缴纳对应的保证金"]/>
+<@c.html title="Index">
+  <!-- ================== 开始页面级CSS调用 ================== -->
+  <link href="${toolkitRoot}bootstrap-wizard/css/bwizard.min.css" rel="stylesheet"/>
+  <!-- 日历控件 -->
+  <link href="${toolkitRoot}/jquery.dtGrid/dependents/datePicker/skin/WdatePicker.css" rel="stylesheet"/>
+  <link href="${toolkitRoot}/jquery.dtGrid/dependents/datePicker/skin/default/datepicker.css" rel="stylesheet"/>
+  <!-- ================== 结束页面级CSS调用 ================== -->
+  <@list.html title="主营行业" subTitle="管理主营行业" alertList=alertList addBtn=true searchHint="请输入主营行业名称进行搜索">
+    <!-- 开启新增模态窗口 -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title"> <span id="modalTitle"></span>
+                        <!--<a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsAdd" aria-expanded="true" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> -->
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <!--<ul class="text-info p-b-15 p-l-15 collapse in" role="tabpanel" id="OperationTipsAdd">-->
+                        <!--<li class="m-b-3"></li>-->
+                    <!--</ul>-->
+                    <form id="addForm" autocomplete="off" action="${adminRoot}store_class/save.json" method="post" data-parsley-validate="true">
+                        <input id="classId" type="hidden" name="classId"/>
+                        <div class="form-group">
+                            <label class="control-label"> 主营行业名称 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+                            <input type="text" name="name" class="form-control" placeholder="请输入行业名称" data-tip="tooltip" data-placement="auto" data-original-title="必填项，最多20个字符" data-parsley-required="true" data-parsley-length="[1,20]" />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label"> 保证金<i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+                            <input type="text" name="bail" class="form-control" placeholder="请输入保证金" data-tip="tooltip" data-placement="auto" data-original-title="必填项，请输入0-999999之间的数字" data-parsley-required="true" data-parsley-type="integer" data-parsley-range="[0,999999]"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label"> 排序<i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+                            <input type="text" name="sort" class="form-control" placeholder="请输入排序" data-tip="tooltip" data-placement="auto" data-original-title="必填项，请输入0-999之间的数字" data-parsley-required="true" data-parsley-type="integer" data-parsley-range="[0,999]"/>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer"> <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a> <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-ajax-submit-target="addForm" nc-ajax-submit>确认提交</a> </div>
+            </div>
+        </div>
+    </div>
+    <!-- 结束新增模态窗口 -->
+  </@list.html>
+  <!-- ================== 开始页面级JavaScrip调用 ================== -->
+  <script src="${toolkitRoot}bootstrap-wizard/js/bwizard.js"></script>
+  <!-- 表单checkbox项 -->
+  <script src="${toolkitRoot}bootstrap-switch/bootstrap-switch.min.js"></script>
+  <!-- 日历控件 -->
+  <script src="${toolkitRoot}/jquery.dtGrid/dependents/datePicker/WdatePicker.js" defer="defer"></script>
+  <script src="${jsRoot}store/class/class.handle.js"></script>
+  <!-- ================== 结束页面级JavaScrip调用 ================== -->
+</@c.html>

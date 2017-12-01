@@ -1,0 +1,151 @@
+<#import "/layout/seller_layout.html" as c>
+<@c.html title="Index">
+  <div class="top-btn-layout"><a href="javascript:void(0)" class="btn btn-sm btn-success" onclick="javascript:formatTemplate.addFormatTemplate();"  title="新增关联版式"><i class="icon icon-plus"></i>新增关联版式</a></div>
+  <div class="alert mt15 mb5"><strong>操作提示：</strong>
+    <ul>
+      <li>1、商品规格只能添加5个，每个规格只能添加20个规格值。</li>
+      <li>2、平台设置的规格不能编辑，但可以在商品发布时设置别名。平台的颜色规格可是设置不同颜色的商品图片。</li>
+    </ul>
+  </div>
+  <form method="get">
+    <table class="search-form">
+      <tr>
+        <td>&nbsp;</td>
+        <th>版式位置</th>
+        <td class="w80"><select name="formatSite">
+            <option value="-1">- 请选择 -</option>
+            <option <#if formatSite == 0>selected</#if> value="0">底部</option>
+            <option <#if formatSite == 1>selected</#if> value="1">顶部</option>
+          </select></td>
+        <th>版式名称</th>
+        <td class="w160"><input type="text" class="text w150" name="keyword" value="${keyword}"/></td>
+        <td class="w70 tc"><label class="submit-border">
+            <input type="submit" class="submit" value="搜索" />
+          </label></td>
+      </tr>
+    </table>
+  </form>
+  <table class="ncsc-default-table">
+    <thead>
+      <tr>
+        <th class="w10"></th>
+        <th class="tl">版式名称</th>
+        <th class="w200">版式位置</th>
+        <th class="w200">操作</th>
+      </tr>
+    </thead>
+    <tbody>
+    <#if formatTemplateList?size gt 0>
+    <#list formatTemplateList as formatTemplate>
+    <tr class="bd-line">
+      <td class="tc"></td>
+      <td class="tl">${formatTemplate.formatName}</td>
+      <td><#if formatTemplate.formatSite == site.top>顶部<#else>底部</#if></td>
+      <td><a href="javascript:formatTemplate.editFormatTemplate(${formatTemplate.formatId})" class="btn btn-sm btn-primary m-r-10"><i class="icon icon-edit"></i>编辑</a><a href="javascript:formatTemplate.deleteFormatTemplate(${formatTemplate.formatId}, '${formatTemplate.formatName}')" class="btn btn-sm btn-danger"><i class="icon icon-trash"></i>删除</a></td>
+    </tr>
+    </#list>
+    <#else />
+    <tr>
+      <td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无相关查询信息</span></div></td>
+    </tr>
+    </#if>
+      </tbody>
+    <!--c2VsbGVyL2dvb2RzL2Zvcm1hdCl0ZW1wbGF0ZS9saXN0IGJ5IHNob3BuYy5uZXQ=-->
+    <#if formatTemplateList?size gt 0>
+    <tfoot>
+    <tr>
+      <#noescape>
+        <td colspan="20"><div class="pagination"> ${showPage}</div></td>
+      </#noescape>
+    </tr>
+    </tfoot>
+    </#if>
+  </table>
+  <script src="${jsRoot}goods/format.template.js"></script> 
+</@c.html>
+<div id="addModal" style="display: none">
+  <form id="addForm" method="post" action="${sellerRoot}format_template/save.json">
+    <dl>
+      <dt><i class="required">*</i>版式名称：</dt>
+      <dd>
+        <input class="text w200" type="text" name="formatName" value="" />
+      </dd>
+    </dl>
+    <dl>
+      <dt><i class="required">*</i>板式位置：</dt>
+      <dd>
+        <select name="formatSite">
+          <option value="${site.top}">顶部</option>
+          <option value="${site.bottom}">底部</option>
+        </select>
+      </dd>
+    </dl>
+    <dl>
+      <dt>板式内容：</dt>
+      <dd> 
+        <script id="addEditor" style="width:680px;height:200px;"></script> 
+        <!-- S 图片上传 -->
+        <div class="hr8" id="addPicModule">
+          <div class="btn-upload-box" id="addPicUploadBtn"><span>
+            <input type="file" hidefocus="true" class="input-file" name="file" multiple>
+            </span> <a href="javascript:;" class="btn btn-sm btn-default"><i class="icon icon-picture"></i>图片上传</a></div>
+          <!--S 图片显示区域-->
+          <div id="addPicPanel" class="ncsc-upload-pic-list w700" style="display:none;">
+            <div id="addUploadProgress"> </div>
+            <ul id="addPicShowPanel" class="goods-pic-list">
+            </ul>
+          </div>
+          <!--E 图片显示区域--> 
+        </div>
+        <!-- E 图片上传 --> 
+      </dd>
+    </dl>
+  </form>
+</div>
+<div id="editModal" style="display: none">
+  <form id="editForm" method="post" action="${sellerRoot}format_template/update.json">
+    <input type="hidden" id="formatId" name="formatId" value="" />
+    <dl>
+      <dt><i class="required">*</i>版式名称：</dt>
+      <dd>
+        <input class="text w200" type="text" id="formatName" name="formatName" value="" />
+      </dd>
+    </dl>
+    <dl>
+      <dt><i class="required">*</i>板式位置：</dt>
+      <dd>
+        <select name="formatSite" id="formatSite">
+          <option value="${site.top}">顶部</option>
+          <option value="${site.bottom}">底部</option>
+        </select>
+      </dd>
+    </dl>
+    <dl>
+      <dt>板式内容：</dt>
+      <dd> 
+        <script id="editEditor" style="width:680px;height:200px;"></script> 
+        <!-- S 图片上传 -->
+        <div class="hr8" id="editorPicModule">
+          <div class="btn-upload-box" id="editorPicUploadBtn"><span>
+            <input type="file" hidefocus="true" class="input-file" name="file" multiple>
+            </span> <a href="javascript:;" class="btn btn-sm btn-default"><i class="icon icon-picture"></i>图片上传</a></div>
+          <!--S 图片显示区域-->
+          <div id="editPicPanel" class="ncsc-upload-pic-list w700" style="display:none;">
+            <div id="editorUploadProgress"></div>
+            <ul id="editorPicShowPanel" class="goods-pic-list">
+            </ul>
+          </div>
+          <!--E 图片显示区域--> 
+        </div>
+        <!-- E 图片上传 --> 
+      </dd>
+    </dl>
+  </form>
+</div>
+<!-- 富文本编辑器 --> 
+<script>
+var UEDITOR_HOME_URL = "${toolkitRoot}ueditor/";
+</script> 
+<script type="text/javascript" charset="utf-8" src="${toolkitRoot}ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="${toolkitRoot}ueditor/ueditor.all.js"> </script>
+<script src="${toolkitRoot}ueditor/lang/zh-cn/zh-cn.js"></script>

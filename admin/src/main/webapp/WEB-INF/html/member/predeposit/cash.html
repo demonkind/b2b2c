@@ -1,0 +1,84 @@
+<#import "/layout.html" as c>
+  <#import "/list_layout.html" as list>
+    <#assign alertList = []/>
+    <#assign alertList = alertList + ["未支付的提现单可以点击查看选项更改提现单的支付状态"]/>
+    <#assign alertList = alertList + ["点击删除可以删除未支付的提现单"]/>
+    <@c.html title="Index">
+    <!-- ================== 开始页面级CSS调用 ================== -->
+    <link href="${toolkitRoot}bootstrap-wizard/css/bwizard.min.css" rel="stylesheet"/>
+    <!-- 日历控件 -->
+    <link href="${toolkitRoot}/jquery.dtGrid/dependents/datePicker/skin/WdatePicker.css" rel="stylesheet"/>
+    <link href="${toolkitRoot}/jquery.dtGrid/dependents/datePicker/skin/default/datepicker.css" rel="stylesheet"/>
+    <!-- ================== 结束页面级CSS调用 ================== -->
+    <@list.html title="提现列表" subTitle="商城注册会员账户预存款提现管理" alertList=alertList addBtn=false searchHint="请输入会员名称">
+    <!-- 开始编辑会员模态窗口 -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title"> 提现审核 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsEdit" aria-expanded="true" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+          </div>
+          <div class="modal-body">
+            <ul class="text-info p-b-15 p-l-15 collapse in" role="tabpanel" id="OperationTipsEdit">
+              <li class="m-b-3">手动审核预存款提现信息，审核后将自动减少相应会员的预存款金额且该提现记录将不可再进行修改，请慎重操作。</li>
+            </ul>
+            <form id="editForm" autocomplete="off" action="${adminRoot}predeposit/cash/audit" method="post" data-parsley-validate="true">
+              <div class="form-group">
+                <label class="control-label"> 提现单号：</label>
+                <input type="text" id="cashSn" name="cashSn" class="form-control" disabled/>
+                <input type="hidden" id="cashId" name="cashId" class="form-control"/>
+              </div>
+              <div class="form-group">
+                <label class="control-label"> 提现金额：</label>
+                <input type="text" id="amount" name="amount" class="form-control" disabled/>
+              </div>
+              <div class="form-group">
+                <label class="control-label"> 会员名称：</label>
+                <input type="text" id="memberName" name="memberName" class="form-control" disabled/>
+              </div>
+              <div class="form-group">
+                <label class="control-label"> 收款方式：</label>
+                <input type="text" id="receiveCompany" name="receiveCompany" class="form-control" disabled/>
+              </div>
+              <div class="form-group">
+                <label class="control-label"> 收款账号：</label>
+                <input type="text" id="receiveAccount" name="receiveAccount" class="form-control" disabled/>
+              </div>
+              <div class="form-group">
+                <label class="control-label"> 开户名：</label>
+                <input type="text" id="receiveUser" name="receiveUser" class="form-control" disabled/>
+              </div>
+              <div class="form-group">
+                <label class="control-label"> 状态<i class="f-s-14 text-danger">*</i>: </label>
+                <div id="stateModule"></div>
+                <span id="stateErrorContent"></span>
+              </div>
+              <div id="payTimeDiv" class="form-group">
+                <label class="control-label"> 付款时间<i class="f-s-14 text-danger">*</i>: </label>
+                <input type="text" id="payTime" name="payTime" class="form-control" data-parsley-checkpaytime data-parsley-validate-if-empty/>
+              </div>
+              <div id="refuseReasonDiv" class="form-group" style="display: none;">
+                <label class="control-label"> 拒绝理由<i class="f-s-14 text-danger">*</i>: </label>
+                <textarea id="refuseReason" name="refuseReason" class="form-control" data-parsley-checkrefusereason data-parsley-validate-if-empty/></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-ajax-submit-target="editForm" nc-ajax-submit>确认支付完成</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 结束编辑会员模态窗口 -->
+  </@list.html>
+  <!-- ================== 开始页面级JavaScrip调用 ================== -->
+  <script src="${toolkitRoot}bootstrap-wizard/js/bwizard.js"></script>
+  <!-- 表单checkbox项 -->
+  <script src="${toolkitRoot}bootstrap-switch/bootstrap-switch.min.js"></script>
+  <!-- 日历控件 -->
+  <script src="${toolkitRoot}/jquery.dtGrid/dependents/datePicker/WdatePicker.js" defer="defer"></script>
+
+  <script src="${jsRoot}member/predepositcash.handle.js"></script>
+  <!-- ================== 结束页面级JavaScrip调用 ================== -->
+</@c.html>

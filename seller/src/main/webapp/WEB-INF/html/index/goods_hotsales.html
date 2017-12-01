@@ -1,0 +1,26 @@
+<#import "../func.html" as funcList>
+
+<#if ordersGoodsList?exists && ordersGoodsList?size gt 0>
+<table class="ncsc-default-table">
+  <thead>
+    <tr>
+      <th>排名</th>
+      <th colspan="2" class="tl">商品信息</th>
+      <th>销量</th>
+    </tr>
+  </thead>
+  <tbody>
+  <#list ordersGoodsList as info>
+  <tr class="bd-line">
+    <td class="w30"><strong>${info_index+1}</strong></td>
+    <td class="w50"><div class="pic-thumb"> <a target="_blank" href="${funcList.ncGoodsUrl(info.ordersGoods.goodsId)}"> <img src="${funcList.ncImage(info.ordersGoods.imageSrc, 40, 40)}" alt="${info.ordersGoods.goodsName}"> </a> </div></td>
+    <td><dl class="goods-name">
+        <dt><a target="_blank" href="${funcList.ncGoodsUrl(info.ordersGoods.goodsId)}">${info.ordersGoods.goodsName}</a></dt>
+      </dl></td>
+    <td class="w60">${info.ordersGoodsBuyNumSum!0}</td>
+  </tr>
+  </#list>
+    </tbody>
+  
+</table>
+</#if>

@@ -1,0 +1,142 @@
+<#import "/layout.html" as c>
+<@c.html title="Index"> 
+  <!-- 开始页面内容 -->
+  <div id="content" class="content"> 
+    <!-- 开始面包屑导航 -->
+    <ol class="breadcrumb pull-right">
+      <li class="">首页</li>
+      <#list adminMenuState.breadCrumbList as breadCrumb>
+      <li class="">${breadCrumb}</li>
+      </#list>
+    </ol>
+    <!-- 结束面包屑导航 --> 
+    <!-- 开始页头区域 -->
+    <h1 class="page-header"> 订单详情 <small>查看订单详细信息</small> </h1>
+    <!-- 结束页头区域 --> 
+    
+    <!-- begin invoice -->
+    <div class="invoice">
+      <div class="invoice-company">
+        <!--<span class="pull-right hidden-print"> <a href="javascript:;" class="btn btn-sm btn-success m-b-10"><i class="fa fa-download m-r-5"></i> Export as PDF</a> <a href="javascript:;" onclick="window.print()" class="btn btn-sm btn-success m-b-10"><i class="fa fa-print m-r-5"></i> Print</a> </span>-->
+        订单编号&nbsp;:&nbsp;${ordersVo.ordersSn!''} <span class="btn btn-xs btn-info m-l-10">${ordersVo.ordersFrom!''}商城订单</span></div>
+      <div class="invoice-header">
+        <div class="invoice-from"> <small>商家信息</small>
+          <address class="m-t-5 m-b-5">
+          <strong>${ordersVo.storeName!''}</strong><br />
+          卖家帐号&nbsp;:&nbsp;${ordersVo.sellerName!''}<br />
+          联系电话&nbsp;:&nbsp;${ordersVo.storePhone!''}<br />
+          发货时间&nbsp;:&nbsp;${ordersVo.sendTime!''}<br />
+          物流公司&nbsp;:&nbsp;${ordersVo.shipName!''}<br />
+          物流单号&nbsp;:&nbsp;${ordersVo.shipCode!''}
+          </address>
+        </div>
+        <div class="invoice-to"> <small>买家信息</small>
+          <address class="m-t-5 m-b-5">
+          <strong>${ordersVo.memberName!''}</strong><br />
+          收 货 人&nbsp;:&nbsp;${ordersVo.receiverName!''}<br/>
+          收货地址&nbsp;:&nbsp;${ordersVo.receiverAreaInfo!''}${ordersVo.receiverAddress!''}<br />
+          联系电话&nbsp;:&nbsp;${ordersVo.receiverPhone!''}<br />
+          发票信息&nbsp;:&nbsp;<#list ordersVo.invoiceList.keySet() as key> <span>${key} (<small>${ordersVo.invoiceList.get(key)}</small>)</span> </#list><br/>
+          买家留言&nbsp;:&nbsp;${ordersVo.receiverMessage!''}
+          </address>
+        </div>
+        <div class="invoice-date"> <small>订单状态/时间</small>
+          <div class="date m-t-5 m-b-5"><#if ordersVo.ordersStateIsCancel == 0>
+            生成订单
+            <#if ordersVo.isOffLineOrders == 0>
+            <#if ordersVo.paymentTime??>-&nbsp;完成付款</#if>
+            </#if>
+            <#if ordersVo.sendTime??>-&nbsp;商家发货</#if>
+            <#if ordersVo.finishTime??>-&nbsp;确认收货</#if>
+            <#if ordersVo.evaluationTime??>-&nbsp;评价</#if>
+            </#if></div>
+          <div class="invoice-detail">
+            订单状态&nbsp;:&nbsp;${ordersVo.ordersStateName!''}<br/>
+            支付方式&nbsp;:&nbsp;${ordersVo.paymentName!''}
+
+            <#if ordersVo.isOffLineOrders == 0>
+              <#if (ordersVo.predepositAmount>0)>
+                ，预存款支付：${ordersVo.predepositAmount?string('0.00')}元
+              <#if ordersVo.paymentTime??>
+                ，${ordersVo.paymentName!''}支付：${ordersVo.apiPayDiffAmount?string('0.00')}元
+              </#if>
+              </#if>
+            </#if>
+            <br/>
+            <#if ordersVo.outOrdersSn?? && ordersVo.outOrdersSn != "">外部交易号&nbsp;:&nbsp;${ordersVo.outOrdersSn!''}<br/></#if>
+            <#if ordersVo.ordersStateIsCancel == 0>
+            下单时间&nbsp;:&nbsp;${ordersVo.createTime!''}<br/>
+            <#if ordersVo.isOffLineOrders == 0>
+            <#if ordersVo.paymentTime??>付款时间&nbsp;:&nbsp;${ordersVo.paymentTime!''}<br/>
+              <#if ordersVo.adminReceivePayState == 1>管理员更改付款状态</#if>
+            </#if>
+            </#if>
+            <#if ordersVo.sendTime??>发货时间&nbsp;:&nbsp;${ordersVo.sendTime!''}<br/>
+            </#if>
+            <#if ordersVo.finishTime??>完成时间&nbsp;:&nbsp;${ordersVo.finishTime!''}<br/>
+            </#if>
+            <#if ordersVo.evaluationTime??>评价时间&nbsp;:&nbsp;${ordersVo.evaluationTime!''}<br/>
+            </#if>
+            </#if>
+ </div>
+        </div>
+      </div>
+      <div class="invoice-content">
+        <div class="table-responsive">
+          <table class="table table-invoice">
+            <thead>
+              <tr>
+                <th>商品</th>
+                <th>单价(元)</th>
+                <th>数量</th>
+                <th>实付 * 佣金比 = 应付佣金(元)</th>
+              </tr>
+            </thead>
+            <tbody>
+            <#if (ordersVo.ordersGoodsVoList?size>0)>
+            <#list ordersVo.ordersGoodsVoList as ordersGoodsVo>
+            <tr>
+              <td><div class="pic-thumb"><a href="${c.func.ncGoodsUrl(ordersGoodsVo.goodsId)}" target="_blank"><img src="${c.func.ncImage(ordersGoodsVo.imageSrc, 50, 50)}"></a></div>
+                <dl class="goods-name">
+                  <dt><a href="${c.func.ncGoodsUrl(ordersGoodsVo.goodsId)}" target="_blank">${ordersGoodsVo.goodsName}</a>
+                    <!--<a class="blue ml5" href="" target="_blank">[交易快照]</a>--> 
+                  </dt>
+                  <dd> </dd>
+                </dl></td>
+              <td>${ordersGoodsVo.goodsPrice?string("0.00")}
+                <p class="green"></p></td>
+              <td>${ordersGoodsVo.buyNum}</td>
+              <td><#if ordersGoodsVo.commissionRate??>
+                ${ordersGoodsVo.goodsPayAmount?string('0.00')} * ${ordersGoodsVo.commissionRate}% = ${ordersGoodsVo.commissionAmount?string("0.00")}<b></b> </#if></td>
+            </tr>
+              </tbody>
+            
+            </#list>
+            </#if>
+          </table>
+        </div>
+        <div class="invoice-price">
+          <div class="invoice-price-left">
+            <div class="invoice-price-row">
+              <div class="sub-price"><#if ordersVo.freightAmount?? && (ordersVo.freightAmount>0)> <small>运费</small>${ordersVo.freightAmount?string("0.00")} 元<#else>
+                （免运费）
+                </#if></div>
+            </div>
+          </div>
+          <div class="invoice-price-right"> <small>订单应付金额</small>${ordersVo.ordersAmount?string("0.00")}元<br/>
+          </div>
+        </div>
+      </div>
+      <!--<div class="invoice-note"> * Make all cheques payable to [Your Company Name]<br />-->
+        <!--* Payment is due within 30 days<br />-->
+        <!--* If you have any questions concerning this invoice, contact  [Name, Phone Number, Email] </div>-->
+      <!--<div class="invoice-footer text-muted">-->
+        <!--<p class="text-center m-b-5"> THANK YOU FOR YOUR BUSINESS </p>-->
+        <!--<p class="text-center"> <span class="m-r-10"><i class="fa fa-globe"></i> matiasgallipoli.com</span> <span class="m-r-10"><i class="fa fa-phone"></i> T:016-18192302</span> <span class="m-r-10"><i class="fa fa-envelope"></i> rtiemps@gmail.com</span> </p>-->
+      <!--</div>-->
+    </div>
+    <!-- end invoice --> 
+  </div>
+  <!-- ================== 结束页面级JavaScrip调用 ================== --> 
+  
+</@c.html>

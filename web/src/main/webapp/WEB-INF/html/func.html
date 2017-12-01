@@ -1,0 +1,127 @@
+<#function ncImage imageName width height>
+    <#if imageName?ends_with(".jpg") >
+        <#return imageName + "_" + width + "x" + height + ".jpg" />
+    </#if>
+    <#if imageName?ends_with(".png") >
+        <#return imageName + "_" + width + "x" + height + ".png" />
+    </#if>
+    <#if imageName?ends_with(".gif") >
+        <#return imageName + "_" + width + "x" + height + ".gif" />
+    </#if>
+</#function>
+
+<#function ncGoodsUrl goodsId>
+    <#return webRoot + "goods/" + goodsId />
+</#function>
+
+<#function ncStoreUrl storeId>
+    <#return webRoot + "store/" + storeId />
+</#function>
+
+<#function searchUrlJoin key value>
+    <#assign url = webRoot + "search?" />
+    <#assign sign = "false" />
+    <#list paramMap.keySet() as k>
+        <#if k != "page">
+            <#if key == k>
+                <#assign sign = "true" />
+                <#assign url += "&" + k + "=" + paramMap.get(k)[0] + "," + value />
+            <#else />
+                <#assign url += "&" + k + "=" + paramMap.get(k)[0] />
+            </#if>
+        </#if>
+    </#list>
+    <#if sign == "false">
+        <#assign url += "&" + key + "=" + value />
+    </#if>
+    <#return url />
+</#function>
+
+<#function searchUrlRemoveValue param>
+    <#assign url = "" />
+    <#list  paramMap.keySet() as k>
+        <#if param != paramMap.get(k)[0] && k != "page">
+            <#assign url += "&" + k + "=" + paramMap.get(k)[0] />
+        </#if>
+    </#list>
+    <#assign url = url?replace(param + ",", "") />
+    <#assign url = url?replace("," + param, "") />
+    <#return webRoot + "search?" + url />
+</#function>
+
+<#function searchUrlRemoveKey key>
+    <#assign url = webRoot + "search?" />
+    <#list  paramMap.keySet() as k>
+        <#if key != k &&  k != "page">
+            <#assign url += "&" + k + "=" + paramMap.get(k)[0] />
+        </#if>
+    </#list>
+    <#return url />
+</#function>
+
+<#function searchUrlReplace key value>
+    <#assign url = webRoot + "search?" />
+    <#assign sign = "false" />
+    <#list  paramMap.keySet() as k>
+        <#if k != "page">
+            <#if key == k>
+                <#assign sign = "true" />
+                <#assign url += "&" + k + "=" + value />
+            <#else />
+            <#assign url += "&" + k + "=" + paramMap.get(k)[0] />
+            </#if>
+        </#if>
+    </#list>
+    <#if sign == "false">
+        <#assign url += "&" + key + "=" + value />
+    </#if>
+    <#return url />
+</#function>
+
+<#function searchActivityUrlReplace key value>
+    <#assign url = webRoot + "activity/activityList?" />
+    <#assign sign = "false" />
+    <#list  paramMap.keySet() as k>
+        <#if k != "page">
+            <#if key == k>
+                <#assign sign = "true" />
+                <#assign url += "&" + k + "=" + value />
+            <#else />
+            <#assign url += "&" + k + "=" + paramMap.get(k)[0] />
+            </#if>
+        </#if>
+    </#list>
+    <#if sign == "false">
+        <#assign url += "&" + key + "=" + value />
+    </#if>
+    <#return url />
+</#function>
+
+<#function searchActiviyUrlJoin key value>
+    <#assign url = webRoot + "activity/activityList?" />
+    <#assign sign = "false" />
+    <#list paramMap.keySet() as k>
+        <#if k != "page">
+            <#if key == k>
+                <#assign sign = "true" />
+                <#assign url += "&" + k + "=" + paramMap.get(k)[0] + "," + value />
+            <#else />
+                <#assign url += "&" + k + "=" + paramMap.get(k)[0] />
+            </#if>
+        </#if>
+    </#list>
+    <#if sign == "false">
+        <#assign url += "&" + key + "=" + value />
+    </#if>
+    <#return url />
+</#function>
+   
+<#function searchActivityUrlRemoveKey key>
+    <#assign url = webRoot + "activity/activityList?" />
+    <#list  paramMap.keySet() as k>
+        <#if key != k &&  k != "page">
+            <#assign url += "&" + k + "=" + paramMap.get(k)[0] />
+        </#if>
+    </#list>
+    <#return url />
+</#function>

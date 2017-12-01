@@ -1,0 +1,38 @@
+<div class="ncs-sidebar-container ncs-class-bar">
+  <div class="title">
+    <h4>店铺商品分类</h4>
+  </div>
+  <div class="content">
+    <ul class="ncs-submenu">
+      <li class="first"><a href="${webRoot}store/search?storeId=${storeInfo.storeId}">查看全部商品</a></li>
+      <div class="sort"> <a href="${webRoot}store/search?storeId=${storeInfo.storeId}&sort=default_desc">按新品</a><a href="${webRoot}store/search?storeId=${storeInfo.storeId}&sort=price_desc">按价格</a><a href="${webRoot}store/search?storeId=${storeInfo.storeId}&sort=sale_desc">按销量</a><a href="${webRoot}store/search?storeId=${storeInfo.storeId}&sort=fav_desc">按收藏</a></div>
+      <#if storeLabelList??>
+      <#list storeLabelList as storeLabel>
+      <li> <a href="${webRoot}store/search?storeId=${storeInfo.storeId}&labelId=${storeLabel.storeLabelId}">${storeLabel.storeLabelName}</a> <span style="cursor: pointer;" span_id="${storeLabel.storeLabelId}" onclick="class_list(this);" class="ico-none"><em></em></span> <#if storeLabelList??>
+        <ul id="stc_${storeLabel.storeLabelId}">
+          <#list storeLabel.storeLabelList as subStoreLabel>
+          <li><span class="ico-sub">&nbsp;</span><a href="${webRoot}store/search?storeId=${storeInfo.storeId}&labelId=${subStoreLabel.storeLabelId}">${subStoreLabel.storeLabelName}</a></li>
+          </#list>
+        </ul>
+        </#if> </li>
+      </#list>
+      </#if>
+    </ul>
+  </div>
+</div>
+<script type="text/javascript">
+// 商品分类
+function class_list(obj){
+    var stc_id=$(obj).attr('span_id');
+    var span_class=$(obj).attr('class');
+    if(span_class=='ico-block') {
+        $("#stc_"+stc_id).show();
+        $(obj).html('<em></em>');
+        $(obj).attr('class','ico-none');
+    }else{
+        $("#stc_"+stc_id).hide();
+        $(obj).html('<em></em>');
+        $(obj).attr('class','ico-block');
+    }
+}
+</script> 

@@ -1,0 +1,159 @@
+<#import "/member/layout.html" as c>
+<@c.html title="Index">
+  <div class="wrap">
+    <div class="tabmenu">
+      <ul class="tab pngFix">
+        <li class="active"><a href="${webRoot}member/address">地址列表</a></li>
+      </ul>
+      <a title="新增地址" id="addressAdd" class="btn btn-sm btn-success" href="javascript:void(0)"><i class="icon-map-marker"></i>新增地址</a> </div>
+    <div class="alert alert-success">
+      <h4>操作提示：</h4>
+      <ul>
+        <li>最多可保存${addressMaxNum}个有效地址</li>
+      </ul>
+    </div>
+    <table class="ncm-default-table">
+      <thead>
+        <tr>
+          <th class="w10"></th>
+          <th class="w80 tl">收货人</th>
+          <th class="w150 tl">所在地区</th>
+          <th class="tl">街道地址</th>
+          <th class="w150 tl">电话/手机</th>
+          <th class="w100"></th>
+          <th class="w200">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+      <#if addressList?exists && (addressList?size>0) >
+      <#list addressList as address>
+      <tr class="bd-line">
+        <td></td>
+        <td class="tl">${address.realName!''}</td>
+        <td class="tl">${address.areaInfo!''}</td>
+        <td class="tl">${address.address}</td>
+        <td class="tl"><p><i class="icon-phone"></i><#if address.telPhone??>无<#else>${(address.telPhone)!'无'}</#if></p>
+          <p><i class="icon-mobile-phone"></i>${(address.mobPhone == "") ? string("无",address.mobPhone)}</p></td>
+        <td class="c-success"><#if address.isDefault == 1> <i class="icon-ok-sign"></i>默认地址
+          </#if> </td>
+        <td class="ncm-table-handle"><a ncType="edit" dataAddressId="${address.addressId}" class="btn btn-sm btn-primary m-r-5" href="javascript:void(0);"><i class="icon-edit"></i>编辑</a><a ncType="delete" dataAddressId="${address.addressId}" class="btn btn-sm btn-danger" href="javascript:void(0)"><i class="icon-trash"></i>删除</a></td>
+      </tr>
+      </#list>
+        <#else/>
+        <tr>
+          <td colspan="20" class="norecord"><div class="warning-option"><i>&nbsp;</i><span>暂无符合条件的数据记录</span></div></td>
+        </tr>
+      </#if>
+        </tbody>
+
+    </table>
+  </div>
+  <script type="text/javascript" src="${jsRoot}member/address.js"></script> 
+</@c.html>
+<div id="addressDialog"  style="display:none">
+  <div class="adds">
+    <form id="addressForm" action="${webRoot}member/address/add" method="post">
+      <input type="hidden" value="" name="addressId">
+      <dl>
+        <dt><i class="required">*</i>收货人：</dt>
+        <dd>
+          <input type="text" value="" name="realName" maxlength="10" class="text w100">
+          <p class="hint">请填写您的真实姓名</p>
+        </dd>
+      </dl>
+      <dl>
+        <dt><i class="required">*</i>所在地区：</dt>
+        <dd id="divAddress" class="data-deep" data-area-text="" data-area-id="">
+          <input type="hidden" value="" name="areaId1" data-deep="0">
+          <input type="hidden" value="" name="areaId2" data-deep="1">
+          <input type="hidden" value="" name="areaId3" data-deep="2">
+          <input type="hidden" value="" name="areaId4" data-deep="3">
+        </dd>
+      </dl>
+      <dl>
+        <dt><i class="required">*</i>街道地址：</dt>
+        <dd>
+          <input type="text" value="" name="address" maxlength="50" class="text w300">
+          <p class="hint">不必重复填写地区</p>
+        </dd>
+      </dl>
+      <dl>
+        <dt><i class="required">*</i>手机号码：</dt>
+        <dd>
+          <input type="text" value="" name="mobPhone" placeholder="电话号码、手机号码至少填写一项" class="text w200">
+        </dd>
+      </dl>
+      <dl>
+        <dt>电话号码：</dt>
+        <dd>
+          <input type="text" value="" name="telPhone" class="text w200">
+          <p class="hint">区号 - 电话号码 - 分机</p>
+        </dd>
+      </dl>
+      <dl>
+        <dt><em class="pngFix"></em>设为默认地址：</dt>
+        <dd>
+          <div class="text-box">
+            <input type="checkbox" value="1" id="isDefault" name="isDefault" class="checkbox">
+            <label for="isDefault">设置为默认收货地址</label>
+          </div>
+        </dd>
+      </dl>
+    </form>
+  </div>
+</div>
+
+<!-- S 编辑地址modal-->
+<div id="editAddressDialog"  style="display:none">
+  <div class="adds">
+    <form id="editAddressForm" action="${webRoot}member/address/save" method="post">
+      <input type="hidden" value="" name="addressId">
+      <dl>
+        <dt><i class="required">*</i>收货人：</dt>
+        <dd>
+          <input type="text" value="" name="realName" maxlength="10" class="text w100">
+          <p class="hint">请填写您的真实姓名</p>
+        </dd>
+      </dl>
+      <dl>
+        <dt><i class="required">*</i>所在地区：</dt>
+        <dd class="data-deep" id="editAddressPanel" data-area-text="" data-area-id="">
+          <input type="hidden" value="" name="areaId1" data-deep="0">
+          <input type="hidden" value="" name="areaId2" data-deep="1">
+          <input type="hidden" value="" name="areaId3" data-deep="2">
+          <input type="hidden" value="" name="areaId4" data-deep="3">
+        </dd>
+      </dl>
+      <dl>
+        <dt><i class="required">*</i>街道地址：</dt>
+        <dd>
+          <input type="text" value="" name="address" maxlength="50" class="text w300">
+          <p class="hint">不必重复填写地区</p>
+        </dd>
+      </dl>
+      <dl>
+        <dt><i class="required">*</i>手机号码：</dt>
+        <dd>
+          <input type="text" value="" name="mobPhone" placeholder="电话号码、手机号码至少填写一项" class="text w200">
+        </dd>
+      </dl>
+      <dl>
+        <dt>电话号码：</dt>
+        <dd>
+          <input type="text" value="" name="telPhone" class="text w200">
+          <p class="hint">区号 - 电话号码 - 分机</p>
+        </dd>
+      </dl>
+      <dl>
+        <dt><em class="pngFix"></em>设为默认地址：</dt>
+        <dd>
+          <div class="text-box">
+            <input type="checkbox" value="1" id="isEditDefault" name="isDefault" class="checkbox">
+            <label for="isEditDefault">设置为默认收货地址</label>
+          </div>
+        </dd>
+      </dl>
+    </form>
+  </div>
+</div>
+<!-- E 编辑地址modal-->

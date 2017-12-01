@@ -1,0 +1,39 @@
+<#import "/buy/layout.html" as c>
+<@c.html title="支付提交">
+<div class="ncc-main">
+    <div class="ncc-title">
+        <h3>支付提交</h3>
+        <h5>查看充值记录可以通过<a href="${memberRoot}predeposit/recharge/list" target="_blank">我的充值列表</a>进行查看。</h5>
+    </div>
+    <form id="payForm" action="${webRoot}buy/pay/pdpay/pay" method="POST">
+        <input type="hidden" id="paymentCode" name="paymentCode" value="">
+        <input type="hidden" id="rechargeId" name="rechargeId" value="${rechargeInfo.rechargeId}">
+        <div class="ncc-receipt-info">
+            <div>充值单号 : ${rechargeInfo.rechargeSn}</div>
+            <div class="ncc-receipt-info-title">
+                <h3>您已申请账户余额充值，请立即在线支付！充值金额：<strong>￥${rechargeInfo.amount?string("0.00")}</strong> </h3>
+            </div>
+        </div>
+        <div class="ncc-receipt-info">
+            <#if paymentList?exists && (paymentList?size gt 0) >
+            <div class="ncc-receipt-info-title">
+                <h3>支付选择</h3>
+            </div>
+            <ul class="ncc-payment-list">
+                <#list paymentList as paymentInfo>
+                <li ncType="paymentType" dataPaymentCode="${paymentInfo.paymentCode}">
+                    <label>
+                        <i></i>
+                        <div class="logo"><img src="${imgRoot}payment/${paymentInfo.paymentCode}_logo.gif"></div>
+                    </label>
+                </li>
+                </#list>
+            </ul>
+            </#if>
+        </div>
+        <div class="ncc-bottom"><a href="javascript:void(0);" id="pay" class="pay-btn"><i class="icon-shield"></i>确认支付</a></div>
+    </form>
+</div>
+</@c.html>
+
+<script src="${jsRoot}buy/predeposit_pay.js"></script>

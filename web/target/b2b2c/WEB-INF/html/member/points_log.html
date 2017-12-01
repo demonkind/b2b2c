@@ -1,0 +1,78 @@
+<#import "/member/layout.html" as c>
+<@c.html title="积分明细">
+  <div class="wrap">
+    <div class="tabmenu">
+      <ul class="tab pngFix">
+        <li class="active"><a href="javascript:;">积分明细</a></li>
+      </ul>
+    </div>
+    <div class="alert alert-block">
+      <h4>积分获得规则</h4>
+      <ul><li>成功注册会员：增加<em>${config.pointsRuleRegister}</em>积分；会员每天登录：增加<em>${config.pointsRuleLogin}</em>积分；评价完成订单：增加<em>${config.pointsRuleComments}</em>积分。</li>
+        <#if config.pointsRuleOrderrate?number gt 0><li>购物并付款成功后将获得订单总价<em>${config.pointsRuleOrderrate}%</em><#if config.pointsRuleOrdermax?number gt 0>（最高限额不超过${config.pointsRuleOrdermax}）</#if>的积分。</li></#if>
+      </ul>
+    </div>
+    <form method="get" action="${memberRoot}pointslog">
+      <table class="ncm-search-table">
+        <tr><td class="w10">&nbsp;</td>
+          <td><strong>积分数</strong><strong style="color: #F00;"> ${member.memberPoints}</strong></td>
+          <th>添加时间</th>
+          <td style="width: 250px;">
+            <input type="text" id="addTimeStart" name="addTimeStart" class="text w70" value='${RequestParameters["addTimeStart"]?default("")}'>
+            <label class="add-on"><i class="icon-calendar"></i></label>&nbsp;&#8211;&nbsp;
+            <input type="text" id="addTimeEnd" name="addTimeEnd" class="text w70" value='${RequestParameters["addTimeEnd"]?default("")}'>
+            <label class="add-on"><i class="icon-calendar"></i></label>
+          </td>
+          <th>操作</th>
+          <td class="w100">
+            <select id="operationStage" name="operationStage"></select>
+            <input type="hidden" id="operationStageValue" value='${RequestParameters["operationStage"]?default("")}' />
+          </td>
+          <th>描述</th>
+          <td class="w160"><input type="text" class="text w150" id="description" name="description" value='${RequestParameters["description"]?default("")}'></td>
+          <td class="w70 tc"><label class="submit-border"><input type="submit" class="submit" value="搜索" /></label></td>
+        </tr>
+      </table>
+    </form>
+    <table class="ncm-default-table">
+      <thead>
+      <tr>
+        <th class="w200">添加时间</th>
+        <th class="w150">积分变更</th>
+        <th class="w300">操作</th>
+        <th class="tl">描述</th>
+      </tr>
+      </thead>
+      <tbody>
+      <#if logList?exists && (logList?size>0)>
+          <#list logList as info>
+          <tr class="bd-line">
+            <td class="goods-time">${info.addTime}</td>
+            <td class="goods-price">${info.points}</td>
+            <td>${info.operationStageText}</td>
+            <td class="tl">${info.description}</td>
+          </tr>
+          </#list>
+      <#else>
+          <tr>
+            <td colspan="20" class="norecord"><div class="warning-option"><i>&nbsp;</i><span>暂无符合条件的数据记录</span></div></td>
+          </tr>
+      </#if>
+      </tbody>
+      <tfoot>
+      <#if logList?exists && (logList?size>0)>
+      <tr>
+          <#noescape>
+        <td colspan="20"><div class="pagination">${showPage}</div></td>
+              </#noescape>
+      </tr>
+      </#if>
+      </tfoot>
+    </table>
+  </div>
+</@c.html>
+<!-- 日历控件 -->
+<link href="${toolkitRoot}datePicker/skin/WdatePicker.css" rel="stylesheet"/>
+<link href="${toolkitRoot}datePicker/skin/default/datepicker.css" rel="stylesheet"/>
+<script type="text/javascript" src="${toolkitRoot}datePicker/WdatePicker.js" defer="defer"></script>
+<script type="text/javascript" src="${jsRoot}member/pointslog.js"></script>

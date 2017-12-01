@@ -1,0 +1,36 @@
+<#macro html>
+<form id="shipForm">
+    <h3>请填写退货发货信息</h3>
+    <dl>
+        <dt>物流公司：</dt>
+        <dd>
+            <select name="shipId">
+                <option value="">- 请选择 -</option>
+                <#if shipList??>
+                    <#list shipList as shipInfo>
+                        <option value="${shipInfo.shipId}">${shipInfo.shipName}</option>
+                    </#list>
+                </#if>
+            </select>
+            <span class="error"></span>
+        </dd>
+    </dl>
+    <dl>
+        <dt><i class="required">*</i>物流单号：</dt>
+        <dd>
+            <input type="text" class="text w150" name="shipSn" value=""/>
+            <span class="error"></span>
+            <p class="hint">发货 ${refundItemVo.maxDayReturnDelay} 天后，当商家选择未收到则要进行延迟时间操作；
+                如果超过 ${refundItemVo.maxDayReturnConfirm} 天不处理按弃货处理，直接由管理员确认退款。</p>
+        </dd>
+    </dl>
+    <div class="bottom">
+        <label class="submit-border">
+        <a type="submit" href="javascript:;" class="submit" id="shipSubmitBtn" >确定</a>
+
+        </label>
+
+        <a href="javascript:history.go(-1);" class="btn btn-white m-t-10 m-l-10"><i class="icon-reply"></i>返回列表</a>
+    </div>
+</form>
+</#macro>

@@ -1,0 +1,47 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="mt10">
+  <thead>
+  <tr>
+    <th class="w200">买家</th>
+    <th class="w100">购买价</th>
+    <th class="">购买数量</th>
+    <th class="w200">购买时间</th>
+  </tr>
+  </thead>
+  <#if orderGoodsList.size() gt 0>
+  <tbody>
+  <#list orderGoodsList as orderGoods>
+  <tr>
+    <td><a href="javascript:;">${orderGoods.memberName}</a></td>
+    <td><em class="price"><i style="color:red;">￥${orderGoods.goodsPrice?string["0.00"]}</i></em></td>
+    <td>${orderGoods.buyNum}</td>
+    <td><time>${orderGoods.createTime?date}</time></td>
+  </tr>
+  </#list>
+  </tbody>
+  <tfoot>
+  <tr>
+      <#noescape>
+    <td colspan="10" class="tr" ><div class="pagination"> ${showPage} </div></td>
+          </#noescape>
+  </tr>
+  </tfoot>
+  <#else/>
+  <tbody>
+  <tr>
+    <td colspan="10" class="ncs-norecord">没有符合条件的记录</td>
+  </tr>
+  </tbody>
+  </#if>
+</table>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#sale_log').find('.demo').ajaxContent({
+      event:'click', //mouseover
+      loaderType:"img",
+      loadingMsg:ncGlobal.imgRoot+'transparent.gif',
+      target:'#sale_log'
+    });
+
+  });
+</script>

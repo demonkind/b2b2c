@@ -1,0 +1,47 @@
+<#import "/home/exppoints/minfo.html" as minfo>
+<#import "/home/layout.html" as c>
+<@c.html title="我的经验值">
+<link href="${cssRoot}home_point.css" rel="stylesheet" type="text/css">
+<div class="ncp-container">
+    <div class="ncp-base-layout">
+        <div class="ncp-member-left"><@minfo.html /></div>
+        <div class="ncp-member-right">
+            <table class="ncp-table-style">
+                <thead>
+                <tr>
+                    <th class="w200">添加时间</th>
+                    <th class="w100">获得经验</th>
+                    <th class="w200">操作阶段</th>
+                    <th class="tl">描述</th>
+                </tr>
+                </thead>
+                <tbody>
+                <#if logList?exists && (logList?size gt 0) >
+                    <#list logList as info>
+                    <tr class="">
+                        <td class="">${info.addTime}</td>
+                        <td class="">${info.points}</td>
+                        <td>${info.operationStageText}</td>
+                        <td class="tl">${info.description}</td>
+                    </tr>
+                    </#list>
+                <#else>
+                    <tr>
+                        <td colspan="20" class="norecord"><div class="warning-option"><i>&nbsp;</i><span>暂无符合条件的数据记录</span></div></td>
+                    </tr>
+                </#if>
+                </tbody>
+                <tfoot>
+                <#if logList?exists && (logList?size gt 0) >
+                <tr>
+                    <#noescape>
+                    <td colspan="20"><div class="pagination">${showPage}</div></td>
+                        </#noescape>
+                </tr>
+                </#if>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+</@c.html>

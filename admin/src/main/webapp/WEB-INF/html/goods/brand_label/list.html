@@ -1,0 +1,78 @@
+<#import "/layout.html" as c>
+<#import "/list_layout.html" as list>
+<#assign alertList = []/>
+<#assign alertList = alertList + ["品牌标签用于对品牌类型进行划分区别使用，例如品牌标签名称：服装、鞋帽、箱包等此类表述方式。"]/>
+<#assign alertList = alertList + ["在添加品牌的时候可选择绑定品牌标签，且可一个品牌分属绑定多个标签，因此应先行添加品牌标签后再做相关品牌添加编辑设置。"]/>
+<@c.html title="Index">
+
+<@list.html title="品牌标签" subTitle="品牌标签对应新增及审核" alertList=alertList addBtn=true searchHint="使用标签名称作为关键字查找">
+  <!-- 开始页面内容 -->
+  <!-- 开始新增品牌标签模态窗口 -->
+  <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title"> 新增品牌标签 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsAdd" aria-expanded="false" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+        </div>
+        <div class="modal-body">
+          <!-- 开始操作提示 -->
+          <ul class="collapse text-info m-b-20 p-l-15" role="tabpanel" id="OperationTipsAdd">
+            <li class="m-b-10">标签名称可使用中英文、内容长度控制在2-12个字符；例如：服装；鞋帽；箱包；运动装备等名词。</li>
+            <li class="m-b-10">标签排序从0~999顺序排列，数字越小排列越靠前，默认排序为0。</li>
+          </ul>
+          <!-- 结束操作提示 -->
+          <!-- 开始品牌标签设置模块 -->
+          <form action="${adminRoot}brand_label/save.json" id="addForm" method="post" autocomplete="off" data-parsley-validate="true">
+            <div class="form-group">
+              <label class="control-label"> 品牌标签名称 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+              <input type="text" name="brandLabelName" class="form-control" placeholder="请输入品牌标签名称" autocomplete="off" data-tip="tooltip" data-placement="auto" data-original-title="必填项，输入内容控制在2-12个字符。" data-parsley-required="true" data-parsley-length="[2, 12]"/>
+            </div>
+            <div class="form-group">
+              <label class="control-label"> 品牌标签排序 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+              <input type="text" name="brandLabelSort" class="form-control" placeholder="请输入品牌标签排序" autocomplete="off" value="0" data-tip="tooltip" data-placement="auto" data-original-title="必填项，排序从0~999顺序排列。" data-parsley-required="true" data-parsley-range="[0, 999]"/>
+            </div>
+          </form>
+          <!-- 结束品牌标签设置模块--> </div>
+        <div class="modal-footer"> <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a> <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-ajax-submit-target="addForm" nc-ajax-submit>确认提交</a> </div>
+      </div>
+    </div>
+  </div>
+  <!-- 结束新增品牌标签模态窗口 -->
+
+  <!-- 开始编辑品牌标签模态窗口 -->
+  <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" >
+      <div class="modal-content" >
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title"> 编辑品牌标签 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsEdit" aria-expanded="false" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+        </div>
+        <div class="modal-body">
+          <!-- 开始操作提示 -->
+          <ul class="collapse text-info m-b-20 p-l-15" role="tabpanel" id="OperationTipsEdit">
+            <li class="m-b-10">标签名称可使用中英文、内容长度控制在2-12个字符；例如：服装；鞋帽；箱包；运动装备等名词。</li>
+            <li class="m-b-10">标签排序从0~999顺序排列，数字越小排列越靠前，默认排序为0。</li>
+          </ul>
+          <!-- 结束操作提示 -->
+          <!-- 开始品牌标签设置模块 -->
+          <form action="${adminRoot}brand_label/update.json" id="editForm" method="post" autocomplete="off" data-parsley-validate="true">
+            <input type="hidden" name="brandLabelId" value="" id="brandLabelId">
+            <div class="form-group">
+              <label class="control-label"> 品牌标签名称 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+              <input type="text" name="brandLabelName" class="form-control" autocomplete="off" data-tip="tooltip" data-placement="auto" data-original-title="必填项，输入内容控制在2-12个字符。"  data-parsley-required="true" data-parsley-length="[2, 12]"/>
+            </div>
+            <div class="form-group">
+              <label class="control-label"> 品牌标签排序 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+              <input type="text" name="brandLabelSort" class="form-control" value="0" autocomplete="off" data-tip="tooltip" data-placement="auto" data-original-title="必填项，排序从0~999顺序排列。" data-parsley-required="true" data-parsley-range="[0, 999]"/>
+            </div>
+          </form>
+          <!-- 结束品牌标签设置模块--> </div>
+        <div class="modal-footer"> <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a> <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-ajax-submit-target="editForm" nc-ajax-submit>确认提交</a> </div>
+      </div>
+    </div>
+  </div>
+</@list.html>
+  <!-- 结束列表相关操作 -->
+    <script src="${jsRoot}goods/brand_label.js"></script>
+</@c.html>

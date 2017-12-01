@@ -1,0 +1,709 @@
+<#import "/home/layout.html" as c>
+<@c.html title="${goodsDetail.goodsName} - ${config.siteName}">
+  <link href="${cssRoot}web_goods.css" rel="stylesheet" type="text/css">
+  <link href="${publicRoot}toolkit/magiczoomplus/magiczoomplus.css" rel="stylesheet" type="text/css">
+  <style>
+  	.ncs-meta .price strong{
+  		position: relative;
+  	}
+  	
+  	.ncs-meta .cost-price  i.host{
+  		position: absolute;
+	    left: 200px;
+	    top: 14px;
+	    width: 60px;
+	    height: 20px;
+	    font-size: 12px;
+	    display:block;
+	    background: url("${webRoot}static/img/activity/free-icon.png") no-repeat
+		center center;
+		text-indent:-9999px;
+  	}
+  	.ncs-meta .cost-price  i.host.freeSale{
+  		background-image: url("${webRoot}static/img/activity/freeSaleIcon1.png")
+  	}
+  	.ncs-meta .cost-price  i.host.ys{
+  		background-image: url("${webRoot}static/img/activity/pre_sale.png")
+  	}
+  	.ncs-meta .price p{
+  		left: 100px;
+	    top: 0px;
+	    position: absolute;
+	    width:300px;
+	    display:block;
+	    font: 600 26px/30px Tahoma;
+  	}
+  	.ncs-meta dl dd i.back{
+  		display:inline-block;
+	    width: 34px;
+	    height: 34px;
+	    font-size: 12px;
+	    background: url("${webRoot}static/img/activity/back-icon.png") no-repeat
+		center center;
+		vertical-align:text-top;
+		line-height:30px;
+		background-size:24px 24px;;
+  	}
+  	.ncs-buy .nsc-tips{
+	  	display: inline-block;
+	    height: 42px;
+	    vertical-align: text-bottom;
+	    line-height: 65px;
+	    font-size: 14px;
+	    color: #7A7272;
+  	}
+  	.ncs-buy .nsc-tips span{
+  		color:red;
+  	}
+  	.countdown,end{
+	  	width: 100%;
+	    height: 50px;
+	    line-height: 50px;
+	    background: red;
+	    text-align: left;
+	    font-size: 18px;
+	    color: white;
+	    text-indent: 30px;
+  	}
+  </style>
+  <script src="${publicRoot}toolkit/magiczoomplus/magiczoomplus.js"></script>\
+  <div class="ncs-detail-wrap">
+    <div class="ncs-detail ownshop"> 
+      <!-- S 商品图片 -->
+      <div id="ncsGoodsPicture" class="ncs-goods-picture image_zoom"> 
+        <!--大图--> 
+         <a id="Zoomer" href="${goodsDetail.imageSrc}" class="MagicZoomPlus" rel="selectors-effect: false;zoom-width: 600; zoom-height: 520; expand-size: original">
+            <img src="${c.func.ncImage(goodsDetail.imageSrc, 400, 400)}"/> </a>
+        <!--小图-->
+        <div class="controller"> <a title="向前" id="GoodsPicPrevBtn" class="cBtn prev icon-angle-left" href="javascript:;"></a>
+          <div class="goods-pic-box">
+            <ul id="ncsGoodsPicList">
+	              <#list goodsDetail.goodsImageList as imageName>
+		              <li>
+		                  <a href="${imageName.imageSrc}" rel="zoom-id: Zoomer;" rev="${c.func.ncImage(imageName.imageSrc, 400, 400)}" <#if (imageName == goodsDetail.goodsImageList?first)> class="current"</#if>>
+		                    <img src="${c.func.ncImage(imageName.imageSrc, 50, 50)}"/>
+		                  </a>
+		              </li>
+              </#list>
+            </ul>
+          </div>
+          
+          <a title="向后" id="GoodsPicNextBtn" class="cBtn next icon-angle-right" href="javascript:;"></a> 
+          </div>
+        </div>
+        <!-- E 商品图片 -->
+        <div class="ncs-handle" id="content">
+          <div class="goods-num">商品编号：${goodsDetail.goodsId}</div>
+          <div class="share"><i class="icon icon-share"></i>分享<i class="m-l-5 icon-angle-down"></i> 
+            <!-- JiaThis Button BEGIN --> 
+            <sub class="jiathis_style"><a class="jiathis_button_tsina">新浪</a> <a class="jiathis_button_weixin" href="javascript:;">微信</a>
+             <!--<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a> <a class="jiathis_counter_style"></a>--> </sub>
+            <input type="hidden" id="jiathisGoodsName" name="jiathisGoodsName" value="${goodsDetail.goodsName}"/>
+            <input type="hidden" id="jiathisJingle" name="jiathisJingle" value="${goodsDetail.jingle}"/>
+            <input type="hidden" id="jiathisGoodsUrl" name="jiathisGoodsUrl" value="${c.func.ncGoodsUrl(goodsDetail.goodsId)}"/>
+            <!-- JiaThis Button END --> 
+          </div>
+          <a href="javascript:;" class="favorite" nc_type="goodsFavoritesBtn" data-param="{'goodsId':'${goodsDetail.goodsId}'}"> <i class="icon icon-star-empty"></i>关注<em class="m-l-5" nc_type="goodsFavoritesNum">${goodsDetail.goodsFavorite}</em> </a> </div>
+      <!-- E 商品图片及关注分享 --> 
+      <!-- S 商品基本信息 -->
+      <div class="ncs-goods-summary">
+        <div class="name">
+          <h1>${goodsDetail.goodsName}</h1>
+          <strong>${goodsDetail.jingle}</strong> </div>
+        <div class="ncs-meta"> 
+          <!-- S 商品参考价格 -->
+          <dl>
+            <dt>参考价格：</dt>
+            <dd class="cost-price"><em>￥</em>${goodsDetail.markerPrice}
+           
+	            <#if goodsActivity.activityId == '1'>
+	            	<i class="host">host</i>
+	            </#if>
+	            <#if goodsActivity.activityId == '2'>
+	            	<i class="host ys">host</i>
+	            </#if>
+	            <#if  goodsActivity.activityId == '3'>
+	            	<i class="host freeSale">host</i>
+	            </#if>
+            </dd>
+          </dl>
+          <!-- E 商品参考价格 --> 
+          <!-- S 商品发布价格 -->
+          <dl>
+            <dt class="price-txt">商品价格：</dt>
+            <dd class="price"><em>￥</em><strong>${goodsDetail.goodsPrice} 
+             <#if goodsActivity.activityId == '1'>
+	            	<p><i class="back"></i><#if goodsActivity.returnAmount??>${goodsActivity.returnAmount}<#else>0</#if></p>
+	            </#if>
+	            <#if  goodsActivity.activityId == '3'>
+	            	<p><i class="back"></i><#if goodsActivity.returnAmount??>${goodsActivity.returnAmount}<#else>0</#if></p>
+	            </#if>
+            </strong> </dd>
+          </dl>
+          <!-- <dl>
+            <dt>库存：</dt>
+            <dd ><strong nctype="goods_stock">${goodsDetail.goodsStorage}</strong>件</dd>
+          </dl>
+          <dl>
+            <dt>限购：</dt>
+            <dd ><strong nctype="goods_stock"><#if goodsActivity.weight??>${goodsActivity.weight}<#else>0</#if></strong>件</dd>
+          </dl> -->
+          <!-- E 商品发布价格 --> 
+          <!-- dl class="rate">
+            <dt>商品评分：</dt>
+            <dd><span class="raty"></span><a href="#ncGoodsRate">共有0条评价</a></dd>
+          </dl --> 
+        </div>
+        <div class="ncs-logistics">
+            <!-- S 物流与运费新布局展示  --> 
+          <dl id="ncs-freight" class="ncs-freight">
+
+            <dt>配&nbsp;&nbsp;送&nbsp;&nbsp;至：</dt>
+            <dd class="ncs-freight_box">
+              <div id="ncsFreightSelector" class="ncs-freight-select">
+                <div class="text">
+                  <div id="areaInfoText">请选择地区</div>
+                  <b>v</b> </div>
+                <div class="content">
+                  <div id="ncs-stock" class="ncs-stock" data-widget="tabs">
+                    <div class="mt">
+                      <ul class="tab" id="ncsTopTabs">
+                        <li data-index="0" data-widget="tab-item" class="curr"> <a href="#none" class="hover"><em>请选择</em><i> ∨</i></a> </li>
+                      </ul>
+                    </div>
+                    <div id="stockItem_0" data-widget="tab-content" data-area="0">
+                      <ul class="area-list">
+                      </ul>
+                    </div>
+                    <div id="stockItem_1" data-widget="tab-content" data-area="1" style="display: none;">
+                      <ul class="area-list">
+                      </ul>
+                    </div>
+                    <div id="stockItem_2" data-widget="tab-content" data-area="2" style="display: none;">
+                      <ul class="area-list">
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <!--<a href="javascript:;" class="close" id="areaPanelClose">关闭</a>--> 
+              </div>
+              <div id="ncs-freight-prompt"> <strong></strong> </div>
+            </dd>
+          </dl>
+        </div>
+        <!-- 商品规格 -->
+        <div class="ncs-key" id="nc-spec-panel"> 
+          <!-- S 商品规格值-->
+          <hr/>
+          <#if goodsDetail.specJson.size() gt 0>
+          <#list goodsDetail.specJson as spec>
+          <dl >
+            <dt>${spec.specName}：</dt>
+            <dd> <#if spec.specValueList.size() gt 0>
+              <ul>
+                <#list spec.specValueList as specValue>
+                <#if specValue.imageSrc?? && specValue.imageSrc != ""> 
+                <!-- 图片类型规格-->
+                <li class="sp-img"><a href="javascript:void(0);" data-spec-value="${specValue.specValueId}" class="<#if goodsDetail.specValueIds.contains(specValue.specValueId)>hovered</#if>" title="${specValue.specValueName}"><i class="sp-img-thumb"><img src="${c.func.ncImage(specValue.imageSrc, 30, 30)}"/></i>${specValue.specValueName}<sub></sub></a></li>
+                <#else> 
+                <!-- 文字类型规格-->
+                <li><a href="javascript:void(0)" data-spec-value="${specValue.specValueId}" class="<#if goodsDetail.specValueIds.contains(specValue.specValueId)>hovered</#if>" >${specValue.specValueName}<sub></sub></a></li>
+                </#if>
+                </#list>
+              </ul>
+              </#if> </dd>
+          </dl>
+          </#list>
+          </#if> 
+          	<dl>
+          		<dt>数量：</dt>
+          		<dd>
+          			<div class="ncs-figure-input">
+			            <input type="text" name="" id="buyNumInput" value="1" size="<#if goodsActivity.maxNum??>${goodsActivity.maxNum}<#else>0</#if>" maxlength="6" class="input-text">
+			            <a href="javascript:void(0)" class="increase" id="buyNumAddBtn">&nbsp;</a> <a href="javascript:void(0)" class="decrease" id="buyNumCutBtn">&nbsp;</a> </div>
+          			          <div class="ncs-point" style="display: none;"><i></i> 
+				            <!-- S 库存 --> 
+				            <span>您选择的商品库存<strong nctype="goods_stock">${goodsDetail.goodsStorage}</strong>件</span> 
+				            <!-- E 库存 --> 
+				            </div>
+				            <p style="display:inline-block;line-height:47px;margin-left:10px;">库存${goodsDetail.goodsStorage}件&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				            限购<#if goodsActivity.maxNum??>${goodsActivity.maxNum}<#else>0</#if>件</p>
+          		</dd>
+          	</dl>
+          	<dl>
+          		<dd style="width:auto">
+          			<#if goodsDetail.goodsStatus == 0>
+			       		 <div class="ncs-point"><i></i>该商品已下架或售完，可以看看店内其他商品。</div>
+			        <#else/> 
+				 		<!-- S 购买数量及库存 -->
+				        <div class="ncs-buy">
+				          <div class="ncs-point" style="display: none;"><i></i> 
+				            <!-- S 库存 --> 
+				            <span>您选择的商品库存<strong nctype="goods_stock">${goodsDetail.goodsStorage}</strong>件</span> 
+				            <!-- E 库存 --> 
+				          </div>
+				          <!-- S 提示已选规格及库存不足无法购买 --> 
+				          <#if goodsDetail.goodsStorage == 0>
+				          <div nctype="goods_prompt" class="ncs-point"><i></i> <span>您选择的商品<strong>库存不足</strong>；请选择店内其它商品。</span> </div>
+				          <!-- E 提示已选规格及库存不足无法购买 --> 
+				          </#if> 
+				          <!-- S 购买按钮 -->
+					          <div class="ncs-btn"> 
+					            <!-- 加入购物车--> 
+					            <a href="javascript:void(0);" id="addCartBtn" class="addcart" title="加入购物车"><i class="icon-shopping-cart"></i>加入购物车</a> 
+					            <!-- 立即购买-->
+					            <a href="javascript:void(0);" id="buynowSubmitBtn" class="buynow
+					            	<a href="javascript:void(0);" id="buynowSubmitBtn" class="buynow
+						            <#if goodsActivity.activityIsStart?exists && goodsActivity.activityIsStart==0>
+						            	no-addcart
+						            </#if>
+						            
+					             " title="立即购买">立即购买</a> </div>
+					          <!-- E 购买按钮 --> 
+					          	<p class="nsc-tips">请先<span>加入购物车</span></p>
+					        </div>
+			         </#if> 
+          		</dd>
+          	</dl>
+          </div>
+        <div class="countdown" data-goodsStorage="${goodsDetail.goodsStorage}" data-type="<#if goodsActivity.activityIsStart??>${goodsActivity.activityIsStart}</#if>"
+			data-starttime="<#if goodsActivity.startTime??>${goodsActivity.startTime?string('yyyy/MM/dd HH:mm:ss')}</#if>"
+			data-endtime="<#if goodsActivity.endTime??>${goodsActivity.endTime?string('yyyy/MM/dd HH:mm:ss')}</#if>">活动已结束</div>
+        <div class="ncs-cti">
+          <hr>
+          <dl>
+            <dt>服务承诺：</dt>
+            <<dd> <#list contractVoList as entity> <span> <img src="${c.func.ncImage(entity.iconUrl, 20, 20)}">
+            	<#if entity.ctDescurl?exists && entity.ctDescurl!=''>
+		      	<a href="${entity.ctDescurl}" target="_blank">${entity.ctItemname}</a>
+		      	<#else>
+		      	${entity.ctItemname}
+		      	</#if>
+            </span> </#list> </dd>
+          </dl>
+        </div>
+      </div>
+      
+      <!-- S 橱窗推荐-->
+      <div class="ncs-r-mod" id="showCasePanel" data-common-id="${goodsDetail.commonId}" data-store-id="${goodsDetail.storeId}">
+        <div class="ncs-r-mod-tit">
+          <h4>橱窗推荐</h4>
+          <a href="javascript:;" id="showCaseRefreshBtn"><i class="icon icon-refresh"></i>换一批</a></div>
+        <div class="ncs-r-mod-con">
+          <ul class="ncs-recom-goods" id="showCaseGoodsList">
+            <li> <a href="javascript:;">
+              <div class="ncs-recom-goods-thumb"> <img src="" alt=""/> </div>
+              <dl>
+                <dt class="goods-name"></dt>
+                <dd class="goods-price"></dd>
+              </dl>
+              </a> </li>
+            <li> <a href="javascript:;">
+              <div class="ncs-recom-goods-thumb"><img src="" alt=""/></div>
+              <dl>
+                <dt class="goods-name"></dt>
+                <dd class="goods-price"></dd>
+              </dl>
+              </a> </li>
+            <li> <a href="javascript:;" >
+              <div class="ncs-recom-goods-thumb"><img src="" alt=""/></div>
+              <dl>
+                <dt class="goods-name"></dt>
+                <dd class="goods-price"></dd>
+              </dl>
+              </a> </li>
+          </ul>
+        </div>
+        <div class="goods-QRcode"><a href="javascript:;">
+          <p><i class="icon-qrcode"></i>手机购买</p>
+          <div class="QRcode-pic"><img src="${goodsDetail.goodsQRCode}" /></div>
+          </a> </div>
+      </div>
+      <!--  E 橱窗推荐-->
+      
+      <div class="clear"></div>
+    </div>
+  </div>
+  <div class="ncs-goods-layout expanded">
+    <div class="ncs-sidebar"> 
+    	<div class="ncs-sidebar-container ncs-info">
+    	<!-- 店铺 -->
+		  <div class="title">
+		    <h4>${storeInfo.storeName}</h4>
+		  </div>
+		  <div class="content p-b-10">
+		    <div class="ncs-detail-rate">
+		      <ul>
+		        <li>
+		          <h5>描述</h5>
+		          <div title="${evaluateStoreVo.desEvalTitle}${evaluateStoreVo.desEvalRate}" class="${evaluateStoreVo.desEvalArrow}">${evaluateStoreVo.storeDesEval}<i></i></div>
+		        </li>
+		        <li>
+		          <h5>服务</h5>
+		          <div title="${evaluateStoreVo.serviceEvalTitle}${evaluateStoreVo.serviceEvalRate}" class="${evaluateStoreVo.serviceEvalArrow}">${evaluateStoreVo.storeServiceEval}<i></i></div>
+		        </li>
+		        <li>
+		          <h5>物流</h5>
+		          <div title="${evaluateStoreVo.deliveryEvalTitle}${evaluateStoreVo.deliveryEvalRate}" class="${evaluateStoreVo.deliveryEvalArrow}">${evaluateStoreVo.storeDeliveryEval}<i></i></div>
+		        </li>
+		      </ul>
+		    </div>
+		    <div class="btns"> <a class="goto" href="${c.func.ncStoreUrl(storeInfo.storeId)}">进店逛逛</a> <a href="javascript:;" nc_type="storeFavoritesBtn" data-param="{'storeId':'${storeInfo.storeId}'}"> <i class="icon icon-star-empty"></i>关注店铺<em class="m-l-5" nc_type="storeFavoritesNum">${storeInfo.storeCollect}</em> </a> </div>
+		    <dl>
+		      <dt>公司名称：</dt>
+		      <dd>${storeInfo.companyName}</dd>
+		    </dl>
+		    <dl>
+		      <dt>所在地区：</dt>
+		      <dd>${storeInfo.companyArea}</dd>
+		    </dl>
+		    <dl>
+		      <dt>客服电话：</dt>
+		      <dd>${storeInfo.storePhone}</dd>
+		    </dl>
+		  </div>
+		</div>
+		<!-- 客服 -->
+	      <div class="service">
+			  <div class="displayed"><i></i>在线客服</div>
+			  <div class="sub">
+			    <div class="default"><#if storeInfo.storeQq?? && storeInfo.storeQq != ""><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=${storeInfo.storeQq}&site=qq&menu=yes" title="QQ：${storeInfo.storeQq}"><img src="http://wpa.qq.com/pa?p=2:${storeInfo.storeQq}:52" alt="QQ：${storeInfo.storeQq}"></a> </#if>
+			      <#if storeInfo.storeWw?? && storeInfo.storeWw != ""> <a target="_blank" href="http://www.taobao.com/webww/ww.php?ver=3&touid=${storeInfo.storeWw}&siteid=cntaobao&status=2&charset=utf-8" title="旺旺：${storeInfo.storeWw}" ><img border="0" src="http://amos.alicdn.com/online.aw?v=2&uid=${storeInfo.storeWw}&site=cntaobao&s=2&charset=utf-8" alt="旺旺：${storeInfo.storeWw}" /></a> </#if>
+			      <#if storeInfo.storeWeixin?? && storeInfo.storeWeixin!= ""> <a href="javascript:;" title="微信：${storeInfo.storeWeixin}"><img src="${imgRoot}weixin_icon.png" alt="微信：${storeInfo.storeWeixin}"/></a> </#if> </div>
+			    <div class="service-list">
+			      <dl>
+			        <dt>售前客服：</dt>
+			        <#if storePresales??>
+			        <#list storePresales as storePresale>
+			        <dd> <span>${storePresale.name}</span> <#if storePresale.type == 1> <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=${storePresale.num}&site=qq&menu=yes" title="QQ: ${storePresale.num}"> <img border="0" src="http://wpa.qq.com/pa?p=2:${storePresale.num}:52" style=" vertical-align: middle;"/> </a> </#if>
+			          <#if storePresale.type == 2> <a target="_blank" href="http://amos.im.alisoft.com/msg.aw?v=2&uid=${storePresale.num}&site=cntaobao&s=1&charset=UTF-8" > <img border="0" src="http://amos.im.alisoft.com/online.aw?v=2&uid=${storePresale.num}&site=cntaobao&s=2&charset=UTF-8" alt="点击这里给我发消息"/> </a> </#if> </dd>
+			        </#list>
+			        </#if>
+			      </dl>
+			      <dl>
+			        <dt>售后客服：</dt>
+			        <#if storeAftersales??>
+			        <#list storeAftersales as sale>
+			        <dd> <span>${sale.name}</span> <#if sale.type == 1> <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=${sale.num}&site=qq&menu=yes" title="QQ: ${sale.num}"> <img border="0" src="http://wpa.qq.com/pa?p=2:${sale.num}:52" style=" vertical-align: middle;"/> </a> </#if>
+			          <#if sale.type == 2> <a target="_blank" href="http://amos.im.alisoft.com/msg.aw?v=2&uid=${sale.num}&site=cntaobao&s=1&charset=UTF-8" > <img border="0" src="http://amos.im.alisoft.com/online.aw?v=2&uid=${sale.num}&site=cntaobao&s=2&charset=UTF-8" alt="点击这里给我发消息"/> </a> </#if> </dd>
+			        </#list>
+			        </#if>
+			      </dl>
+			      <dl class="workingtime">
+			        <dt>工作时间：</dt>
+			        <dd>
+			          <p>${storeInfo.storeWorkingtime}</p>
+			        </dd>
+			      </dl>
+			    </div>
+			  </div>
+			</div>
+		<!-- 店铺分类 -->
+		<div class="ncs-sidebar-container ncs-class-bar">
+		  <div class="title">
+		    <h4>店铺商品分类</h4>
+		  </div>
+		  <div class="content">
+		    <ul class="ncs-submenu">
+		      <li class="first"><a href="${webRoot}store/search?storeId=${storeInfo.storeId}">查看全部商品</a></li>
+		      <div class="sort"> <a href="${webRoot}store/search?storeId=${storeInfo.storeId}&sort=default_desc">按新品</a><a href="${webRoot}store/search?storeId=${storeInfo.storeId}&sort=price_desc">按价格</a><a href="${webRoot}store/search?storeId=${storeInfo.storeId}&sort=sale_desc">按销量</a><a href="${webRoot}store/search?storeId=${storeInfo.storeId}&sort=fav_desc">按收藏</a></div>
+		      <#if storeLabelList??>
+		      <#list storeLabelList as storeLabel>
+		      <li> <a href="${webRoot}store/search?storeId=${storeInfo.storeId}&labelId=${storeLabel.storeLabelId}">${storeLabel.storeLabelName}</a> <span style="cursor: pointer;" span_id="${storeLabel.storeLabelId}" onclick="class_list(this);" class="ico-none"><em></em></span> <#if storeLabelList??>
+		        <ul id="stc_${storeLabel.storeLabelId}">
+		          <#list storeLabel.storeLabelList as subStoreLabel>
+		          <li><span class="ico-sub">&nbsp;</span><a href="${webRoot}store/search?storeId=${storeInfo.storeId}&labelId=${subStoreLabel.storeLabelId}">${subStoreLabel.storeLabelName}</a></li>
+		          </#list>
+		        </ul>
+		        </#if> </li>
+		      </#list>
+		      </#if>
+		    </ul>
+		  </div>
+		</div>
+		<script type="text/javascript">
+		// 商品分类
+		function class_list(obj){
+		    var stc_id=$(obj).attr('span_id');
+		    var span_class=$(obj).attr('class');
+		    if(span_class=='ico-block') {
+		        $("#stc_"+stc_id).show();
+		        $(obj).html('<em></em>');
+		        $(obj).attr('class','ico-none');
+		    }else{
+		        $("#stc_"+stc_id).hide();
+		        $(obj).html('<em></em>');
+		        $(obj).attr('class','ico-block');
+		    }
+		}
+		</script> 
+      <!-- 热销商品排行  -->
+      <div class="ncs-sidebar-container ncs-top-bar">
+	  <div class="title">
+	    <h4>热销商品排行</h4>
+	  </div>
+  <div class="content">
+    <div class="ncs-top-panel" id="hot_sales_list">
+      <ol>
+        <#if hotGoodsVoList??>
+        <#list hotGoodsVoList as goodsVo>
+        <li title="${goodsVo.goodsName}">
+          <dl>
+            <dt>
+            <a href="${c.func.ncGoodsUrl(goodsVo.goodsId)}">${goodsVo.goodsName}</a>
+            </dt>
+            <dd class="goods-pic"> 
+            <a href="${c.func.ncGoodsUrl(goodsVo.goodsId)}"><img src="<#if goodsVo.imageSrc??>${c.func.ncImage(goodsVo.imageSrc, 56, 56)}</#if>" alt=""/></span> </a>
+            </dd>
+            <dd class="price">￥<em>${goodsVo.goodsPrice}</em></dd>
+            <dd class="selled">售出：${goodsVo.goodsSaleNum}</dd>
+          </dl>
+        </li>
+        </#list>
+        </#if>
+      </ol>
+    </div>
+  </div>
+</div>
+<div class="ncs-sidebar-container ncs-top-bar">
+  <div class="title">
+    <h4>热门关注排行</h4>
+  </div>
+  <div class="content">
+    <div class="ncs-top-panel" id="hot_collect_list">
+      <ol>
+        <#if favoriteGoodsVoList??>
+        <#list favoriteGoodsVoList as goodsVo>
+        <li title="${goodsVo.goodsName}">
+          <dl>
+            <dt>
+            <a href="${c.func.ncGoodsUrl(goodsVo.goodsId)}">${goodsVo.goodsName}</a>
+            </dt>
+            <dd class="goods-pic">
+               <!-- <a href="${c.func.ncGoodsUrl(goodsVo.goodsId)}">
+                c.func.ncImage(goodsVo.imageSrc, 56, 56) 
+                <img src="" alt=""/>
+ 				 </a>
+ 				 -->
+ 				  <a href="${c.func.ncGoodsUrl(goodsVo.goodsId)}"><img src="${c.func.ncImage(goodsVo.imageSrc, 56, 56)}" alt=""/></span> </a>
+ 				 
+            </dd>
+            <dd class="price">￥<em>${goodsVo.goodsPrice?string["0.00"]}</em></dd>
+            <dd class="collection">关注：${goodsVo.goodsFavorite}</dd>
+          </dl>
+        </li>
+        </#list>
+        </#if>
+      </ol>
+    </div>
+  </div>
+</div>
+
+      </div>
+   
+    <div class="ncs-goods-main" id="main-nav-holder">
+      <div id="main-nav" class="ncs-goods-tabbar">
+        <div class="ncs-tabbar-store ncs-info">
+          <div class="title"><h4>${storeInfo.storeName}</h4></div>
+          <div class="content">
+            <div class="ncs-detail-rate">
+              <ul>
+                <li>
+                  <h5>描述</h5>
+                  <div title="${evaluateStoreVo.desEvalTitle}${evaluateStoreVo.desEvalRate}" class="${evaluateStoreVo.desEvalArrow}">${evaluateStoreVo.storeDesEval}<i></i></div>
+                </li>
+                <li>
+                  <h5>服务</h5>
+                  <div title="${evaluateStoreVo.serviceEvalTitle}${evaluateStoreVo.serviceEvalRate}" class="${evaluateStoreVo.serviceEvalArrow}">${evaluateStoreVo.storeServiceEval}<i></i></div>
+                </li>
+                <li>
+                  <h5>物流</h5>
+                  <div title="${evaluateStoreVo.deliveryEvalTitle}${evaluateStoreVo.deliveryEvalRate}" class="${evaluateStoreVo.deliveryEvalArrow}">${evaluateStoreVo.storeDeliveryEval}<i></i></div>
+                </li>
+              </ul>
+            </div>
+            <div class="btns"> <a class="goto" href="#">进店逛逛</a> <a href="javascript:;" nc_type="storeFavoritesBtn" data-param="{'storeId':'${goodsDetail.storeId}'}"> <i class="icon icon-star-empty"></i>关注店铺<em class="m-l-5" nc_type="storeFavoritesNum">${storeInfo.storeCollect}</em> </a> </div>
+          </div>
+        </div>
+        <div class="ncs-goods-con-nav">
+          <ul id="categorymenu">
+             <li class="current"><a id="tabGoodsIntro" href="#content">商品详情</a></li>
+            <li><a id="tabGoodsRate" href="#content">商品评价<em>${evaluateGoodsVo.evalCount}</em></a></li>
+            <li><a id="tabGoodsTraded" href="#content">销售记录<em>${goodsDetail.goodsSaleNum}</em></a></li>
+            <li><a id="tabGoodsConsult" href="#content">购买咨询</a></li>
+            <li><a id="tabActivityConsult" href="#content">活动介绍</a></li>
+            <li><a id="tabLinktown" href="#content">联璧铃铛</a></li>
+          </ul>
+        </div>
+        <div class="ncs-tabbar-buy">
+          <#if (goodsDetail.goodsStatus != 0 ) && (goodsDetail.goodsStorage gt 0 ) >
+            <a id="tabAddCart" href="javascript:;" class="btn btn-sm btn-danger"><i class="icon icon-shopping-cart"></i>加入购物车</a>
+          </#if>
+        </div>
+      </div>
+      <div class="ncs-intro">
+        <div class="content bd" id="ncGoodsIntro">
+          <ul class="ncs-goods-sort">
+            <#list goodsDetail.goodsAttrList as goodsAttr>
+            <li>${goodsAttr.name}：${goodsAttr.value}</li>
+            </#list>
+          </ul>
+          <div class="ncs-goods-info-content">
+          <#if goodsDetail.goodsBody?? && goodsDetail.goodsBody !='null' >
+          	 	<#noescape>
+	          		${(goodsDetail.goodsBody)!''}
+	           </#noescape>
+          <#else>
+          		<img style="display:block;margin:0 auto;" src="${webRoot}static/img/activity/no-detail.png">
+          </#if>
+         
+            </div>
+        </div>
+      </div>
+      
+      <!-- 评价开始 -->
+      
+      <div class="ncs-comment" >
+        <div class="ncs-goods-title-bar hd">
+          <h4><a href="javascript:void(0);">商品评价</a></h4>
+        </div>
+        <div class="ncs-goods-info-content bd" id="ncGoodsRate">
+          <div class="top">
+            <div class="rate">
+              <p><strong>${evaluateGoodsVo.evalRate1}</strong><sub>%</sub>好评</p>
+              <span>共有${evaluateGoodsVo.evalCount}人参与评分</span></div>
+            <div class="percent">
+              <dl>
+                <dt>好评<em>(${evaluateGoodsVo.evalRate1}%)</em></dt>
+                <dd><i style="width: ${evaluateGoodsVo.evalRate1}%"></i></dd>
+              </dl>
+              <dl>
+                <dt>中评<em>(${evaluateGoodsVo.evalRate2}%)</em></dt>
+                <dd><i style="width: ${evaluateGoodsVo.evalRate2}%"></i></dd>
+              </dl>
+              <dl>
+                <dt>差评<em>(${evaluateGoodsVo.evalRate3}%)</em></dt>
+                <dd><i style="width: ${evaluateGoodsVo.evalRate3}%"></i></dd>
+              </dl>
+            </div>
+            <div class="btns" style="display:none"><span>您可对已购商品进行评价</span>
+              <p><a href="javascript:;" class="btn btn-sm btn-danger" target="_blank"><i class="icon-comment-alt"></i>评价商品</a></p>
+            </div>
+          </div>
+          <div class="ncs-goods-title-nav">
+            <ul id="comment_tab">
+              <li data-type="all" class="current" onclick="queryEvaluate('all')"><a href="javascript:void(0);">商品评价(${evaluateGoodsVo.evalCount})</a></li>
+              <li data-type="1"><a href="javascript:void(0);" onclick="queryEvaluate('1')">好评(${evaluateGoodsVo.evalCount1})</a></li>
+              <li data-type="2"><a href="javascript:void(0);" onclick="queryEvaluate('2')">中评(${evaluateGoodsVo.evalCount2})</a></li>
+              <li data-type="3"><a href="javascript:void(0);" onclick="queryEvaluate('3')">差评(${evaluateGoodsVo.evalCount3})</a></li>
+              <li data-type="4"><a href="javascript:void(0);" onclick="queryEvaluate('4')">有图(${evaluateGoodsVo.hasImageCount})</a></li>
+            </ul>
+          </div>
+          <!-- 商品评价内容部分 -->
+          <div id="goodseval" class="ncs-commend-main"> </div>
+        </div>
+      </div>
+      
+      <!-- 评价结束 --> 
+      <!-- 销售记录开始 -->
+      <div class="ncg-salelog">
+        <div class="ncs-goods-title-bar hd">
+          <h4><a href="javascript:void(0);">销售记录</a></h4>
+        </div>
+        <div class="ncs-goods-info-content bd" id="ncGoodsTraded">
+          <div class="top">
+            <div class="price">商&nbsp;&nbsp;城&nbsp;&nbsp;价<strong>${goodsDetail.goodsPrice?string["0.00"]}</strong>元<span>购买的价格不同可能是由于店铺往期促销活动引起的，详情可以咨询卖家</span></div>
+          </div>
+          <!-- 成交记录内容部分 -->
+          <div id="sale_log" class="ncs-loading"></div>
+        </div>
+      </div>
+      <!-- 销售记录结束 --> 
+      <!-- 咨询 -->
+      <div class="ncs-consult">
+        <div class="ncs-goods-title-bar hd">
+          <h4><a href="javascript:void(0);">购买咨询</a></h4>
+        </div>
+        <div class="ncs-goods-info-content bd" id="ncGoodsConsult"> 
+          <!-- 咨询留言内容部分 -->
+          <div id="consulting_demo" class="ncs-loading"> </div>
+        </div>
+      </div>
+      
+      <!-- 活动介绍 -->
+       <div class="ncs-consult">
+        <div class="ncs-goods-title-bar hd">
+          <h4><a href="javascript:void(0);">活动介绍</a></h4>
+        </div>
+        <div class="ncs-goods-info-content bd" id="activityConsult"> 
+          <!-- 咨询留言内容部分 -->
+          <div >goumai </div>
+        </div>
+      </div>
+      <!-- 联璧铃铛 -->
+       <div class="ncs-consult">
+        <div class="ncs-goods-title-bar hd">
+          <h4><a href="javascript:void(0);">联璧铃铛</a></h4>
+        </div>
+        <div class="ncs-goods-info-content bd" id="linktown"> 
+          <!-- 咨询留言内容部分 -->
+          <div >tabLinktowntabLinktowntabLinktown </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </@c.html>
+  
+  <!-- 最近浏览 -->
+  <div id="goodsbrowse_div" class="nc-goods-borowse"></div>
+  <form id="buynow_form" method="post" action="${webRoot}buy">
+    <input id="cartId" name="cartId" type="hidden"/>
+  </form>
+  <script>
+    ncGlobal.goodsId =goodsId =  "${goodsDetail.goodsId}";
+    ncGlobal.commonId = "${goodsDetail.commonId}";
+    ncGlobal.goodsStorage = "${goodsDetail.goodsStorage}";
+    ncGlobal.goodsStatus = ${goodsDetail.goodsStatus}
+    ncGlobal.weight = '<#if goodsActivity.maxNum??>${goodsActivity.maxNum}<#else>0</#if>';
+    <#noescape>
+    ncGlobal.goodsSpecValues = $.parseJSON ('${goodsDetail.goodsSpecValues}');
+    </#noescape>
+    //商品分享
+    var jiathisImages = "";
+    $("[name='jiathisImage']").each(function () {
+      jiathisImages += $(this).val()+"||";
+    });
+    jiathisImages = jiathisImages.length>2?jiathisImages.substring(0, jiathisImages.length-2):jiathisImages;
+    var jiathis_config = {
+      url:$("#jiathisGoodsUrl").val(),
+      title:$("#jiathisGoodsName").val(),
+      summary:$("#jiathisJingle").val(),
+      pic:jiathisImages,
+      data_track_clickback:true,
+      appkey:{
+        "tsina":"111111",
+        "weixin":"111111"
+      },
+      shortUrl:true
+    };
+  </script>
+  <script src="${publicRoot}toolkit/ajax-content/jquery.ajaxContent.pack.js"></script>
+  <link href="${publicRoot}toolkit/bxslider/jquery.bxslider.css" rel="stylesheet" />
+  <script src="${publicRoot}toolkit/bxslider/jquery.bxslider.js"></script> 
+  <script src="${jsRoot}activity/goods.js"></script> 
+  <script src="${publicRoot}toolkit/jquery.raty/jquery.raty.js"></script>
+<script src="${jsRoot}activity/TimeObjectUtil.js"></script>
+
+<!-- S 成功添加购物车窗口-->
+<div class="ncs-cart-popup" id="addCartPrompt" style="display: none;">
+  <dl>
+    <dt>成功添加到购物车</dt>
+    <dd>购物车共有 <strong id="bold_num">2</strong> 种商品 总金额为：<em class="saleP" id="bold_mly">¥129.00</em></dd>
+    <dd class="btns">
+        <a onclick="location.href='${webRoot}cart/list'" class="ncbtn-mini ncbtn-mint" href="javascript:void(0);">查看购物车</a>
+        <a onclick="layer.closeAll();" value="" class="ncbtn-mini" href="javascript:void(0);">继续购物</a>
+    </dd>
+  </dl>
+</div>
+<!-- E 成功添加购物车窗口--> 
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>

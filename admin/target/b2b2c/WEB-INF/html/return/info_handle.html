@@ -1,0 +1,70 @@
+<#macro html>
+
+<legend class="m-t-10 m-b-0 p-b-10 f-s-16">订单支付信息</legend>
+<div class="form-group">
+    <label class="control-label col-lg-2 col-md-3 col-sm-3">支付方式&nbsp;:</label>
+
+    <div class="col-lg-6 col-md-7 col-sm-8">
+        <p>${ordersVo.paymentName}</p>
+    </div>
+</div>
+<div class="form-group">
+    <label class="control-label col-lg-2 col-md-3 col-sm-3">订单总额&nbsp;:</label>
+
+    <div class="col-lg-6 col-md-7 col-sm-8">
+        <p >￥${ordersVo.ordersAmount?string('0.00')}</p>
+    </div>
+</div>
+
+    <#if ordersVo.refundAmount??>
+    <div class="form-group">
+        <label class="control-label col-lg-2 col-md-3 col-sm-3">已退款金额&nbsp;:</label>
+
+        <div class="col-lg-6 col-md-7 col-sm-8">
+            <p>￥${ordersVo.refundAmount?string('0.00')}</p>
+        </div>
+    </div>
+    </#if>
+
+    <#if paymentOnline gt 0 >
+    <div class="form-group">
+        <label class="control-label col-lg-2 col-md-3 col-sm-3">在线支付金额&nbsp;:</label>
+
+        <div class="col-lg-6 col-md-7 col-sm-8">
+            <p>￥${paymentOnline}</p>
+        </div>
+    </div>
+
+        <#assign refundAmount = 0>
+        <#if ordersVo.refundAmount?? >
+            <#assign refundAmount = ordersVo.refundAmount>
+        </#if>
+        <#if (!refundDetailVo.payTime??) && (paymentOnline gt refundAmount) >
+            <#if refundDetailVo.refundCode == "alipay" >
+            <div class="form-group">
+                <label class="control-label col-lg-2 col-md-3 col-sm-3">支付宝退款&nbsp;:</label>
+
+                <div class="col-lg-6 col-md-7 col-sm-8">
+                    <a href="${adminRoot}refund/refund_online/alipay/${refundId}" target="_blank" id="alipayRefundBtn" class="class="btn btn-warning btn-xs m-r-5"">支付宝退款</a>
+                    <a href="JavaScript:void(0);" class="btn btn-info btn-xs m-r-5" id="alipayRefundQueryBtn">退款查询</a>
+                    <p class="text-info">请确认在线退款成功后再确认提交</p>
+                </div>
+            </div>
+            </#if>
+        </#if>
+    </#if>
+
+<legend class="m-t-10 m-b-0 p-b-10 f-s-16">平台退款审核</legend>
+<div class="form-group">
+    <label class="control-label col-lg-2 col-md-3 col-sm-3">备注信息&nbsp;:</label>
+
+    <div class="col-lg-6 col-md-7 col-sm-8">
+        <textarea id="adminMessage" name="adminMessage" class="form-control" rows="5"></textarea>
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-lg-6 col-md-offset-2">
+        <a href="javascript:;" id="formSubmit" class="btn btn-primary m-r-5">确认提交</a>
+    </div>
+</div>
+</#macro>

@@ -1,0 +1,11 @@
+<#import "/layout.html" as c>
+    <#import "/list_layout.html" as list>
+        <#assign alertList = []/>
+        <#assign alertList = alertList + ["买家提交申请，商家同意并经平台确认后，退款金额以预存款的形式返还给买家。"]/>
+        <@c.html title="Index">
+        <@list.html title="退货管理" subTitle="商品订单退货申请及审核处理" alertList=alertList addBtn=false searchHint="请输入退款单号进行精确搜索" tipTip="管理待审核的退货" tipTitle="待审核的退货" tipCount="${returnHandleCount}" tipUrl="return/handle_list">
+        </@list.html>
+        <script type="text/javascript" src="${toolkitRoot}/jquery.dtGrid/dependents/datePicker/WdatePicker.js" defer="defer"></script>
+
+        <script src="${jsRoot}return/return_list.js"></script>
+</@c.html>

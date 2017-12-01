@@ -1,0 +1,58 @@
+<#import "/home/layout.html" as c>
+<@c.html title="${storeInfo.storeName} - ${config.siteName}" keywords="${storeInfo.storeSeoKeywords}" description="${storeInfo.storeSeoDescription}" >
+<#include "store_header_widget.html">
+      <div id="store_decoration_content" class="ncs-main-container wrapper">
+        <div class="title-all">
+          <h3>${searchTitle}</h3>
+        </div>
+        <div class="ncs-goodslist-bar">
+          <ul class="ncs-array">
+            <li class="<#if sort=="default_desc" || sort=="default_asc">selected</#if>"> <a class="<#if sort=="default_desc">desc</#if><#if sort=="default_asc">asc</#if>" href="${webRoot}store/search?storeId=${storeInfo.storeId}&sort=<#if sort=="default_desc">default_asc<#else>default_desc</#if>">默认<i></i></a> </li>
+            <li class="<#if sort=="price_desc" || sort=="price_asc">selected</#if>"> <a class="<#if sort=="price_desc">desc</#if><#if sort=="price_asc">asc</#if>" href="${webRoot}store/search?storeId=${storeInfo.storeId}&sort=<#if sort=="price_desc">price_asc<#else>price_desc</#if>">价格<i></i></a> </li>
+            <li class="<#if sort=="sale_desc" || sort=="sale_asc">selected</#if>"> <a class="<#if sort=="sale_desc">desc</#if><#if sort=="sale_asc">asc</#if>" href="${webRoot}store/search?storeId=${storeInfo.storeId}&sort=<#if sort=="sale_desc">sale_asc<#else>sale_desc</#if>">销量<i></i></a> </li>
+            <li class="<#if sort=="fav_desc" || sort=="fav_asc">selected</#if>"> <a class="<#if sort=="fav_desc">desc</#if><#if sort=="fav_asc">asc</#if>" href="${webRoot}store/search?storeId=${storeInfo.storeId}&sort=<#if sort=="fav_desc">fav_asc<#else>fav_desc</#if>">收藏<i></i></a> </li>
+          </ul>
+        </div>
+        <div class="content ncs-all-goods-list mb15"> <#if goodsVoList?? && goodsVoList.size() gt 0 >
+          <ul>
+            <#list goodsVoList as goodsVo>
+            <li>
+              <dl>
+                <dt><a target="_blank" class="goods-thumb" href="${c.func.ncGoodsUrl(goodsVo.goodsId)}"><img alt="${goodsVo.goodsName}" src="${c.func.ncImage(goodsVo.imageSrc, 200, 200)}"></a> <#if goodsVo.goodsImageList??>
+                  <div class="goods-thumb-scroll-show">
+                  <ul>
+                    <#list goodsVo.goodsImageList as goodsImage>
+                    <li class="<#if goodsImage?index == 0>selected</#if>"><a href="javascript:void(0)"><img src="${c.func.ncImage(goodsImage.imageSrc, 20, 20)}"></a></li>
+                    </#list>
+                  </ul>
+                  </#if> </dt>
+                <dd class="goods-name"><a target="_blank" title="${goodsVo.goodsName}" href="${c.func.ncGoodsUrl(goodsVo.goodsId)}">${goodsVo.goodsName}</a></dd>
+                <dd class="goods-price">¥<em>${goodsVo.goodsPrice?string["0.00"]}</em></dd>
+              </dl>
+            </li>
+            </#list>
+          </ul>
+        </div>
+          <#noescape>
+        <div class="pagination">${showPage}</div>
+              </#noescape>
+        <#else/>
+        <div id="no_results" class="no-results"><span class="pic"><img src="${publicRoot}img/d3d3LnNob3BuYy5uZXQ=.png" alt=""/></span>
+          <h3>暂无查询到任何记录...</h3>
+        </div>
+        </#if> </div>
+    </div>
+  <script>
+        $(function(){
+            // 图片切换效果
+            $('.goods-thumb-scroll-show').find('a').mouseover(function(){
+                $(this).parents('li:first').addClass('selected').siblings().removeClass('selected');
+                var _src = $(this).find('img').attr('src');
+                _src = _src.replace('_20x20.', '_200x200.');
+                $(this).parents('dt').find('.goods-thumb').find('img').attr('src', _src);
+            });
+        });
+    </script>
+  <div class="clear">&nbsp;</div>
+
+</@c.html>

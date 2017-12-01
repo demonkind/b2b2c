@@ -1,0 +1,155 @@
+<link href="${cssRoot}web_store.css" rel="stylesheet" type="text/css">
+<div class="ncs-header" id="header">
+  <div class="ncs-header-container">
+    <h1 class="site-logo"><a href="${webRoot}"><img src="${config.siteLogoUrl}" alt=""/></a></h1>
+    <div class="ncs-store-info">
+      <h2 class="ncs-store-name"><a title="${storeInfo.storeName}" href="${webRoot}store/${storeInfo.storeId}">${storeInfo.storeName}</a></h2>
+      <div class="basic">
+        <div class="displayed">店铺评分<em>${evaluateStoreVo.avgStoreEval}</em><i class="arrow"></i></div>
+        <div class="sub w300">
+          <div class="store-logo"><img title="${storeInfo.storeName}" alt="${storeInfo.storeName}" src="${storeInfo.storeLogoUrl}"></div>
+          <div class="ncs-detail-rate">
+            <dl>
+              <dt>店铺评分 </dt>
+              <dd>商品满意度：${storeInfo.storeDesccredit}分</dd>
+              <dd>服务满意度：${storeInfo.storeServicecredit}分</dd>
+              <dd>物流满意度：${storeInfo.storeDeliverycredit}分</dd>
+            </dl>
+            <dl>
+              <dt>同类对比</dt>
+              <dd>
+                <div class="${evaluateStoreVo.desEvalArrow}"><span><i></i>${evaluateStoreVo.desEvalTitle}</span>${evaluateStoreVo.desEvalRate}</div>
+              </dd>
+              <dd>
+                <div class="${evaluateStoreVo.serviceEvalArrow}"><span><i></i>${evaluateStoreVo.serviceEvalTitle}</span>${evaluateStoreVo.serviceEvalRate}</div>
+              </dd>
+              <dd>
+                <div class="${evaluateStoreVo.deliveryEvalArrow}"><span><i></i>${evaluateStoreVo.deliveryEvalTitle}</span>${evaluateStoreVo.deliveryEvalRate}</div>
+              </dd>
+            </dl>
+          </div>
+          <ul>
+            <li>公司名称：${storeInfo.companyName}</li>
+            <li>所&nbsp;在&nbsp;地：${storeInfo.companyArea}</li>
+            <li>联系方式：
+            	<#if storeInfo.storeQq?? && storeInfo.storeQq != "">
+				<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=${storeInfo.storeQq}&site=qq&menu=yes" title="QQ：${storeInfo.storeQq}"><img src="http://wpa.qq.com/pa?p=2:${storeInfo.storeQq}:52" alt="QQ：${storeInfo.storeQq}"></a>
+				</#if>
+                <#if storeInfo.storeWw?? && storeInfo.storeWw != "">
+                <a target="_blank" href="http://www.taobao.com/webww/ww.php?ver=3&touid=${storeInfo.storeWw}&siteid=cntaobao&status=2&charset=utf-8" title="旺旺：${storeInfo.storeWw}" ><img border="0" src="http://amos.alicdn.com/online.aw?v=2&uid=${storeInfo.storeWw}&site=cntaobao&s=2&charset=utf-8" alt="旺旺：${storeInfo.storeWw}" /></a>
+                </#if>
+                <#if storeInfo.storeWeixin?? && storeInfo.storeWeixin!= "">
+              	<a href="javascript:;" title="微信：${storeInfo.storeWeixin}"><img src="${imgRoot}weixin_icon.png"  alt="微信：${storeInfo.storeWeixin}"/></a>
+              	</#if>
+            </li>             	 
+            <li>客服电话：${storeInfo.storePhone}</li>
+          </ul>
+          <div class="btns">
+              <a class="btn btn-sm btn-white" href="${c.func.ncStoreUrl(storeInfo.storeId)}">进店逛逛</a>
+              <a data-param="{'storeId':'${storeInfo.storeId}'}" nc_type="storeFavoritesBtn" href="javascript:;" class="btn btn-sm btn-warning m-l-30">关注店铺(<span nc_type="storeFavoritesNum">${storeInfo.storeCollect}</span>)</a>
+          </div>
+        </div>
+      </div>
+      <#include "store_service_widget.html"> </div>
+    <div class="search-bar">
+      <form action="${webRoot}search" method="get" class="search-form" id="top_search_form">
+        <input name="searchType" id="searchType" value="1" type="hidden">
+        <input name="keyword" id="storeSearchKeyword" type="text" class="input-text" value="" maxlength="60" placeholder=" 请输入您要搜索的商品关键字"  autocomplete="off" />
+        <input type="button" id="btnSearchMall" value="搜全站" class="button input-mall">
+        <input type="button" id="btnSearchStore" value="搜本店" class="button input-store">
+      </form>
+    </div>
+    <!-- S 顶部购物车-->
+    <div class="head-user-menu" >
+      <dl id="topMyCartStore" >
+        <div class="addcart-goods-num" data-red-point style="display: none;"></div >
+        <dt > <span class="ico" ></span >我的购物车<i class="arrow" ></i ></dt >
+        <dd >
+          <div class="sub-title" >
+            <h4 >最新加入的商品</h4 >
+          </div >
+          <div class="incart-goods-box">
+            <div class="incart-goods" data-cart-goods-list> <img class="loading" src="${imgRoot}/loading.gif" /> </div >
+          </div >
+          <div class="checkout" data-goods-price></div>
+        </dd >
+      </dl >
+    </div >
+    <!-- E 顶部购物车--> 
+  </div>
+</div>
+<div class="ncsl-nav">
+  <div class="banner"><a class="img" href="${c.func.ncStoreUrl(storeInfo.storeId)}"> <img title="${storeInfo.storeName}" alt="" src="${storeInfo.storeBannerUrl}"></a></div>
+  <div class="ncs-nav" id="nav">
+    <ul>
+      <li class="normal ncs-nav-classes" id="store_nav_class_button"> 
+        <!-- 店铺商品分类 --> 
+        <a href="javascript:;">查看店铺分类<i></i></a>
+        <ul style="display: none;" class="classes-menu" id="store_nav_class_menu">
+          <li class="first"><a href="${webRoot}store/search?storeId=${storeInfo.storeId}">店铺全部商品</a></li>
+          <#if storeLabelList?? && storeLabelList?size gt 0>
+          <#list storeLabelList as storeLabel>
+          <li class="store-nav-class-sub-menu"> <a title="${storeLabel.storeLabelName}" href="${webRoot}store/search?storeId=${storeInfo.storeId}&labelId=${storeLabel.storeLabelId}"><i></i>${storeLabel.storeLabelName}</a>
+            <#if storeLabelList?? && storeLabel.storeLabelList?size gt 0>
+            <ul style="display:none;" class="store-nav-class-menu-item">
+              <#list storeLabel.storeLabelList as subStoreLabel>
+              <li> <a title="${subStoreLabel.storeLabelName}" href="${webRoot}store/search?storeId=${storeInfo.storeId}&labelId=${subStoreLabel.storeLabelId}"><i></i>${subStoreLabel.storeLabelName}</a> </li>
+              </#list>
+            </ul>
+            </#if> </li>
+          </#list>
+          </#if>
+        </ul>
+      </li>
+      <li class="<#if navInfo??>normal<#else>active</#if>"><a href="${c.func.ncStoreUrl(storeInfo.storeId)}">店铺首页</a></li>
+      <#list storeNavigationList as storeNavigation>
+      <#if storeNavigation.url != "">
+      <li class="normal"><a href="${storeNavigation.url}" <#if storeNavigation.isNewPage == 1>target="_blank"</#if><span>${storeNavigation.title}</a></li>
+      <#else>
+      <li class="<#if navInfo?? && navInfo.id == storeNavigation.id>active<#else>normal</#if>"><a href="${webRoot}store/navigation/${storeNavigation.id}"><span>${storeNavigation.title}<i></i></span></a></li>
+      </#if>
+      </#list>
+    </ul>
+  </div>
+</div>
+<script type="text/javascript">
+  $(function(){
+     //店铺头购物车
+     $("#topMyCartStore").ncCart();
+
+     //搜索商城
+     $('#btnSearchMall').on("click", function(){
+         var storeSearchKeyword = $("#storeSearchKeyword").val();
+         if (Nc.isEmpty(storeSearchKeyword)) {
+             return false;
+         }
+         var url = "${webRoot}search?searchType=1&keyword=" + storeSearchKeyword;
+         Nc.go(url);
+     });
+
+     //搜索店铺
+     $("#btnSearchStore").on("click", function() {
+         var storeSearchKeyword = $("#storeSearchKeyword").val();
+         if (Nc.isEmpty(storeSearchKeyword)) {
+             return false;
+         }
+         var url = "${webRoot}store/search?storeId=${storeInfo.storeId}&keyword=" + storeSearchKeyword;
+         Nc.go(url);
+     });
+
+    //店铺商品分类
+    $('#store_nav_class_button').on('mouseover', function() {
+        $('#store_nav_class_menu').show();
+    });
+    $('#store_nav_class_button').on('mouseout', function() {
+        $('#store_nav_class_menu').hide();
+    });
+    $('.store-nav-class-sub-menu').on('mouseover', function() {
+        $('.store-nav-class-menu-item').hide();
+        $(this).children('.store-nav-class-menu-item').show();
+    });
+    $('.store-nav-class-sub-menu').on('mouseout', function() {
+        $('.store-nav-class-menu-item').hide();
+    });
+});
+</script> 

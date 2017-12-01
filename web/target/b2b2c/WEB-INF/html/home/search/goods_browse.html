@@ -1,0 +1,23 @@
+<#import "../../func.html" as funcList>
+<#if browseList?exists && (browseList?size gt 0) >
+<div class="nc-goods-browse-box">
+  <div class="title">
+    <h3>浏览记录</h3>
+  </div>
+  <div class="content">
+    <ul id="goodsBrowseList" class="goods-list">
+      <#list browseList as info>
+      <li class="goods-item">
+        <div class="goods-pic"><a href="${funcList.ncGoodsUrl(info.goods.goodsId)}" target="_blank"> <img alt="${info.goodsName}" src="${funcList.ncImage(info.goods.imageSrc, 200, 200)}"> </a> </div>
+        <dl class="goods-info">
+          <dt><a href="${funcList.ncGoodsUrl(info.goods.goodsId)}" title="${info.goodsName}" target="_blank">${info.goodsName}</a></dt>
+          <dd>￥<em>${info.goods.goodsPrice?string('0.00')}</em></dd>
+        </dl>
+      </li>
+      </#list>
+    </ul>
+  </div>
+</div>
+<#else>
+<div></div>
+</#if> 

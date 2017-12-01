@@ -1,0 +1,16 @@
+<#import "/layout.html" as c>
+<#import "/list_layout.html" as list>
+<#assign alertList = []/>
+<#assign alertList = alertList + ["系统内置了常用的快递公司，内置快递公司不得删除，只可编辑状态，平台可禁用不需要的快递公司，默认按首字母进行排序，平台可设置哪些快递为常用快递公司。"]/>
+<#assign alertList = alertList + ["商家可选择使用哪些平台已经开启的快递公司，如果商家未设置，则发货时系统会列出常用的快递公司供商家选择。"]/>
+<@c.html title="Index">
+<@list.html title="快递公司列表" subTitle="提供给商家可选择的物流快递公司" alertList=alertList addBtn=false searchHint="请输入快递公司名称进行搜索">
+</@list.html>
+<!-- ================== 开始页面级JavaScrip调用 ================== -->
+<!-- 表单checkbox项 -->
+<script src="${toolkitRoot}bootstrap-switch/bootstrap-switch.min.js"></script>
+
+<!-- 快递公司所用js -->
+<script src="${jsRoot}setting/ship_company.js"></script>
+<!-- ================== 结束页面级JavaScrip调用 ================== -->
+</@c.html>

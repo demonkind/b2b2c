@@ -1,0 +1,76 @@
+<div class="ncc-receipt-info">
+  <div class="ncc-receipt-info-title">
+    <h3>商品清单</h3>
+  </div>
+  <table class="ncc-table-style">
+    <thead>
+      <tr>
+        <th></th>
+        <th>商品</th>
+        <th class="w150">单价(元)</th>
+        <th class="w100">数量</th>
+        <th class="w150">小计(元)</th>
+      </tr>
+    </thead>
+    
+    <!-- 开始循环 --> 
+    <#if buyStoreVoList?exists && (buyStoreVoList?size>0)>
+    <#list buyStoreVoList as buyStoreVo>
+    <tbody data-store-id="${buyStoreVo.storeId}">
+      <!-- S 店铺名称 -->
+      <tr>
+        <th colspan="20"> <div class="ncc-store-name">店铺：<a href="${webRoot}store/${buyStoreVo.storeId}">${buyStoreVo.storeName}</a></div>
+        </th>
+      </tr>
+    <#list buyStoreVo.buyGoodsItemVoList as buyGoodsItemVo>
+    <tr class="shop-list" id="cart_item_${buyGoodsItemVo.cartId}" data-goods-id = "${buyGoodsItemVo.goodsId}" data-buy-num="${buyGoodsItemVo.buyNum}" data-cart-id = "${buyGoodsItemVo.cartId}">
+      <td class="td-border-left w80"><input type="hidden" name="cartId" store_id="${buyGoodsItemVo.cartId}" value="${buyGoodsItemVo.cartId}|${buyGoodsItemVo.buyNum}">
+        <a class="ncc-goods-thumb" target="_blank" href="${c.func.ncGoodsUrl(buyGoodsItemVo.goodsId)}" > <img alt="${buyGoodsItemVo.goodsName}" src="${c.func.ncImage(buyGoodsItemVo.imageSrc, 80, 80)}" > </a ></td >
+      <td class="tl" ><dl class="ncc-goods-info" >
+          <dt><a target="_blank" href="${c.func.ncGoodsUrl(buyGoodsItemVo.goodsId)}" > ${buyGoodsItemVo.goodsName}</a ></dt >
+          <dd class="goods-spec" >${buyGoodsItemVo.goodsFullSpecs}</dd >
+        </dl ></td >
+      <!-- S 商品单价 -->
+      <td ><em class="goods-price" >${buyGoodsItemVo.goodsPrice?string("0.00")}</em ><!-- E 商品单价 --></td >
+      <!--购买数量-->
+      <td id="goodsBuyNum_${buyGoodsItemVo.goodsId}" data-buy-num="${buyGoodsItemVo.buyNum}">${buyGoodsItemVo.buyNum}</td>
+      <!--商品小计-->
+      <td class="td-border-right" ><em class="goods-subtotal" nc_type="eachGoodsTotal1" goods_id="${buyGoodsItemVo.goodsId}" cart_id="${buyGoodsItemVo.cartId}" > ${buyGoodsItemVo.itemAmount?string("0.00")} </em ></td >
+    </tr>
+    </#list>
+    <tr>
+      <td colspan="20" style="padding: 10px 0;" ><div class="ncc-msg" >买家留言：
+          <textarea data-receiver-messagemax length="150" maxlength="150" title="选填：对本次交易的说明（建议填写已经和商家达成一致的说明）" placeholder="选填：对本次交易的说明（建议填写已经和商家达成一致的说明）" class="ncc-msg-textarea" ></textarea >
+        </div >
+        <div class="ncc-store-account" > 
+          <!--<dl >
+            <dt >商品金额：</dt >
+            <dd class="rule" ></dd >
+            <dd class="sum" > <em id="eachStoreGoodsTotal_${buyStoreVo.storeId}" >${buyStoreVo.buyItemAmount?string("0.00")}</em > </dd >
+          </dl >-->
+          <dl >
+            <dt >物流运费：</dt >
+            <dd class="rule" > </dd >
+            <dd class="sum" ><em id="eachStoreFreight_${buyStoreVo.storeId}">0.00</em ></dd >
+          </dl >
+          <dl class="total" >
+            <dt >本店合计：</dt >
+            <dd class="rule" ></dd >
+            <dd class="sum" > <em id="eachStoreAmount_${buyStoreVo.storeId}" store_id="${buyStoreVo.storeId}" >0.00</em ></dd >
+          </dl >
+        </div ></td >
+    </tr >
+    </tbody>
+    
+    </#list>
+    </#if> 
+    <!-- 结束循环 -->
+    <tfoot>
+      <tr>
+        <td colspan="20"><a class="ncc-prev-btn" href="${webRoot}cart/list"><i class="icon-angle-left"></i>返回购物车</a>
+          <div class="ncc-all-account">订单总金额：<em id="orderTotal">0.00</em>元</div>
+          <a class="ncc-next-submit" id="submitOrder" href="javascript:void(0)">提交订单</a></td>
+      </tr>
+    </tfoot>
+  </table>
+</div>

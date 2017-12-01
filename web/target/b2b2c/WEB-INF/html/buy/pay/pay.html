@@ -1,0 +1,95 @@
+<#import "/buy/layout.html" as c>
+<@c.html title="支付提交">
+  <div class="ncc-main">
+    <div class="ncc-title">
+      <h3>支付提交</h3>
+      <h5>订单详情内容可通过查看<a target="_blank" href="${memberRoot}orders/list">我的订单</a>进行核对处理。</h5>
+    </div>
+    <form id="payForm" method="POST" action="${webRoot}buy/pay/pay">
+      <input type="hidden" value="${ordersPayVo.payId}" name="payId">
+      <input type="hidden" value="" name="paymentCode" id="paymentCode">
+      <div class="ncc-receipt-info">
+        <div class="ncc-receipt-info-title">
+          <h3>${tips}
+            <#if (ordersPayVo.ordersOnlineAmount>0)>
+            应付金额：<strong>${(ordersPayVo.ordersOnlineAmount?string('0.00')!"0.00")}</strong>元</h3>
+          </#if> </div>
+        <table class="ncc-table-style">
+          <thead>
+            <tr>
+              <th class="tl w400">订单号</th>
+              <th class="tl">支付方式</th>
+              <th class="tl w150">金额(元)</th>
+            </tr>
+          </thead>
+          <tbody>
+          <#if (ordersVoList?size>0)>
+          <#list ordersVoList as ordersVo>
+          <tr>
+            <td class="tl">${ordersVo.ordersSn}</td>
+            <td class="tl">${ordersVo.paymentTypeName}<#if ordersVo.ordersStateIsCancel==1>（已取消）</#if></td>
+            <td class="tl goods-price">${(ordersVo.ordersAmount?string('0.00'))!"0.00"}</td>
+          </tr>
+          </#list>
+          </#if>
+            </tbody>
+          
+        </table>
+        
+        <!-- S 预存款 & 充值卡 -->
+        <dl class="ncc-pd-pay">
+          <#if (ordersPayVo.predepositAmount>0)>
+          <dd>您已选择
+            使用预存款支付<em>${(ordersPayVo.predepositAmount?string("0.00"))!"0.00"}</em>元
+            还需在线支付 <strong id="api_pay_amount">${(ordersPayVo.ordersOnlineDiffAmount?string("0.00"))!"0.00"}</strong>元。</dd>
+          </#if>
+          <#if allowPredeposit==1>
+          <dt>使用余额支付</dt>
+          <dd>
+            <label>
+              <input type="checkbox" name="predepositPay" id="predepositPay" value="1" class="checkbox">
+              使用预存款支付</label>
+            （可用余额：<em>${(member.predepositAvailable?string("0.00"))!"0.00"}</em>元，目前还需在线支付 <strong id="payDiffPanel">${(ordersPayVo.ordersOnlineAmount?string('0.00')!"0.00")}</strong>元。）余额不足？<a class="predeposit" href="${memberRoot}predeposit/recharge">马上充值</a></dd>
+          </#if>
+        </dl>
+      </div>
+      <#if (ordersPayVo.ordersOnlineAmount>0)>
+      <#if paymentList?exists && (paymentList?size>0)>
+      <div class="ncc-receipt-info">
+        <div class="ncc-receipt-info-title">
+          <h3>选择在线支付</h3>
+        </div>
+        <ul class="ncc-payment-list">
+          <#list paymentList as paymentInfo>
+          <li ncType="paymentType" dataPaymentCode="${paymentInfo.paymentCode}">
+            <label>
+            <i></i>
+            <div class="logo"> <img src="${imgRoot}payment/${paymentInfo.paymentCode}_logo.gif"> </div>
+            </label>
+          </li>
+          </#list>
+        </ul>
+      </div>
+      </#if>
+      <div class="ncc-receipt-info" style="display: none" id="payPwdPanel">
+        <div class="ncc-receipt-info-title">
+          <h3>余额支付密码</h3>
+        </div>
+        <dl>
+          <dd>
+            <input class="text w300" type="password" autocomplete="off" placeholder="输入您的支付密码" maxlength="20" id="payPwd" name="payPwd" value=""><div class="m-t-5 c-warning"><i class="icon-exclamation-sign"></i>支付密码与用户登录密码不同，可在用户中心进行安全设置<a href="${memberRoot}security/paypwd" target="_blank" class="btn btn-xs btn-warning m-l-5"><#if member.payPwd?? && member.payPwd != "">忘记密码？<#else>您还未设置支付密码？</#if></a></div> </dd>
+        </dl>
+      </div>
+      <div class="ncc-bottom"><a class="pay-btn" id="pay" href="javascript:void(0);"><i class="icon-shield"></i>确认支付</a></div>
+      </#if>
+    </form>
+  </div>
+</@c.html>
+<script>
+    var payGlobal = {
+        predepositAmount : ${(member.predepositAvailable?string('0.00'))!"0.00"},
+        ordersOnlineAmount : ${(ordersPayVo.ordersOnlineAmount?string('0.00'))!"0.00"},
+        payPwdConfirm : true
+    }
+</script> 
+<script src="${jsRoot}buy/pay.js"></script>

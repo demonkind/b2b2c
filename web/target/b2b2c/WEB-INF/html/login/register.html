@@ -1,0 +1,145 @@
+<#import "/login/layout.html" as c>
+<@c.html title="Index" pageType="register">
+  <div class="nc-register-bg">
+    <div class="nc-register-box">
+      <div class="nc-register-layout">
+        <div class="left">
+          <div id="registerModule" class="nc-register-mode">
+            <ul class="tabs-nav">
+              <li><a href="#commonModule" class="tabulous_active">账号注册<i></i></a></li>
+              <#if config.smsRegister == "1">
+              <li><a href="#mobileModule">手机注册<i></i></a></li>
+              </#if>
+            </ul>
+            <div id="tabs_container" class="tabs-container">
+              <div id="commonModule" class="tabs-content">
+                <form id="registerForm" class="nc-login-form" name="registerForm" method="post">
+                  <dl>
+                    <dt>用户名：</dt>
+                    <dd>
+                      <input name="memberName" type="text" class="text" id="memberName" placeholder="请使用6-20个中、英文、数字及“-”符号" maxlength="20" autocomplete="off"/>
+                    </dd>
+                  </dl>
+                  <dl>
+                    <dt>设置密码：</dt>
+                    <dd>
+                      <input name="memberPwd" type="password" class="text" id="memberPwd" placeholder="6-20个大小写英文字母、符号或数字" maxlength="20" autocomplete="off"/>
+                    </dd>
+                  </dl>
+                  <dl>
+                    <dt>确认密码：</dt>
+                    <dd>
+                      <input name="repeatMemberPwd" type="password" class="text" id="repeatMemberPwd" placeholder="请再次输入密码" maxlength="20" autocomplete="off"/>
+                    </dd>
+                  </dl>
+                  <dl>
+                    <dt>邮箱：</dt>
+                    <dd>
+                      <input type="text" id="email" class="text" name="email" placeholder="输入常用邮箱作为验证及找回密码使用" autocomplete="off"/>
+                    </dd>
+                  </dl>
+                  <div class="code-div mt15">
+                    <dl>
+                      <dt>验证码：</dt>
+                      <dd>
+                        <input id="captcha" class="text w100" type="text" name="captcha" maxlength="4" placeholder="输入验证码" autocomplete="off"/>
+                      </dd>
+                    </dl>
+                    <span><img id="codeimage" src="${webRoot}captcha/getcaptcha" class="codeimg" alt=""/> <a href="JavaScript:void(0);" nc_type="changeCaptcha" onclick="javascript:document.getElementById('codeimage').src='${webRoot}captcha/getcaptcha?t='+Math.random()" class="code-pic">看不清，更换一张</a> </span></div>
+                  <dl class="clause-div">
+                    <dd>
+                      <input type="checkbox" checked="checked" value="1" class="checkbox" id="agreeClause" name="agreeClause"/>
+                      阅读并同意 <a title="阅读并同意" class="agreement" href="javascript:void(0);" nc_type="btnShowClauseDialog">《服务协议》</a> </dd>
+                  </dl>
+                  <div class="submit-div">
+                    <button id="registerSubmit" class="submit">立即注册</button>
+                  </div>
+                </form>
+              </div>
+              <#if config.smsRegister == "1">
+              <div id="mobileModule" class="tabs-content" style="display: none;">
+                <form id="mobileFormFirst" class="nc-login-form" name="mobileForm" method="post">
+                  <dl>
+                    <dt>手机号：</dt>
+                    <dd>
+                      <input name="mobile" type="text" class="text" id="mobile" placeholder="请输入手机号码" autocomplete="off" maxlength="11"/>
+                    </dd>
+                  </dl>
+                  <div class="code-div">
+                    <dl>
+                      <dt>验证码：</dt>
+                      <dd>
+                        <input id="captchaMobile" class="text w100" type="text" name="captcha" maxlength="4" placeholder="输入验证码" autocomplete="off"/>
+                      </dd>
+                    </dl>
+                    <span><img id="codeimageMobile" src="${webRoot}captcha/getcaptcha" class="codeimg" alt=""/><a href="JavaScript:void(0);" nc_type="changeCaptcha" onclick="javascript:document.getElementById('codeimageMobile').src='${webRoot}captcha/getcaptcha?t='+Math.random()" class="code-pic">看不清，更换一张</a></span> </div>
+                  <dl class="clause-div">
+                    <dd>
+                      <input type="checkbox" checked="checked" value="1" class="checkbox" id="mobileAgreeClause" name="agreeClause"/>
+                      阅读并同意 <a title="阅读并同意" class="agreement" href="javascript:void(0);" nc_type="btnShowClauseDialog">《服务协议》</a> </dd>
+                  </dl>
+                  <div class="submit-div">
+                    <button id="mobileSubmitFirst" class="submit">下一步</button>
+                  </div>
+                </form>
+                <form id="mobileFormSecond" class="nc-login-form" name="mobileForm" method="post" style="display: none;">
+                  <dl class="clause-div m0">
+                    <input type="hidden" name="mobile" id="mobileSecond"/>
+                    <dd id="mobilemsg"></dd>
+                  </dl>
+                  <dl class="mt10">
+                    <dt>动态码：</dt>
+                    <dd>
+                      <input type="text" id="authCode" class="text" name="authCode" placeholder="输入6位短信验证码" autocomplete="off" maxlength="6"/>
+                    </dd>
+                  </dl>
+                  <div class="tiptext">
+                    <span ncType="sendAuthCode" style="display: none;"><a href="javascript:void(0);">重新获取动态码</a></span>
+                    <span ncType="sendAuthCodeAgain" style="display: none; padding-left: 5px; text-align: center;">您可以在<strong ncType="sendAuthCodeTimes" class="red mr5"></strong>秒后再次获取动态码</span>
+                  </div>
+                  <dl>
+                    <dt>设置密码：</dt>
+                    <dd>
+                      <input type="password" id="mobileMemberPwd" class="text" name="memberPwd"/>
+                    </dd>
+                  </dl>
+                  <dl>
+                    <dt>确认密码：</dt>
+                    <dd>
+                      <input type="password" id="mobileRepeatMemberPwd" class="text" name="repeatMemberPwd"/>
+                    </dd>
+                  </dl>
+                  <div class="submit-div">
+                    <button id="mobileSubmitSecond" class="submit">立即注册</button>
+                  </div>
+                </form>
+              </div>
+              </#if>
+            </div>
+          </div>
+          <div id="dialogClause" style="display:none;"> <#if articleInfo??>
+            <!--<h1>${articleInfo.title}</h1>-->
+            <#noescape>
+            <div id="clauseContent" style="padding: 20px;"> ${articleInfo.content} </div>
+             </#noescape>
+            </#if> </div>
+        </div>
+        <div class="right">
+          <div class="reister-after">
+            <h4>注册之后您可以</h4>
+            <ol>
+              <li class="ico01"><i></i>购买商品支付订单</li>
+              <li class="ico02"><i></i>关注商品关注店铺</li>
+              <li class="ico03"><i></i>安全交易诚信无忧</li>
+              <!--<li class="ico04"><i></i>积分获取优惠购物</li>-->
+              <li class="ico05"><i></i>会员等级享受特权</li>
+              <li class="ico06"><i></i>交易评价站外分享</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</@c.html>
+<script type="text/javascript" src="${toolkitRoot}/tabulous.js"></script>
+<script type="text/javascript" src="${jsRoot}login/register.js"></script>

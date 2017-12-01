@@ -1,0 +1,74 @@
+<#import "/member/layout.html" as c>
+<@c.html title="交易评价">
+
+<div class="wrap">
+  <div class="tabmenu">
+    <ul id="listpj" class="tab">
+      <li class="active"><a href="${memberRoot}evaluate">交易评价</a></li>
+    </ul>
+  </div>
+  <form id="goodsevalform" method="get" class="tc">
+    <input type="hidden" name="act" value="member_evaluate"/>
+    <input type="hidden" name="op" value="list"/>
+    <input type="hidden" name="type" value=""/>
+       <div class="ncm-evaluation-list">
+     <#list evaluateList as entity>     
+      <div class="ncm-evaluation-timeline">
+        <div class="date">${entity.evaluateTime?datetime}</div>
+        <div class="goods-thumb"><a target="_blank" href="${c.func.ncGoodsUrl(entity.goodsId)}"> <img src="${uploadRoot}${entity.goodsImage}"> </a></div>
+        <dl class="detail">
+          <dt><a target="_blank" href="${c.func.ncGoodsUrl(entity.goodsId)}">${entity.goodsName}</a><span class="ml30">商品评分：<em class="raty" data-score="${entity.scores}"></em></span></dt>
+          <dd>${entity.evaluateContent1}</dd>
+          <dd>
+          	<#if entity.images1?exists && entity.images1!="">
+          		<ul class="photos-thumb">
+          			<#list entity.image1List as image1>
+                    <li> <a nctype="nyroModal" data-lightbox="img-PayingCertificateA${entity.goodsId}" data-item="image" href="${uploadRoot}${image1}"> <img src="${c.func.ncImage(uploadRoot+image1,30,30)}"> </a> </li>
+                    </#list>
+                </ul>
+            </#if>
+          </dd>
+          <#if entity.explainContent1?exists && entity.explainContent1!="">
+          	<dd class="explain">[解释]${entity.explainContent1???string(entity.explainContent1,"")} </dd>
+          </#if>
+          <!-- 追加评价开始 -->
+          <#if (entity.evaluateContent2?exists && entity.evaluateContent2!="") || entity.images2!="">
+	          <hr/>
+	          <dd>[追加评价]&nbsp;${entity.evaluateContent2???string(entity.evaluateContent2,"")}</dd>
+	          <dd>
+	          	<#if entity.images2?exists && entity.images2!="">
+	            <ul class="photos-thumb">
+	            	<#list entity.image2List as image2>
+                   	<li>
+                        <a nctype="nyroModal"  href="${uploadRoot}${image2}" data-lightbox="img-PayingCertificateB${entity.goodsId}" data-item="image">
+                   	            <img src="${c.func.ncImage(uploadRoot+image2,30,30)}"> </a>
+                    </li>
+                   	</#list>
+                </ul>
+                </#if>
+	          </dd>
+	          <dd class="pubdate">确认收货并评价后${entity.days}天再次追加评价</dd>
+	          <#if entity.explainContent2?exists && entity.explainContent2!="">
+	          <dd class="explain"> [解释]${entity.explainContent2}</dd>
+	          </#if>
+          </#if>
+          <!-- 追加评价结束 -->
+          </dl>
+      </div>
+      </#list>
+      </div>
+      <#if evaluateList?exists && (evaluateList?size gt 0) >
+          <#noescape>
+	    <div class="pagination mt30">${showPage}</div>
+              </#noescape>
+	    <#else>
+	    <div class="warning-option"><i>&nbsp;</i><span>暂无符合条件的数据记录</span></div>
+	  </#if>
+      </form>
+</div>
+    <link href="${publicRoot}toolkit/lightbox/css/lightbox.css" rel="stylesheet" />
+    <script src="${publicRoot}toolkit/lightbox/js/lightbox-2.6.min.js"></script>
+
+<script src="${publicRoot}toolkit/jquery.raty/jquery.raty.js"></script>
+<script type="text/javascript" src="${jsRoot}member/evaluate.js"></script>
+</@c.html>

@@ -1,0 +1,30 @@
+<#import "/layout/seller_layout.html" as c>
+<@c.html title="Index">
+  <ul class="add-goods-step">
+    <li><i>1</i>
+      <h2>选择商品分类</h2>
+      <h6>确定您的商品所属分类，选择最后一级分类目录进入下一步。</h6>
+    </li>
+    <li><i>2</i>
+      <h2>填写商品详情</h2>
+      <h6>填写商品名称、选择商品属性、上传商品图片以及相关信息。</h6>
+    </li>
+    <li class="current"><i>3</i>
+      <h2>商品发布成功</h2>
+      <h6>完成商品发布，选择跳转页面。</h6>
+    </li>
+  </ul>
+  <div class="alert alert-block hr32">
+    <h2><i class="icon-ok-circle mr10"></i>恭喜您，商品发布成功！&nbsp;&nbsp;<#if config.goodsVerify.equals("1")>等待管理员审核商品！</#if></h2>
+    <div class="hr16"></div>
+    <div class="hr16"></div>
+    <!--c2VsbGVyL2dvb2RzL2FkZC9zdGVwX3RocmVlIGJ5IHNob3BuYy5uZXQ=--> 
+    <strong> <a class="m-l-30" href="${c.func.ncGoodsUrl(goodsId)}" target="_blank">去店铺查看商品详情&gt;&gt;</a> <a class="m-l-30" href="${sellerRoot}goods/edit/${commonId}">重新编辑刚发布的商品&gt;&gt;</a> </strong>
+    <div class="hr16"></div>
+    <h4 class="m-l-10">您还可以：</h4>
+    <ul class="m-l-30">
+      <li>1. 继续 &quot; <a href="${sellerRoot}goods/add/step_one">发布新商品</a>&quot;</li>
+      <li>2. 进入 &quot; 卖家中心&quot; 管理 &quot;<a href="${sellerRoot}goods/online/list">商品列表</a>&quot;</li>
+    </ul>
+  </div>
+</@c.html>

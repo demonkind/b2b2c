@@ -1,0 +1,84 @@
+<#import "/layout.html" as c />
+
+<@c.html title="Index">
+
+    <!-- 开始页面内容 -->
+    <div id="content" class="content">
+        <!-- 开始面包屑导航 -->
+        <ol class="breadcrumb pull-right">
+            <li class="">首页</li>
+            <#list adminMenuState.breadCrumbList as breadCrumb>
+                <li class="">${breadCrumb}</li>
+            </#list>
+        </ol>
+        <!-- 结束面包屑导航 -->
+        <!-- 开始页头区域 -->
+        <h1 class="page-header">
+            商品设置
+            <small>网站商品基础设置项...</small>
+        </h1>
+        <!-- 结束页头区域 -->
+        <!-- 开始布局行 -->
+        <div class="row">
+            <div class="col-md-12">
+                <!-- 开始邮件设置模块 -->
+                <div class="panel panel-inverse" data-sortable-id="form-validation-1">
+                    <div class="panel-heading">
+                        <div class="panel-heading-btn">
+                            <a href="#listTip" class="btn btn-xs btn-icon btn-circle btn-info" role="button" data-toggle="collapse" aria-expanded="true" title="操作提示"> <i class="fa fa-lightbulb-o"></i>
+                            </a>
+                            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"> <i class="fa fa-expand"></i>
+                            </a>
+                            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse">
+                                <i class="fa fa-minus"></i>
+                            </a>
+                        </div>
+                        <h4 class="panel-title">商品设置</h4>
+                    </div>
+                    <div class="panel-body">
+                        <!-- 开始操作提示 -->
+                        <div class="alert alert-info collapse in" role="tabpanel" id="listTip">
+                            <h4>操作提示</h4>
+                            <ul>
+                                <li class="m-b-3">开启商品审核后，商家发布新商品、编辑既有商品后都需要平台二次审核后才能正常销售。</li>
+                                <li class="m-b-3">关闭商品审核后，商品发布、编辑商品后，可以直接进行销售。</li>
+                            </ul>
+                        </div>
+                        <!-- 结束操作提示 -->
+
+                        <form class="form-horizontal form-bordered" name="goodsForm" id="goodsForm" method="POST" action="${adminRoot}goods/site/update.json">
+                            <div class="form-group">
+                                <label class="control-label col-lg-2 col-md-3 col-sm-3">是否审核&nbsp;:</label>
+
+                                <div class="col-lg-6 col-md-7 col-sm-8">
+                                    <input type="checkbox" value="1" data-input-name="goodsVerify" id="goodsVerify" data-size="small" data-on-color="primary"
+                                           data-on-text="开启" data-off-text="关闭" data-input-true="1" data-input-false="0" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-lg-2 col-md-3 col-sm-3"></label>
+                                <div class="col-lg-6 col-md-7 col-sm-8">
+                                    <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-q-submit-target="goodsForm" nc-q-submit>提交设置</a>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+                <!-- 结束邮件设置模块--> </div>
+        </div>
+        <!-- 结束布局行 --> </div>
+    <!-- 表单checkbox项 -->
+    <script src="${toolkitRoot}bootstrap-switch/bootstrap-switch.min.js"></script>
+    <script src="${jsRoot}goods/site.js"></script>
+    <!-- 结束页面内容 -->
+    <script>
+        /**
+         * 分类页面全局变量
+         */
+        var goodsSite = {
+            goodsVerify : ${(goodsVerify == "1") ? string("true", "false")}
+        }
+
+    </script>
+</@c.html>

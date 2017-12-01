@@ -1,0 +1,93 @@
+<#import "/layout.html" as c>
+<@c.html title="Index">
+<!-- 开始页面内容 -->
+<div id="content" class="content">
+    <!-- 开始面包屑导航 -->
+    <ol class="breadcrumb pull-right">
+        <li>
+            <a href="javascript:;">首页</a>
+        </li>
+        <li>咨询管理</li>
+        <li class="active">咨询设置</li>
+    </ol>
+    <!-- 结束面包屑导航 -->
+    <!-- 开始页头区域 -->
+    <h1 class="page-header">
+        咨询设置
+        <small>设置咨询提示文字和游客是否可以咨询等相关信息</small>
+    </h1>
+    <!-- 结束页头区域 -->
+    <!-- 开始布局行 -->
+    <div class="row">
+        <div class="col-md-12">
+            <!-- 规则设置模块 -->
+            <div class="panel panel-inverse">
+                <div class="panel-heading">
+                    <div class="panel-heading-btn">
+                        <a href="#listTip" class="btn btn-xs btn-icon btn-circle btn-info" role="button" data-toggle="collapse" aria-expanded="true" title="操作提示"> <i class="fa fa-lightbulb-o"></i>
+                        </a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"> <i class="fa fa-expand"></i>
+                        </a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse">
+                            <i class="fa fa-minus"></i>
+                        </a>
+                    </div>
+                    <h4 class="panel-title">咨询设置</h4>
+                </div>
+                <div class="panel-body" >
+                    <!-- 开始操作提示 -->
+                    <div class="alert alert-info">
+                        <h4>操作提示</h4>
+                        <ul>
+                            <li>设置允许游客咨询后，游客可以在相关页面提交咨询信息</li>
+                            <li>提示文字为在商品详细页咨询选项卡头部显示的文字提示</li>
+                        </ul>
+                    </div>
+                    <!-- 结束操作提示 -->
+                    <form class="form-horizontal form-bordered" name="settingForm" id="settingForm" method="POST" action="${adminRoot}consult/setting">
+                        <div class="form-group">
+                            <label class="control-label col-lg-2 col-md-3 col-sm-3">允许游客咨询:</label>
+                            <div class="col-lg-6 col-md-7 col-sm-8">
+                                <input type="checkbox" id="guestConsult" data-size="small" data-on-color="primary" data-input-true="1" data-input-false="0" data-input-name="guestConsult" data-on-text="允许" data-off-text="禁止">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-lg-2 col-md-3 col-sm-3">提示文字：</label>
+                            <div class="col-sm-7">
+                                <script id="contentEditor" style="height: 200px;" type="text/plain">
+                                    <#noescape>
+                                    <#if siteInfo?? && siteInfo.consultPrompt??>
+                                    ${siteInfo.consultPrompt}
+                                    </#if>
+                                    </#noescape>
+                                </script>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-lg-2 col-md-3 col-sm-3"></label>
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-q-submit-target="settingForm" nc-q-submit>提交设置</a>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+            <!-- 结束设置模块--> </div>
+    </div>
+    <!-- 结束布局行 --> </div>
+<!-- 结束页面内容 -->
+    <!-- 表单checkbox项 -->
+    <script src="${toolkitRoot}bootstrap-switch/bootstrap-switch.min.js"></script>
+    <!-- 富文本编辑器 -->
+    <script src="${toolkitRoot}ueditor/ueditor.config.js"></script>
+    <script src="${toolkitRoot}ueditor/ueditor.all.js"></script>
+    <script src="${toolkitRoot}ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script type="application/javascript">
+        var ueEdit;
+        $(function() {
+            ueEdit = UE.getEditor('contentEditor',{textarea:'consultPrompt'});
+            $("#guestConsult").bootstrapSwitch('state', "${siteInfo.guestConsult}" == "1" ? true : false);
+        });
+    </script>
+</@c.html>

@@ -1,0 +1,54 @@
+<#import "/layout/seller_layout.html" as c> <@c.html title="Index">
+
+<div class="ncsc-form-default">
+	<dl>
+		<dt><em class="pngFix"></em>项目名称：</dt>
+		<dd>${contractVo.ctItemname}</dd>
+	</dl>
+	<dl>
+		<dt><em class="pngFix"></em>所需保证金：</dt>
+		<dd>${contractVo.ctiCost}&nbsp;元&nbsp;
+			<#if contractVo.ctState!="未申请">
+			<a href="${sellerRoot}contract/cost?itemid=${contractVo.ctItemid}">查看保证金日志</a>
+			</#if>
+		</dd>
+	</dl>
+	<dl>
+		<dt><em class="pngFix"></em>状态：</dt>
+		<dd>${contractVo.ctState}</dd>
+	</dl>
+	<h3>保障服务日志</h3>
+	<table class="ncsc-default-table">
+		<thead>
+			<tr>
+				<th class="w30"></th>
+				<th class="w120 tl">操作人</th>
+				<th class="w200">操作时间</th>
+				<th class="tl">操作描述</th>
+			</tr>
+		</thead>
+		<tbody>
+			<#if contractLogList?exists && contractLogList.size() gt 0>
+			<#list contractLogList as entity>
+		  	<tr class="bd-line">
+				<td>&nbsp;</td>
+			  	<td class="tl">${entity.operater}</td>
+			  	<td>${entity.logAddtime}</td>
+				<td class="tl">${entity.logMsg}</td>
+			</tr>
+		  	</#list>
+		  	<#else/>
+		    <tr>
+		      <td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span> </div></td>
+		    </tr>
+		  	</#if>
+		</tbody>
+		<tfoot>
+        <#noescape>
+        <tr><td colspan="20"><div class="pagination">${showPage}</div></td></tr>
+            </#noescape>
+		</tfoot>
+	</table>
+</div>
+
+</@c.html>

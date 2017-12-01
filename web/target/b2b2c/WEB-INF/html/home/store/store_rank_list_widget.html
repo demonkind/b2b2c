@@ -1,0 +1,46 @@
+<div class="ncs-sidebar-container ncs-top-bar">
+  <div class="title">
+    <h4>热销商品排行</h4>
+  </div>
+  <div class="content">
+    <div class="ncs-top-panel" id="hot_sales_list">
+      <ol>
+        <#if hotGoodsVoList??>
+        <#list hotGoodsVoList as goodsVo>
+        <li title="${goodsVo.goodsName}">
+          <dl>
+            <dt><a href="${c.func.ncGoodsUrl(goodsVo.goodsId)}">${goodsVo.goodsName}</a></dt>
+            <dd class="goods-pic"> <a href="${c.func.ncGoodsUrl(goodsVo.goodsId)}"><img src="${c.func.ncImage(goodsVo.imageSrc, 56, 56)}" alt=""/></span> </a> </dd>
+            <dd class="price">￥<em>${goodsVo.goodsPrice?string["0.00"]}</em></dd>
+            <dd class="selled">售出：${goodsVo.goodsSaleNum}</dd>
+          </dl>
+        </li>
+        </#list>
+        </#if>
+      </ol>
+    </div>
+  </div>
+</div>
+<div class="ncs-sidebar-container ncs-top-bar">
+  <div class="title">
+    <h4>热门关注排行</h4>
+  </div>
+  <div class="content">
+    <div class="ncs-top-panel" id="hot_collect_list">
+      <ol>
+        <#if favoriteGoodsVoList??>
+        <#list favoriteGoodsVoList as goodsVo>
+        <li title="${goodsVo.goodsName}">
+          <dl>
+            <dt><a href="${c.func.ncGoodsUrl(goodsVo.goodsId)}">${goodsVo.goodsName}</a></dt>
+            <dd class="goods-pic"> <a href="${c.func.ncGoodsUrl(goodsVo.goodsId)}"><img src="${c.func.ncImage(goodsVo.imageSrc, 56, 56)}" alt=""/></span> </a> </dd>
+            <dd class="price">￥<em>${goodsVo.goodsPrice?string["0.00"]}</em></dd>
+            <dd class="collection">关注：${goodsVo.goodsFavorite}</dd>
+          </dl>
+        </li>
+        </#list>
+        </#if>
+      </ol>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,85 @@
+<#import "/member/layout.html" as c>
+<@c.html title="我的足迹">
+  <style>
+    .pricetag{
+      background-color: #D93600;
+      color: #FFFFFF;
+      height: 14px;
+      line-height: 14px;
+      margin-right: 2px;
+      padding-bottom: 1px;
+      padding-left: 3px;
+      padding-right: 3px;
+      padding-top: 1px;
+      vertical-align: middle;
+    }
+  </style>
+  <div class="wrap">
+    <div class="tabmenu">
+      <ul id="listpj" class="tab">
+        <li class="active"><a href="${memberRoot}goodsbrowse">我的足迹</a></li>
+      </ul>
+      <a class="btn btn-ms btn-warning" href="javascript:void(0);" data-delbrowse-all><i class="icon-trash"></i>清空全部足迹</a>
+    </div>
+
+    <div class="ncm-browse">
+      <div class="ncm-browse-left">
+        <#if browseList?exists && (browseList?size gt 0)>
+        <ul class="ncm-browse-list">
+          <#list browseList as info>
+          <li id="browserow_${info.goodsId}">
+            <div class="browse-timeline">&nbsp;</div>
+            <div class="browse-time">${info.addTimeText}</div>
+            <div class="browse-goods">
+              <div class="goods-thumb">
+                <a href="${c.func.ncGoodsUrl(info.goodsId)}" target="_blank">
+                  <img src="${c.func.ncImage(info.goods.imageSrc, 60, 60)}" nc_type="browserowImg"/>
+                </a>
+              </div>
+              <dl class="goods-info">
+                <dt><a target="_blank" href="${c.func.ncGoodsUrl(info.goodsId)}">${info.goodsName}</a></dt>
+                <dd>商城价：
+                  <em class="sale-price">¥${info.goods.goodsPrice?string["0.00"]}</em>
+                  <em class="market-price" title="市场价">¥${info.goods.markerPrice?string["0.00"]}</em>
+                </dd>
+              </dl>
+              <a class="btn btn-xs btn-white" href="javascript:void(0)" data-addcart="${info.goodsId}"><i class="icon-shopping-cart"></i>加入购物车</a>
+              <br/><br/>
+              <a class="btn btn-xs btn-danger" href="javascript:void(0);" data-delbrowse="${info.browseId}"><i class="icon-trash"></i>删除该记录</a>
+            </div>
+          </li>
+          </#list>
+        </ul>
+            <#noescape>
+        <div class="pagination">${showPage}</div>
+                </#noescape>
+        <#else>
+        <div class="norecord">
+          <div class="warning-option"><i></i><span>暂无符合条件的数据记录</span></div>
+        </div>
+        </#if>
+      </div>
+      <div class="ncm-browse-class">
+        <div class="title"><a href="${memberRoot}goodsbrowse">全部浏览历史</a></div>
+        <ul id="sidebarMenu">
+          <#if browseCategoryList?? && browseCategoryList?size gt 0>
+            <#list browseCategoryList.keySet() as key>
+              <li class="side-menu">
+                <a href='${memberRoot}goodsbrowse?gc_id1=${key}' <#if RequestParameters["gc_id1"]?? && RequestParameters["gc_id1"]?string==key?string>class="selected"</#if> ><i></i>${browseCategoryList.get(key).categoryName!""}</a>
+                <ul>
+                  <#list browseCategoryList.get(key).sonClass.keySet() as key2>
+                    <li <#if RequestParameters["gc_id2"]?? && RequestParameters["gc_id2"]?string==key2?string>class="selected"</#if>>
+                      <a href='${memberRoot}goodsbrowse?gc_id2=${key2}'>${browseCategoryList.get(key).sonClass.get(key2).categoryName!""}</a>
+                    </li>
+                  </#list>
+                </ul>
+              </li>
+            </#list>
+          </#if>
+        </ul>
+      </div>
+    </div>
+  </div>
+</@c.html>
+<script src="${publicRoot}toolkit/fly/jquery.fly.min.js"></script>
+<script type="text/javascript" src="${jsRoot}member/goods_browse.js"></script>

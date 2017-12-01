@@ -1,0 +1,67 @@
+<div class="top" style="overflow: hidden;">
+  <div class="ncs-cosult-tips"> <i></i>
+    <p><#noescape>${config.consultPrompt!''}</#noescape></p>
+  </div>
+  <div class="ncs-cosult-askbtn"><a href="${webRoot}consult?gid=${RequestParameters['gid']?default(0)}#askQuestion" target="_blank" class="btn btn-white"><i class="icon-comments-alt"></i>我要咨询</a></div>
+</div>
+<div class="ncs-goods-title-nav">
+  <ul id="consulting_tab">
+    <input type="hidden" id="currClassId" value='${RequestParameters["cid"]?default(0)}'/>
+    <li id="classTab0"><a href="${webRoot}consult/list?gid=${RequestParameters['gid']?default(0)}">全部</a></li>
+    <#if consultClassList?exists && (consultClassList?size gt 0) >
+      <#list consultClassList as info>
+        <li id="classTab${info.classId}"><a href="${webRoot}consult/list?gid=${RequestParameters['gid']?default(0)}&cid=${info.classId}">${info.className!""}</a></li>
+      </#list>
+    </#if>
+  </ul>
+</div>
+<div class="ncs-cosult-main">
+<#if consultList?exists && (consultList?size gt 0) >
+  <#list consultList as info>
+    <div class="ncs-cosult-list">
+      <dl class="asker">
+        <dt>咨询网友：</dt>
+        <dd>
+          <#if info.memberId lte 0>游客</#if>
+          <#if info.memberId gt 0 && info.anonymousState==1>${info.memberName?substring(0,2)}***</#if>
+          <#if info.memberId gt 0 && info.anonymousState==0>${info.memberName!""}</#if>
+          &nbsp;<span><#if info.className??>咨询类型：${info.className!""}</#if></span>
+          <time datetime="" pubdate="pubdate" class="ml20">${info.addTime!""}</time>
+        </dd>
+      </dl>
+      <dl class="ask-con">
+        <dt>咨询内容：</dt>
+        <dd>
+          <p>${info.consultContent!""}</p>
+        </dd>
+      </dl>
+      <#if info.consultReply?? && (info.consultReply)?length gt 0 >
+        <dl class="reply">
+          <dt>商家回复：</dt>
+          <dd>
+            <p style="width: 730px;">${info.consultReply!""}</p>
+            <time datetime="" pubdate="pubdate">[${info.replyTime!""}]</time>
+          </dd>
+        </dl>
+      </#if>
+    </div>
+  </#list>
+  <div class="more"><a href="${webRoot}consult?gid=${RequestParameters['gid']?default(0)}" target="_blank" >查看全部咨询>></a></div>
+  <#else>
+  <div class="ncs-norecord">还没有咨询内容</div>
+  </#if>
+</div>
+<script type="text/javascript">
+  $(function(){
+    //咨询列表切换卡
+    $("#consulting_tab").find("li").removeClass("current");
+    $("#classTab"+$("#currClassId").val()).addClass("current");
+
+    $('#consulting_tab').find('a').ajaxContent({
+      event:'click',
+      loaderType:'img',
+      loadingMsg:ncGlobal.imgRoot+'transparent.gif',
+      target:'#consulting_demo'
+    });
+  });
+</script>

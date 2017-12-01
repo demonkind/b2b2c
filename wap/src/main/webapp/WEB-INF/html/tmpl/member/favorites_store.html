@@ -1,0 +1,76 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-touch-fullscreen" content="yes" />
+<meta name="format-detection" content="telephone=no"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="msapplication-tap-highlight" content="no" />
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,minimum-scale=1" />
+<title>店铺收藏</title>
+<link rel="stylesheet" type="text/css" href="${cssRoot}base.css">
+<link rel="stylesheet" type="text/css" href="${cssRoot}nctouch_products_list.css">
+</head>
+<body>
+<header id="header" class="fixed">
+  <div class="header-wrap">
+    <div class="header-l"> <a href="/wap/members/index"> <i class="back"></i> </a> </div>
+    <div class="header-tab"><a href="/wap/favorites/goods">商品收藏</a><a href="javascript:void(0);" class="cur">店铺收藏</a></div>
+    <div class="header-r"> <a id="header-nav" href="javascript:void(0);"><i class="more"></i><sup></sup></a> </div>
+  </div>
+  <div class="nctouch-nav-layout">
+    <div class="nctouch-nav-menu"> <span class="arrow"></span>
+      <ul>
+       <li><a href="/wap"><i class="home"></i>首页</a></li>
+		<li><a href="/wap/cart/list" ><i class="cart"></i>购物车<sup></sup></a></li>
+		<li><a href="javascript:void(0);" onclick="_MEIQIA._SHOWPANEL()"><i class="search"></i>联系客服</a></li>
+		<li><a href="/wap/members/index"><i class="message"></i>我的<sup></sup></a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+<div class="nctouch-main-layout">
+      <ul class="favorites-store-list" id="favorites_list">
+      	<#if favoritesList?exists && (favoritesList?size>0) >
+		<#list favoritesList as v>
+        	<li id="favitem_${v.storeId}">
+            	<a href="/tmpl/store.html?store_id=${v.storeId}">
+                	<div class="store-avatar"><img src="${v.store.storeAvatarUrl}"/></div>
+                	<dl class="store-info">
+                    	<dt class="store-name">${v.storeName}</dt>
+                    	<dd><span>粉丝：<em>${v.storeCollect}</em>人</span><span>商品：<em>${v.goods_count}</em>件</span></dd>
+                	</dl>
+            	</a>
+				<a href="javascript:void(0);" nc_type="fav_del" data_id="${v.storeId}" class="del-fav"></a>
+        	</li>
+		</#list>
+        <li class="loading"><div class="spinner"><i></i></div>数据读取中</li>
+    <#else>
+    <div class="nctouch-norecord favorite-store">
+        <div class="norecord-ico"><i></i></div>
+        <dl>
+            <dt>您还没有关注任何店铺</dt>
+            <dd>可以去看看哪些店铺值得收藏</dd>
+        </dl>
+        <a href="/wap" class="btn">随便逛逛</a>
+    </div>
+    </#if>
+      </ul>
+</div>
+<div class="fix-block-r">
+    <a href="javascript:void(0);" class="gotop-btn gotop hide" id="goTopBtn"><i></i></a>
+</div>
+<footer id="footer" class="bottom"></footer>
+<script type="text/javascript" src="${jsRoot}config.js"></script> 
+<script type="text/javascript" src="${jsRoot}zepto.min.js"></script> 
+<script type="text/javascript" src="${jsRoot}template.js"></script> 
+<script type="text/javascript" src="${jsRoot}common.js"></script>
+<script type="text/javascript" src="${jsRoot}simple-plugin.js"></script>
+<script type="text/javascript" src="${jsRoot}ncscroll-load.js"></script>
+<script type="text/javascript" src="${jsRoot}tmpl/favorites_store.js"></script> 
+<script type="text/javascript" src="${jsRoot}tmpl/footer.js"></script>
+<script type="text/javascript" src="${jsRoot}meiqia.js"></script>
+</body>
+</html>

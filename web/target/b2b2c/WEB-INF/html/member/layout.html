@@ -1,0 +1,212 @@
+121<#import "../toolbar.html" as toolbar>
+<#import "../shortcut.html" as shortcut>
+<#import "../header.html" as header>
+<#import "../footer.html" as footer>
+<#import "../func.html" as func>
+<#macro html title>
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,IE=EmulateIE8,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="generator" content="UG93ZXJlZCBCeSBTaG9wTkMubmV0"/>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="author" content="ShopNC-Developers"/>
+<#if title == "Index">
+    <title>${config.siteName} - 用户中心</title>
+<#else>
+    <title>${title}</title>
+</#if>
+<!-- ================== 开始基础CSS调用 ================== -->
+<link href="${publicRoot}css/base.css" rel="stylesheet" type="text/css">
+<link href="${cssRoot}web_common.css" rel="stylesheet" type="text/css">
+<link href="${toolkitRoot}font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+<link href="${publicRoot}toolkit/perfect-scrollbar/perfect-scrollbar.min.css" rel="stylesheet"/>
+<!--[if IE 7]>
+<link href="${toolkitRoot}font-awesome/css/font-awesome-ie7.min.css" rel="stylesheet">
+<![endif]-->
+<!-- ================== 结束基础CSS调用 ================== -->
+
+<!-- ================== 开始页面CSS调用 ================== -->
+<link href="${cssRoot}member.css" rel="stylesheet" type="text/css">
+<!-- ================== 结束页面CSS调用 ================== -->
+
+<script>
+//全局方法设置
+var ncGlobal = {
+	webRoot:"${webRoot}",
+	adminRoot:"${adminRoot}",
+	memberRoot:"${memberRoot}",
+	sellerRoot:"${sellerRoot}",
+	jsRoot:"${jsRoot}",
+	cssRoot:"${cssRoot}",
+	imgRoot:"${imgRoot}",
+	toolkitRoot:"${toolkitRoot}",
+	uploadRoot:"${uploadRoot}",
+	publicRoot:"${publicRoot}"
+};
+</script>
+<!-- ================== 开始基础JavaScript调用 ================== -->
+<!--[if lt IE 9]>
+<script src="${publicRoot}toolkit/crossbrowserjs/es5-shim.min.js"></script>
+<script src="${publicRoot}toolkit/crossbrowserjs/html5shiv.js"></script>
+<script src="${publicRoot}toolkit/crossbrowserjs/excanvas.min.js"></script>
+<script src="${publicRoot}toolkit/crossbrowserjs/respond.min.js"></script>
+<![endif]-->
+<script type="text/javascript" src="${publicRoot}toolkit/jquery/1.8.3/jquery.js"></script>
+<script type="text/javascript" src="${publicRoot}toolkit/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+<link href="${publicRoot}toolkit/jquery-ui/themes/base/minified/jquery-ui.min.css" rel="stylesheet"/>
+<script type="text/javascript" src="${publicRoot}toolkit/layer/layer.js"></script>
+<script type="text/javascript" src="${publicRoot}toolkit/jquery-validation/jquery.validation.min.js"></script>
+<script type="text/javascript" src="${publicRoot}toolkit/waypoints/waypoints.js"></script>
+<script type="text/javascript" src="${publicRoot}toolkit/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+<script type="text/javascript" src="${publicRoot}toolkit/jquery-nc/jquery.nc.js"></script>
+<script type="text/javascript" src="${jsRoot}common/member.top.js"></script>
+<!-- ================== 结束基础JavaScript调用 ================== -->
+</head>
+<body>
+<@toolbar.html />
+<@shortcut.html />
+<@header.html />
+<script>
+  //sidebar-menu
+  $(document).ready(function() {
+    $.each($(".side-menu > a"), function() {
+      $(this).click(function() {
+        var ulNode = $(this).next("ul");
+        if (ulNode.css('display') == 'block') {
+          $.cookie('Mmenu_'+$(this).attr('key'),1);
+        } else {
+          $.cookie('Mmenu_'+$(this).attr('key'),null);
+        }
+        ulNode.slideToggle();
+        if ($(this).hasClass('shrink')) {
+          $(this).removeClass('shrink');
+        } else {
+          $(this).addClass('shrink');
+        }
+      });
+    });
+    $.each($(".side-menu > a"), function() {
+      if ($.cookie('Mmenu_'+$(this).attr('key')) == 1) {
+        $(this).addClass("shrink");
+        $(this).next("ul").hide();
+      }else{
+        $(this).removeClass("shrink");
+        $(this).next("ul").show();
+      }
+    });
+  });
+</script>
+<div class="ncm-header">
+  <div class="ncm-header-layout">
+      <div class="ncm-member-info">
+        <div class="avatar" id="memberLayoutMessageUnreadCount"><img src="${c.func.ncImage(memberCommon.avatarUrl,120,120)}" alt=""/>
+          <div class="frame"></div>
+          <a href="${memberRoot}information/avatar" class="edit" title="修改头像">修改头像</a></div>
+        <dl>
+          <dt><a href="${memberRoot}information" title="修改资料"><#if memberCommon.mobile?? && memberCommon.modifyNum==0>${memberCommon.mobile}<#else>${memberCommon.memberName}</#if></a></dt>
+          <dd>会员等级：
+            <div class="nc-grade-mini" style="cursor:pointer;" onclick="javascript:Nc.go('${webRoot}exppoints/index');">${memberCommon.currGrade.gradeName!''}会员</div>
+          </dd>
+          <dd>账户安全：
+            <div class="SAM"><a href="${memberRoot}security" title="安全设置"> <#if memberCommon.securityLevel == 3 >
+              <div id="high" class="SAM-info"><span><em></em></span><strong>高</strong></div>
+              <#elseif memberCommon.securityLevel == 2>
+              <div id="normal" class="SAM-info"><span><em></em></span><strong>中</strong></div>
+              <#else>
+              <div id="low" class="SAM-info"><span><em></em></span><strong>低</strong></div>
+              </#if> </a> </div>
+          </dd>
+          <dd>用户财产：
+            <div class="user-account">
+              <ul>
+                <li id="pre-deposit"><a href="${memberRoot}predeposit/log" title="我的余额：￥${memberCommon.predepositAvailable }"> <span class="icon"></span> </a> </li>
+                <li id="points"><a href="${memberRoot}pointslog" title="我的积分：${memberCommon.memberPoints }分"> <span class="icon"></span></a> </li>
+              </ul>
+            </div>
+          </dd>
+        </dl>
+      </div>
+      <div class="ncm-trade-menu">
+        <div class="line-bg"></div>
+        <dl class="trade-step-01">
+          <dt>关注中</dt>
+          <dd></dd>
+        </dl>
+        <ul class="trade-function-01">
+          <li><a href="${memberRoot}favorites/goods"><span class="tf01"></span>
+            <h5>商品</h5>
+            </a> </li>
+          <li><a href="${memberRoot}favorites/store"><span class="tf02"></span>
+            <h5>店铺</h5>
+            </a> </li>
+          <li><a href="${memberRoot}goodsbrowse"><span class="tf03"></span>
+            <h5>足迹</h5>
+            </a> </li>
+        </ul>
+        <dl class="trade-step-02">
+          <dt>交易进行</dt>
+          <dd></dd>
+        </dl>
+        <ul class="trade-function-02">
+          <li><a href="${memberRoot}orders/list?ordersState=new"> <#if (count.ordersStateNewCount > 0) ><sup>${count.ordersStateNewCount}</sup></#if> <span class="tf04"></span>
+            <h5>待付款</h5>
+            </a> </li>
+          <li><a href="${memberRoot}orders/list?ordersState=send"> <#if (count.ordersStateSendCount > 0) ><sup>${count.ordersStateSendCount}</sup></#if> <span class="tf05"></span>
+            <h5>待收货</h5>
+            </a> </li>
+          <li><a href="${memberRoot}orders/list?ordersState=noeval"> <#if (count.ordersStateEvaluationCount > 0) ><sup>${count.ordersStateEvaluationCount}</sup></#if> <span class="tf07"></span>
+            <h5>待评价</h5>
+            </a> </li>
+        </ul>
+        <dl class="trade-step-03">
+          <dt>售后服务</dt>
+          <dd></dd>
+        </dl>
+        <ul class="trade-function-03">
+          <li><a href="${memberRoot}consult/list"><span class="tf10"></span>
+            <h5>咨询</h5>
+            </a> </li>
+          <li><a href="${memberRoot}refund/list"><span class="tf08"></span>
+            <h5>退款</h5>
+            </a> </li>
+          <li><a href="${memberRoot}return/list"><span class="tf09"></span>
+            <h5>退货</h5>
+            </a> </li>
+        </ul>
+      </div>
+    </div>
+</div>
+<div class="ncm-container">
+  <div class="left-layout">
+    <ul id="sidebarMenu" class="ncm-sidebar">
+    <#if menuList?exists>
+      <#list menuList.keySet() as groupKey>
+        <li class="side-menu">
+          <a key="${groupKey}" href="javascript:void(0)"><h3>${menuList.get(groupKey).get("name")}</h3></a>
+          <ul>
+            <#if menuList?exists>
+              <#list menuList.get(groupKey).get("child").keySet() as itemKey>
+              <li <#if menuKey?? && menuKey==itemKey>class="selected"</#if>><a href="${menuList.get(groupKey).get('child').get(itemKey).get('url')}">${menuList.get(groupKey).get('child').get(itemKey).get('name')}</a></li>
+              </#list>
+            </#if>
+          </ul>
+        </li>
+      </#list>
+    </#if>
+    </ul>
+  </div>
+  <div class="right-layout"> <#nested/> </div>
+  <div class="clear"></div>
+</div>
+<@footer.html />
+</body>
+<!-- ================== 开始基础JavaScript调用 ================== -->
+<script type="text/javascript" src="${publicRoot}toolkit/tooltip/tooltip.js"></script>
+<script type="text/javascript" src="${publicRoot}toolkit/nc-i18n/zh-CN.js"></script>
+<!-- ================== 结束基础JavaScript调用 ================== -->
+</html>
+</#macro>

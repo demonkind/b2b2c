@@ -1,0 +1,73 @@
+<#import "/member/layout.html" as c>
+<@c.html title="更换会员头像">
+  <div class="wrap">
+    <div class="tabmenu">
+      <ul class="tab pngFix">
+        <li><a href="${memberRoot}information">基本信息</a></li>
+        <li class="active"><a href="javascript:;">更换头像</a></li>
+      </ul>
+    </div>
+    <div class="ncm-default-form">
+      <form enctype="multipart/form-data" id="avatarForm" method="post" action="${memberRoot}information/avatar">
+        <dl>
+          <dt>头像预览：</dt>
+          <dd>
+            <div class="user-avatar">
+              <span>
+                <img src="${c.func.ncImage(member.avatarUrl,120,120)}" nc_type="avatar"/>
+              </span>
+            </div>
+            <p class="hint mt5">上传头像图片，完善个人信息资料。<br>
+              <span style="color:orange;">头像默认尺寸为120x120像素，建议您上传该尺寸图片便于显示效果更好。</span></p>
+          </dd>
+        </dl>
+        <dl>
+          <dt>更换头像：</dt>
+          <dd>
+            <div class="ncm-upload-btn"> <a href="javascript:void(0);"><span>
+            <input type="file" hidefocus="true" size="1" class="input-file" name="avatar" id="avatar" file_id="0" multiple="" maxlength="0"/>
+            </span>
+              <p><i class="icon-upload-alt"></i>图片上传</p>
+              <!--<input id="submitBtn" style="display:none; width:200px;" type="button" value="&nbsp;"/>-->
+            </a> </div>
+          </dd>
+        </dl>
+      </form>
+      <form enctype="multipart/form-data" id="avatarCutForm" method="post" style="display: none;">
+        <input type="hidden" id="avatarPath" name="avatarPath" value=""/>
+        <input type="hidden" id="avatarUrl" name="avatarUrl" value=""/>
+
+        <input type="hidden" id="x1" name="x1" />
+        <input type="hidden" id="x2" name="x2" />
+        <input type="hidden" id="w" name="w" />
+        <input type="hidden" id="y1" name="y1" />
+        <input type="hidden" id="y2" name="y2" />
+        <input type="hidden" id="h" name="h" />
+        <input type="hidden" id="newAvatar" name="newAvatar" value="" />
+        <div class="pic-cut-120">
+          <div class="work-title">工作区域</div>
+          <div class="work-layer">
+            <p><img id="nccropbox" src=""/></p>
+          </div>
+          <div class="thumb-title">裁切预览</div>
+          <div class="thumb-layer">
+            <p><img id="preview" src=""/></p>
+          </div>
+          <div class="cut-help">
+            <h4>操作帮助</h4>
+            <p>请在工作区域放大缩小及移动选取框，选择要裁剪的范围，裁切宽高比例固定；裁切后的效果为右侧预览图所显示；保存提交后生效。</p>
+          </div>
+          <div class="cut-btn">
+            <input type="button" id="submitCut" class="submit" value="提交" />
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- 图片上传 -->
+  <script src="${publicRoot}toolkit/fileupload/jquery.fileupload.js"></script>
+
+  <script src="${toolkitRoot}jquery.Jcrop/jquery.Jcrop.js"></script>
+  <link href="${toolkitRoot}jquery.Jcrop/jquery.Jcrop.min.css" rel="stylesheet" type="text/css" id="cssfile2"/>
+  <script type="text/javascript" src="${jsRoot}member/information_avatar.js"></script>
+</@c.html>

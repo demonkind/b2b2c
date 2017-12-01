@@ -1,0 +1,308 @@
+<#import "/layout/layout.html" as c>
+<@c.html title="Index"> 
+  <!-- ================== 开始页面所需CSS样式引入 ================== -->
+  <link href="${publicRoot}toolkit/lightbox/css/lightbox.css" rel="stylesheet" />
+  <!-- ================== 结束页面所需CSS样式引入 ================== -->
+  
+  <div class="open-step">
+    <ol>
+      <li class="current"><i>1</i>签订入驻协议</li>
+      <li class="current"><i>2</i>公司资质信息</li>
+      <li class="current"><i>3</i>财务资质信息</li>
+      <li class="current"><i>4</i>店铺经营信息</li>
+      <li class="current"><i>5</i>合同签订及缴费</li>
+      <li><i>6</i>店铺开通</li>
+    </ol>
+  </div>
+  <div class="ncsc-form-open">
+    <form name="joinForm" id="joinForm" method="post" action="${sellerRoot}pay.json">
+      <ul class="ui-accordion-container">
+        <!--公司资质信息Ynkgc2hvcG5jLm5ldA==-->
+        <li id="sf1">
+          <div style="border: solid 1px #FFDFBF; background-color: #FFF9F2; margin-bottom: 10px;"><h3 style="background-color: #FFDFBF; color:#660000;" >平台收款账号（商家付款给平台进行相关费用缴纳支付）</h3>
+          <dl>
+            <dt>银行开户名&nbsp;：</dt>
+            <dd>${config.payAccountName}</dd>
+          </dl>
+          <dl>
+            <dt>银行账号&nbsp;：</dt>
+            <dd>${config.payAccountNumber}</dd>
+          </dl>
+          <dl>
+            <dt>开户行名称&nbsp;：</dt>
+            <dd>${config.payBankName}</dd>
+          </dl>
+          <dl>
+            <dt>开户行所在地&nbsp;：</dt>
+            <dd>${config.payBankAddress}</dd>
+          </dl><h3 style="background-color: #FFDFBF; color:#660000;">付款信息（商家付款后提供给平台查收的支付凭证）</h3>
+          <dl>
+            <dt><i>*</i>上传付款凭证</dt>
+            <dd>
+              <div class="btn-upload-box"  id="divUploadPayingCertificate"><span id="btnUploadPayingCertificate">
+                <input type="file" hidefocus="true" class="input-file" name="file"/>
+                </span> <a href="javascript:;" class="btn btn-sm btn-default"><i class="icon icon-picture"></i>上传付款凭证</a></div>
+              <input type="hidden" id="payingCertificate" name="payingCertificate" value="">
+              <p class="hint">请压缩证照扫描件/电子版图片大小为2M以内，格式为gif、jpg、png，并确保文字清晰、以免上传或审核失败。</p>
+            </dd>
+          </dl>
+          <dl>
+            <dt><i>*</i>付款凭证说明&nbsp;：</dt>
+            <dd>
+              <textarea name="payingCertificateExp" rows="3" class="textarea w300" id="payingCertificateExp" maxlength="300"  autocomplete="off" ></textarea>
+            </dd>
+          </dl></div>
+          <h3>公司及联系人信息</h3>
+          <dl>
+            <dt>公司名称&nbsp;：</dt>
+            <dd>
+              <p class="text"><#if storeCertificate??>${storeCertificate.companyName}</#if></p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>公司所在地&nbsp;：</dt>
+            <dd>
+              <p class="text"><#if storeCertificate??>${storeCertificate.companyAddress}</#if></p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>公司详细地址&nbsp;：</dt>
+            <dd>
+              <p class="text"><#if storeCertificate??>${storeCertificate.companyAddressDetail}</#if></p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>公司电话&nbsp;：</dt>
+            <dd>
+              <p class="text"><#if storeCertificate??>${storeCertificate.companyPhone}</#if></p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>员工总数&nbsp;：</dt>
+            <dd>
+              <p class="text"><#if storeCertificate??>${storeCertificate.companyEmployeeCount}</#if>人</p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>注册资金&nbsp;：</dt>
+            <dd>
+              <p class="text"><#if storeCertificate??>${storeCertificate.companyRegisteredCapital}元</#if></p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>联系人姓名&nbsp;：</dt>
+            <dd>
+              <p class="text"><#if storeCertificate??>${storeCertificate.contactsName}</#if></p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>联系人电话&nbsp;：</dt>
+            <dd>
+              <p class="text"><#if storeCertificate??>${storeCertificate.contactsPhone}</#if></p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>电子邮箱&nbsp;：</dt>
+            <dd>
+              <p class="text"><#if storeCertificate??>${storeCertificate.contactsEmail}</#if></p>
+            </dd>
+          </dl>
+          <h3>营业执照信息(副本)</h3>
+          <dl>
+            <dt>营业执照号&nbsp;：</dt>
+            <dd>
+              <p class="text"><#if storeCertificate??>${storeCertificate.businessLicenceNumber}</#if></p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>法定经营范围&nbsp;：</dt>
+            <dd>
+              <p class="text"><#if storeCertificate??>${storeCertificate.businessSphere}</#if></p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>营业执照电子版&nbsp;：</dt>
+            <dd><#if storeCertificate??> <a href="${uploadRoot}${storeCertificate.businessLicenceImage}" data-lightbox="img-businessLicenceImage" class="upload-file-thumb" title="营业执照电子版"><img src="${uploadRoot}${storeCertificate.businessLicenceImage}" alt="营业执照电子版"/></a> </#if></dd>
+          </dl>
+          <h3>组织机构代码证</h3>
+          <dl>
+            <dt>组织机构代码&nbsp;：</dt>
+            <dd>
+              <p class="text"><#if storeCertificate??>${storeCertificate.organizationCode}</#if></p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>组织机构代码证电子版&nbsp;：</dt>
+            <dd><#if storeCertificate??><a href="${uploadRoot}${storeCertificate.organizationImage}" data-lightbox="img-organizationImage" class="upload-file-thumb" title="组织机构代码证电子版"><img src="${uploadRoot}${storeCertificate.organizationImage}" alt="组织机构代码证电子版"/></a> </#if></dd>
+          </dl>
+          <h3>一般纳税人证明</h3>
+          <dl>
+            <dt>一般纳税人证明电子版&nbsp;：</dt>
+            <dd><#if storeCertificate??> <a href="${uploadRoot}${storeCertificate.generalTaxpayer}" data-lightbox="img-generalTaxpayer" class="upload-file-thumb" title="一般纳税人证明电子版"><img src="${uploadRoot}${storeCertificate.generalTaxpayer}" alt="一般纳税人证明电子版"/></a> </#if></dd>
+          </dl>
+        </li>
+        <!--选项卡2 Ynkgc2hvcG5jLm5ldA==-->
+        <li id="sf2">
+          <h3>开户银行信息</h3>
+          <dl>
+            <dt>银行开户名&nbsp;：</dt>
+            <dd>
+              <p class="text"><#if storeCertificate??>${storeCertificate.bankAccountName}</#if></p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>银行帐号&nbsp;：</dt>
+            <dd>
+              <p class="text"><#if storeCertificate??>${storeCertificate.bankAccountNumber}</#if></p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>开户银行支行名称&nbsp;：</dt>
+            <dd>
+              <p class="text"><#if storeCertificate??>${storeCertificate.bankName}</#if></p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>支行联行号&nbsp;：</dt>
+            <dd>
+              <p class="text"><#if storeCertificate??>${storeCertificate.bankCode}</#if></p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>开户银行所在地&nbsp;：</dt>
+            <dd>
+              <p class="text"><#if storeCertificate??>${storeCertificate.bankAddress}</#if></p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>开户银行许可证电子版&nbsp;：</dt>
+            <dd> <#if storeCertificate??> <a href="${uploadRoot}${storeCertificate.bankLicenceImage}" data-lightbox="img-bankLicenceImage" class="upload-file-thumb" title="开户银行许可证电子版"><img src="${uploadRoot}${storeCertificate.bankLicenceImage}" alt="开户银行许可证电子版"/></a> </#if> </dd>
+          </dl>
+          <h3>结算账号信息</h3>
+          <dl>
+            <dt>银行开户名&nbsp;：</dt>
+            <dd>
+              <p class="text"><#if storeCertificate??>${storeCertificate.settlementBankAccountName}</#if></p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>银行账号&nbsp;：</dt>
+            <dd>
+              <p class="text"><#if storeCertificate??>${storeCertificate.settlementBankAccountNumber}</#if></p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>开户银行支行名称&nbsp;：</dt>
+            <dd>
+              <p class="text"><#if storeCertificate??>${storeCertificate.settlementBankName}</#if></p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>支行联行号&nbsp;：</dt>
+            <dd>
+              <p class="text"><#if storeCertificate??>${storeCertificate.settlementBankCode}</#if></p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>开户银行所在地&nbsp;：</dt>
+            <dd>
+              <p class="text"><#if storeCertificate??>${storeCertificate.settlementBankAddress}</#if></p>
+            </dd>
+          </dl>
+          <h3>税务登记证</h3>
+          <dl>
+            <dt>税务登记证号&nbsp;：</dt>
+            <dd>
+              <p class="text"><#if storeCertificate??>${storeCertificate.taxRegistrationCertificate}</#if></p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>纳税人识别号&nbsp;：</dt>
+            <dd>
+              <p class="text"><#if storeCertificate??>${storeCertificate.taxpayerId}</#if></p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>税务登记证号电子版&nbsp;：</dt>
+            <dd><#if storeCertificate??> <a href="${uploadRoot}${storeCertificate.taxRegistrationImage}" data-lightbox="img-taxRegistrationImage" class="upload-file-thumb" title="税务登记证号电子版"><img src="${uploadRoot}${storeCertificate.taxRegistrationImage}" alt="税务登记证号电子版"></a> </#if></dd>
+          </dl>
+        </li>
+        <!--选项卡3 Ynkgc2hvcG5jLm5ldA==-->
+        <li id="sf3">
+          <h3>店铺经营信息</h3>
+          <dl>
+            <dt>店铺名称&nbsp;：</dt>
+            <dd>
+              <p class="text"><#if storeJoinin??>${storeJoinin.storeName}</#if></p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>店铺等级&nbsp;：</dt>
+            <dd>
+              <p class="text"><#list storeGradeList as storeGrade>  <#if storeJoinin?? && storeJoinin.gradeId == storeGrade.id> ${storeGrade.name} (商品数：${storeGrade.goodsLimit} 图片数： ${storeGrade.albumLimit} 推荐商品数： ${storeGrade.recommendLimit} 收费标准：${storeGrade.price})</#if></#list></p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>开店时长&nbsp;：</dt>
+            <dd>
+              <p class="text"><#if storeJoinin??>${storeJoinin.joininYear}</#if>年</p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>主营行业&nbsp;：</dt>
+            <dd>
+              <p class="text"><#list storeClassList as storeClass><#if storeJoinin?? && storeJoinin.classId == storeClass.id>${storeClass.name} (保证金：${storeClass.bail}元)</#if></#list></p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>经营类目&nbsp;：</dt>
+            <dd> 
+              <!-- S 经营分类显示 -->
+              <table border="0" cellpadding="0" cellspacing="0" id="table_category" class="selected">
+                <thead>
+                  <tr>
+                    <th class="w180">一级类目</th>
+                    <th class="w180">二级类目</th>
+                    <th class="">三级类目</th>
+                    <th class="w60">分佣比例</th>
+                  </tr>
+                </thead>
+                <tbody id="tableCategoryBody">
+                <#list storeBindCategoryList as storeBindCategory>
+                <tr>
+                  <td>${storeBindCategory.categoryName1}</td>
+                  <td>${storeBindCategory.categoryName2}</td>
+                  <td>${storeBindCategory.categoryName3}</td>
+                  <td>${storeBindCategory.commissionRate}%</td>
+                </tr>
+                </#list>
+                  </tbody>
+                
+              </table>
+              <!-- E 经营分类显示 --> 
+            </dd>
+          </dl>
+          <dl>
+            <dt>应付总金额&nbsp;：</dt>
+            <dd>
+              <p class="text"><#if storeJoinin??>${storeJoinin.payingAmount}元</#if></p>
+            </dd>
+          </dl>
+          <dl>
+            <dt>审核意见&nbsp;：</dt>
+            <dd>
+              <p class="text"><#if storeJoinin??>${storeJoinin.joininMessage}</#if></p>
+            </dd>
+          </dl>
+          
+          <div class="bottom"> <a href="javascript:;" id="btnSubmit" class="btn btn-info">确认提交，等待平台审核...</a> </div>
+        </li>
+      </ul>
+    </form>
+  </div>
+  
+  <!-- ================== 开始页面JavaScript调用 Ynkgc2hvcG5jLm5ldA ==================== --> 
+  <script src="${publicRoot}toolkit/lightbox/js/lightbox-2.6.min.js"></script> 
+  <script src="${jsRoot}open2.js"></script> 
+  <!-- ================== 结束页面JavaScript调用 Ynkgc2hvcG5jLm5ldA== ================== --> 
+</@c.html>

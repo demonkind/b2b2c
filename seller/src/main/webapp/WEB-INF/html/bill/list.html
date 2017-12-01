@@ -1,0 +1,67 @@
+<#import "/layout/seller_layout.html" as c>
+<@c.html title="Index">
+  <div class="top-btn-layout"></div>
+  <div class="alert mt15 mb5"><strong>操作提示：</strong>
+    <ul>
+      <li>1、当前平台与商家的结算周期为 ${store.billCyleDescription} 。</li>
+      <li>2、账单计算公式：本期应结 = 订单金额 - 平台分佣 - 退单金额 + 退还佣金。</li>
+      <li>3、账单处理流程为：系统出账 > 商家确认 > 平台审核 > 财务支付(完成结算) 4个环节，其中“商家确认”需要商家处理，请予以关注。</li>
+    </ul>
+  </div>
+  <table class="ncsc-default-table">
+    <thead>
+      <tr nc_type="table_header">
+        <th class="w10"></th>
+        <th class="w80">账单编号</th>
+        <th class="tc">出账日期</th>
+        <th class="tc">起止日期</th>
+        <th class="tl">订单金额（元）</th>
+        <th class="tl">平台分佣（元）</th>
+        <th class="tl">退单金额（元）</th>
+        <th class="tl">退还佣金（元）</th>
+        <th class="tl">本期应结（元）</th>
+        <th class="tl">结算状态</th>
+        <th>付款时间</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+    <#if billList.size() gt 0>
+    <#list billList as bill>
+    <tr class="bd-line">
+      <td></td>
+      <td>${bill.billSn}</td>
+      <td class="tc">${bill.createDate}</td>
+      <td class="tc">${bill.startDate} - ${bill.endDate}</td>
+      <td class="tl">${bill.ordersAmount?string('0.00')}</td>
+      <td class="tl">${bill.commissionAmount?string('0.00')}</td>
+      <td class="tl">${bill.refundAmount?string('0.00')}</td>
+      <td class="tl">${bill.refundCommissionAmount?string('0.00')}</td>
+      <td class="tl">${bill.billAmount?string('0.00')}</td>
+      <td class="tl">${bill.billStateName}</td>
+      <td>${bill.paymentTime!''}</td>
+      <td>
+        <a href="${sellerRoot}bill/orders/list/${bill.billId}" class="btn btn-sm btn-primary m-r-10"><i class="icon-list-alt"></i>查看</a>
+        <#if bill.billState == 10>
+          <a href="javascript:void(0)" class="btn btn-sm btn-primary" ncType="confirm" dataBillId="${bill.billId}"><i class="icon-check"></i>确认</a>
+        </#if>
+      </td>
+    </tr>
+    </#list>
+    <#else />
+    <tr>
+      <td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span> </div></td>
+    </tr>
+    </#if>
+    </tbody>
+    <tfoot>
+    <tr>
+        <#noescape>
+        <td colspan="20"><div class="pagination">${showPage}</div></td>
+         </#noescape>
+    </tr>
+    </tfoot>
+  </table>
+  <script src="${jsRoot}bill/list.js"></script>
+</@c.html>
+

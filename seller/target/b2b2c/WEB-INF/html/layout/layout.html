@@ -1,0 +1,137 @@
+<#macro html title>
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,IE=EmulateIE8,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="generator" content="UG93ZXJlZCBCeSBTaG9wTkMubmV0"/>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="author" content="ShopNC-Developers"/>
+<#if title == "Index">
+    <title>${config.siteName} - 商家入驻</title>
+<#else>
+    <title>${title}</title>
+</#if>
+<!-- ================== 开始基础CSS调用 ================== -->
+<link href="${publicRoot}css/base.css" rel="stylesheet" type="text/css">
+<link href="${toolkitRoot}font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
+<!--[if IE 7]>
+<link href="${toolkitRoot}font-awesome/css/font-awesome-ie7.min.css" rel="stylesheet">
+<![endif]-->
+<!-- ================== 结束基础CSS调用 ================== -->
+<!-- ================== 开始页面CSS调用 ================== -->
+<link href="${cssRoot}store_open.css" rel="stylesheet" type="text/css">
+<!-- ================== 结束页面CSS调用 ================== -->
+<!-- ================== 开始基础JavaScript调用 ================== -->
+
+  <!--[if lt IE 9]>
+  <script src="${publicRoot}toolkit/crossbrowserjs/es5-shim.min.js"></script>
+  <script src="${publicRoot}toolkit/crossbrowserjs/html5shiv.js"></script>
+  <script src="${publicRoot}toolkit/crossbrowserjs/excanvas.min.js"></script>
+  <script src="${publicRoot}toolkit/crossbrowserjs/respond.min.js"></script>
+  <script src="${publicRoot}toolkit/json2/json2.js"></script>
+  <![endif]-->
+<script src="${publicRoot}toolkit/jquery/1.8.3/jquery.js"></script>
+<script src="${publicRoot}toolkit/jquery-validation/jquery.validation.min.js"></script>
+<script src="${publicRoot}toolkit/layer/layer.js"></script>
+<script src="${publicRoot}toolkit/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+
+
+<script>
+//全局方法设置
+	var ncGlobal = {
+		webRoot:"${webRoot}",
+		adminRoot:"${adminRoot}",
+		memberRoot:"${memberRoot}",
+		sellerRoot:"${sellerRoot}",
+		jsRoot:"${jsRoot}",
+		cssRoot:"${cssRoot}",
+		imgRoot:"${imgRoot}",
+		toolkitRoot:"${toolkitRoot}",
+		uploadRoot:"${uploadRoot}",
+		filesType:{
+		outside:"${filesType.outside}",
+		goods:"${filesType.goods}",
+		setting:"${filesType.setting}"
+		}
+	};
+</script>
+<script src="${publicRoot}toolkit/jquery-thumb/jqthumb.js"></script>
+<script src="${publicRoot}toolkit/waypoints/waypoints.js"></script>
+
+<script src="${publicRoot}toolkit/jquery-nc/jquery.nc.js"></script>
+<!-- 图片上传 -->
+<script src="${publicRoot}toolkit/fileupload/jquery.fileupload.js"></script>
+<!-- ================== 结束基础JavaScript调用 ================== -->
+<script type="text/javascript" src="${jsRoot}seller.js"></script>
+</head>
+<body>
+<header class="ncop-header-layout">
+  <div class="top-bar">
+    <div class="web-nav"><a href="javascript:;"><i class="arrow"></i>欢迎您，您可以申请开店或查看开店进度。</a></div>
+    <ul class="admin-plus">
+      <li><a href="${webRoot}" target="_blank"><i class="icon icon-home"></i>商城首页</a></li>
+      <li> <a href="javascript:;" id="member-top-show" class="admin-function-click"> <span class="admin-avatar"> <img src="${sellerAvatarUrl}" width="32" alt=""/></span>${sellerName}<i class="arrow"></i> </a>
+        <div class="ncsc-admin-function" data-dropdown-menu><a id="btnEditProfile" href="javascript:;" title="编辑账号信息">编辑账号信息</a> <a href="${sellerRoot}logout" title="安全退出">管理安全退出</a> </div>
+      </li>
+    </ul>
+  </div>  <div class="header-wapper">
+    <div class="logo"> <a href="javascript:;" target="_blank"><img src="${config.sellerLogoUrl}" alt=""/></a> </div>
+  </div>
+</header>
+<div class="ncop-main-layout">
+  <div class="sidebar">
+    <div class="title">
+      <h3>商家入驻申请</h3>
+    </div>
+    <div class="content">
+        <dl>
+        <dt> <i class="show"></i>入驻流程</dt>
+        <dd>
+          <ul>
+            <#if articleLeftList?exists>
+            <#list articleLeftList as article>
+            <li> <i class="current"></i> <a target="_blank" href="<#if article.url != ''>${article.url}<#else>${webRoot}article/info/${article.articleId}</#if>" title="${article.title}">${article.title}</a> </li>
+            </#list>
+            </#if>
+          </ul>
+        </dd>
+      </dl>
+      <dl>
+        <dt dataType="leftStep" class="current" id="leftStep1"><i class="hide"></i>签订入驻协议</dt>
+      </dl>
+      <dl>
+        <dt dataType="leftStep" id="leftStep2"> <i class="hide"></i>公司资质信息</dt>
+      </dl>
+      <dl>
+        <dt dataType="leftStep" id="leftStep3"> <i class="hide"></i>财务资质信息</dt>
+      </dl>
+      <dl>
+        <dt dataType="leftStep" id="leftStep4"> <i class="hide"></i>店铺经营信息</dt>
+      </dl>
+      <dl>
+        <dt dataType="leftStep" id="leftStep5"> <i class="hide"></i>合同签订及缴费</dt>
+      </dl>
+      <dl>
+        <dt dataType="leftStep"  id="leftStep6"> <i class="hide"></i>店铺开通</dt>
+      </dl>
+    </div>
+    <div class="title">
+      <h3>平台联系方式</h3>
+    </div>
+    <div class="content">
+      <ul>
+        <li>电话：<span>${config.sitePhone}</span></li>
+        <li>邮箱：<span>${config.siteEmail}</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="main-box"><#nested/></div>
+</div>
+<#include "/profile.html">
+  <script src="${publicRoot}toolkit/tooltip/ToolTip.js"></script>
+</body>
+</html>
+</#macro>

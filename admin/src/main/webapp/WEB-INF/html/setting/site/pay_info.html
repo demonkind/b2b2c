@@ -1,0 +1,104 @@
+<#import "/layout.html" as c />
+
+<@c.html title="Index">
+
+<!-- 开始页面内容 -->
+<div id="content" class="content">
+    <!-- 开始面包屑导航 -->
+    <ol class="breadcrumb pull-right">
+        <li class="">首页</li>
+        <#list adminMenuState.breadCrumbList as breadCrumb>
+            <li class="">${breadCrumb}</li>
+        </#list>
+    </ol>
+    <!-- 结束面包屑导航 -->
+    <!-- 开始页头区域 -->
+    <h1 class="page-header">
+        平台收款账号
+        <small>设置平台的收款账号信息</small>
+    </h1>
+    <!-- 结束页头区域 -->
+    <!-- 开始布局行 -->
+    <div class="row">
+        <div class="col-md-12">
+            <!-- 开始邮件设置模块 -->
+            <div class="panel panel-inverse" data-sortable-id="form-validation-1">
+                <div class="panel-heading">
+                    <div class="panel-heading-btn">
+                        <a href="#listTip" class="btn btn-xs btn-icon btn-circle btn-info" role="button" data-toggle="collapse" aria-expanded="true" title="操作提示"> <i class="fa fa-lightbulb-o"></i>
+                        </a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"> <i class="fa fa-expand"></i>
+                        </a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse">
+                            <i class="fa fa-minus"></i>
+                        </a>
+                    </div>
+                    <h4 class="panel-title">平台收款账号</h4>
+                </div>
+                <div class="panel-body">
+                    <!-- 开始操作提示 -->
+                    <div class="alert alert-info collapse in" role="tabpanel" id="listTip">
+                        <h4>操作提示</h4>
+                        <ul>
+                            <li class="m-b-3">填写平台收款账号的信息，相关信息会出现在需要向平台汇款的页面。</li>
+                        </ul>
+                    </div>
+                    <!-- 结束操作提示 -->
+
+                    <!-- 开始基础设置表单 -->
+                    <form class="form-horizontal form-bordered" data-parsley-validate="true" id="siteForm" name="siteForm"
+                          method="POST" action="${adminRoot}site/pay_info">
+                        <div class="form-group">
+                            <label for="accountName" class="control-label col-lg-2 col-md-3 col-sm-3">银行开户名&nbsp;:</label>
+                            <div class="col-lg-6 col-md-7 col-sm-8">
+                                <input type="text" id="accountName" name="accountName" value="${siteInfo.payAccountName}" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="accountNumber" class="control-label col-lg-2 col-md-3 col-sm-3">银行账号&nbsp;:</label>
+                            <div class="col-lg-6 col-md-7 col-sm-8">
+                                <input type="text" id="accountNumber" name="accountNumber" value="${siteInfo.payAccountNumber}" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="bankName" class="control-label col-lg-2 col-md-3 col-sm-3">开户行名称&nbsp;:</label>
+                            <div class="col-lg-6 col-md-7 col-sm-8">
+                                <input type="text" id="bankName" name="bankName" value="${siteInfo.payBankName}" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="bankAddress" class="control-label col-lg-2 col-md-3 col-sm-3">开户行所在地&nbsp;:</label>
+                            <div class="col-lg-6 col-md-7 col-sm-8">
+                                <input type="text" id="bankAddress" name="bankAddress" value="${siteInfo.payBankAddress}" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-lg-2 col-md-3 col-sm-3"></label>
+                            <div class="col-lg-6 col-md-7 col-sm-8">
+                                <a href="javascript:;" class="btn btn-primary" data-q-text="Loading..."
+                                   nc-q-submit-target="siteForm" nc-q-submit>提交设置</a>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- 结束基础设置表单 -->
+
+                </div>
+            </div>
+            <!-- 结束邮件设置模块--> </div>
+    </div>
+    <!-- 结束布局行 --> </div>
+<!-- ================== 开始页面级JavaScrip调用 ================== -->
+<!-- 表单checkbox项 -->
+<script src="${toolkitRoot}bootstrap-switch/bootstrap-switch.min.js"></script>
+<!-- 图片点击放大窗口 -->
+<script src="${publicRoot}toolkit/lightbox/js/lightbox-2.6.min.js"></script>
+<script>
+
+    var siteGlobal = {
+        siteState:${(siteInfo.siteState=='1')?string('true','false')}
+    }
+</script>
+<script src="${jsRoot}setting/site.js"></script>
+<!-- ================== 结束页面级JavaScrip调用 ================== -->
+
+</@c.html>

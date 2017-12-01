@@ -1,0 +1,29 @@
+<#assign i=0>
+<#if regionList?exists && (regionList?size>0)>
+<#list regionList.keySet() as region>
+<#assign provinceIdList=regionList.get(region)> <li <#if i=1><#assign i=0>class="even"<#else><#assign i=i+1></#if>>
+<dl class="ncsc-region">
+  <dt class="ncsc-region-title"> <span>
+    <input type="checkbox" id="J_Group_${region}" class="J_Group" value=""/>
+    <label for="J_Group_${region}">${region}</label>
+    </span> </dt>
+  <dd class="ncsc-province-list"> <#if (provinceIdList?size>0)>
+    <#list provinceIdList as provinceId>
+    <div class="ncsc-province"><span class="ncsc-province-tab">
+      <input type="checkbox" class="J_Province" id="J_Province_${provinceId}" value="${provinceId}"/>
+      <label for="J_Province_${provinceId}">${nameList.get(provinceId)}</label>
+      <span class="check_num"/> </span><i class="icon-angle-down trigger"></i>
+      <div class="ncsc-citys-sub"> <#assign cityIdList=childrenList.get(provinceId)>
+        <#list cityIdList as cityId> <span class="areas">
+        <input type="checkbox" class="J_City" id="J_City_${cityId}" value="${cityId}"/>
+        <label for="J_City_${cityId}">${nameList.get(cityId)}</label>
+        </span> </#list>
+        <p class="tr hr8"><a href="javascript:void(0);" class="ncbtn-mini ncbtn-bittersweet close_button">关闭</a></p>
+      </div>
+      </span> </div>
+    </#list>
+    </#if><!--c2VsbGVyL2ZyZWlnaHQvdGVtcGxhdGUvYXJlYS1qYXZhIGJ5IHNob3BuYy5uZXQ=--> </dd>
+</dl>
+</li>
+</#list>
+</#if>

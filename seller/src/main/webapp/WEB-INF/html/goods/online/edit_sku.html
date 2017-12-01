@@ -1,0 +1,110 @@
+<#import "/layout/seller_layout.html" as c>
+<@c.html title="Index">
+  <!-- 富文本amF2YS1zZWxsZXIvZ29vZHMvb25saW5lL2VkaXQgX3NrdSBieSBzaG9wbmMubmV0编辑器 -->
+  <script>var UEDITOR_HOME_URL = "${toolkitRoot}ueditor/";</script>
+  <script type="text/javascript" charset="utf-8" src="${toolkitRoot}ueditor/ueditor.config.js"></script>
+  <script type="text/javascript" charset="utf-8" src="${toolkitRoot}ueditor/ueditor.all.js"></script>
+  <script src="${toolkitRoot}ueditor/lang/zh-cn/zh-cn.js"></script>
+  <div class="item-publish">
+    <form method="post" id="skuForm" action="">
+      <input type="hidden" name="goodsId" value="${goods.goodsId}"/>
+      <div class="ncsc-form-goods">
+        <dl>
+          <dt> <i class="required">*</i>
+            商品价格：
+          </dt>
+          <dd>
+            <input name="goodsPrice" type="text" class="text w100" value="${goods.goodsPrice}"/><em class="add-on"><i class="icon-renminbi"></i></em>
+            <p class="hint">请输入商品SKU商城销售价格</p>
+          </dd>
+        </dl>
+        <dl>
+          <dt> <i class="required">*</i>
+            市场价格：
+          </dt>
+          <dd>
+            <input name="markerPrice" type="text" class="text w100" value="${goods.markerPrice}" /><em class="add-on"><i class="icon-renminbi"></i></em>
+            <p class="hint">请输入商品SKU市场参考价格</p>
+          </dd>
+        </dl>
+        <dl>
+          <dt>
+            <i class="required">*</i>
+            库存：
+          </dt>
+          <dd>
+            <input name="goodsStorage" type="text" class="text w100" value="${goodsSale.goodsStorage}" />
+            <p class="hint">请输入商品SKU库存量</p>
+          </dd>
+        </dl>
+        <dl>
+          <dt>
+            <i class="required">*</i>
+            库存预警：
+          </dt>
+          <dd>
+            <input name="goodsStorageAlarm" type="text" class="text w100" value="${goodsSale.goodsStorageAlarm}" />
+            <p class="hint">请输入商品SKU库存预计值，当该商品SKU库存到达预警值时，卖家应该及时补货。</p>
+          </dd>
+        </dl>
+        <dl>
+          <dt>商家货号：</dt>
+          <dd>
+            <input name="goodsSerial" type="text" class="text w200" value="${goods.goodsSerial}" />
+            <p class="hint">商家货号用户商家对商品的管理。</p>
+          </dd>
+        </dl>
+        <dl>
+          <dt>条形码：</dt>
+          <dd>
+            <input name="goodsBarcode" type="text" class="text w200" value="${goods.goodsBarcode}" />
+            <p class="hint">如商品具有条形编码可输入，系统将生成对应条形编码。</p>
+          </dd>
+        </dl>
+        <dl>
+          <dt>商品描述：</dt>
+          <dd id="ncProductDetails" style="line-height: 0">
+            <div id="editorWrap">
+              <#noescape>
+              <script id="editor" type="text/plain" style="height:400px; width: 90%;">${goods.goodsBody!""}</script>
+              </#noescape>
+            </div>
+
+            <!--图片上传按钮amF2YS1zZWxsZXIvZ29vZHMvb25saW5lL2VkaXQgX3NrdSBieSBzaG9wbmMubmV0-->
+            <div class="hr8" id="editorPicPanel">
+              <div class="ncsc-upload-btn">
+                <a id="editorPicUploadBtn" href="javascript:void(0);">
+                  <span>
+                    <input type="file" hidefocus="true" class="input-file" name="file" multiple></span>
+                  <p>
+                    <i class="icon-upload-alt" data_type="0" nctype="add_album_i"></i>
+                    图片上传
+                  </p>
+                </a>
+              </div>
+              <a href="javascript:void(0);" nctype="del_desc" class="btn m-t-5" style="display: none;">
+                <i class=" icon-circle-arrow-up"></i>
+                关闭相册
+              </a>
+              <!--图片显示区域-->
+              <div id="editPicPanel" class="ncsc-upload-pic-list w700" style="display:none;">
+                <ul id="editorPicShowPanel" class="goods-pic-list"></ul>
+              </div>
+            </div>
+          </dd>
+        </dl>
+      </div>
+      <div class="bottom tc hr32">
+        <label class="submit-border">
+          <a class="submit" href="javascript:;" id="formSubmit">提交</a>
+        </label>
+      </div>
+    </form>
+  </div>
+  <!--amF2YS1zZWxsZXIvZ29vZHMvb25saW5lL2VkaXQgX3NrdSBieSBzaG9wbmMubmV0-->
+  <link rel="stylesheet" href="${publicRoot}toolkit/perfect-scrollbar/perfect-scrollbar.min.css">
+  <script type="text/javascript" src="${publicRoot}toolkit/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+  <!--<script src="${publicRoot}toolkit/json2/json2.js"></script>-->
+  <script src="${jsRoot}goods/edit_sku.js"></script>
+
+</@c.html>

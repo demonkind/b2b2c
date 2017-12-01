@@ -1,0 +1,34 @@
+<div class="service">
+  <div class="displayed"><i></i>在线客服</div>
+  <div class="sub">
+    <div class="default"><#if storeInfo.storeQq?? && storeInfo.storeQq != ""><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=${storeInfo.storeQq}&site=qq&menu=yes" title="QQ：${storeInfo.storeQq}"><img src="http://wpa.qq.com/pa?p=2:${storeInfo.storeQq}:52" alt="QQ：${storeInfo.storeQq}"></a> </#if>
+      <#if storeInfo.storeWw?? && storeInfo.storeWw != ""> <a target="_blank" href="http://www.taobao.com/webww/ww.php?ver=3&touid=${storeInfo.storeWw}&siteid=cntaobao&status=2&charset=utf-8" title="旺旺：${storeInfo.storeWw}" ><img border="0" src="http://amos.alicdn.com/online.aw?v=2&uid=${storeInfo.storeWw}&site=cntaobao&s=2&charset=utf-8" alt="旺旺：${storeInfo.storeWw}" /></a> </#if>
+      <#if storeInfo.storeWeixin?? && storeInfo.storeWeixin!= ""> <a href="javascript:;" title="微信：${storeInfo.storeWeixin}"><img src="${imgRoot}weixin_icon.png" alt="微信：${storeInfo.storeWeixin}"/></a> </#if> </div>
+    <div class="service-list">
+      <dl>
+        <dt>售前客服：</dt>
+        <#if storePresales??>
+        <#list storePresales as storePresale>
+        <dd> <span>${storePresale.name}</span> <#if storePresale.type == 1> <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=${storePresale.num}&site=qq&menu=yes" title="QQ: ${storePresale.num}"> <img border="0" src="http://wpa.qq.com/pa?p=2:${storePresale.num}:52" style=" vertical-align: middle;"/> </a> </#if>
+          <#if storePresale.type == 2> <a target="_blank" href="http://amos.im.alisoft.com/msg.aw?v=2&uid=${storePresale.num}&site=cntaobao&s=1&charset=UTF-8" > <img border="0" src="http://amos.im.alisoft.com/online.aw?v=2&uid=${storePresale.num}&site=cntaobao&s=2&charset=UTF-8" alt="点击这里给我发消息"/> </a> </#if> </dd>
+        </#list>
+        </#if>
+      </dl>
+      <dl>
+        <dt>售后客服：</dt>
+        <#if storeAftersales??>
+        <#list storeAftersales as sale>
+        <dd> <span>${sale.name}</span> <#if sale.type == 1> <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=${sale.num}&site=qq&menu=yes" title="QQ: ${sale.num}"> <img border="0" src="http://wpa.qq.com/pa?p=2:${sale.num}:52" style=" vertical-align: middle;"/> </a> </#if>
+          <#if sale.type == 2> <a target="_blank" href="http://amos.im.alisoft.com/msg.aw?v=2&uid=${sale.num}&site=cntaobao&s=1&charset=UTF-8" > <img border="0" src="http://amos.im.alisoft.com/online.aw?v=2&uid=${sale.num}&site=cntaobao&s=2&charset=UTF-8" alt="点击这里给我发消息"/> </a> </#if> </dd>
+        </#list>
+        </#if>
+      </dl>
+      <dl class="workingtime">
+        <dt>工作时间：</dt>
+        <dd>
+          <p>${storeInfo.storeWorkingtime}</p>
+        </dd>
+      </dl>
+    </div>
+  </div>
+</div>

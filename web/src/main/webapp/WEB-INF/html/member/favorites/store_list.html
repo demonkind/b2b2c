@@ -1,0 +1,59 @@
+<#import "/member/layout.html" as c>
+<@c.html title="关注店铺">
+  <div class="wrap">
+    <div class="tabmenu">
+      <ul class="tab pngFix">
+        <li class="active"><a href="javascript:;">关注店铺</a></li>
+      </ul>
+    </div>
+    <#if favoritesList?exists && (favoritesList?size gt 0) >
+    <#list favoritesList as info>
+    <div class="ncm-favorite-store">
+      <div class="store-info">
+        <div class="store-pic"><img src="${c.func.ncImage(info.store.storeAvatarUrl,100,100)}"/></div>
+        <dl>
+          <dt><a href="${c.func.ncStoreUrl(info.store.storeId)}" target="_blank">${info.store.storeName!""}</a></dt>
+          <dd>联系方式：
+            <#if info.store.storeQq?? && info.store.storeQq?length gt 0>
+              <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=${info.store.storeQq!''}&site=qq&menu=yes" title="QQ: ${info.store.storeQq!''}">
+                <img border="0" src="http://wpa.qq.com/pa?p=2:${info.store.storeQq!''}:52" style=" vertical-align: middle;"/>
+              </a>
+            </#if>
+            <#if info.store.storeWw?? && info.store.storeWw?length gt 0>
+            <a target="_blank" href="http://amos.im.alisoft.com/msg.aw?v=2&uid=${info.store.storeWw!''}&site=cntaobao&s=2&charset=utf-8" >
+              <img border="0" src="http://amos.im.alisoft.com/online.aw?v=2&uid=${info.store.storeWw!''}&site=cntaobao&s=2&charset=utf-8" alt="Wang Wang"  style=" vertical-align: middle;"/>
+            </a>
+            </#if>
+            <#if info.store.storeWeixin?? && info.store.storeWeixin?length gt 0>
+              <a href="javascript:;" title="微信：${info.store.storeWeixin}">
+                <img src="${imgRoot}weixin_icon.png"  alt="微信：${info.store.storeWeixin}"/>
+              </a>
+            </#if>
+          </dd>
+          <dd>所在地区：${info.store.companyArea!''}</dd>
+        </dl>
+        <div class="handle">
+          <a href="javascript:void(0)" class="ml10" title="删除" nc_type="favoritesDel" favorites_id="${info.favoritesId!0}"><i class="icon-trash"></i></a>
+        </div>
+      </div>
+      <div class="store-goods">
+        <div class="show-tab">
+          <a href="javascript:void(0)" class="current" id="favNewGoodsBtn_${info.storeId!''}" ncType="favNewGoodsBtn" store_id="${info.storeId!''}">店铺新品</a>
+          <a href="javascript:void(0)" id="favHotGoodsBtn_${info.storeId!''}" ncType="favHotGoodsBtn" store_id="${info.storeId!''}">热销商品</a>
+        </div>
+        <div class="show-list"><ul id="favNewGoodsContent_${info.storeId!''}" ncType="favNewGoodsContent" style="display:none;"></ul></div>
+        <div class="show-list"><ul id="favHotGoodsContent_${info.storeId!''}" ncType="favHotGoodsContent" style="display:none;"></ul></div>
+      </div>
+    </div>
+    </#list>
+    <#else>
+    <div class="warning-option"><i>&nbsp;</i><span>暂无符合条件的数据记录</span></div>
+    </#if>
+    <#if favoritesList?exists && (favoritesList?size gt 0) >
+        <#noescape>
+    <div class="pagination">${showPage}</div>
+            </#noescape>
+    </#if>
+  </div>
+</@c.html>
+<script type="text/javascript" src="${jsRoot}member/favorites/store_list.js"></script>

@@ -1,0 +1,254 @@
+<#import "/layout/seller_layout.html" as c>
+<@c.html title="评价管理"> 
+  
+  <!--SkFWQV9zZWxsZXIvZXZhbHVhdGUvZXZhbHVhdGUgYnkgc2hvcG5jLm5ldA==-->
+  <form method="get" action="${sellerRoot}evaluate">
+    <table class="search-form">
+      <tbody>
+        <tr>
+          <td>&nbsp;</td>
+          <th class="w110">商品名称</th>
+          <td class="w160"><input type="text" class="text w150" name="goodsName" value="${goodsName}"></td>
+          <th class="w110">评价人</th>
+          <td class="w160"><input type="text" class="text w150" name="memberName" value="${memberName}"></td>
+          <td class="w70 tc"><label class="submit-border">
+              <input type="submit" class="submit" value="搜索">
+            </label></td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+  <table class="ncsc-default-table order">
+    <thead>
+      <tr>
+        <th></th>
+        <th class="tl">评价信息</span></th>
+        <th class="w100">操作</span></th>
+      </tr>
+    </thead>
+    <tbody>
+    <#list evaluateGoodsVoList as entity>
+    <tr>
+      <td class="sep-row" colspan="20"></td>
+    </tr>
+    <tr>
+      <th colspan="3"><span class="goods-name m-l-10"><a target="_blank" href="${c.func.ncGoodsUrl(entity.goodsId)}">${entity.goodsName}</a></span> <span>商品评分：<em class="raty" data-score="${entity.scores}" title="很满意" style="width: 100px;"></em></span> <span>评价人：${entity.memberName}
+        <time>[${entity.evaluateTime?datetime}]</time>
+        </span> </th>
+    </tr>
+    <tr>
+      <td class="bdl w10"></td>
+      <td class="tl"><strong>买家评价：</strong> <span>${entity.evaluateContent1}</span><#if entity.explainContent1?exists && entity.explainContent1!="">
+        <div style="border: dotted 1px #FBEED5; background-color: #FCF8E3; padding: 4px; margin: 5px 10px 0 0; color: #C09853;"> <strong>解释内容：</strong> <span nctype="explain">${entity.explainContent1}</span> </div>
+        </#if> </td>
+      <td class="bdr vt"> 
+        <!--SkFWQV9zZWxsZXIvZXZhbHVhdGUvZXZhbHVhdGUgYnkgc2hvcG5jLm5ldA==-->
+        <#if !entity.explainContent1?exists || entity.explainContent1=="">
+        <a nctype="btn_show_explain_dialog" data-geval-id="${entity.evaluateId}" data-geval-content="${entity.evaluateContent1}" href="javascript:;" class="btn btn-sm btn-primary"> <i class="icon-comments-alt "></i>评价解释 
+        </a>
+      	</#if>  
+      </td>
+    </tr>
+    <#if entity.evaluateContent2?exists && entity.evaluateContent2!="">
+    <tr class="bd-line">
+      <td class="bdl"></td>
+      <td class="tl"><strong>追加评价：</strong> <span>${entity.evaluateContent2}</span><#if entity.explainContent2?exists && entity.explainContent2!="">
+        <div style="border: dotted 1px #FBEED5; background-color: #FCF8E3; padding: 4px; margin: 5px 10px 0 0; color: #C09853;"> <strong>追评解释内容：</strong> <span nctype="explain_again">${entity.explainContent2}</span> </div>
+        </#if> </td>
+      <td class="bdr vt">
+      	<#if !entity.explainContent2?exists || entity.explainContent2=="">
+      		<a nctype="btn_show_explain_again_dialog" data-gaval-again-id="${entity.evaluateId}" data-geval-again-content="${entity.evaluateContent2}" href="javascript:;" class="btn btn-sm btn-warning"><i class="icon-comments-alt"></i>追评解释</a>
+      	</#if>
+      </td>
+    </tr>
+    </#if>
+    </#list> 
+    <!--SkFWQV9zZWxsZXIvZXZhbHVhdGUvZXZhbHVhdGUgYnkgc2hvcG5jLm5ldA==-->
+    
+      </tbody>
+    
+    <tfoot>
+      <tr>
+          <#noescape>
+          <td colspan="20"><div class="pagination">${showPage}</div></td>
+              </#noescape>
+      </tr>
+    </tfoot>
+  </table>
+  <!--SkFWQV9zZWxsZXIvZXZhbHVhdGUvZXZhbHVhdGUgYnkgc2hvcG5jLm5ldA==--> 
+  <script src="${publicRoot}toolkit/jquery.raty/jquery.raty.js"></script> 
+  <script type="text/javascript">
+$(document).ready(function(){
+    //var $item = {};
+
+    $('[nctype="btn_show_explain_dialog"]').on('click', function() {
+        $item = $(this).parents('tr').next('tr').find('[nctype="explain"]');
+        var geval_id = $(this).attr('data-geval-id');
+        var geval_content = $(this).attr('data-geval-content');
+        $('#geval_id').val(geval_id);
+        $('#geval_content').text(geval_content);
+        $('#geval_explain').val('');
+        //$('#dialog_explain').nc_show_dialog({title:'解释评价'});
+        
+        Nc.layerOpen({
+		    title: "解释评价",
+		    content: $("#dialog_explain"),
+		    $form: $("#explain_form"),
+            async: true,
+            objSerializeType:false
+		});
+        
+        
+    });
+    $("#explain_form").on("nc.done",function(e,data){
+    	
+    });
+
+    /**
+    $('#btn_explain_submit').on('click', function() {
+        if($('#explain_form').valid()){
+        	var geval_id = $('#geval_id').val();
+            var geval_explain = $('#geval_explain').val();
+            $.post("http://192.168.1.4/b2b2c/shop/index.php?act=store_evaluate&op=explain_save",{
+                geval_id: geval_id,
+                geval_explain: geval_explain 
+            }, function(data) {
+                if(data.result) {
+                    $('#dialog_explain').hide();
+                    $item.text(geval_explain);
+                    $item.parent().show();
+                    showSucc(data.message);
+                } else {
+                    showError(data.message);
+                }
+            }, 'json');
+        }
+    });
+    **/
+
+    $('#explain_form').validate({
+        errorLabelContainer: $('#warning'),
+        invalidHandler: function(form, validator) {
+           var errors = validator.numberOfInvalids();
+           if(errors)
+           {
+               $('#warning').show();
+           }
+           else
+           {
+               $('#warning').hide();
+           }
+        },
+        rules : {
+        	geval_explain : {
+                required : true
+            }
+        },
+        messages : {
+        	geval_explain : {
+                required : '<i class="icon-exclamation-sign"></i>解释内容不能为空'
+            }
+        }
+    });
+
+    $('[nctype="btn_show_explain_again_dialog"]').on('click', function() {
+        $item_again = $(this).parents('tr').next('tr').find('[nctype="explain_again"]');
+        var geval_again_id = $(this).attr('data-gaval-again-id');
+        var geval_content_again = $(this).attr('data-geval-again-content');
+        
+        $('#geval_again_id').val(geval_again_id);
+        $('#geval_content_again').text(geval_content_again);
+        $('#geval_explain_again').val('');
+        //$('#dialog_explain_again').nc_show_dialog({title:'解释追评'});
+        
+        Nc.layerOpen({
+		    title: "解释追评",
+		    content: $("#dialog_explain_again"),
+		    $form: $("#explain_again_form"),
+            async: true,
+            objSerializeType:false
+		});
+        
+    });
+    $("#explain_again_form").on("nc.done",function(e,data){
+    	console.log(data);
+    });
+
+    $('#explain_again_form').validate({
+        errorLabelContainer: $('#warning1'),
+        invalidHandler: function(form, validator) {
+           var errors = validator.numberOfInvalids();
+           if(errors)
+           {
+               $('#warning1').show();
+           }
+           else
+           {
+               $('#warning1').hide();
+           }
+        },
+        rules : {
+        	geval_explain_again : {
+                required : true
+            }
+        },
+        messages : {
+        	geval_explain_again : {
+                required : '<i class="icon-exclamation-sign"></i>解释内容不能为空'
+            }
+        }
+    });
+    
+    
+    
+    $('.raty').raty({
+        path: ncGlobal.publicRoot + "toolkit/jquery.raty/img",
+        readOnly: true,
+        width: 80,
+        hints:['很不满意', '不满意', '一般', '满意', '很满意'],
+        score: function () {
+            return $(this).attr('data-score');
+        }
+    });
+});
+</script> 
+</@c.html>
+<div id="dialog_explain" style="display:none;">
+  <div >
+    <div id="warning" class="alert alert-error" style="display:none"></div>
+    <form id="explain_form" method="post" action="${sellerRoot}evaluate/add">
+      <input type="hidden" name="type" value="1" />
+      <input type="hidden" id="geval_id" name="evaluateId">
+      <dl>
+        <dt>评价内容：</dt>
+        <dd><span class="text-box" id="geval_content"></span></dd>
+      </dl>
+      <dl>
+        <dt><i class="required">*</i>解释内容：</dt>
+        <dd>
+          <textarea id="geval_explain" name="explainContent" class="textarea w400" cols="30" rows="10"></textarea>
+        </dd>
+      </dl>
+    </form>
+  </div>
+</div>
+<div id="dialog_explain_again" style="display:none;">
+  <div >
+    <div id="warning1" class="alert alert-error" style="display:none"></div>
+    <form id="explain_again_form" method="post" action="${sellerRoot}evaluate/add">
+      <input type="hidden" name="type" value="2" />
+      <input type="hidden" id="geval_again_id" name="evaluateId">
+      <dl>
+        <dt>追加评价：</dt>
+        <dd><span id="geval_content_again" class="text-box"></span></dd>
+      </dl>
+      <dl>
+        <dt><i class="required">*</i>解释内容：</dt>
+        <dd>
+          <textarea id="geval_explain_again" name="explainContent"  class="textarea w400" cols="30" rows="10"></textarea>
+        </dd>
+      </dl>
+    </form>
+  </div>
+</div>
+<#include "/orders/include.html" >

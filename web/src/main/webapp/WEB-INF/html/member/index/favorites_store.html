@@ -1,0 +1,27 @@
+<#import "../../func.html" as funcList>
+
+
+    <#if favoritesList?exists && (favoritesList?size gt 0) >
+    <div class="ncm-favorites-store">
+      <ul id="favoritesStoreList" class="jcarousel-skin-tango">
+        <#list favoritesList as info>
+        <li>
+          <div class="ncm-store-pic"><a href="${webRoot}store/${info.storeId!0}" target="_blank"><img alt="${info.store.storeName!''}" src="${funcList.ncImage(info.store.storeAvatarUrl,100,100)}"></a></div>
+          <dl>
+            <dt class="ncm-goods-name"><a href="${webRoot}store/${info.storeId!0}" target="_blank" title="${info.store.storeName!''}" >${info.store.storeName!""}</a></dt>
+            <!--<dd>新品0件</dd>-->
+          </dl>
+        </li>
+        </#list>
+      </ul>
+      <div class="more"><a target="_blank" href="${memberRoot}favorites/store">查看关注的所有店铺</a></div>
+    </div>
+    <#else>
+    <dl class="null-tip">
+      <dt></dt>
+      <dd>
+        <h4>您还没有关注店铺</h4>
+        <h5>关注店铺可获知店铺最新商品和促销活动</h5>
+      </dd>
+    </dl>
+    </#if>

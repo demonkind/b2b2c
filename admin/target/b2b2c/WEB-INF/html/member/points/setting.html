@@ -1,0 +1,94 @@
+<#import "/layout.html" as c>
+<@c.html title="Index">
+
+<!-- 开始页面内容 -->
+<div id="content" class="content">
+    <!-- 开始面包屑导航 -->
+    <ol class="breadcrumb pull-right">
+        <li>
+            <a href="javascript:;">首页</a>
+        </li>
+        <li>积分管理</li>
+        <li class="active">规则设置</li>
+    </ol>
+    <!-- 结束面包屑导航 -->
+    <!-- 开始页头区域 -->
+    <h1 class="page-header">
+        规则设置
+        <small>商城会员积分获取规则设置</small>
+    </h1>
+    <!-- 结束页头区域 -->
+    <!-- 开始布局行 -->
+    <div class="row">
+        <div class="col-md-12">
+            <!-- 规则设置模块 -->
+            <div class="panel panel-inverse">
+                <div class="panel-heading">
+                    <div class="panel-heading-btn">
+                        <a href="#listTip" class="btn btn-xs btn-icon btn-circle btn-info" role="button" data-toggle="collapse" aria-expanded="true" title="操作提示"> <i class="fa fa-lightbulb-o"></i>
+                        </a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"> <i class="fa fa-expand"></i>
+                        </a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse">
+                            <i class="fa fa-minus"></i>
+                        </a>
+                    </div>
+                    <h4 class="panel-title">规则设置</h4>
+                </div>
+                <div class="panel-body" >
+                    <!-- 开始操作提示 -->
+                    <!-- 结束操作提示 -->
+                    <form class="form-horizontal form-bordered" name="settingForm" id="settingForm" method="POST" action="${adminRoot}points/setting">
+                        <div class="form-group">
+                            <label for="pointsRuleRegister" class="control-label col-lg-2 col-md-3 col-sm-3">注册：</label>
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                <input type="text" id="pointsRuleRegister" name="pointsRuleRegister" value="${siteInfo.pointsRuleRegister}" class="form-control" data-tip="tooltip" data-parsley-required="true" data-parsley-type="integer" data-parsley-min="0" autocomplete="off"/>
+                                <p style="clear: both;color: #aaa;line-height: 18px;margin-top: 4px;">该值为大于等于0的数，当会员注册成功后将获得相应的积分</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pointsRuleLogin" class="control-label col-lg-2 col-md-3 col-sm-3">会员每天第一次登录：</label>
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                <input type="text" id="pointsRuleLogin" name="pointsRuleLogin" value="${siteInfo.pointsRuleLogin}" class="form-control" data-tip="tooltip" data-parsley-required="true" data-parsley-type="integer" data-parsley-min="0" autocomplete="off"/>
+                                <p style="clear: both;color: #aaa;line-height: 18px;margin-top: 4px;">该值为大于等于0的数，当会员每天第一次登录成功后将获得相应的积分</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pointsRuleComments" class="control-label col-lg-2 col-md-3 col-sm-3">订单商品评论：</label>
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                <input type="text" id="pointsRuleComments" name="pointsRuleComments" value="${siteInfo.pointsRuleComments}" class="form-control" data-tip="tooltip" data-parsley-required="true" data-parsley-type="integer" data-parsley-min="0" autocomplete="off"/>
+                                <p style="clear: both;color: #aaa;line-height: 18px;margin-top: 4px;">该值为大于等于0的数，当会员评论订单成功后将获得相应的积分</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pointsRuleOrderrate" class="control-label col-lg-2 col-md-3 col-sm-3">消费额与赠送积分比例：</label>
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                <div class="input-group">
+                                    <input type="text" id="pointsRuleOrderrate" name="pointsRuleOrderrate" value="${siteInfo.pointsRuleOrderrate}" class="form-control" data-tip="tooltip" data-parsley-required="true" data-parsley-type="integer" data-parsley-range="[0, 100]"/>
+                                    <span class="input-group-addon">%</span>
+                                </div>
+                                <p style="clear: both;color: #aaa;line-height: 18px;margin-top: 4px;">该值为大于0的数，例:设置为10，表明消费10单位货币赠送1积分</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pointsRuleOrdermax" class="control-label col-lg-2 col-md-3 col-sm-3">每订单最多赠送积分：</label>
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                <input type="text" id="pointsRuleOrdermax" name="pointsRuleOrdermax" value="${siteInfo.pointsRuleOrdermax}" class="form-control" data-tip="tooltip" data-parsley-required="true" data-parsley-type="integer" data-parsley-min="0" autocomplete="off"/>
+                                <p style="clear: both;color: #aaa;line-height: 18px;margin-top: 4px;">该值为大于等于0的数，填写为0表明不限制最多积分，例:设置为100，表明每订单赠送最多100积分</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-lg-2 col-md-3 col-sm-3"></label>
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-q-submit-target="settingForm" nc-q-submit>提交设置</a>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+            <!-- 结束设置模块--> </div>
+    </div>
+    <!-- 结束布局行 --> </div>
+<!-- 结束页面内容 -->
+</@c.html>

@@ -1,0 +1,113 @@
+<#import "/member/layout.html" as c />
+<#import "/member/refund/right_order_info.html" as orderinfo />
+<@c.html title="Index">
+<div class="ncm-flow-layout">
+    <div class="ncm-flow-container">
+        <div class="title">
+            <h3>服务类型：退款</h3>
+        </div>
+        <div class="alert">
+            <h4>操作提示：</h4>
+            <ul>
+                <li>1. 若您对订单进行支付后想取消购买且与商家达成一致退款，请填写<em>“订单退款”</em>内容并提交。</li>
+                <li>2. 成功完成退款/退货；经过商城审核后，会将退款金额以<em>“预存款”</em>的形式返还到您的余额账户中。</li>
+            </ul>
+        </div>
+        <div id="saleRefund">
+            <div class="ncm-flow-step">
+                <dl class="step-first current">
+                    <dt>买家申请退款</dt>
+                    <dd class="bg"></dd>
+                </dl>
+                <dl class="">
+                    <dt>商家处理退款申请</dt>
+                    <dd class="bg"></dd>
+                </dl>
+                <dl class="">
+                    <dt>平台审核，退款完成</dt>
+                    <dd class="bg"></dd>
+                </dl>
+            </div>
+            <div class=" ncm-default-form">
+                <div id="warning"></div>
+                <form id="form">
+                    <h3>如果商家不同意，可以再次申请或投诉。</h3>
+                    <dl>
+                        <dt><i class="required">*</i>退款原因：</dt>
+                        <dd>
+                            <select class="select w150" name="reasonId" id="reasonId">
+                                <option value="">请选择退款原因</option>
+                                <#if refundReasonList??>
+                                    <#list refundReasonList as refundReason>
+                                        <option value="${refundReason.reasonId}">${refundReason.reasonInfo}</option>
+                                    </#list>
+                                </#if>
+                            </select>
+                            <span class="error"></span>
+                        </dd>
+
+
+                    </dl>
+                    <dl>
+                        <dt><i class="required">*</i>退款金额：</dt>
+                        <dd>
+                            <input type="text" class="text w50" id="refundAmount" name="refundAmount" data-default="${ordersGoodsVo.goodsPayAmount?string('0.00')}" value="${ordersGoodsVo.goodsPayAmount?string('0.00')}">
+                            <em class="add-on">
+                                <i class="icon-renminbi"></i>
+                            </em>
+                            （最多 <strong class="green" title="可退金额由系统根据订单商品实际成交额和已退款金额自动计算得出">${ordersGoodsVo.goodsPayAmount?string('0.00')}</strong>
+                            元） <span class="error"></span>
+
+                            <p class="hint">退款金额不能超过可退金额。</p>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt><i class="required">*</i>退款说明：</dt>
+                        <dd>
+                            <textarea id="buyerMessage" name="buyerMessage" rows="3" class="textarea w400"></textarea>
+                            <br/>
+                            <span class="error"></span></dd>
+                    </dl>
+                    <dl>
+                        <dt>上传凭证：</dt>
+                        <dd>
+                            <div class="show-pic">
+                                <div class="ncm-upload-btn">
+                                    <a href="javascript:void(0);">
+                                    <span>
+                                        <input type="file" hidefocus="true" size="1" class="input-file uploadinput"
+                                               name="file" id="uploadBtn" >
+                                    </span>
+
+                                        <p><i class="icon-upload-alt"></i>图片上传</p>
+                                    </a>
+                                </div>
+                                <div class="evaluation-image">
+                                    <ul id="imageList">
+                                    </ul>
+                                </div>
+                            </div>
+                        </dd>
+                    </dl>
+                    <div class="bottom">
+                        <label class="submit-border">
+                            <a href="javascript:;" class="submit" id="formSubmit">确认提交</a>
+                        </label>
+                        <a href="javascript:history.go(-1);" class="btn btn-white m-t-10 m-l-10">取消并返回</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--右侧商品详情页-->
+    <@orderinfo.html />
+</div>
+<script>
+    ncGlobal.ordersId = "${ordersId}";
+    ncGlobal.ordersGoodsId = "${ordersGoodsVo.ordersGoodsId}";
+    ncGlobal.goodsPayAmount = "${ordersGoodsVo.goodsPayAmount?string('0.00')}";
+</script>
+<!-- 图片上传 -->
+<script src="${publicRoot}toolkit/fileupload/jquery.fileupload.js"></script>
+<script src="${jsRoot}member/refund/refund_add_goods.js"></script>
+</@c.html>

@@ -1,0 +1,71 @@
+<#import "/buy/layout.html" as c>
+<@c.html title="Index">
+  <div class="ncc-main">
+    <div class="ncc-title">
+      <h3>确认订单</h3>
+      <h5>请仔细核对填写收货、发票等信息，以确保物流快递及时准确投递。</h5>
+    </div>
+    <form id="formBuySave" method="post" action="${webRoot}buy/save">
+      <#include "/buy/buy_inc_address.html" >
+      <#include "/buy/buy_inc_payment.html" >
+      
+      <#include "/buy/buy_inc_invoice.html" >
+      
+      <#include "/buy/buy_inc_goods.html" > 
+      
+      <!-- 来源于购物车标志 -->
+      <input value="${(isCart==1)?string('1','')}" type="hidden" name="isCart" id="isCart">
+      <!-- offline/online -->
+      <input value="online" name="paymentTypeCode" id="paymentTypeCode" type="hidden">
+      <!-- 城市ID(运费) -->
+      <input value="" name="cityId" id="cityId" type="hidden">
+      <!-- 默认使用的发票 -->
+      <input value="" name="invoiceId" id="invoiceId" type="hidden">
+    </form>
+  </div>
+  <!-- S 新增收货地址 --> 
+  <#include "/buy/buy_inc_address_add.html"> 
+  <!-- E 新增收货地址 --> 
+  
+  <script>
+        var buyGlobal = {
+            allowVat : "${allowVat!'0'}",
+            allowOffLine : "${allowOffline!'0'}",
+        }
+    </script> 
+  <script src="${jsRoot}buy/buy.js"></script> 
+</@c.html>
+
+<!--  S 在线支付和货到付款组合时，显示弹出确认层内容 --> 
+<#--<#if buyGoodsItemVoOffLineList?exists && (buyGoodsItemVoOffLineList?size>0) && buyGoodsItemVoOnLineList?exists && (buyGoodsItemVoOnLineList?size>0)>-->
+<div id="confirmOffAndOnGodosList" style="display: none"> <#if buyGoodsItemVoOffLineList?exists && (buyGoodsItemVoOffLineList?size>0) >
+  <dl class="ncc-offpay-list" data-hideshow="offline" >
+    <dt  style="width: 100%;text-align: left;">以下商品支持<strong>货到付款</strong></dt>
+    <dd style="width: 100%;">
+      <ul data-cod-type="offline">
+        <#list buyGoodsItemVoOffLineList as buyGoodsItemVo>
+        <li><span title="${buyGoodsItemVo.goodsName}"><img src="${buyGoodsItemVo.imageSrc}"></span></li>
+        </#list>
+      </ul>
+      <label>
+        <input type="radio" value="" checked="checked">
+        货到付款 </label>
+    </dd>
+  </dl>
+  </#if>
+  <#if buyGoodsItemVoOnLineList?exists && (buyGoodsItemVoOnLineList?size>0) >
+  <dl class="ncc-offpay-list" data-hideshow="online">
+    <dt style="width: 100%;text-align: left;">以下商品支持<strong>在线支付</strong></dt>
+    <dd style="width: 100%;">
+      <ul data-cod-type="online">
+        <#list buyGoodsItemVoOnLineList as buyGoodsItemVo>
+        <li><span title="${buyGoodsItemVo.goodsName}"><img src="${buyGoodsItemVo.imageSrc}"></span></li>
+        </#list>
+      </ul>
+      <label>
+        <input type="radio" value="" checked="checked">
+        在线支付 </label>
+    </dd>
+  </dl>
+  </#if> </div>
+<#--</#if>-->

@@ -1,0 +1,238 @@
+<#import "/home/layout.html" as c>
+<@c.html title="Index"> <#assign categoryList = (filter.categoryCrumbsList?last)!'' />
+  <#assign _attrNum = 0 />
+  <link href="${cssRoot}web_search.css" rel="stylesheet"/>
+  <#if topHotGoodsList?? && topHotGoodsList.size() gt 0>
+  <div class="wrapper nch-hot-sale">
+    <div class="title-tag">热销推荐</div>
+    <ul class="nch-module-recommend">
+      <#list topHotGoodsList as goods>
+      <li><a href="${c.func.ncGoodsUrl(goods.goodsId)}" target="_blank">
+        <div class="goods-pic"><img alt="" src="${c.func.ncImage(goods.imageSrc, 100, 100)}" alt="${goods.goodsName}"></div>
+        <dl class="goods-info">
+          <dt>${goods.goodsName}</dt>
+          <dd class="goods-price">￥<em>${goods.goodsPrice?string["0.00"]}</em></dd>
+          <dd class="buy-btn">立即抢购</dd>
+        </dl>
+        </a> </li>
+      </#list>
+    </ul>
+  </div>
+  </#if>
+  <div class="wrapper nch-breadcrumb-layout"> <#if filter?? && filter.categoryCrumbsList?? && filter.categoryCrumbsList.size() gt 0>
+    <div class="nch-breadcrumb"> <#list filter.categoryCrumbsList as categoryCrumbs> <span class="sort-box"> <a href="javascript:;" class="current">${categoryCrumbs.categoryName}<i class="drop-arrow"></i></a> <#if categoryCrumbs.categoryList.size() gt 0>
+      <div class="sort-sub">
+        <ul>
+          <#list categoryCrumbs.categoryList as category>
+          <li><a href="${webRoot}search?cat=${category.categoryId}">${category.categoryName}</a></li>
+          </#list>
+        </ul>
+      </div>
+      </#if> </span> <#if categoryCrumbs?has_next! || (filter?? && filter.searchCheckedFilterList?? && filter.searchCheckedFilterList.size() gt 0)> <span class="arrow">></span> </#if>
+      </#list> </div>
+    <#elseif filter?? && filter.keyword?? />
+    <div class="nch-breadcrumb"><i class="icon-home"></i> <span><a href="${webRoot}">首页</a></span><span class="arrow">></span> <span>搜索结果</span> </div>
+    <#else />
+    <div class="nch-breadcrumb"><i class="icon-home"></i> <span><a href="${webRoot}">首页</a></span><span class="arrow">></span> <span>全部商品</span> </div>
+    </#if>
+    <#if filter?? && filter.searchCheckedFilterList?? && filter.searchCheckedFilterList.size() gt 0>
+    <div class="select-undo"><a href="${webRoot}search?cat=<#if categoryList != ''>${categoryList.categoryId}</#if>">全部撤销</a></div>
+    <div class="selected-box"> <#list filter.searchCheckedFilterList as searchCheckedFilter> <a class="selected" href="${c.func.searchUrlRemoveValue(searchCheckedFilter.param)}">${searchCheckedFilter.name}：<em>${searchCheckedFilter.value}</em><i></i></a> </#list> </div>
+    </#if> 
+    <div class="clear"></div>
+    </div>
+  <div class="selector wrapper">
+    <div class="title">
+      <h3><em><#if categoryList != ''>分类 - <strong class="c-danger f14">“${categoryList.categoryName}”</strong><#elseif filter?? && filter.keyword?? />搜索关键字 - <strong class="c-danger f14">“${filter.keyword}”</strong> - </#if></em>筛选结果</h3>
+    </div>
+    <div class="content"> <#if filter??>
+      <#if filter.categoryList?? && filter.categoryList.size() gt 0>
+      <dl>
+        <dt>包含分类：</dt>
+        <dd class="list">
+          <ul>
+            <#list filter.categoryList as category>
+            <li><a href="${c.func.searchUrlReplace('cat', category.categoryId)}">${category.categoryName}</a></li>
+            </#list>
+          </ul>
+        </dd>
+      </dl>
+      </#if> 
+      <!--s 品牌区域--> 
+      <#if filter.brandList?? && filter.brandList.size() gt 0>
+      <dl>
+        <dt>品牌：</dt>
+        <dd class="list">
+          <ul class="nch-brand-tab" id="nchBrandTab" style="display: none">
+            <li><a href="javascript:void(0);" data-letter="all">所有品牌<i class="arrow"></i></a></li>
+            <#assign x = "" />
+            <#list filter.brandList as brand>
+            <#if x != brand.brandInitial>
+            <#assign x = brand.brandInitial />
+            <li><a href="javascript:void(0);" data-letter="${brand.brandInitial}">${brand.brandInitial}</a> </li>
+            </#if>
+            </#list>
+          </ul>
+          <div id="ncBrandlist">
+            <ul class="nch-brand-con">
+              <#assign brandFlat = 0 />
+              <#list filter.brandList as brand>
+              <#assign brandFlat ++ /> <li <#if (brandFlat > 16 )> style="display:none;"</#if> data-initial="${brand.brandInitial}"> <a href="${c.func.searchUrlJoin('brand', brand.brandId)}" > <#if brand.showType == brandShowType.image> <img src="${c.func.ncImage(brand.brandImageSrc, 90, 30)}" title="${brand.brandName}" /> <span>${brand.brandName}</span> </#if>
+              ${brand.brandName} </a>
+              </li>
+              </#list>
+            </ul>
+          </div>
+        </dd>
+        <dd class="all" id="nchBrandMore"> <#if (brandFlat > 16)> <a href="javascript:;" id="nchBrandMoreBtn">更多<i class="drop-arrow"></i></a> </#if> </dd>
+      </dl>
+      </#if> 
+      <!--e 品牌区域--> 
+      <!-- S 属性区域--> 
+      <#if filter.attributeList?? && filter.attributeList.size() gt 0>
+      <#list filter.attributeList as attribute>
+      <#if attribute.isShow == 1>
+      <#assign _attrNum++ /> <dl goods-attr-item <#if (_attrNum > 3 )> style="display:none;" </#if>>
+      <dt>${attribute.attributeName}：</dt>
+      <#if attribute.attributeValueList.size() gt 0>
+      <dd class="list attr-item">
+        <ul>
+          <#list attribute.attributeValueList as attributeValue>
+          <li><a href="${c.func.searchUrlJoin('attr', attribute.attributeId + '-' + attributeValue.attributeValueId)}">${attributeValue.attributeValueName}</a></li>
+          </#list>
+        </ul>
+      </dd>
+      </#if>
+      <dd class="all" style="display: none" data-ext-more> <a href="javascript:;"><span>更多</span><i class="drop-arrow"></i></a> </dd>
+      </dl>
+      </#if>
+      </#list>
+      </#if>
+      </#if> </div>
+    <!-- E 属性区域--> 
+    <#if (_attrNum > 3 ) >
+    <div class="selector-more-value"><a href="javascript:;" class="" id="showAttrMoreBtn"><span>更多选项</span><i></i></a></div>
+    </#if> </div>
+  <div class="QR-layout" id="main-nav-holder">
+    <nav class="sort-bar" id="main-nav">
+      <div class="sort-bar-wrap">
+        <div class="nch-all-category">
+          <div class="all-category">
+            <@c.header.category.html />
+          </div>
+        </div>
+        <div class="nch-sortbar-array">
+          <ul class="screen">
+            <li <#if filter?? && filter.sort.order == "goods" && filter.sort.sort == "desc">class="selected"</#if>><a href="${c.func.searchUrlRemoveKey('sort')}" title="默认排序">默认排序</a>
+            </li>
+            <li <#if filter?? && filter.sort.order == "sale">class="selected"</#if>><a href="${c.func.searchUrlReplace('sort', 'sale_desc')}" title="点击按销量从高到低排序">销量</a>
+            </li>
+            <li <#if filter?? && filter.sort.order == "price">class="selected"</#if>><a href="<#if filter?? && filter.sort.order == "price" && filter.sort.sort == 'desc'>${c.func.searchUrlReplace('sort', 'price_asc')}<#else>${c.func.searchUrlReplace('sort', 'price_desc')}</#if>" class="<#if filter?? && filter.sort.sort == 'asc'>asc<#else>desc</#if>" title="<#if filter?? && filter.sort.sort == 'asc'>点击按价格从高到低排序<#else>点击按价格从低到高排序</#if>">价格<i></i></a>
+            </li>
+            <li <#if filter?? && filter.sort.order == "comment">class="selected"</#if>><a href="${c.func.searchUrlReplace('sort', 'comment_desc')}" title="点击按人气从高到低排序">评论</a>
+            </li>
+          </ul>
+        </div>
+        <div class="nch-sortbar-filter"> <span class="arrow"></span>
+          <ul>
+            <li><a href="<#if filter?? && filter.express == 1>${c.func.searchUrlRemoveKey('express')}<#else>${c.func.searchUrlJoin('express', '1')}</#if>" class="<#if filter?? &&  filter.express == 1>selected</#if>"><i></i>商家包邮</a></li>
+            <li><a href="<#if filter?? && filter.own == 1>${c.func.searchUrlRemoveKey('own')}<#else>${c.func.searchUrlJoin('own', '1')}</#if>" class="<#if filter?? &&  filter.own == 1>selected</#if>"><i></i>平台自营</a></li>
+          </ul>
+        </div>
+        <div class="head-user-menu nch-user-cart"> 
+          <!-- S 图钉上的购物车-->
+          <dl class="my-cart" id="nav-cart" style="display: none">
+            <div class="addcart-goods-num" data-red-point style="display: none;"></div >
+            <dt > <span class="ico" ></span >购物车结算<i class="arrow" ></i ></dt >
+            <dd >
+              <div class="sub-title" >
+                <h4 >最新加入的商品</h4 >
+              </div >
+              <div class="incart-goods-box">
+                <div class="incart-goods" data-cart-goods-list> <img class="loading" src="${imgRoot}/loading.gif" /> </div >
+              </div >
+              <div class="checkout" data-goods-price></div>
+            </dd >
+          </dl >
+          <!-- E 图钉上的购物车--> 
+        </div>
+      </div>
+    </nav>
+  </div>
+  <!-- 商品列表循环  -->
+  <div class="nch-g-list wrapper"> <#if list?? && list.size() gt 0>
+    <ul class="list_pic">
+      <#list list as goodsList>
+      <li class="item" >
+      <div class="goods-content" goods-item> 
+        <!--商品大图-->
+        <div class="goods-pic"> <a href="${c.func.ncGoodsUrl(goodsList.goodsId)}" target="_blank" title="${goodsList.goodsName}"> <img src="${c.func.ncImage(goodsList.imageSrc, 230, 230)}" nc-goods-pic
+                       title="${goodsList.goodsName}" alt="${goodsList.goodsName}" /> </a> </div>
+        <#if goodsList.goodsImageList??>
+        <div class="goods-pic-scroll-show" >
+          <div class="show-box">
+            <ul>
+              <#list goodsList.goodsImageList as imageName> <li <#if imageName?index == 0>class="selected"</#if>
+              data-show-pic="${c.func.ncImage(imageName.imageSrc, 230, 230)}" > <a href="javascript:void(0);"> <img src="${c.func.ncImage(imageName.imageSrc, 16, 16)}" alt="${goodsList.goodsName}" data-color-img-id="${imageName.colorId}" data-color-img-src="${c.func.ncImage(imageName.imageSrc, 30, 30)}" /> </a>
+              </li>
+              </#list>
+            </ul>
+          </div>
+          <a title="上一个" class="cBtn prev icon-angle-left" href="javascript:;" style="display: none;"></a> <a title="下一个" class="cBtn next icon-angle-right" href="javascript:;" style="display: none;"></a> </div>
+        </#if> 
+        <!--商品详细信息-->
+        <div class="goods-info" data-no-spec="${(goodsList.specJson=='')?string('true','false')}" >
+          <div class="goods-price"> <em class="sale-price" title="商城价：￥${goodsList.goodsPrice?string('0.00')}"><b>￥</b>${goodsList.goodsPrice?string('0.00')}</em> <#if goodsList.isOwnShop == 1><span>自营商品</span></#if></div>
+          <div class="goods-name"><a href="${c.func.ncGoodsUrl(goodsList.goodsId)}" target="_blank" title="${goodsList.goodsName}">${goodsList.goodsName}</a> </div>
+          <div class="goods-jingle"> <a href="${c.func.ncGoodsUrl(goodsList.goodsId)}" target="_blank" title="${goodsList.jingle}">${goodsList.jingle}</a> </div>
+          
+          <!-- S 添加到购物车区域-->
+          <div class="shopping-box" nc-shopping-box> 
+            <!-- S 修改商品数量--> 
+            <#if goodsList.specJson == "" && goodsList.goodsStatus != 0 && goodsList.goodsStorage != 0>
+            <div class="shopping-num" >
+              <input id="cartNumInput_${goodsList.goodsId}" type="text" value="1" maxlength="3">
+              <span> <a class="add" href="javascript:;" nc-cart-add>加</a > <a class="dis_decrease" href="javascript:;" nc-cart-cut>减</a > </span> </div>
+            </#if> 
+            <!-- E 修改商品数量-->
+            <div class="shopping-act" > <#if (goodsList.goodsStatus != 0 )> <a class='<#if ( goodsList.specJson == "" && (goodsList.goodsStatus == 0 ||  goodsList.goodsStorage == 0 ))>no-addcart</#if>' href="javascript:;"
+                        <#if (goodsList.goodsStatus != 0 && goodsList.goodsStorage != 0)>nc-add-cart="${goodsList.goodsId}"</#if>
+              data-add-cart-type="${(goodsList.specJson=='')?string('nospec','spec')}"
+              data-goods-id="${goodsList.goodsId}"
+              data-common-id="${goodsList.commonId}"
+              data-spec-value='${goodsList.goodsSpecValueJson}'
+              data-spec-json='${goodsList.specJson}'
+              > <i class="shopping-cart" ></i >加入购物车</a > </#if>
+              <#if goodsList.goodsStatus == 0  || (goodsList.goodsStorage == 0 && goodsList.specJson == "")> <a href="${c.func.ncGoodsUrl(goodsList.goodsId)}" target="_blank" >查看商品详情</a > </#if> </div >
+            <div class="favorite-btn"><a href="javascript:;" nc_type="goodsFavoritesBtn" data-param="{'goodsId':'${goodsList.goodsId}'}"><i class="icon icon-heart-empty"></i>关注</a></div>
+          </div >
+          <!-- S 添加到购物车区域-->
+          <div class="sell-stat" >
+            <a href="${webRoot}goods/evaluate_more?goodsid=${goodsList.goodsId}" class="comment" target="_blank" title="用户评论"><i></i>${goodsList.evaluateNum}</a >
+            <a href="${webRoot}goods/evaluate_more?goodsid=${goodsList.goodsId}" class="positiveRatio" target="_blank" title="好评率"><i></i>${goodsList.goodsRate}%</a > </div >
+          <div class="store" > <a href="${c.func.ncStoreUrl(goodsList.storeId)}" title="${goodsList.storeName}" class="name" >${goodsList.storeName}</a ></div >
+        </div>
+      </div>
+      <div class="clear"></div>
+      </li>
+      </#list>
+    </ul>
+    <#else/>
+    <div id="no_results" class="no-results"><span class="pic"><img src="${publicRoot}img/d3d3LnNob3BuYy5uZXQ=.png" alt=""/></span><h3>暂无符合条件的数据记录...</h3></div>
+    </#if> </div>
+  <div class="tc m-t-20 m-b-20">
+      <#noescape>
+    <div class="pagination"> ${showPage!''} </div>
+          </#noescape>
+  </div>
+  
+  <!-- 最近浏览 -->
+  <div id="goodsbrowse_div" class="nc-goods-borowse"></div>
+  <link rel="stylesheet" href="${publicRoot}toolkit/perfect-scrollbar/perfect-scrollbar.min.css">
+  <script type="text/javascript" src="${publicRoot}toolkit/perfect-scrollbar/perfect-scrollbar.min.js"></script> 
+  <script type="text/javascript" src="${publicRoot}toolkit/fly/requestAnimationFrame.js"></script>
+  <link href="${publicRoot}toolkit/bxslider/jquery.bxslider.css" rel="stylesheet" />
+  <script src="${publicRoot}toolkit/bxslider/jquery.bxslider.js"></script> 
+  <script src="${publicRoot}toolkit/fly/jquery.fly.min.js"></script> 
+  <script src="${jsRoot}home/search.js"></script> 
+</@c.html>

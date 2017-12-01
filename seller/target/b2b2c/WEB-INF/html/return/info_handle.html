@@ -1,0 +1,42 @@
+<#macro html>
+<form id="postForm" method="post" action="${sellerRoot}return/handle">
+    <h3>商家处理意见</h3>
+    <dl>
+        <dt><i class="required">*</i>是否同意：</dt>
+        <dd>
+            <div>
+                <label class="mr20">
+                    <input type="radio" class="vm" name="sellerState" value="2">
+                    同意</label>
+                <label>
+                    <input name="returnType" class="vm" type="checkbox" value="1">
+                    弃货</label>
+                <p class="hint">如果选择弃货，买家将不用退回原商品，提交后直接由管理员确认退款。</p>
+            </div>
+            <div class="mt10">
+                <label>
+                    <input type="radio" class="vm" name="sellerState" value="3" checked>
+                    拒绝</label>
+            </div>
+            <span class="error"></span>
+        </dd>
+    </dl>
+    <dl>
+        <dt><i class="required">*</i>备注信息：</dt>
+        <dd>
+            <textarea name="sellerMessage" rows="2" class="textarea w300"></textarea>
+            <span class="error"></span>
+            <p class="hint"> 如是同意退货，请及时关注买家的发货情况，并进行收货（发货5天后可以选择未收到，超过7天不处理按弃货处理）。<br>
+            </p>
+        </dd>
+    </dl>
+    <div class="bottom">
+        <label class="submit-border">
+            <a class="submit" id="confirmButton">确定</a>
+        </label>
+        <label class="submit-border">
+            <a href="javascript:history.go(-1);" class="submit"><i class="icon-reply"></i>返回列表</a>
+        </label>
+    </div>
+</form>
+</#macro>

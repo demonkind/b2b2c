@@ -1,0 +1,409 @@
+<#import "/layout/seller_layout.html" as c>
+<@c.html title="Index">
+  <!-- 富文本编辑器 c2VsbGVyL2dvb2RzL2FkZC9zdGVwX3R3byBieSBzaG9wbmMubmV0-->
+  <script type="text/javascript" charset="utf-8" src="${toolkitRoot}ueditor/ueditor.config.js"></script>
+  <script type="text/javascript" charset="utf-8" src="${toolkitRoot}ueditor/ueditor.all.js"> </script>
+  <script src="${toolkitRoot}ueditor/lang/zh-cn/zh-cn.js"></script>
+  <script type="text/javascript" charset="utf-8" src="${publicRoot}toolkit/jquery-validation/jquery.validation.min.js"></script>
+  <div id="fixedNavBar" class="fixedNavBar">
+    <h3>页面导航</h3>
+    <ul>
+      <li> <a id="demo1Btn" href="#demo1" class="demoBtn">基本信息</a> </li>
+      <li> <a id="demo2Btn" href="#demo2" class="demoBtn">详情描述</a> </li>
+      <li> <a id="demo4Btn" href="#demo4" class="demoBtn">物流运费</a> </li>
+      <li> <a id="demo5Btn" href="#demo5" class="demoBtn">发票信息</a> </li>
+      <li> <a id="demo6Btn" href="#demo6" class="demoBtn">其他信息</a> </li>
+    </ul>
+  </div>
+  <ul class="add-goods-step">
+    <li><i>1</i>
+      <h2>选择商品分类</h2>
+      <h6>确定您的商品所属分类，选择最后一级分类目录进入下一步。</h6>
+    </li>
+    <li class="current"><i>2</i>
+      <h2>填写商品详情</h2>
+      <h6>填写商品名称、选择商品属性、上传商品图片以及相关信息。</h6>
+    </li>
+    <li><i>3</i>
+      <h2>商品发布成功</h2>
+      <h6>完成商品发布，选择跳转页面。</h6>
+    </li>
+  </ul>
+    <form method="post" class="ncsc-form-goods" id="goodsForm" action="">
+        <h3 id="demo1">商品基本信息</h3>
+        <dl>
+          <dt>商品分类：</dt>
+          <dd> ${param.categoryNameCrumbs} <a class="btn btn-sm btn-default m-l-10" href="${sellerRoot}goods/add/step_one">选择商品分类</a>
+            <input type="hidden" name="categoryId" value="${param.categoryId}"/>
+          </dd>
+        </dl>
+        <dl>
+          <dt><i class="required">*</i> 商品名称：</dt>
+          <dd>
+            <input name="goodsName" type="text" class="text w400" value=""/>
+            <span></span>
+            <p class="hint">商品标题名称长度至少3个字符，最长50个汉字</p>
+          </dd>
+        </dl>
+        <dl>
+          <dt>商品卖点：</dt>
+          <dd>
+            <textarea name="jingle" class="textarea h60 w400"></textarea>
+            <span></span>
+            <p class="hint">商品卖点最长不能超过140个汉字</p>
+          </dd>
+        </dl>
+        <h3 id="demo2">商品规格及图片</h3>
+        <dl class="spec-bg">
+          <dt>商品规格：
+            <div><a id="addSpecBtn" href="javascript:void(0);" class="btn btn-sm btn-white"><i class="icon-plus"></i>新增商品规格</a></div>
+          </dt>
+          <dd>
+            <div class="spec-title">
+              <h4>规格</h4>
+              <h5>规格值</h5>
+              <span>（通过选择规格值建立商品与商品规格的关系）</span></div>
+            <ul class="spec" id="specPanel">
+            </ul>
+            <p class="hint">商品卖点最长不能超过140个汉字</p>
+          </dd>
+        </dl>
+        <dl class="spec-bg" style="overflow: visible;">
+          <dt>商品价格及库存：</dt>
+          <dd class="spec-dd">
+            <div class="spec-div">
+              <table id="spec_div" border="0" cellpadding="0" cellspacing="0" class="spec_table">
+                <thead id="spec-div-th">
+                  <tr>
+                    <th class="w90"><span class="red">*</span> 市场价
+                      <div class="batch" data-batch="marketprice"> <i class="icon-edit" title="批量操作"></i>
+                        <div class="batch-input" style="display:none;" data-batch-panel>
+                          <h6>批量设置价格：</h6>
+                          <a href="javascript:void(0)" data-batch-close class="close">X</a>
+                          <input name="" type="text" class="text price"/>
+                          <a href="javascript:void(0)" data-batch-mod class="btn btn-xs btn-info">设置</a> <span class="arrow"></span> </div>
+                      </div>
+                    </th>
+                    <th class="w90"><span class="red">*</span> 销售价
+                      <div class="batch" data-batch="price"> <i class="icon-edit" title="批量操作"></i>
+                        <div class="batch-input" style="display:none;" data-batch-panel>
+                          <h6>批量设置价格：</h6>
+                          <a href="javascript:void(0)" data-batch-close class="close">X</a>
+                          <input name="" type="text" class="text price"/>
+                          <a href="javascript:void(0)" data-batch-mod class="btn btn-xs btn-info">设置</a> <span class="arrow"></span></div>
+                      </div>
+                    </th>
+                    <th class="w60"><span class="red">*</span> 库存
+                      <div class="batch" data-batch="stock"><i class="icon-edit" title="批量操作"></i>
+                        <div class="batch-input" style="display:none;" data-batch-panel>
+                          <h6>批量设置库存：</h6>
+                          <a href="javascript:void(0)" data-batch-close class="close">X</a>
+                          <input name="" type="text" class="text stock"/>
+                          <a href="javascript:void(0)" data-batch-mod class="btn btn-xs btn-info" >设置</a> <span class="arrow"></span></div>
+                      </div>
+                    </th>
+                    <th class="w70"> 预警值
+                      <div class="batch" data-batch="alarm"><i class="icon-edit" title="批量操作"></i>
+                        <div class="batch-input" style="display:none;" data-batch-panel>
+                          <h6>批量设置预警值：</h6>
+                          <a href="javascript:void(0)" data-batch-close class="close">X</a>
+                          <input name="" type="text" class="text stock"/>
+                          <a href="javascript:void(0)" data-batch-mod class="btn btn-xs btn-info">设置</a> <span class="arrow"></span></div>
+                      </div>
+                    </th>
+                    <th class="w100">商家编号</th>
+                    <th class="w100">商品条形码</th>
+                  </tr>
+                </thead>
+                <tbody id="spec-div-body">
+                  <tr data-no-spec>
+                    <td><input class="text price" name="noneMarketPrice0" data-marketprice type="text" data-rule-required="true" data-rule-number="number" data-rule-min="0.01">
+                      <em class="add-on"><i class="icon-renminbi"></i></em></td>
+                    <td><input class="text price" name="nonePrice0" data-price type="text" data-rule-required="true" data-rule-number="number" data-rule-min="0.01">
+                      <em class="add-on"><i class="icon-renminbi"></i></em></td>
+                    <td><input class="text stock" name="noneStock0" data-stock type="text" data-rule-required="true" data-rule-digits="true"></td>
+                    <td><input class="text stock" name="nonealarm0" data-alarm type="text" data-rule-digits="true"></td>
+                    <td><input class="text sku" data-sku type="text"></td>
+                    <td><input class="text sku" data-barcode type="text"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="hint"> 点击 <i class="icon-edit"></i> 可批量修改所在列的值。 <br>
+              当规格值较多时，可在操作区域通过滑动滚动条查看超出隐藏区域。</p>
+          </dd>
+        </dl>
+        <dl class="spec-bg">
+          <dt><i class="required">*</i> 商品图片：</dt>
+          <dd id="goods-pic-list"></dd>
+        </dl>
+        <h3 id="demo3">商品详情描述</h3>
+        <!-- S c2VsbGVyL2dvb2RzL2FkZC9zdGVwX3R3byBieSBzaG9wbmMubmV0 商品品牌区域-->
+        <dl style="overflow: visible;">
+          <dt>商品品牌：</dt>
+          <dd>
+            <div class="ncsc-brand-select" id="ncscBrandSelect">
+              <div class="selection">
+                <input name="b_name" id="b_name" value="" type="text" class="text w180" readonly>
+                <input type="hidden" id="b_Id" name="brandId" value="0"/>
+                  <em id="ncsc-brand-select-del" style="width: 30px;height: 30px;position: absolute;right: 30px;"><i style="font: 16px;" class="icon-trash"></i></em>
+                <em class="add-on"><i class="icon-collapse"></i></em>
+              </div>
+              <div id="ncsc-brand-select-container" class="ncsc-brand-select-container">
+                <div class="brand-index">
+                  <div class="letter">
+                    <ul>
+                      <li><a href="javascript:void(0);" data-letter="all">全部品牌</a></li>
+                      <#assign x = "">
+                      <#list param.brandList as brand>
+                      <#if x != brand.brandInitial>
+                      <#assign x = brand.brandInitial />
+                      <li><a href="javascript:void(0);" data-letter="${brand.brandInitial}">${brand.brandInitial}</a> </li>
+                      </#if>
+                      </#list>
+                    </ul>
+                  </div>
+                  <div class="search" id="b_search_brand_panel">
+                    <input name="search_brand_keyword" id="b_search_brand_keyword" type="text" class="text" placeholder="品牌名称关键字查找"/>
+                    <a href="javascript:void(0);" id="b_search_brand_go" class="btn btn-xs btn-info" style="vertical-align: top;">Go</a></div>
+                </div>
+                <div class="brand-list" id="brand-list-div">
+                  <ul id="brand-list-ul">
+                    <#list param.brandList as brand>
+                    <li data-id="${brand.brandId}" data-letter="${brand.brandInitial}" data-brand-name="${brand.brandName}"><em>${brand.brandInitial}</em>${brand.brandName} </li>
+                    </#list>
+                  </ul>
+                </div>
+                <div id="b-search-no-result" class="no-result" style="display: none;"> 没有符合" <strong>搜索关键字</strong> "条件的品牌 </div>
+                <div class="tc"> <a href="javascript:void(0);" class="btn btn-xs btn-default" onclick="$(this).parents('.ncsc-brand-select-container:first').hide();">关闭品牌列表</a> </div>
+              </div>
+            </div>
+          </dd>
+        </dl>
+        <!-- E 商品品牌区域-->
+          <#if param.attributeList.size() gt 0>
+        <dl>
+          <dt>属性：</dt>
+          <dd>
+              <#list param.attributeList as attribute> <span class="property">
+            <label class="m-r-5">${attribute.attributeName}</label>
+            <select name="attributeValueId">
+              <option value="0">不限</option>
+              <#list attribute.attributeValueList as attributeValue>
+              <option value="${attributeValue.attributeValueId}">${attributeValue.attributeValueName}</option>
+              </#list>
+            </select>
+            </span> </#list>
+          </dd>
+        </dl>
+          </#if>
+          <#if param.customList.size() gt 0>
+        <dl>
+          <dt>自定义属性：</dt>
+          <dd id="customPanel"> <#list param.customList as custom> <span class="property">
+            <label class="m-r-5">${custom.customName}</label>
+            <input class="text w60" type="text" data-custom-id="${custom.customId}" name="customValue" value=""/>
+            </span> </#list> </dd>
+        </dl>
+          </#if>
+        <!-- S 商品分类-->
+          <#if param.storeLabelList.size() gt 0>
+        <dl>
+          <dt>店内分类</dt>
+          <dd>
+            <div class="ncsc-store-label" id="ncsc-store-label" style="max-height: 200px;overflow-y: auto;"> <#list param.storeLabelList as storeLabel>
+              <dl>
+                <dt> <input type="checkbox" class="checkbox"  data-store-parent <#if storeLabel.storeLabelList.size() != 0>style="visibility:hidden"</#if> value="${storeLabel.storeLabelId}"/>${storeLabel.storeLabelName} </dt>
+                <#list storeLabel.storeLabelList as storeLabelChild>
+                <dd> <span></span>
+                  <input type="checkbox" class="checkbox" value="${storeLabelChild.storeLabelId}"/>
+                  ${storeLabelChild.storeLabelName} </dd>
+                </#list>
+              </dl>
+              </#list> </div>
+          </dd>
+        </dl>
+          </#if>
+        <!-- E 商品分类--> 
+        
+        <!-- S 商品描述 -->
+        <dl>
+          <dt>商品描述：</dt>
+          <dd id="ncProductDetails" style="line-height: 0">
+            <!-- S 富文本编辑器-->
+              <div id="editorWrap">
+              <script id="editor" type="text/plain" style="width:100%;"></script>
+            </div>
+              <!--  富文本编辑器 c2VsbGVyL2dvb2RzL2FkZC9zdGVwX3R3byBieSBzaG9wbmMubmV0-->
+            
+            <!--图片上传按钮-->
+            <div class="hr8" id="editorPicPanel">
+              <div class="btn-upload-box" id="editorPicUploadBtn"> <span>
+                <input id="uploadBtn" type="file" hidefocus="true" class="input-file" name="file" multiple>
+                </span><a href="javascript:;" class="btn btn-sm btn-default"><i class="icon icon-picture"></i>图片上传 </a> </div>
+              <a href="javascript:void(0);" nctype="del_desc" class="btn m-t-5" style="display: none;"> <i class=" icon-circle-arrow-up"></i> 关闭相册 </a> 
+              <!--图片显示区域-->
+              <div class="ncsc-upload-pic-list" style="display: none;">
+                <ul id="editorPicShowPanel" class="goods-pic-list">
+                </ul>
+              </div>
+            </div>
+          </dd>
+        </dl>
+        <dl>
+          <dt>关联版式：</dt>
+          <dd> <span class="m-r-100">
+            <label>顶部版式</label>
+            <select name="formatTop">
+              <option value="0">- 请选择 -</option>
+              <#list param.formatTopList as formatTop>
+              <option value="${formatTop.formatId}">${formatTop.formatName}</option>
+              </#list>
+            </select>
+            </span> <span>
+            <label>底部版式</label>
+            <select name="formatBottom">
+              <option value="0">- 请选择 -</option>
+              <#list param.formatBottomList as formatBottom>
+              <option value="${formatBottom.formatId}">${formatBottom.formatName}</option>
+              </#list>
+            </select>
+            </span> </dd>
+        </dl>
+        <!-- E 商品描述 -->
+         <!-- S商品物流信息 c2VsbGVyL2dvb2RzL2FkZC9zdGVwX3R3byBieSBzaG9wbmMubmV0--> 
+        <dl id="freightDl"><h3 id="demo4">商品物流信息</h3>
+          <dt>运费：</dt>
+          <dd>
+            <ul>
+              <li class="m-b-10">
+                <input id="freight_0" name="freightTemplateUse" class="radio" checked type="radio" value="0">
+                <label for="freight_0">使用固定运费</label>
+                <span class="m-l-5">
+                  <input name="goodsFreight" class="w50 text" type="text" value="0"><em class="add-on"><i class="icon-renminbi"></i></em> </span>
+                  
+              </li>
+              <li>
+                <input id="freight_1" name="freightTemplateUse" class="radio" type="radio" value="1">
+                <label for="freight_1">使用物流规则</label>
+                <span class="m-l-5" style="display: none">
+                    <div><select name="freightTemplateId">
+                        <option value="0">- 请选择 -</option>
+                    	<#if param.freightTemplateList?exists && (param.freightTemplateList?size>0)>
+                        <#list param.freightTemplateList as freightTemplate>
+                        <option value="${freightTemplate.freightId}">${freightTemplate.title}</option>
+                        </#list>
+                    	</#if>
+                    </select>
+                    <a href="${sellerRoot}freight/template/add" target="_blank" class="btn btn-sm btn-default"><i class="icon icon-truck"></i>新增物流规则</a>
+                    </div>
+                    <div id="freightTemplateInfo" style="display: none; vertical-align: top; background-color: #F5F5F5; border: solid 1px #E1E1E1; padding: 9px; overflow: hidden; margin-top: 5px; width: 720px;">
+					<h4 style="line-height: 24px;"><strong>指定物流配送区域及运费</strong><a href="javascript:;" target="_blank"  class="fr btn btn-xs btn-white"><i class="icon  icon-eye-open"></i>查看详情</a></h4>
+					<div class="m-t-5">
+                    	<div id="freightInfoArea" style="display: inline-block; vertical-align: top; width: 400px; height: 20px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; line-height: 20px;"></div>
+                    	<div id="freightInfoCalcRule" style="display: inline-block; width: 300px; text-align: right; line-height: 20px;"></div>
+                    </div>
+                   </div>
+                </span>
+              </li>
+            </ul>
+          </dd>
+        </dl>
+        <dl>
+        	<dt>物流参数：</dt>
+        	<dd><div style=" display: inline-block; border: solid 1px #E1E1E1; padding: 9px;">
+        			<div class="m-b-10"><h5 class="w40 inline-block">重量：</h5><input type="text" value="1.00" class="text w60" name="freightWeight" /><em class="add-on">kg</em></div>
+                	<div><h5 class="w40 inline-block">体积：</h5><input type="text" value="1.00" class="text w60" name="freightVolume" /><em class="add-on">m<sup >3</sup></em></div>
+                    </div>
+                    <p class="hint">如选择物流规则具有体积或重量运费时，需设定商品物流参数，默认为“1”单位，小数点后保留2位。</p>
+        	</dd>
+        </dl>
+        <!-- E商品物流信息 -->
+        <!--S 发票信息-->
+        <h3 id="demo5">发票信息</h3>
+        <dl>
+          <dt>是否开增值税发票：</dt>
+          <dd>
+            <ul class="ncsc-form-radio-list">
+              <li>
+                <label>
+                  <input name="allowVat" value="1" type="radio">
+                  是</label>
+              </li>
+              <li>
+                <label>
+                  <input name="allowVat" value="0" checked="checked" type="radio">
+                  否</label>
+              </li>
+            </ul>
+          </dd>
+        </dl>
+        <!--E 发票信息-->
+        
+        <h3 id="demo6">其他信息</h3>
+        <dl>
+          <dt>商品发布：</dt>
+          <dd>
+            <ul class="ncsc-form-radio-list">
+              <li>
+                <label>
+                  <input name="goodsState" checked value="1" type="radio"/>
+                  立即发布 </label>
+              </li>
+              <li>
+                <label>
+                  <input name="goodsState" value="0" type="radio"/>
+                  放入仓库 </label>
+              </li>
+            </ul>
+          </dd>
+        </dl>
+        <dl>
+          <dt>商品推荐：</dt>
+          <dd>
+            <ul class="ncsc-form-radio-list">
+              <li>
+                <label>
+                  <input name="isCommend" checked value="1" type="radio" />
+                  推荐 </label>
+              </li>
+              <li>
+                <label>
+                  <input name="isCommend" value="0" type="radio" />
+                  不推荐 </label>
+              </li>
+            </ul>
+          </dd>
+        </dl>
+      </div>
+      <div class="bottom tc hr16"><a class="btn btn-primary" href="javascript:;" id="formSubmit">下一步，提交商品发布</a>
+    </form>
+  <link rel="stylesheet" href="${publicRoot}toolkit/perfect-scrollbar/perfect-scrollbar.min.css">
+  <script type="text/javascript" src="${publicRoot}toolkit/perfect-scrollbar/perfect-scrollbar.min.js"></script> 
+  <!--<script src="${publicRoot}toolkit/json2/json2.js"></script>-->
+  <script src="${jsRoot}goods/add_step_two.js"></script> 
+</@c.html>
+<div id="addSpecModal" style="display: none">
+  <form id="addSpecForm">
+    <dl>
+      <dt><i class="required">*</i>规格名称：</dt>
+      <dd>
+        <input id="spec-input-name" name="specName" type="text" class="text w300" data-rule-required="true">
+        <p class="hint">请填写常用的商品规格的名称；例如：颜色；尺寸等。</p>
+      </dd>
+    </dl>
+    <dl>
+      <dt><i class="required">*</i>规格值：</dt>
+      <dd>
+        <div id="spec-value-input-group">
+          <div>
+            <input type="text" class="text w300" name="specValueName" >
+          </div>
+          <!--<input type="text" class="text w300" name="specValueName">--> 
+        </div>
+        <div> <a id="addSpecValueBtn" href="javascript:;" class="btn btn-xs btn-default m-t-10"><i class="icon-plus"></i>添加规格值</a> </div>
+      </dd>
+    </dl>
+  </form>
+</div>
+<!--c2VsbGVyL2dvb2RzL2FkZC9zdGVwX3R3byBieSBzaG9wbmMubmV0-->

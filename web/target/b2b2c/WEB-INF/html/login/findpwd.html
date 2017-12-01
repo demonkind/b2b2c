@@ -1,0 +1,140 @@
+<#import "/login/layout.html" as c>
+<@c.html title="Index" pageType="findpwd">
+  <div class="nc-login-layout">
+    <div class="left-pic"><img src="${loginImage}"></div>
+    <div class="nc-login">
+      <div class="arrow"></div>
+      <div id="findpwdModule" class="nc-login-mode">
+        <ul class="tabs-nav">
+          <li><a href="#commonModule" class="tabulous_active">忘记密码<i></i></a></li>
+          <#if config.smsPassword == "1">
+          <li><a href="#mobileModule">手机找回密码<i></i></a></li>
+          </#if>
+          <span class="tabulousclear"></span>
+        </ul>
+        <div id="tabs_container" class="tabs-container" style="min-height: 280px;">
+          <div id="commonModule" class="tabs-content"> 
+            <!-- 邮箱找回密码第一步 -->
+            <form id="findFormFirst" class="nc-login-form" name="findFormFirst" method="post" action="${webRoot}findpwd/email">
+              <dl>
+                <dt>登录账号：</dt>
+                <dd>
+                  <input type="text" class="text" id="memberName" name="memberName" autocomplete="off" placeholder="输入您已注册的用户名">
+                </dd>
+              </dl>
+              <dl>
+                <dt>邮&nbsp;&nbsp;&nbsp;箱：</dt>
+                <dd>
+                  <input type="text" class="text" id="email" name="email" autocomplete="off" placeholder="输入您已绑定的邮箱">
+                </dd>
+              </dl>
+              <div class="code-div mt15">
+                <dl>
+                  <dt>验证码：</dt>
+                  <dd>
+                    <input id="findCaptcha" class="text w100" type="text" name="captcha" maxlength="4" placeholder="输入验证码" autocomplete="off"/>
+                  </dd>
+                </dl>
+                <span> <img id="findCodeimage" src="${webRoot}captcha/getcaptcha" class="codeimg"/> <a href="JavaScript:void(0);" nc_type="changeCaptcha" onclick="javascript:document.getElementById('findCodeimage').src='${webRoot}captcha/getcaptcha?t='+Math.random()" class="code-pic">看不清，换一张</a> </span> </div>
+              <div class="submit-div">
+                <button class="submit" id="findSubmitFirst">下一步</button>
+              </div>
+            </form>
+            <!-- 邮箱找回密码第二步 -->
+            <form id="findFormSecond" class="nc-login-form" name="findFormSecond" method="post" style="display: none;" action="${webRoot}findpwd/email/second">
+              <input type="hidden" name="email" id="emailSecond"/>
+              <input type="hidden" name="memberId" id="memberIdSecond"/>
+              <dl class="clause-div m0" style="margin-top: 0px;">
+                <dd id="emailmsg" style="font-size: 12px;"></dd>
+              </dl>
+              <dl>
+                <dt>动态码：</dt>
+                <dd>
+                  <input type="text" class="text" id="authCode" name="authCode" autocomplete="off" placeholder="输入邮箱接收到的动态码">
+                </dd>
+              </dl>
+              <div class="tiptext">
+                <span ncType="sendAuthCode" style="display: none;"><a href="javascript:void(0);">重新获取动态码</a></span>
+                <span ncType="sendAuthCodeAgain" style="display: none; padding-left: 5px; text-align: center;">您可以在<strong ncType="sendAuthCodeTimes" class="red mr5"></strong>秒后再次获取动态码</span>
+              </div>
+              <dl>
+                <dt>设置新密码：</dt>
+                <dd>
+                  <input type="password" class="text" id="memberPwd" name="memberPwd" placeholder="请设置您新的登录密码" autocomplete="off">
+                </dd>
+              </dl>
+              <dl>
+                <dt>确认新密码：</dt>
+                <dd>
+                  <input type="password" class="text" id="repeatMemberPwd" name="repeatMemberPwd" placeholder="请再次输入密码" autocomplete="off">
+                </dd>
+              </dl>
+              <div class="submit-div">
+                <button class="submit" id="findSubmitSecond">重置密码</button>
+              </div>
+            </form>
+          </div>
+          <#if config.smsPassword == "1">
+          <div id="mobileModule" class="tabs-content" style="display: none;">
+            <!-- 手机找回密码第一步 -->
+            <form id="mobileFormFirst" class="nc-login-form" name="mobileFormFirst" method="post" action="${webRoot}findpwd/mobile">
+              <dl>
+                <dt>手机号：</dt>
+                <dd>
+                  <input type="text" class="text" id="mobile" name="mobile" placeholder="填写已注册的手机号" autocomplete="off"/>
+                </dd>
+              </dl>
+              <div class="code-div">
+                <dl>
+                  <dt>验证码：</dt>
+                  <dd>
+                    <input id="captchaMobile" class="text w100" type="text" name="captcha" maxlength="4" placeholder="输入验证码" autocomplete="off" size="10"/>
+                  </dd>
+                </dl>
+                <span> <img id="codeimageMobile" src="${webRoot}captcha/getcaptcha" class="codeimg"/> <a href="javascript:void(0);" nc_type="changeCaptcha" onclick="javascript:document.getElementById('codeimageMobile').src='${webRoot}captcha/getcaptcha?t='+Math.random()" class="code-pic">看不清，更换一张</a> </span> </div>
+              <div class="submit-div">
+                <button id="mobileSubmitFirst" class="submit">下一步</button>
+              </div>
+            </form>
+            <!-- 手机找回密码第二步 -->
+            <form id="mobileFormSecond" class="nc-login-form" name="mobileFormSecond" method="post" style="display: none;" action="${webRoot}findpwd/mobile/second">
+              <input type="hidden" name="mobile" id="mobileSecond"/>
+              <input type="hidden" name="memberId" id="mobileMemberIdSecond"/>
+              <dl class="clause-div m0" style="margin-top: 0px;">
+                <dd id="mobileMsg" style="font-size: 12px;"></dd>
+              </dl>
+              <dl>
+                <dt>动态码：</dt>
+                <dd>
+                  <input type="text" class="text" id="mobileAuthCode" name="authCode" autocomplete="off" placeholder="输入6位短信动态码">
+                </dd>
+              </dl>
+              <div class="tiptext">
+                <span ncType="sendAuthCode" style="display: none;"><a href="javascript:void(0);">重新获取动态码</a></span>
+                <span ncType="sendAuthCodeAgain" style="display: none; padding-left: 5px; text-align: center;">您可以在<strong ncType="sendAuthCodeTimes" class="red mr5"></strong>秒后再次获取动态码</span>
+              </div>
+              <dl>
+                <dt>设置密码：</dt>
+                <dd>
+                  <input type="password" class="text" id="mobileMemberPwd" name="memberPwd" placeholder="请设置您新的登录密码" autocomplete="off">
+                </dd>
+              </dl>
+              <dl>
+                <dt>确认密码：</dt>
+                <dd>
+                  <input type="password" class="text" id="mobileRepeatMemberPwd" name="repeatMemberPwd" placeholder="请再次输入密码" autocomplete="off">
+                </dd>
+              </dl>
+              <div class="submit-div">
+                <button class="submit" id="mobileSubmitSecond">重置密码</button>
+              </div>
+            </form>
+          </div>
+          </#if>
+        </div>
+      </div>
+    </div>
+  </div>
+</@c.html>
+<script type="text/javascript" src="${toolkitRoot}tabulous.js"></script> 
+<script type="text/javascript" src="${jsRoot}login/findpwd.js"></script>

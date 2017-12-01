@@ -1,0 +1,71 @@
+<#import "/home/exppoints/minfo.html" as minfo>
+<#import "/home/layout.html" as c>
+<@c.html title="我的成长进度">
+  <link href="${cssRoot}home_point.css" rel="stylesheet" type="text/css">
+  <div class="ncp-container">
+    <div class="ncp-base-layout">
+      <div class="ncp-member-left">
+        <@minfo.html />
+      </div>
+      <div class="ncp-member-right">
+        <div class="ncp-grade">
+          <div class="title">
+            <h3>我的升级进度</h3>
+          </div>
+          <div class="ncp-gradeall-bar"> <#if memberGradeList?exists && (memberGradeList?size gt 0) >
+            <#list memberGradeList as info>
+            <div class="itemlevel exp-lv${info.gradeLevel}" > <#if memberCurrentGrade.gradeLevel == info.gradeLevel>
+              <div class="bar" title="经验值：<#if memberCurrentGrade.gradeLevel == info.gradeLevel>${member.experiencePoints!0}</#if>"><i></i> <span class="arrow"></span>
+                <div class="tips">
+                  <p class="p1"> 我的当前等级：<strong>${memberCurrentGrade.gradeName!''}</strong> 当前经验值：<em>${member.experiencePoints!0}</em></p>
+                  <p class="p2"> <#if memberCurrentGrade.gradeLevel-1 gte memberGradeList?size >
+                    已达到最高会员级别，继续加油保持这份荣誉哦！
+                    <#else>
+                    再累积 <strong>${memberCurrentGrade.lessExppoints!0}</strong> 经验值即可升级 <em>${memberCurrentGrade.upGradeName!''}</em> </#if> </p>
+                </div>
+              </div>
+              </#if>
+              <div class="gradelabel"> <strong>${info.gradeName!''}</strong> <i>(${info.expPoints!0})</i> </div>
+            </div>
+            </#list>
+            <#else>
+            暂无等级
+            </#if> </div>
+        </div>
+      </div>
+    </div>
+    <div class="ncp-grade-layout mt20">
+      <div class="title">
+        <h3>经验值结构</h3>
+      </div>
+      <dl>
+        <dt><i class="icon-01"></i>
+          <p>如何计算经验值</p>
+        </dt>
+        <dd>
+          <ul>
+            <li>经验值以有效购物金额作为计算标准，有效购物金额${config.expRuleOrderrate!0}元=1经验值；单个订单最多获得${config.expRuleOrdermax!0}经验值；</li>
+            <li>会员每天第一次登录获得${config.expRuleLogin!0}经验值；</li>
+            <li>会员注册即可获得${config.expRuleRegister!0}经验值；</li>
+            <li>进行一次订单商品评价将获得${config.expRuleComments!0}经验值；</li>
+          </ul>
+        </dd>
+      </dl>
+    </div>
+    <div class="ncp-grade-layout">
+      <div class="title">
+        <h3>有效购物金额</h3>
+      </div>
+      <dl>
+        <dt><i class="icon-02"></i>
+          <p>有效范围</p>
+        </dt>
+        <dd>
+          <ul>
+            <li>商品订单的在<strong>【确认完成】</strong>后，该笔订单金额计入有效购物金额；在您收货后，请到<strong>【商品订单】</strong>中，点击<strong>【确认收货】</strong>，经验值会更快地发放；</li>
+          </ul>
+        </dd>
+      </dl>
+    </div>
+  </div>
+</@c.html>

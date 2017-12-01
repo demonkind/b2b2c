@@ -1,0 +1,58 @@
+<#macro html>
+<div class="ncp-member-info">
+  <div class="avatar"><img src="${c.func.ncImage(member.avatarUrl,120,120)}" />
+    <div class="frame"></div>
+  </div>
+  <dl>
+    <dt>Hi, ${member.memberName!""}</dt>
+    <dd>小提示：购买或评价商品都将获得积分经验。</dd>
+  </dl>
+</div>
+<div class="ncp-member-grade"> <#if memberCurrentGrade.gradeLevel?? && memberCurrentGrade.gradeLevel gte 0>
+  <div class="progress-bar"> <em title="${memberCurrentGrade.downGradeName!''}需经验值${memberCurrentGrade.downGradeExppoints!0}">${memberCurrentGrade.downGradeName!''}</em> <span title="${memberCurrentGrade.exppointsRate!0}%"><i style="width:${memberCurrentGrade.exppointsRate}%;"></i></span> <em title="${memberCurrentGrade.upGradeName!''}需经验值${memberCurrentGrade.upGradeExppoints!0}">${memberCurrentGrade.upGradeName!''}</em></div>
+  <div class="progress"> <#if memberCurrentGrade.lessExppoints gt 0>
+    还差<em>${memberCurrentGrade.lessExppoints!0}</em>经验值即可升级成为${memberCurrentGrade.upGradeName!''}等级会员
+    <#else>
+    已达到最高会员级别，继续加油保持这份荣誉哦！
+    </#if> </div>
+  <#else>
+  暂无等级
+  </#if>
+  <div class="links">
+    <div class="links"> <a href="${webRoot}exppoints/index">我的成长进度</a> <a href="${webRoot}exppoints/log">经验值明细</a> </div>
+  </div>
+</div>
+<div class="ncp-member-point">
+  <dl style="border-left: none 0;">
+    <a href="${webRoot}member/pointslog" target="_blank">
+    <dt><strong>${member.memberPoints!0}</strong>分</dt>
+    <dd>我的积分</dd>
+    </a>
+  </dl>
+  <dl>
+  	<a href="javascript:;" style="cursor:default;">
+    	<dt><strong>${memberCurrentGrade.gradeName!""}</strong></dt>
+        <dd>我的等级</dd>
+    </a>
+  </dl>
+  <dl>
+  	<a href="javascript:;" style="cursor:default;">
+    	<dt><strong>${member.experiencePoints!0}</strong></dt>
+        <dd>我的经验值</dd>
+    </a>
+  </dl>
+  <!--<dl>
+            <a href="" target="_blank">
+                <dt><strong>0</strong>张</dt>
+                <dd>可用代金券</dd>
+            </a>
+        </dl>
+        <dl>
+            <a href="" target="_blank">
+                <dt><strong></strong>个</dt>
+                <dd>已兑换礼品</dd>
+            </a>
+        </dl>--> 
+</div>
+<!--<div class="ncp-memeber-pointcart"> <a href="" class="btn">礼品兑换购物车<em>0</em></a></div>--> 
+</#macro>

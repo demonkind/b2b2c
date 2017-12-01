@@ -1,0 +1,163 @@
+<#import "/home/layout.html" as c>
+<@c.html title="Index">
+  <link href="${cssRoot}web_goods.css" rel="stylesheet" type="text/css">
+  <div class="wrapper">
+    <div class="ncs-goods-layout expanded" >
+      <div class="ncs-goods-main">
+        <div class="ncs-goods-title-bar">
+          <h4>购买咨询</h4>
+        </div>
+        <div class="ncs-goods-info-content bd" id="ncGoodsRate">
+          <div class="top" style="overflow: hidden;">
+            <div class="ncs-cosult-tips"><i></i>
+              <p>
+                <#noescape>${config.consultPrompt!''}</#noescape>
+              </p>
+            </div>
+            <div class="ncs-cosult-askbtn"><a href="#askQuestion" class="btn btn-white"><i class="icon-comments-alt"></i>我要咨询</a></div>
+          </div>
+          <div class="ncs-goods-title-nav">
+            <ul id="consult_tab">
+              <input type="hidden" id="currClassId" value='${RequestParameters["cid"]?default(0)}'/>
+              <li id="classTab0"><a href="${webRoot}consult?gid=${goodsDetail.goodsId}">全部</a></li>
+              <#if consultClassList?exists && (consultClassList?size gt 0) >
+              <#list consultClassList as info>
+              <li id="classTab${info.classId}"><a href="${webRoot}consult?gid=${goodsDetail.goodsId}&cid=${info.classId}">${info.className!""}</a></li>
+              </#list>
+              </#if>
+            </ul>
+          </div>
+          <div class="ncs-commend-main"> <#if consultList?exists && (consultList?size gt 0) >
+            <#list consultList as info> 
+            <!-- 咨询列表s -->
+            <div class="ncs-cosult-list">
+              <dl class="asker">
+                <dt>咨询网友：</dt>
+                <dd>
+                  <#if info.memberId lte 0>游客</#if>
+                  <#if info.memberId gt 0 && info.anonymousState==1>${info.memberName?substring(0,2)}***</#if>
+                  <#if info.memberId gt 0 && info.anonymousState==0>${info.memberName}</#if>
+                  &nbsp;<span><#if info.className??>咨询类型：${info.className!""}</#if></span>
+                  <time datetime="" pubdate="pubdate" class="m-l-20">${info.addTime!""}</time>
+                </dd>
+              </dl>
+              <dl class="ask-con">
+                <dt>咨询内容：</dt>
+                <dd>
+                  <p>${info.consultContent!""}</p>
+                </dd>
+              </dl>
+              <!-- 回复内容s --> 
+              <#if info.consultReply?? && (info.consultReply)?length gt 0 >
+              <dl class="reply">
+                <dt>商家回复：</dt>
+                <dd>
+                  <p style="width: 730px;">${info.consultReply!""}</p>
+                  <time datetime="" pubdate="pubdate">[${info.replyTime!""}]</time>
+                </dd>
+              </dl>
+              </#if> 
+              <!-- 回复内容e --> 
+            </div>
+            <!-- 咨询列表e --> 
+            </#list> 
+            <!-- 咨询分页s -->
+            <div class="tr pr5 pb5">
+                <#noescape>
+              <div class="pagination">${showPage}</div>
+                    </#noescape>
+            </div>
+            <#else> 
+            <!-- 咨询分页e --> 
+            <!-- 咨询无记录s -->
+            <div class="ncs-norecord">还没有咨询内容</div>
+            <!-- 咨询无记录e --> 
+            </#if> </div>
+        </div>
+        <#if isAbleConsult> 
+        <!-- S 咨询表单部分 -->
+        <div class="ncs-goods-title-bar" id="askQuestion">
+          <h4>发表咨询</h4>
+        </div>
+        <form method="post" id="consultForm" onkeydown="if(event.keyCode==13){return false;}">
+          <input type="hidden" id="goodsId" name="goodsId" value="${goodsDetail.goodsId}"/>
+          <input type="hidden" name="storeId" value="${goodsDetail.storeId}"/>
+          <div class="ncs-consult-form"> <#if consultClassList?exists && (consultClassList?size gt 0) >
+            <dl>
+              <dt>咨询类型：</dt>
+              <dd> <#list consultClassList as info>
+                <label>
+                  <input type="radio" checked="checked" nc_type="consultClassRadio" name="classId" class="radio" value="${info.classId}" />
+                  ${info.className!""}</label>
+                </#list> </dd>
+            </dl>
+            </#if>
+            <#if consultClassList?exists && (consultClassList?size gt 0) >
+            <#list consultClassList as info>
+            <div class="ncs-consult-type-intro" id="consultClassIntroduce${info.classId}" nc_type="consultClassIntroduce">
+              <#noescape>${info.introduce!""}</#noescape>
+            </div>
+            </#list>
+            </#if>
+            
+            <#if (memberName)?length gt 0 >
+            <dl class="m-b-5">
+              <dt>用&nbsp;户&nbsp;名：</dt>
+              <dd>${memberName}
+                <label class="m-l-30">
+                  <input type="checkbox" class="checkbox" name="anonymousState" value="1">
+                  匿名发布</label>
+              </dd>
+            </dl>
+            </#if>
+            <dl class="ncs-consult">
+              <dt>咨询内容：</dt>
+              <dd>
+                <textarea name="consultContent" id="consultContent" class="textarea w700 h60"></textarea>
+                <span id="consultCharCount"></span>
+                <div nc_type="error_msg"></div>
+              </dd>
+            </dl>
+            <dl>
+              <dt>&nbsp;</dt>
+              <dd>
+                <input id="consultCaptcha" name="consultCaptcha" class="text w60" placeholder="输入验证码" type="text" size="4" placeholder="" autocomplete="off" maxlength="4"/>
+                <div class="code">
+                  <div class="arrow"></div>
+                  <div class="code-img"> <a nc_type="consultCaptchaChange" href="javascript:void(0)"> <img src="${webRoot}captcha/getcaptcha" border="0" id="consultCaptchaImage"/> </a> </div>
+                  <a href="JavaScript:void(0);" id="consultCaptchaHide" class="close" title="关闭"><i></i></a> <a href="JavaScript:void(0);" nc_type="consultCaptchaChange" class="change" title="看不清验证码？点击换一张。"><i></i></a> </div>
+                <a href="JavaScript:void(0);" id="consultSubmit" title="发布咨询" class="btn btn-sm btn-danger m-l-10">发布咨询</a>
+                <div nc_type="error_msg"></div>
+              </dd>
+              <!--<dd nctype="error_msg"></dd>-->
+            </dl>
+          </div>
+        </form>
+        </#if> 
+        <!-- E 咨询表单部分 --> 
+      </div>
+      <div class="ncs-sidebar">
+        <div class="ncs-sidebar-container">
+          <div class="title">
+            <h4>商品信息</h4>
+          </div>
+          <div class="content">
+            <dl class="ncs-comment-goods">
+              <dt class="goods-name"><a href="${c.func.ncGoodsUrl(goodsDetail.goodsId)}">${goodsDetail.goodsName}</a></dt>
+              <dd class="goods-pic"><a href="${c.func.ncGoodsUrl(goodsDetail.goodsId)}"><img src="${goodsDetail.imageSrc}" alt="${goodsDetail.goodsName}"></a></dd>
+              <dd class="goods-price">商  城  价：<em class="saleP">￥${goodsDetail.goodsPrice?string["0.00"]}</em></dd>
+              <dd class="goods-raty">商品评价： <span class="raty" data-score="${evaluateGoodsVo.avgGoodsEval}" title="很满意" style="width: 100px;"></span></dd>
+              <!--<dd class="goods-raty">商品评价：<span class="raty" data-score=""></span></dd>-->
+            </dl>
+          </div>
+          <!--S 店铺信息-->
+          <#include "store_info.html" >
+          <!--E 店铺信息 --> 
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="${publicRoot}toolkit/jquery-charcount/jquery.charcount.js"></script>
+  <script src="${publicRoot}toolkit/jquery.raty/jquery.raty.js"></script>
+  <script src="${jsRoot}home/consult.js"></script> 
+</@c.html>

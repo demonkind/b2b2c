@@ -1,0 +1,29 @@
+<#import "/layout/seller_layout.html" as c>
+<@c.html title="Index">
+<!--amF2YV9zZWxsZXIvc3RvcmUvYWxidW0vbGlzdCBieSBzaG9wbmMubmV0-->
+  <div id="pictureIndex"  class="ncsc-picture-folder"> <#if albumFilesList.size() gt 0 >
+    <div class="ncsc-picture-list">
+      <ul>
+        <#list albumFilesList as albumFiles>
+        <li>
+          <dl>
+            <dt>
+              <div class="picture"><a href="javascript:;"> <img src="${uploadRoot + c.func.ncImage(albumFiles.filesName, 160, 160)}"></a></div>
+            </dt>
+            <dd class="date">
+              <p>上传时间：${albumFiles.uploadTime?date}</p>
+              <p>原图尺寸：${albumFiles.filesWidth}*${albumFiles.filesHeight}</p>
+            </dd>
+          </dl>
+        </li>
+        </#list>
+      </ul>
+    </div>
+      <#noescape>
+      <div class="pagination">${showPage}</div>
+          </#noescape>
+    <#else>
+    <div class="warning-option"><i class="icon-warning-sign">&nbsp;</i><span>暂无符合条件的数据记录</span></div>
+    </#if> </div>
+    <!--amF2YV9zZWxsZXIvc3RvcmUvYWxidW0vbGlzdCBieSBzaG9wbmMubmV0-->
+</@c.html>

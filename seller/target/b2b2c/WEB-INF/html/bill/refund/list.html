@@ -1,0 +1,57 @@
+<#import "/layout/seller_layout.html" as c>
+<@c.html title="Index">
+<#include "/bill/include.html">
+  <div class="tabmenu">
+    <ul class="tab pngFix">
+      <li><a href="${sellerRoot}bill/orders/list/${bill.billId}">订单列表</a></li>
+      <li class="active"><a href="javascript:;">退单列表</a></li>
+    </ul>
+  </div>
+  <table class="ncsc-default-table">
+    <thead>
+      <tr nc_type="table_header">
+        <th class="w10"></th>
+        <th class="w80 tc">退单编号</th>
+        <th class="tc">订单编号</th>
+        <th class="tl">退款金额（元）</th>
+        <th class="tl">退还佣金（元）</th>
+        <th class="tc">平台处理时间</th>
+        <th class="w100">操作</th>
+      </tr>
+    </thead>
+    <tbody>
+    <#if refundVoList.size() gt 0>
+    <#list refundVoList as refundVo>
+    <tr class="bd-line">
+      <td></td>
+      <td class="tc">${refundVo.refundSn}</td>
+      <td class="tc">${refundVo.ordersSn}</td>
+      <td class="tl">${refundVo.refundAmount?string('0.00')}</td>
+      <td class="tl">${refundVo.refundCommissionAmount?string('0.00')}</td>
+      <td class="tc">${refundVo.adminTime!''}</td>
+      <td>
+        <#if refundVo.refundType == 1>
+          <a href="${sellerRoot}refund/info/${refundVo.refundId}" class="btn btn-sm btn-primary m-r-10"><i class="icon-list-alt"></i>查看详细</a>
+        <#else>
+          <a href="${sellerRoot}return/info/${refundVo.refundId}" class="btn btn-sm btn-primary m-r-10"><i class="icon-list-alt"></i>查看详细</a>
+        </#if>
+      </td>
+    </tr>
+    </#list>
+    <#else />
+    <tr>
+      <td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span> </div></td>
+    </tr>
+    </#if>
+    </tbody>
+    <tfoot>
+    <tr>
+        <#noescape>
+        <td colspan="20"><div class="pagination">${showPage}</div></td>
+            </#noescape>
+    </tr>
+    </tfoot>
+  </table>
+  <script src="${jsRoot}goods/brand.js"></script>
+</@c.html>
+

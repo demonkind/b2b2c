@@ -1,0 +1,105 @@
+<#import "/layout/seller_layout.html" as c>
+<@c.html title="Index">
+  <div class="alert m-t-15 m-b-5"><strong>操作提示：</strong>
+    <ul>
+      <li>1. 最多可上传5张幻灯片图片。</li>
+      <li>2. 支持jpg、png格式上传，建议图片宽度960px、高度在300px到400px之间、大小1.00M以内的图片。提交2~5张图片可以进行幻灯片播放，一张图片没有幻灯片播放效果。</li>
+      <li>3. 操作完成以后，按“提交”按钮，可以在当前页面进行幻灯片展示。</li>
+      <li>4. 跳转链接必须带有<b style="color:red;">“http://”</b></li>
+    </ul>
+  </div>
+  <div class="ncsc-form-default">
+    <div class="focus" style=" width:990px; margin: 0 auto;">
+      <ul id="storeSlide">
+        <#list storeSlideList as storeSlide>
+        <#if storeSlide.imageUrl != defaultSlideImg && storeSlide.imageUrl != "">
+        <li><img src="${storeSlide.imageUrl}" /></li>
+        </#if>
+        </#list>
+      </ul>
+    </div>
+    <form id="addForm" action="${sellerRoot}store/slide/save.json" method="post">
+      <ul class="ncsc-store-slider">
+        <#list storeSlideList as storeSlide>
+        <li data-nc="slideItem">
+          <div class="picture"> <img data-nc="imgItem" src="${storeSlide.imageUrl}">
+            <input data-nc="inputItem" type="hidden" value="${storeSlide.image}" name="slideImg[]">
+            <a data-nc="delImg" title="移除" class="del" href="javascript:;">X</a> </div>
+          <div class="url">
+            <label>跳转URL...</label>
+            <input type="text" value="${storeSlide.url}" name="slideUrl[]" class="text w150">
+          </div>
+            <div class="btn-upload-box" > <span >
+          <input type="file" data-nc="fileItem" name="file" class="input-file" size="1" hidefocus="true">
+          </span > <a class="btn btn-sm btn-default" href="javascript:;" ><i class="icon icon-picture" ></i >图片上传</a > </div >
+            
+            
+        </li>
+        </#list>
+      </ul>
+      <div class="bottom"><a id="formSubmit" href="javascript:;" class="btn btn-primary">确认提交</a></div>
+    </form>
+  </div>
+  <link href="${publicRoot}toolkit/bxslider/jquery.bxslider.css" rel="stylesheet" />
+  <script src="${publicRoot}toolkit/bxslider/jquery.bxslider.js"></script> 
+  <script>
+  $(function(){
+    var defaultSlideImg = "${defaultSlideImg}";
+
+    //加载图片
+    var loadImg = function($imgItem) {
+        $imgItem.jqthumb({
+            width: 160,
+            height: 100,
+            after: function (imgObj) {
+                imgObj.css('opacity', 0).animate({opacity: 1}, 2000);
+            }
+        });
+    }
+
+    //顶部banner 轮播
+    $('#storeSlide').bxSlider({
+        auto: true,
+        infiniteLoop: true,
+        autoHover: true,
+        hideHoverControls:true
+    });
+
+    //图片上传
+    $("[data-nc='fileItem']").fileupload({
+        dataType: 'json',
+        url: ncGlobal.sellerRoot + "image/upload.json",
+        formData: {type:ncGlobal.filesType.setting},
+        done: function (e, data) {
+            if (data.result.code == 200) {
+                console.log(data.result.data.name);
+                console.log(data.result.data.url);
+                $slideItem = $(this).parents("[data-nc='slideItem']");
+                $imgItem = $slideItem.find("[data-nc='imgItem']");
+                $inputItem = $slideItem.find("[data-nc='inputItem']");
+                $imgItem.attr("src", data.result.data.url);
+                $inputItem.val(data.result.data.name);
+                loadImg($imgItem);
+            } else {
+                Nc.alertError("文件上传失败");
+            }
+        }
+    });
+
+    //图片删除
+    $("[data-nc='delImg']").on("click", function() {
+        $slideItem = $(this).parents("[data-nc='slideItem']");
+        $imgItem = $slideItem.find("[data-nc='imgItem']");
+        $inputItem = $slideItem.find("[data-nc='inputItem']");
+        $imgItem.attr("src", defaultSlideImg);
+        $inputItem.val("");
+        loadImg($imgItem);
+    });
+
+    $("#formSubmit").on("click", function() {
+        $("#addForm").ajaxSubmit();
+    });
+
+  });
+  </script> 
+</@c.html>

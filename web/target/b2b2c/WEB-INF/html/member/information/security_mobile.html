@@ -1,0 +1,51 @@
+<#import "/member/layout.html" as c>
+<@c.html title="手机绑定">
+  <div class="wrap">
+    <div class="tabmenu">
+      <ul class="tab pngFix">
+        <li><a href="${memberRoot}security">账户安全</a></li>
+        <li class="active"><a href="javascript:;">手机绑定</a></li>
+      </ul>
+    </div>
+    <div class="alert alert-success">
+      <h4>操作提示：</h4>
+      <ul>
+        <li>1. 此手机号将接收密码找回，订单通知等敏感性安全服务及提醒使用，请务必填写有效手机号。</li>
+      </ul>
+    </div>
+    <div class="ncm-default-form">
+      <form method="post" id="mobile_form">
+        <dl>
+          <dt>用户名：</dt>
+          <dd>${member.memberName}</dd>
+        </dl>
+        <dl>
+          <dt><i class="required">*</i>手机号：</dt>
+          <dd>
+            <p><input type="text" class="text" value="" name="mobile" id="mobile"/>
+              <a href="javascript:void(0);" id="sendAuthCode" class="btn btn-sm btn-white m-l-5">获取动态码</a>
+              <a href="javascript:void(0);" id="sendAuthCodeSending" class="btn btn-sm btn-white m-l-5" style="display: none;">正在获取动态码</a>
+              <a href="javascript:void(0);" id="sendAuthCodeAgain" class="btn btn-sm btn-white m-l-5" style="display: none;"><span class="send_success_tips"><strong id="sendAuthCodeTimes" class="red mr5"></strong>秒后再次</span>获取动态码</a>
+            </p>
+            <p class="send_success_tips hint mt10" id="sendAuthCodeTip" style="display: none;">“安全动态码”已发出，请注意查收，请在“<strong id="sendAuthCodeTipTimes"></strong>”内完成验证。</p>
+          </dd>
+        </dl>
+        <dl>
+          <dt><i class="required">*</i>动态码：</dt>
+          <dd>
+            <input type="text" class="text" maxlength="6" value="" name="authCode" id="authCode" />
+            <label for="authCode" generated="true" class="error"></label>
+          </dd>
+        </dl>
+        <dl class="bottom">
+          <dt>&nbsp;</dt>
+          <dd><label class="submit-border">
+            <input type="submit" class="submit" id="submitButton" value="确定" /></label>
+          </dd>
+        </dl>
+      </form>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="${jsRoot}member/information_security_mobile.js"></script>
+</@c.html>

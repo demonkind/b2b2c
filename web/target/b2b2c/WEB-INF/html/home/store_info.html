@@ -1,0 +1,36 @@
+<div class="ncs-sidebar-container ncs-info">
+  <div class="title">
+    <h4>${storeInfo.storeName}</h4>
+  </div>
+  <div class="content p-b-10">
+    <div class="ncs-detail-rate">
+      <ul>
+        <li>
+          <h5>描述</h5>
+          <div title="${evaluateStoreVo.desEvalTitle}${evaluateStoreVo.desEvalRate}" class="${evaluateStoreVo.desEvalArrow}">${evaluateStoreVo.storeDesEval}<i></i></div>
+        </li>
+        <li>
+          <h5>服务</h5>
+          <div title="${evaluateStoreVo.serviceEvalTitle}${evaluateStoreVo.serviceEvalRate}" class="${evaluateStoreVo.serviceEvalArrow}">${evaluateStoreVo.storeServiceEval}<i></i></div>
+        </li>
+        <li>
+          <h5>物流</h5>
+          <div title="${evaluateStoreVo.deliveryEvalTitle}${evaluateStoreVo.deliveryEvalRate}" class="${evaluateStoreVo.deliveryEvalArrow}">${evaluateStoreVo.storeDeliveryEval}<i></i></div>
+        </li>
+      </ul>
+    </div>
+    <div class="btns"> <a class="goto" href="${c.func.ncStoreUrl(storeInfo.storeId)}">进店逛逛</a> <a href="javascript:;" nc_type="storeFavoritesBtn" data-param="{'storeId':'${storeInfo.storeId}'}"> <i class="icon icon-star-empty"></i>关注店铺<em class="m-l-5" nc_type="storeFavoritesNum">${storeInfo.storeCollect}</em> </a> </div>
+    <dl>
+      <dt>公司名称：</dt>
+      <dd>${storeInfo.companyName}</dd>
+    </dl>
+    <dl>
+      <dt>所在地区：</dt>
+      <dd>${storeInfo.companyArea}</dd>
+    </dl>
+    <dl>
+      <dt>客服电话：</dt>
+      <dd>${storeInfo.storePhone}</dd>
+    </dl>
+  </div>
+</div>

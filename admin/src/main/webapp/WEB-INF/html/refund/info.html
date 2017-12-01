@@ -1,0 +1,212 @@
+<#import "/layout.html" as c />
+<#import "/refund/info_handle.html" as infoHandle/>
+    <@c.html title="Index">
+    <!-- ================== 开始页面所需CSS样式引入 ================== -->
+    <link href="${publicRoot}toolkit/lightbox/css/lightbox.css" rel="stylesheet"/>
+    <style type="text/css">
+        .form-group p {
+            line-height: 20px;
+            margin: 0;
+            padding-top: 5px;
+        }
+        #imageList a{
+            float :left;
+            margin: 0 10px 0 10px;
+        }
+    </style>
+    <!-- ================== 结束页面所需CSS样式引入 ================== -->
+    <!-- 开始页面内容 -->
+    <div id="content" class="content">
+        <!-- 开始面包屑导航 -->
+        <ol class="breadcrumb pull-right">
+            <li class="">首页</li>
+            <#list adminMenuState.breadCrumbList as breadCrumb>
+                <li class="">${breadCrumb}</li>
+            </#list>
+        </ol>
+        <!-- 结束面包屑导航 -->
+        <!-- 开始页头区域 -->
+        <h1 class="page-header">退款详情</h1>
+        <!-- 结束页头区域 -->
+        <div class="row">
+            <div class="col-md-12 ui-sortable">
+                <div class="panel panel-inverse" data-sortable-id="form-validation-1">
+                    <div class="panel-heading">
+                        <div class="panel-heading-btn">
+                            <a href="#listTip" class="btn btn-xs btn-icon btn-circle btn-info" role="button"
+                               data-toggle="collapse" aria-expanded="true" title="操作提示"><i
+                                    class="fa fa-lightbulb-o"></i></a>
+                            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default"
+                               data-click="panel-expand" data-original-title="" title=""><i class="fa fa-expand"></i>
+                            </a>
+                            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning"
+                               data-click="panel-collapse" data-original-title="" title=""><i class="fa fa-minus"></i>
+                            </a>
+                        </div>
+                        <h4 class="panel-title">退单编号：${refundItemVo.refundSn}</h4>
+                    </div>
+
+                    <div class="panel-body">
+                        <form class="form-horizontal form-bordered" name="verifyForm" id="verifyForm" method="POST">
+                            <div class="col-md-12">
+                                <legend class="m-t-10 m-b-0 p-b-10 f-s-16">买家退款申请</legend>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2 col-md-3 col-sm-3">申请时间&nbsp;:</label>
+
+                                    <div class="col-lg-6 col-md-7 col-sm-8">
+                                        <p>${refundItemVo.addTime}</p>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2 col-md-3 col-sm-3">申请人（买家）&nbsp;:</label>
+
+                                    <div class="col-lg-6 col-md-7 col-sm-8">
+                                        <p title="会员ID：${refundItemVo.memberId}">${refundItemVo.memberName}</p>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2 col-md-3 col-sm-3">订单编号&nbsp;:</label>
+
+                                    <div class="col-lg-6 col-md-7 col-sm-8">
+                                        <p>
+                                            <a href="${adminRoot}orders/info/102">${refundItemVo.ordersSn}</a>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2 col-md-3 col-sm-3">商品名称&nbsp;:</label>
+
+                                    <div class="col-lg-6 col-md-7 col-sm-8">
+                                        <p>${refundItemVo.goodsName}&nbsp;
+                                            <#if (refundItemVo.goodsId?? ) && (refundItemVo.goodsId gt 0 )  >
+                                                <a href="${c.func.ncGoodsUrl(refundItemVo.goodsId)}">查看</a>
+                                            </#if>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2 col-md-3 col-sm-3">退款金额&nbsp;:</label>
+
+                                    <div class="col-lg-6 col-md-7 col-sm-8">
+                                        <p>￥${refundItemVo.refundAmount?string('0.00')}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2 col-md-3 col-sm-3">退还佣金&nbsp;:</label>
+
+                                    <div class="col-lg-6 col-md-7 col-sm-8">
+                                        <p>￥${refundItemVo.refundCommissionAmount?string('0.00')} = ${refundItemVo.refundAmount?string('0.00')} * ${refundItemVo.commissionRate!'0'}%</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2 col-md-3 col-sm-3">退款原因&nbsp;:</label>
+
+                                    <div class="col-lg-6 col-md-7 col-sm-8">
+                                        <p>${refundItemVo.reasonInfo}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2 col-md-3 col-sm-3">退款说明&nbsp;:</label>
+
+                                    <div class="col-lg-6 col-md-7 col-sm-8">
+                                        <p>${refundItemVo.buyerMessage!""}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2 col-md-3 col-sm-3">凭证上传&nbsp;:</label>
+
+                                    <div id="imageList" class="col-lg-6 col-md-7 col-sm-8">
+
+                                    </div>
+                                </div>
+
+                                <legend class="m-t-10 m-b-0 p-b-10 f-s-16">商家退款处理</legend>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2 col-md-3 col-sm-3">商家名称&nbsp;:</label>
+
+                                    <div class="col-lg-6 col-md-7 col-sm-8">
+                                        <p title="卖家ID：${refundItemVo.storeId}">${refundItemVo.storeName}</p>
+                                    </div>
+                                </div>
+                                <#if refundItemVo.sellerTime ?? >
+
+                                    <div class="form-group">
+                                        <label class="control-label col-lg-2 col-md-3 col-sm-3">处理时间&nbsp;:</label>
+
+                                        <div class="col-lg-6 col-md-7 col-sm-8">
+                                            <p>${refundItemVo.sellerTime}</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-lg-2 col-md-3 col-sm-3">处理备注&nbsp;:</label>
+
+                                        <div class="col-lg-6 col-md-7 col-sm-8">
+                                            <p>${refundItemVo.sellerMessage}</p>
+                                        </div>
+                                    </div>
+                                </#if>
+
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2 col-md-3 col-sm-3">审核结果&nbsp;:</label>
+                                    <div class="col-lg-6 col-md-7 col-sm-8">
+                                        <p>${refundItemVo.sellerStateText}</p>
+                                    </div>
+                                </div>
+                                <#-- S 等待管理员审核，退款处理 页面-->
+                                <#if type=="handle" >
+                                    <@infoHandle.html />
+                                </#if>
+                                <#-- E 退款处理 页面-->
+
+                                <#-- S 退款成功后,退款后的详情-->
+                                <#if  (refundDetailVo??) && (refundDetailVo.refundState == 2 ) >
+                                    <legend class="m-t-10 m-b-0 p-b-10 f-s-16">退款详细</legend>
+                                    <div class="form-group">
+                                        <label class="control-label col-lg-2 col-md-3 col-sm-3">支付方式&nbsp;:</label>
+
+                                        <div class="col-lg-6 col-md-7 col-sm-8" >
+                                            <p>${refundDetailVo.paymentName}</p>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-lg-2 col-md-3 col-sm-3">在线退款金额&nbsp;:</label>
+
+                                        <div class="col-lg-6 col-md-7 col-sm-8" >
+                                            <p>￥${refundDetailVo.payAmount?string('0.00')}</p>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-lg-2 col-md-3 col-sm-3">预存款金额&nbsp;:</label>
+
+                                        <div class="col-lg-6 col-md-7 col-sm-8" >
+                                            <p>￥${refundDetailVo.pdAmount?string('0.00')}</p>
+                                        </div>
+
+                                    </div>
+                                </#if>
+                                <#-- E 退款后的详情-->
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- ================== 开始页面JavaScript调用 ================== -->
+<#noescape>
+<script>
+    ncGlobal.refundBuyerImageList = "${refundItemVo.picJson}";
+    ncGlobal.refundId = "${refundId}";
+</script>
+</#noescape>
+<script src="${publicRoot}toolkit/lightbox/js/lightbox-2.6.min.js"></script>
+<script src="${jsRoot}refund/refund_info.js"></script>
+<!-- ================== 结束页面JavaScript调用 ================== -->
+        </@c.html>

@@ -1,0 +1,122 @@
+<#import "/layout.html" as c>
+  <#import "/list_layout.html" as list>
+    <#assign alertList = []/>
+    <#assign alertList = alertList + ["此处列出了系统支持的支付方式，点击“设置”按钮可以编辑支付参数及开关状态。"]/>
+    <@c.html title="Index"> 
+  <!-- ================== 开始页面级CSS调用 ================== -->
+  <link href="${toolkitRoot}bootstrap-wizard/css/bwizard.min.css" rel="stylesheet"/>
+  <style type="text/css">
+	#dtGridToolBarContainer { display: none;}
+  </style>
+  <!-- ================== 结束页面级CSS调用 ================== -->
+  <@list.html title="支付方式" subTitle="商城购物可使用支付方式/接口设置" alertList=alertList addBtn=false searchHint="请输入支付方式名称"> 
+        <!-- 开始编辑会员模态窗口 -->
+        <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+            <div id="alipayContent" class="modal-content" nc_type="paymentForm">
+          <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title"> 支付方式设置 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsAlipay" aria-expanded="true" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+              </div>
+          <div class="modal-body">
+                <ul class="text-info p-b-15 p-l-15 collapse in" role="tabpanel" id="OperationTipsAlipay">
+              <li class="m-b-3">支付宝在线退款功能要在支付宝网站输入该账号的“支付密码”，管理员进行确认后才能完成退款操作。</li>
+            </ul>
+                <form id="alipayEditForm" name="alipayEditForm" action="${adminRoot}payment/edit" method="post" data-parsley-validate="true">
+              <div class="form-group">
+                    <label class="control-label">支付方式 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+                    <input type="text" name="paymentName" class="form-control" disabled/>
+                    <input type="hidden" name="paymentCode" class="form-control"/>
+                  </div>
+              <div class="form-group">
+                    <label class="control-label">支付宝账号 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+                    <input type="text" name="alipayAccount" class="form-control" data-parsley-required="true" data-parsley-required-message="请填写支付宝账号"/>
+                  </div>
+              <div class="form-group">
+                    <label class="control-label">交易安全校验码（key） <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+                    <input type="text" name="alipayKey" class="form-control" data-parsley-required="true" data-parsley-required-message="请填写支交易安全校验码"/>
+                  </div>
+              <div class="form-group">
+                    <label class="control-label">合作者身份ID（partner ID） <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+                    <input type="text" name="alipayPartner" class="form-control" data-parsley-required="true" data-parsley-required-message="请填写合作者身份ID"/>
+                  </div>
+              <div class="form-group">
+                    <label class="control-label">状态 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+                    <div>
+                  <input name="state" type="checkbox" data-size="small" data-on-color="primary" data-input-true="1" data-input-false="0" data-input-name="paymentState" data-on-text="开启" data-off-text="关闭">
+                </div>
+                  </div>
+            </form>
+              </div>
+          <div class="modal-footer"> <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a> <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-ajax-submit-target="alipayEditForm" nc-ajax-submit>确认提交</a> </div>
+        </div>
+            <div id="wxpayContent" class="modal-content" nc_type="paymentForm">
+          <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title"> 支付方式设置 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsWxpay" aria-expanded="true" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+              </div>
+          <div class="modal-body">
+                <ul class="text-info p-b-15 p-l-15 collapse in" role="tabpanel" id="OperationTipsWxpay">
+              <li class="m-b-3">如果启用微信在线退款功能需要在服务器设置“证书”，证书文件不能放在web服务器虚拟目录，应放在有访问权限控制的目录中，防止被他人下载。证书路径在“admin\api\refund\wxpay\WxPay.Config.php”中。退款有一定延时，用零钱支付的20分钟内到账，银行卡支付的至少3个工作日。 </li>
+            </ul>
+                <form id="wxpayEditForm" name="wxpayEditForm" action="${adminRoot}payment/edit" method="post" data-parsley-validate="true">
+              <div class="form-group">
+                    <label class="control-label">支付方式：</label>
+                    <input type="text" name="paymentName" class="form-control" disabled/>
+                    <input type="hidden" name="paymentCode" class="form-control"/>
+                  </div>
+              <div class="form-group">
+                    <label class="control-label">商户公众号APPID <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+                    <input type="text" name="wxAppId" class="form-control" data-parsley-required="true" data-parsley-required-message="请填写商户公众号"/>
+                  </div>
+              <div class="form-group">
+                    <label class="control-label">商户号 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+                    <input type="text" name="wxMchid" class="form-control" data-parsley-required="true" data-parsley-required-message="请填写商户号"/>
+                  </div>
+              <div class="form-group">
+                    <label class="control-label">密钥 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+                    <input type="text" name="wxKey" class="form-control" data-parsley-required="true" data-parsley-required-message="请填写密钥"/>
+                  </div>
+              <div class="form-group">
+                    <label class="control-label">状态 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+                    <div>
+                  <input name="state" type="checkbox" data-size="small" data-on-color="primary" data-input-true="1" data-input-false="0" data-input-name="paymentState" data-on-text="开启" data-off-text="关闭">
+                </div>
+                  </div>
+            </form>
+              </div>
+          <div class="modal-footer"> <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a> <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-ajax-submit-target="wxpayEditForm" nc-ajax-submit>确认提交</a> </div>
+        </div>
+            <div id="offlineContent" class="modal-content" nc_type="paymentForm">
+          <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title"> 支付方式设置 </h4>
+              </div>
+          <div class="modal-body">
+                <form id="offlineEditForm" name="offlineEditForm" action="${adminRoot}payment/edit" method="post" data-parsley-validate="true">
+              <div class="form-group">
+                    <label class="control-label">支付方式 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+                    <input type="text" name="paymentName" class="form-control" disabled/>
+                    <input type="hidden" name="paymentCode" class="form-control"/>
+                  </div>
+              <div class="form-group">
+                    <label class="control-label">状态 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+                    <div>
+                  <input name="state" type="checkbox" data-size="small" data-on-color="primary" data-input-true="1" data-input-false="0" data-input-name="paymentState" data-on-text="开启" data-off-text="关闭">
+                </div>
+                  </div>
+            </form>
+              </div>
+          <div class="modal-footer"> <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a> <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-ajax-submit-target="offlineEditForm" nc-ajax-submit>确认提交</a> </div>
+        </div>
+          </div>
+    </div>
+        <!-- 结束编辑会员模态窗口 --> 
+      </@list.html>
+  <!-- ================== 开始页面级JavaScrip调用 ================== --> 
+  <script src="${toolkitRoot}bootstrap-wizard/js/bwizard.js"></script> 
+  <!-- 表单checkbox项 --> 
+  <script src="${toolkitRoot}bootstrap-switch/bootstrap-switch.min.js"></script> 
+  <script src="${jsRoot}payment/payment.handle.js"></script> 
+  <!-- ================== 结束页面级JavaScrip调用 ================== --> 
+</@c.html>

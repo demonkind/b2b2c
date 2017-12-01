@@ -1,0 +1,30 @@
+<#import "/home/layout.html" as c>
+<#import "/home/article_left.html" as article_left>
+    <@c.html title="文章列表">
+    <div class="nch-container wrapper">
+        <@article_left.html />
+        <div class="right">
+            <div class="nch-article-con">
+                <div class="title-bar">
+                    <h3>${articleCategory.title}</h3>
+                </div>
+                <#if articleList?exists && (articleList?size>0)>
+                <ul class="nch-article-list">
+                    <#list articleList as list>
+                    <li><i></i><a href="<#if list.url != ''>${list.url}<#else>${webRoot}article/info/${list.articleId}</#if>">${list.title}</a><time>${list.createTime}</time></li>
+                    </#list>
+                </ul>
+                <#else>
+                <div>没有找到符合条件的文章</div>
+                </#if>
+
+            </div>
+            <div class="tc mb20">
+                <#noescape>
+                <div class="pagination"> ${showPage} </div>
+                </#noescape>
+            </div>
+
+        </div>
+    </div>
+</@c.html>

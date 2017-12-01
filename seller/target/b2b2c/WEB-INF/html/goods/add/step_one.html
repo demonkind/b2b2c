@@ -1,0 +1,80 @@
+<#import "/layout/seller_layout.html" as c>
+    <@c.html title="Index">
+    <ul class="add-goods-step">
+        <li class="current"><i>1</i>
+            <h2>选择商品分类</h2>
+            <h6>确定您的商品所属分类，选择最后一级分类目录进入下一步。</h6></li>
+        <li><i>2</i>
+            <h2>填写商品详情</h2>
+            <h6>填写商品名称、选择商品属性、上传商品图片以及相关信息。</h6></li>
+        <li><i>3</i>
+            <h2>商品发布成功</h2>
+            <h6>完成商品发布，选择跳转页面。</h6>
+        </li>
+    </ul>
+    <!--S 分类选择区域 c2VsbGVyL2dvb2RzL2FkZC9zdGVwX29uZSBieSBzaG9wbmMubmV0-->
+    <div class="wrapper_search">
+        <div class="wp_sort">
+            <div id="dataLoading" class="wp_data_loading">
+                <div class="data_loading">加载中...</div>
+            </div>
+            <div id="class_div" class="wp_sort_block">
+                <div class="sort_list">
+                    <div class="wp_category_list">
+                        <div id="class_div_1" class="category_list">
+                            <ul>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="sort_list">
+                    <div class="wp_category_list ">
+                        <div id="class_div_2" class="category_list">
+                            <ul>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="sort_list">
+                    <div class="wp_category_list">
+                        <div id="class_div_3" class="category_list">
+                            <ul>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="sort_list sort_list_last">
+                    <div class="wp_category_list">
+                        <div id="class_div_4" class="category_list">
+                            <ul>
+                            </ul>
+                        </div>
+                    </div>
+                </div>-->
+            </div>
+        </div>
+        <div class="alert">
+            <dl class="hover_tips_cont">
+                <dt id="commodityspan"><span style="color:#F00;">请选择商品类别</span></dt>
+                <dt id="commoditydt" style="display: none;" class="current_sort">您当前选择的商品类别是：</dt>
+                <dd id="commoditydd"></dd>
+            </dl>
+        </div>
+        <div class="wp_confirm">
+            <form method="post" action="${sellerRoot}goods/add/step_two">
+                <input type="hidden" name="categoryId" id="categoryId" value="" />
+                <div class="bottom tc">
+                    <label class="submit-border">
+                        <input id="submitButton" disabled="disabled" value="下一步，填写商品信息" type="submit"
+                               class="submit" style=" width: 200px;"/></label>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--依赖插件 c2VsbGVyL2dvb2RzL2FkZC9zdGVwX29uZSBieSBzaG9wbmMubmV0-->
+
+
+    <link rel="stylesheet" href="${publicRoot}toolkit/perfect-scrollbar/perfect-scrollbar.min.css">
+    <script src="${jsRoot}goods/add_step_one.js"></script>
+    <script src="${publicRoot}toolkit/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+</@c.html>

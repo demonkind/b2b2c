@@ -1,0 +1,417 @@
+<#import "/layout/seller_layout.html" as c>
+<@c.html title="Index">
+ <!-- ================== 开始页面级CSS调用 ================== -->
+<link href="${publicRoot}lightbox/css/lightbox.css" rel="stylesheet" />
+<div class="top-btn-layout"><a href="${sellerRoot}goods/add/step_one" class="btn btn-sm btn-success" title="发布新商品"><i class="icon icon-plus"></i>发布新商品</a></div>
+  <form method="get">
+    <table class="search-form">
+      <tr>
+        <td>&nbsp;</td>
+        <th> <select name="type">
+            <option value="1" <#if type == 0 || type == 1>selected</#if>>商品名称</option>
+            <option value="2" <#if type == 2>selected</#if>>商家货号</option>
+            <option value="3" <#if type == 3>selected</#if>>SPU</option>
+          </select>
+        </th>
+        <td class="w160"><input type="text" class="text w150" name="keyword" value="${keyword}"/></td>
+        <td class="tc w70"><label class="submit-border">
+            <input type="submit" class="submit" value="搜索" />
+          </label></td>
+      </tr>
+    </table>
+    <!--c2VsbGVyL2dvb2RzL29ubGluZS9lZGl0IF9saXN0IGphdmEgYnkgc2hvcG5jLm5ldA==-->
+  </form>
+  <table class="ncsc-default-table">
+    <thead>
+      <tr nc_type="table_header">
+        <th class="w50">&nbsp;</th>
+        <th colspan="2" class="tl">商品名称</th>
+        <th class="w150 tl">规格/规格值</th>
+        <th class="w80">价格(元)</th>
+        <th class="w80">总库存</th>
+        <th class="w100">发布时间</th>
+        <th class="w250">操作</th>
+      </tr>
+    <#if goodsCommonList.size() gt 0>
+    <tr>
+      <td class="tc">
+        <input type="checkbox" id="all" nc-check-all/>
+      </td>
+      <td colspan="20"><label for="all">全选</label>
+        <a href="javascript:void(0);" class="btn btn-xs btn-white m-r-5"
+           nc-check-url="${sellerRoot}goods/offline.json"
+           nc-check-confirm-title="是否确定下架商品？"
+           nc-check-confirm="true">
+          <i class="icon icon-level-down"></i>商品下架
+        </a >
+        <a href="javascript:void(0);" class="btn btn-xs btn-white m-r-5"
+           nc-check-url="${sellerRoot}goods/commend.json"
+           nc-check-confirm-title="是否确定推荐商品？"
+           nc-check-confirm="true">
+          <i class="icon icon-thumbs-up"></i>橱窗推荐
+        </a >
+        <a href="javascript:void(0);" class="btn btn-xs btn-white m-r-5"
+           nc-check-url="${sellerRoot}goods/cancel_commend.json"
+           nc-check-confirm-title="是否确定取消推荐商品？"
+           nc-check-confirm="true">
+          <i class="icon icon-thumbs-down"></i>取消推荐
+        </a >
+          <a href="javascript:void(0);" class="btn btn-xs btn-white"
+             nc-check-open="#testModal"
+             nc-check-title="批量编辑关联板式">
+              <i class="icon"></i>编辑关联板式
+          </a >
+      </td>
+    </tr>
+    </#if>
+      </thead>
+    
+    <tbody>
+    <#if goodsCommonList.size() gt 0>
+    <#list goodsCommonList as goods>
+    <tr>
+      <td>
+        <input type="checkbox" class="checkitem tc" name="commonId" value="${goods.commonId}" nc-check-item/>
+        <#if goods.isCommend == 1><span class="open" title="店铺推荐商品">推荐</span></#if> </td>
+      <td colspan="2" class="tl"><div class="table-list-thumb"><img src="${c.func.ncImage(goods.imageSrc, 60, 60)}" alt="${goods.goodsName}"/></div>
+        <dl class="goods-name">
+          <dt> <a href="${c.func.ncGoodsUrl(goods.goodsId)}" target="_blank">${goods.goodsName}</a></dt>
+          <dd class="serve"><span>商品SPU：${goods.commonId}</span> </dd>
+        </dl></td>
+      <td class="tl"><#if goods.specJson.size() gt 0>
+        <div class="goods-spec"> <#list goods.specJson as specJson>
+          <p>${specJson.specName}：<#list specJson.specValueList as specValue><span>${specValue.specValueName}</span></#list></p>
+          </#list> </div>
+        <#else />
+        --
+        </#if>
+        <div><a href="javascript:;" onclick="list.getGoods(${goods.commonId}, '${goods.goodsName}', 'online')" class="btn btn-xs btn-default m-t-5">查看全部规格 </a></div></td>
+      <td>${goods.priceRange}</td>
+      <td>${goods.storage}</td>
+      <td class="goods-time">${goods.createTime?date}</td>
+      <td>
+      
+      <a href="${sellerRoot}goods/edit/${goods.commonId}" class="btn btn-sm btn-primary m-r-10"><i class="icon-edit"></i>编辑</a>
+      <a href="javascript:void(0);" onclick="list.deleteGoods(${goods.commonId}, '${goods.goodsName}')" class="btn btn-sm btn-danger"><i class="icon-trash"></i>删除</a>
+      <!-- 参数说明 第一个 是否为设置活动  "set"为设置，其他为查看  第二个是活动ID  -->
+     <!--  	1. 0元购  			freeShop   
+      	2. 预售     		preSale
+      	3. 0元购+预售 		freeSale
+      	>>>  list.freeShop(); -->
+     	<!-- 判断是哪种活动  activityType
+     		 1:0元购 ，2：预售 ，3：0元购+预售  0 没有活动
+     	 -->
+     	 <!-- 
+     	 	isBoundActivity
+     	 	3 已经开始活动 不能修改只能查看
+     	 	其他 能修改活动
+     	  -->
+     	 <#if goods.activityType == '1'>
+     	 	<a href="javascript:;"  onclick="list.freeShop('${goods.goodsId}','${goods.isBoundActivity}','${goods.goodsActivityId}','${goods.commonId}')"
+     	 	class="btn btn-sm btn-primary m-r-10 setActivityBtn">
+     	 	<i class="icon-edit"></i>设置活动</a>
+     	 </#if>
+     	 <#if goods.activityType == '2'>
+     	 	<a href="javascript:;" 
+     	 	 onclick="list.preSale('${goods.goodsId}','${goods.isBoundActivity}','${goods.goodsActivityId}','${goods.commonId}')"
+     	 	 class="btn btn-sm btn-primary m-r-10 setActivityBtn"><i class="icon-edit"></i>设置活动</a>
+     	 </#if>
+     	 <#if goods.activityType == '3'>
+     	 	<a href="javascript:;"  
+     	 	onclick="list.freeSale('${goods.goodsId}','${goods.isBoundActivity}','${goods.goodsActivityId}','${goods.commonId}')"
+     	 	class="btn btn-sm btn-primary m-r-10 setActivityBtn"><i class="icon-edit"></i>设置活动</a>
+     	 </#if>
+      </td>
+    </tr>
+    </#list>
+    <tr style="display:none;">
+      <td colspan="20"><div class="ncsc-goods-sku ps-container"></div></td>
+    </tr>
+    <#else />
+    <tr>
+      <td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span></div></td>
+    </tr>
+    </#if>
+      </tbody>
+    
+    <tfoot>
+    <#if goodsCommonList.size() gt 0>
+      <tr >
+        <th class="tc" >
+          <input type="checkbox" id="all2" nc-check-all /></th >
+        <th colspan="20" ><label for="all2" >全选</label >
+          <a href="javascript:void(0);" class="btn btn-xs btn-white m-r-5"
+             nc-check-url="${sellerRoot}goods/offline.json"
+             nc-check-confirm-title="是否确定下架商品？"
+             nc-check-confirm="true">
+            <i class="icon icon-level-down" ></i >商品下架
+          </a >
+          <a href="javascript:void(0);" class="btn btn-xs btn-white m-r-5"
+                  nc-check-url="${sellerRoot}goods/commend.json"
+                  nc-check-confirm-title="是否确定推荐商品？"
+                  nc-check-confirm="true">
+            <i class="icon icon-thumbs-up" ></i >橱窗推荐
+          </a >
+          <a href="javascript:void(0);" class="btn btn-xs btn-white m-r-5"
+                  nc-check-url="${sellerRoot}goods/cancel_commend.json"
+                  nc-check-confirm-title="是否确定取消推荐商品？"
+                  nc-check-confirm="true">
+            <i class="icon icon-thumbs-down" ></i >取消推荐
+          </a >
+          <a href="javascript:void(0);" class="btn btn-xs btn-white"
+             nc-check-open="#testModal"
+             nc-check-title="批量编辑关联板式">
+            <i class="icon"></i>编辑关联板式
+          </a >
+        </th >
+      </tr >
+    </#if>
+    <tr>
+        <#noescape>
+        <td colspan="20"><div class="pagination"> ${showPage}</div></td>
+            </#noescape>
+    </tr>
+      </tfoot>
+    
+  </table>
+	<link href="${toolkitRoot}datePicker/skin/WdatePicker.css" rel="stylesheet"/>
+	<link href="${toolkitRoot}datePicker/skin/default/datepicker.css" rel="stylesheet"/>
+	<script type="text/javascript" src="${toolkitRoot}datePicker/WdatePicker.js" defer="defer"></script> 
+ 	 <script src="${jsRoot}goods/list.js?v=1"></script> 
+</@c.html>
+<table id="skuTable" class="ncsc-default-table">
+  <thead>
+    <tr>
+      <th class="w10"></th>
+      <th class="tl">商品规格</th>
+      <th class="w80">价格(元)</th>
+      <th class="w80">库存</th>
+      <th class="w100">库存预警</th>
+      <th class="w100">商家编号</th>
+      <th class="w80">操作</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+
+
+
+<div id="testModal" style="display : none;">
+    <form action="${sellerRoot}goods/save/format.json">
+        <dl>
+          <dt>顶部板式：</dt>
+          <dd>
+            <select name="formatTop">
+              <option value="0">- 请选择 -</option>
+              <#if formatTopList?size gt 0>
+              <#list formatTopList as formatTop>
+                <option value="${formatTop.formatId}">${formatTop.formatName}</option>
+              </#list>
+              </#if>
+            </select>
+          </dd>
+        </dl>
+        <dl>
+          <dt>底部板式：</dt>
+          <dd>
+            <select name="formatBottom">
+              <option value="0">- 请选择 -</option>
+              <#if formatBottomList?size gt 0>
+                <#list formatBottomList as formatBottom>
+                  <option value="${formatBottom.formatId}">${formatBottom.formatName}</option>
+                </#list>
+              </#if>
+            </select>
+          </dd>
+        </dl>
+    </form>
+</div>
+
+<!-- 开始 0元购 -->
+<div id="freeShop" style="display: none">
+	 	
+	  <form id="freeShopForm"  action="${sellerRoot}goodsActivityUpdate" method="post">
+	 		 <input type="hidden" id="id_freeShopFormActivityId" name="activityId" value="1">
+	 		 <input type="hidden" id="id_freeShopFormGoodActivityId" name="goodsActivityId">
+	 		 <input type="hidden" id="id_freeShopFormCommonId" name="commonId">
+	 	 <dl>
+	      <dt>活动名称：</dt>
+	      <dd>
+	      	0元购
+	      	
+	      </dd>
+	    </dl>
+	    <dl>
+	      <dt><i class="required">*</i>开始时间：</dt>
+	      <dd>
+	        <input type="text" name="startTime"  class="text w300 datePiceker" data-rule-required="true" readonly="readonly">
+	      </dd>
+	    </dl>
+	    <dl>
+	      <dt><i class="required">*</i>结束时间：</dt>
+	      <dd>
+	        <input type="text" name="endTime" class="text w300 datePiceker" data-rule-required="true" readonly="readonly" >
+	      </dd>
+	    </dl>
+	    <dl>
+	      <dt><i class="required">*</i>份数：</dt>
+	      <dd>
+	        <input type="text" class="text w300" name="weight" data-rule-required="true" data-rule-digits="true" data-rule-number="true">
+	      </dd>
+	    </dl>
+	    <dl>
+	      <dt><i class="required">*</i>限购数量：</dt>
+	      <dd>
+	        <input type="text" class="text w300" name="maxNum" data-rule-required="true" data-rule-digits="true" data-rule-number="true">
+	      </dd>
+	    </dl>
+	    <dl>
+	      <dt><i class="required">*</i>卡券类型：</dt>
+	      <dd>
+	      	<select class="text w300" name="cartType">
+	      		<option value="0">电子卡券</option>
+	      		<option value="1">纸制卡券</option>
+	      	</select>
+	      </dd>
+	    </dl>
+	    <dl>
+	      <dt><i class="required">*</i>K码类型：</dt>
+	      <dd>
+	      	<select name="sendKCodeType" class="text w300">
+	      		<option value="0">实时支付时</option>
+	      		<option	value="1">确定收货时</option>
+	      	</select>
+	      </dd>
+	    </dl>
+	    <dl>
+	      <dt><i class="required">*</i>返现金额：</dt>
+	      <dd>
+	        <input type="text" class="text w300" name="returnAmount" data-rule-required="true" data-rule-number="true">
+	      </dd>
+	    </dl>
+	    <dl>
+	      <dt>描述：</dt>
+	      <dd>
+	      	<textarea rows="10" name="description" class="text w300"></textarea>
+	      </dd>
+	    </dl>
+	  </form>
+	</div>
+<!-- 结束0元购 -->
+ <!-- 开始 预售 -->
+<div id="preSale" style="display: none">
+	  <form id="preSaleFrom" action="${sellerRoot}goodsActivityUpdate" method="post">
+	   <input type="hidden" id="id_preSaleFormActivityId" name="activityId" value="2">
+	   <input type="hidden" id="id_preSaleFormGoodActivityId" name="goodsActivityId">
+	   <input type="hidden" id="id_preSaleFormCommonId" name="commonId">
+	    
+	  <dl>
+	      <dt>活动名称：</dt>
+	      <dd>
+	      	预售
+	      </dd>
+	    </dl>
+	    <dl>
+	      <dt><i class="required">*</i>开始时间：</dt>
+	      <dd>
+	        <input type="text" name="startTime"  class="text w300 datePiceker" data-rule-required="true" readonly="readonly" >
+	      </dd>
+	    </dl>
+	    <dl>
+	      <dt><i class="required">*</i>结束时间：</dt>
+	      <dd>
+	        <input type="text" name="endTime" class="text w300 datePiceker" data-rule-required="true" readonly="readonly" >
+	      </dd>
+	    </dl>
+	    <dl>
+	      <dt><i class="required">*</i>份数：</dt>
+	      <dd>
+	        <input type="text" class="text w300" name="weight" data-rule-required="true" data-rule-digits="true" data-rule-number="true">
+	      </dd>
+	    </dl>
+	    <dl>
+	      <dt><i class="required">*</i>限购数量：</dt>
+	      <dd>
+	        <input type="text" class="text w300" name="maxNum" data-rule-required="true" data-rule-digits="true" data-rule-number="true">
+	      </dd>
+	    </dl>
+	    <dl>
+	      <dt>描述：</dt>
+	      <dd> 
+	      	<textarea rows="10"  name="description" class="text w300"></textarea>
+	      </dd>
+	    </dl>
+	  </form>
+	</div>
+<!-- 结束预售 -->
+<!-- 开始 0元购＋预售 -->
+<div id="freeSale" style="display: none">
+	  <form id="freeSaleFrom" action="${sellerRoot}goodsActivityUpdate" method="post">
+	   <input type="hidden" id="id_freeSaleFormActivityId" name="activityId" value="3">
+	   <input type="hidden" id="id_freeSaleFormGoodActivityId" name="goodsActivityId">
+	   <input type="hidden" id="id_freeSaleFormCommonId" name="commonId">
+	   
+	   <dl>
+	      <dt>活动名称：</dt>
+	      <dd>
+	      	0元购＋预售
+	      </dd>
+	    </dl>
+	    <dl>
+	      <dt><i class="required">*</i>开始时间：</dt>
+	      <dd>
+	        <input type="text" name="startTime"  class="text w300 datePiceker" data-rule-required="true" readonly="readonly" >
+	      </dd>
+	    </dl>
+	    <dl>
+	      <dt><i class="required">*</i>结束时间：</dt>
+	      <dd>
+	        <input type="text" name="endTime" class="text w300 datePiceker" data-rule-required="true" readonly="readonly" >
+	      </dd>
+	    </dl>
+	    <dl>
+	      <dt><i class="required">*</i>份数：</dt>
+	      <dd>
+	        <input type="text" class="text w300" name="weight" data-rule-required="true" data-rule-digits="true" data-rule-number="true">
+	      </dd>
+	    </dl>
+	    <dl>
+	      <dt><i class="required">*</i>限购数量：</dt>
+	      <dd>
+	        <input type="text" class="text w300" name="maxNum" data-rule-required="true" data-rule-digits="true" data-rule-number="true">
+	      </dd>
+	    </dl>
+	    <dl>
+	      <dt><i class="required">*</i>卡券类型：</dt>
+	      <dd>
+	      	<select class="text w300" name="cartType">
+	      		<option value="0">电子卡券</option>
+	      		<option value="1">纸制卡券</option>
+	      	</select>
+	      </dd>
+	    </dl>
+	   <dl>
+	      <dt><i class="required">*</i>K码类型：</dt>
+	      <dd>
+	      	<select name="sendKCodeType" class="text w300">
+	      		<option value="0">实时支付时</option>
+	      		<option	value="1">确定收货时</option>
+	      	</select>
+	      </dd>
+	    </dl>
+	    <dl>
+	      <dt><i class="required">*</i>返现金额：</dt>
+	      <dd>
+	        <input type="text" class="text w300" name="returnAmount" data-rule-required="true" data-rule-number="true">
+	      </dd>
+	    </dl>
+	    <dl>
+	      <dt>描述：</dt>
+	      <dd>
+	      	<textarea rows="10" name="description" class="text w300"></textarea>
+	      </dd>
+	    </dl>
+	  </form>
+	</div>
+<!-- 结束0元购＋预售 -->

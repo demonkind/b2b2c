@@ -1,0 +1,149 @@
+<#import "/layout.html" as c>
+<@c.html title="Index"> 
+  <!-- 开始页面内容 -->
+  <div id="content" class="content"> 
+    <!-- 开始面包屑导航 -->
+    <ol class="breadcrumb pull-right">
+      <li> <a href="javascript:;">首页</a> </li>
+      <li> <a href="javascript:;">站点设置</a> </li>
+      <li class="active">登录设置</li>
+    </ol>
+    <!-- 结束面包屑导航 --> 
+    <!-- 开始页头区域 -->
+    <h1 class="page-header"> 登录设置 <small>网站登录、注册、找回密码等相关设置</small> </h1>
+    <!-- 结束页头区域 -->
+    <ul id="tabsTitle" class="nav nav-tabs nav-tabs-inverse nav-justified nav-justified-mobile">
+      <li class="active"> <a href="#loginImage" class="f-s-14" data-toggle="tab"> <i class="fa fa-picture-o m-r-5"></i> <span class="hidden-xs">登录主题图片</span> </a> </li>
+      <li class=""> <a href="#mobile" class="f-s-14" data-toggle="tab"> <i class="fa fa-tablet m-r-5"></i> <span class="hidden-xs">手机登录</span> </a> </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane fade active in" id="loginImage"> 
+        <!-- 开始操作提示 -->
+        <div class="alert alert-info" role="tabpanel" id="listTip">
+          <h4>操作提示</h4>
+          <ul>
+            <li>网站登录/注册页面左侧图片，每次刷新可随机显示，最多可设置上传4张。</li>
+            <li>选择上传文件并提交表单生效，图片请依据输入框下提示文字内容选择。</li>
+          </ul>
+        </div>
+        <!-- 结束操作提示 --> 
+        <!-- 开始登录主题图片表单 -->
+        <form class="form-horizontal form-bordered" id="loginImageForm" name="loginImageForm" method="POST" action="${adminRoot}site/login/image">
+          <div class="form-group fileupload-buttonbar">
+            <label for="loginImage1" class="control-label col-lg-2 col-md-3 col-sm-3">图片1&nbsp;:</label>
+            <input type="hidden" name="loginImage1" value="${siteInfo.loginImage1}" id="loginImage1">
+            <div class="col-lg-6 col-md-7 col-sm-8">
+              <div class="media media-sm m-b-10">
+                <a class="media-left" href="${siteInfo.loginImage1Url}" id="previewLink1" data-lightbox="imgLoginImage1" data-item="image">
+                  <img src="${siteInfo.loginImage1Url}" id="previewLoginImage1" data-previewimage="1" class="media-object">
+                </a>
+              </div>
+              <p class="text-info">请使用450*350像素jpg/gif/png格式的图片。</p>
+              <a href="javascript:;" class="btn btn-white fileinput-button"><i class="fa fa-plus"></i> <span>选择上传文件</span><input data-addloginimage="1" type="file" name="file"></a>
+              <a href="javascript:;" class="btn btn-danger m-l-10" data-delloginimage="1"><i class="fa fa-trash-o"></i> 清除图片</a>
+            </div>
+          </div>
+          <div class="form-group fileupload-buttonbar">
+            <label for="loginImage2" class="control-label col-lg-2 col-md-3 col-sm-3">图片2&nbsp;:</label>
+            <input type="hidden" name="loginImage2" value="${siteInfo.loginImage2}" id="loginImage2">
+            <div class="col-lg-6 col-md-7 col-sm-8">
+              <div class="media media-sm m-b-10">
+                <a class="media-left" href="${siteInfo.loginImage2Url}" id="previewLink2" data-lightbox="imgLoginImage2" data-item="image">
+                  <img src="${siteInfo.loginImage2Url}" id="previewLoginImage2" data-previewimage="2" class="media-object">
+                </a>
+              </div>
+              <p class="text-info">请使用450*350像素jpg/gif/png格式的图片。</p>
+              <a href="javascript:;" class="btn btn-white fileinput-button"><i class="fa fa-plus"></i> <span>选择上传文件</span><input data-addloginimage="2" type="file" name="file"></a>
+              <a href="javascript:;" class="btn btn-danger m-l-10" data-delloginimage="2"><i class="fa fa-trash-o"></i> 清除图片</a> </div>
+          </div>
+          <div class="form-group fileupload-buttonbar">
+            <label for="loginImage3" class="control-label col-lg-2 col-md-3 col-sm-3">图片3&nbsp;:</label>
+            <input type="hidden" name="loginImage3" value="${siteInfo.loginImage3}" id="loginImage3">
+            <div class="col-lg-6 col-md-7 col-sm-8">
+              <div class="media media-sm m-b-10">
+                <a class="media-left" href="${siteInfo.loginImage3Url}" id="previewLink3" data-lightbox="imgLoginImage3" data-item="image">
+                  <img src="${siteInfo.loginImage3Url}" id="previewLoginImage3" data-previewimage="3" class="media-object">
+                </a>
+              </div>
+              <p class="text-info">请使用450*350像素jpg/gif/png格式的图片。</p>
+              <a href="javascript:;" class="btn btn-white fileinput-button"><i class="fa fa-plus"></i><span>选择上传文件</span><input data-addloginimage="3" type="file" name="file">
+              </a><a href="javascript:;" class="btn btn-danger m-l-10" data-delloginimage="3"><i class="fa fa-trash-o"></i> 清除图片</a> </div>
+          </div>
+          <div class="form-group fileupload-buttonbar">
+            <label for="loginImage4" class="control-label col-lg-2 col-md-3 col-sm-3">图片4&nbsp;:</label>
+            <input type="hidden" name="loginImage4" value="${siteInfo.loginImage4}" id="loginImage4">
+            <div class="col-lg-6 col-md-7 col-sm-8">
+              <div class="media media-sm m-b-10">
+                <a class="media-left" href="${siteInfo.loginImage4Url}" id="previewLink4" data-lightbox="imgLoginImage4" data-item="image">
+                  <img src="${siteInfo.loginImage4Url}" id="previewLoginImage4" data-previewimage="4" class="media-object">
+                </a>
+              </div>
+              <p class="text-info">请使用450*350像素jpg/gif/png格式的图片。</p>
+              <a href="javascript:;" class="btn btn-white fileinput-button"><i class="fa fa-plus"></i><span>选择上传文件</span><input data-addloginimage="4" type="file" name="file">
+              </a><a href="javascript:;" class="btn btn-danger m-l-10" data-delloginimage="4"><i class="fa fa-trash-o"></i> 清除图片</a> </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-lg-2 col-md-3 col-sm-3"></label>
+            <div class="col-lg-6 col-md-7 col-sm-8"> <a href="javascript:;" class="btn btn-primary" data-q-text="Loading..." nc-q-submit-target="loginImageForm" nc-q-submit>提交设置</a> </div>
+          </div>
+        </form>
+        <!-- 结束登录主题图片表单 --> 
+      </div>
+      <div class="tab-pane fade" id="mobile"> 
+        <!-- 开始操作提示 -->
+        <div class="alert alert-info">
+          <h4>操作提示</h4>
+          <ul>
+            <li>开启或者关闭手机注册、登录、找回密码功能</li>
+            <li>开启以下功能后需要设置系统发送短信的相关参数才能正常使用</li>
+          </ul>
+        </div>
+        <!-- 结束操作提示 --> 
+        <!-- 开始手机登录设置表单 -->
+        <form class="form-horizontal form-bordered" id="mobileForm" name="mobileForm" action="${adminRoot}site/login/mobile" method="post">
+          <div class="form-group">
+            <label class="control-label col-lg-2 col-md-3 col-sm-3">手机注册&nbsp;:</label>
+            <div class="col-lg-6 col-md-7 col-sm-8">
+              <input type="checkbox" id="smsRegister" data-size="small" data-on-color="primary" data-input-true="1" data-input-false="0" data-input-name="smsRegister" data-on-text="开启" data-off-text="关闭">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-lg-2 col-md-3 col-sm-3">手机登录&nbsp;:</label>
+            <div class="col-lg-6 col-md-7 col-sm-8">
+              <input type="checkbox" id="smsLogin" data-size="small" data-on-color="primary" data-input-true="1" data-input-false="0" data-input-name="smsLogin" data-on-text="开启" data-off-text="关闭">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-lg-2 col-md-3 col-sm-3">手机找回密码&nbsp;:</label>
+            <div class="col-lg-6 col-md-7 col-sm-8">
+              <input type="checkbox" id="smsPassword" data-size="small" data-on-color="primary" data-input-true="1" data-input-false="0" data-input-name="smsPassword" data-on-text="开启" data-off-text="关闭">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-lg-2 col-md-3 col-sm-3"></label>
+            <div class="col-lg-6 col-md-7 col-sm-8"> <a href="javascript:;" class="btn btn-primary" data-q-text="Loading..." nc-q-submit-target="mobileForm"  nc-q-submit>提交设置</a> </div>
+          </div>
+        </form>
+        <!-- 结束手机登录设置表单 --> 
+      </div>
+    </div>
+  </div>
+  </div>
+  <!-- 结束页面内容 --> 
+  
+  <!-- ================== 开始页面级JavaScrip调用 ================== --> 
+  <!-- 表单checkbox项 --> 
+  <script src="${toolkitRoot}bootstrap-switch/bootstrap-switch.min.js"></script>
+  <!-- 图片点击放大窗口 -->
+  <link href="${publicRoot}toolkit/lightbox/css/lightbox.css" rel="stylesheet" />
+  <script src="${publicRoot}toolkit/lightbox/js/lightbox-2.6.min.js"></script> 
+  <script src="${jsRoot}setting/site_login.js"></script> 
+  <!-- ================== 结束页面级JavaScrip调用 ================== --> 
+  <script>
+    $(function () {
+        $("#smsRegister").bootstrapSwitch('state', "${siteInfo.smsRegister}" == "1" ? true : false);
+        $("#smsLogin").bootstrapSwitch('state', "${siteInfo.smsLogin}" == "1" ? true : false);
+        $("#smsPassword").bootstrapSwitch('state', "${siteInfo.smsPassword}" == "1" ? true : false);
+    });
+    </script> 
+</@c.html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="generator" content="UG93ZXJlZCBCeSBTaG9wTkMubmV0"/>
+<meta content="" name="description"/>
+<meta content="" name="author"/>
+<title>${config.siteName} 平台管理中心</title>
+
+<!-- ================== BEGIN BASE CSS STYLE ================== -->
+<link href="${toolkitRoot}jquery-ui/themes/base/minified/jquery-ui.min.css" rel="stylesheet"/>
+<link href="${toolkitRoot}bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="${toolkitRoot}font-awesome/css/font-awesome.min.css" rel="stylesheet">
+<link href="${cssRoot}animate.min.css" rel="stylesheet"/>
+<link href="${cssRoot}style.min.css" rel="stylesheet"/>
+<link href="${cssRoot}style-responsive.min.css" rel="stylesheet"/>
+<link href="${cssRoot}theme/default.css" rel="stylesheet" id="theme"/>
+<style type="text/css">
+* { margin: 0; padding: 0 }
+body { background: #111; height: 100% }
+img { border: none }
+#supersized-loader { position: absolute; top: 50%; left: 50%; z-index: 0; width: 60px; height: 60px; margin: -30px 0 0 -30px; text-indent: -999em; }
+#supersized { display: block; position: fixed; left: 0; top: 0; overflow: hidden; z-index: -999; height: 100%; width: 100% }
+#supersized img { width: auto; height: auto; position: relative; display: none; outline: 0; border: none }
+#supersized.speed img { -ms-interpolation-mode: nearest-neighbor; image-rendering: -moz-crisp-edges }
+#supersized.quality img { -ms-interpolation-mode: bicubic; image-rendering: optimizeQuality }
+#supersized li { display: block; list-style: none; z-index: -30; position: fixed; overflow: hidden; top: 0; left: 0; width: 100%; height: 100%; background: #111 }
+#supersized a { width: 100%; height: 100%; display: block }
+#supersized li.prevslide { z-index: -20 }
+#supersized li.activeslide { z-index: -10 }
+#supersized li.activeslide img, #supersized li.prevslide img { display: inline }
+#supersized img { max-width: none!important }
+.code { position: relative; z-index: 1;}
+.code span { width: 100px; height: 40px; position: absolute; z-index: 1; top: 3px; right: 3px;}
+.code span a { position: absolute; z-index: 1; top: 0; left: 0; right: 0; bottom: 0; filter:progid:DXImageTransform.Microsoft.gradient(enabled='true',startColorstr='#A5000000', endColorstr='#A5000000');background:rgba(0,0,0,0.65); color: #FFF; line-height: 40px; text-align: center; display: none; }
+.code span:hover a { display: block;}
+</style>
+<!-- ================== END BASE CSS STYLE ================== -->
+<!-- ================== 开始 页面全局js变量 ================== -->
+<script>
+var ncGlobal = {
+  webRoot:"${webRoot}",
+  adminRoot:"${adminRoot}",
+  memberRoot:"${memberRoot}",
+  sellerRoot:"${sellerRoot}",
+  publicRoot:"${publicRoot}",
+  jsRoot:"${jsRoot}",
+  cssRoot:"${cssRoot}",
+  imgRoot:"${imgRoot}",
+  toolkitRoot:"${toolkitRoot}",
+  uploadRoot:"${uploadRoot}"
+};
+</script>
+</head>
+<body>
+<!-- begin #page-loader -->
+<div id="page-loader" class="fade in"> <span class="spinner"></span> </div>
+<!-- end #page-loader --> 
+
+<!-- begin #page-container -->
+<div id="page-container" class="fade"> 
+  <!-- begin login -->
+  <div class="login login-v2" data-pageload-addclass="animated swing"> 
+    <!-- begin brand -->
+    <div class="login-header">
+      <div class="brand">ShopNC Admin <small>B2B2C电商系统Java开发版平台管理中心</small> </div>
+    </div>
+    <!-- end brand -->
+    <div class="login-content">
+      <form id="loginForm" action="${adminRoot}login" method="POST" data-parsley-validate="true" class="margin-bottom-0">
+        <div class="form-group m-b-20">
+          <input type="text" name="username" class="form-control input-lg" placeholder="管理员账号" data-parsley-required="true" />
+        </div>
+        <div class="form-group m-b-20">
+          <input type="password" name="password" class="form-control input-lg" placeholder="管理员密码" data-parsley-required="true" />
+        </div>
+        <div class="form-group m-b-20 code">
+          <input type="text" id="captcha" name="captcha" class="form-control input-lg" placeholder="验证码" data-parsley-required="true" />
+          <span> <img id="captcha_image" src="${adminRoot}captcha/captcha.jpg" class="codeimg" name="codeimage" alt=""/> <a href="JavaScript:void(0);" id="captchaImageChange">看不清，换一张</a> </span> </div>
+        <div class="login-buttons">
+          <button id="submit" type="button" class="btn btn-success btn-block btn-lg" data-loading-text="Loading..." nc-q-submit-target="loginForm" nc-q-submit nc-q-submit-reload="true" nc-q-submit-hidden-alert="true">登录我的账户</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <!-- end login --> 
+  
+</div>
+<!-- end page container -->
+<div class="row.row-space-0 text-center"> Powered by © 2007-2016 <a href="http://www.shopnc.net/" target="_blank">Tianjin Netcity Networking Inc.</a> </div>
+<!-- ================== BEGIN BASE JS ================== --> 
+<script src="${toolkitRoot}jquery/1.9.1/jquery.min.js"></script> 
+<script src="${toolkitRoot}jquery/jquery-migrate-1.1.0.min.js"></script> 
+<script src="${toolkitRoot}jquery-ui/ui/minified/jquery-ui.min.js"></script> 
+<script src="${toolkitRoot}bootstrap/js/bootstrap.js"></script> 
+<!-- 表单验证 --> 
+<script src="${toolkitRoot}parsley/dist/parsley.js"></script> 
+<!--[if lt IE 9]>
+<script src="${toolkitRoot}/crossbrowserjs/html5shiv.js"></script>
+<script src="${toolkitRoot}/crossbrowserjs/respond.min.js"></script>
+<script src="${toolkitRoot}/crossbrowserjs/excanvas.min.js"></script>
+<![endif]--> 
+<script src="${toolkitRoot}/jquery-cookie/jquery.cookie.js"></script> 
+<!-- ================== END BASE JS ================== --> 
+
+<!-- ================== 开始页面JavaScript调用 ================== --> 
+<script src="${toolkitRoot}supersized/supersized.min.js"></script> 
+<script src="${jsRoot}/admincp/login.js"></script> 
+<script src="${jsRoot}/admincp/apps.js"></script> 
+<script src="${jsRoot}login.js"></script> 
+<!-- ================== 结束页面JavaScript调用 ================== --> 
+
+<script>
+	//form-slider-swither对应css文件路径常量
+    var IMG_SITE_URL = "${imgRoot}";
+    $(document).ready(function () {
+        App.init();
+    });
+</script>
+</body>
+</html>

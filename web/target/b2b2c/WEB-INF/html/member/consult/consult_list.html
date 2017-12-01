@@ -1,0 +1,76 @@
+<#import "/member/layout.html" as c>
+<@c.html title="商品咨询">
+  <div class="wrap">
+    <div class="tabmenu">
+      <ul class="tab pngFix">
+        <input type="hidden" id="currType" value='${RequestParameters["type"]!""}'/>
+        <li id="tabAll"><a href="${memberRoot}consult/list">全部咨询</a></li>
+        <li id="tabNoreply"><a href="${memberRoot}consult/list?type=noreply">未回复咨询</a></li>
+        <li id="tabReplied"><a href="${memberRoot}consult/list?type=replied">已回复咨询</a></li>
+      </ul>
+    </div>
+    <table class="ncm-default-table order">
+      <thead>
+        <tr>
+          <th class="w30"></th>
+          <th>咨询/回复</th>
+          <th class="w30"></th>
+        </tr>
+      </thead>
+      <tbody>
+      <#if consultList?exists && (consultList?size>0)>
+      <#list consultList as info>
+      <tr>
+        <td colspan="19" class="sep-row"></td>
+      </tr>
+      <tr>
+        <th colspan="20">
+          <span class="m-l-10"><a href="${c.func.ncGoodsUrl(info.goodsId)}" target="_blank">${info.goodsName}</a></span>
+          <span style="margin-right: 10px;"><#if info.className??>咨询类型：${info.className!""}</#if></span>
+          <span>咨询时间：<em class="goods-time">${info.addTime}</em></span>
+        </th>
+      </tr>
+      
+        <td class="tl bdl"></td>
+        <td class="tl"><strong>咨询内容：</strong><span class="gray">${info.consultContent!""}</span></td>
+        <td class="bdr"></td>
+        <#if info.consultReply?? && (info.consultReply)?length gt 0 >
+      <tr>
+        <td class="tl bdl"></td>
+        <td class="tl"><strong>回复内容：</strong><span class="gray" <#if info.readState==0>style="font-weight:bold;color:#000;"</#if> >${info.consultReply!""}</span><span class="ml10 goods-time">(回复时间：${info.replyTime!""})</span></td>
+        <td class="bdr"></td>
+      </tr>
+      </#if>
+      </#list>
+      <#else>
+      <tr>
+        <td colspan="20" class="norecord"><div class="warning-option"><i>&nbsp;</i><span>暂无符合条件的数据记录</span></div></td>
+      </tr>
+      </#if>
+        </tbody>
+      
+      <tfoot>
+      <#if consultList?exists && (consultList?size>0)>
+      <tr>
+          <#noescape>
+        <td colspan="20"><div class="pagination">${showPage}</div></td>
+              </#noescape>
+      </tr>
+      </#if>
+        </tfoot>
+      
+    </table>
+  </div>
+  <script type="text/javascript">
+    $(function () {
+      var type = $("#currType").val();
+      if (type == "noreply") {
+        $("#tabNoreply").addClass("active");
+      }else if (type == "replied"){
+        $("#tabReplied").addClass("active");
+      }else{
+        $("#tabAll").addClass("active");
+      }
+    });
+  </script> 
+</@c.html>

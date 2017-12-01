@@ -1,0 +1,85 @@
+<#import "../toolbar.html" as toolbar>
+<#import "../shortcut.html" as shortcut>
+<#import "../header.html" as header>
+<#import "../footer.html" as footer>
+<#import "../func.html" as func>
+<#macro html title keywords="${config.siteName}" description="${config.siteName}">
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,IE=EmulateIE8,chrome=1">
+<meta name="keywords" content="${keywords}">
+<meta name="description" content="${description}">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="generator" content="UG93ZXJlZCBCeSBTaG9wTkMubmV0"/>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="author" content="ShopNC-Developers"/>
+<#if title == "Index">
+    <title>${config.siteName} - Powered by ShopNC</title>
+<#else>
+    <title>${title} - Powered by ShopNC</title>
+</#if>
+<!-- ================== 开始基础CSS调用 ================== -->
+<link href="${publicRoot}css/base.css" rel="stylesheet" type="text/css">
+<!--<link href="${publicRoot}css/animate.min.css" rel="stylesheet" type="text/css">-->
+<link href="${cssRoot}web_common.css" rel="stylesheet" type="text/css">
+<link href="${toolkitRoot}font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
+<link href="${publicRoot}toolkit/perfect-scrollbar/perfect-scrollbar.min.css" rel="stylesheet"/>
+<!--[if IE 7]>
+<link href="${toolkitRoot}font-awesome/css/font-awesome-ie7.min.css" rel="stylesheet">
+<![endif]-->
+<!-- ================== 结束基础CSS调用 ================== -->
+<!-- ================== 开始页面CSS调用 ================== -->
+<link href="${cssRoot}home_layout.css" rel="stylesheet" type="text/css">
+
+<!-- ================== 结束页面CSS调用 ================== -->
+    <!--[if lt IE 9]>
+	<script src="${publicRoot}toolkit/crossbrowserjs/es5-shim.min.js"></script>
+	<script src="${publicRoot}toolkit/crossbrowserjs/html5shiv.js"></script>
+	<script src="${publicRoot}toolkit/crossbrowserjs/excanvas.min.js"></script>
+	<script src="${publicRoot}toolkit/crossbrowserjs/respond.min.js"></script>
+    <![endif]-->
+<!-- ================== 开始基础JavaScript调用 ================== -->
+<script>
+	//全局方法设置
+	var ncGlobal = {
+		webRoot:"${webRoot}",
+		adminRoot:"${adminRoot}",
+		memberRoot:"${memberRoot}",
+		sellerRoot:"${sellerRoot}",
+		jsRoot:"${jsRoot}",
+		cssRoot:"${cssRoot}",
+		imgRoot:"${imgRoot}",
+		toolkitRoot:"${toolkitRoot}",
+		uploadRoot:"${uploadRoot}",
+		publicRoot:"${publicRoot}"
+	};
+</script>
+
+<script src="${publicRoot}toolkit/jquery/1.8.3/jquery.js"></script>
+<script src="${publicRoot}toolkit/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+<link href="${publicRoot}toolkit/jquery-ui/themes/base/minified/jquery-ui.min.css" rel="stylesheet"/>
+<script src="${publicRoot}toolkit/jquery-nc/jquery.nc.js"></script>
+<script src="${publicRoot}toolkit/layer/layer.js"></script>
+<script src="${publicRoot}toolkit/jquery-validation/jquery.validation.min.js"></script>
+<script src="${publicRoot}toolkit/waypoints/waypoints.js"></script>
+<script src="${publicRoot}toolkit/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+<script src="${publicRoot}toolkit/jquery-thumb/jqthumb.js"></script>
+<script src="${jsRoot}common/member.top.js"></script>
+
+
+<!-- ================== 结束基础JavaScript调用 ================== -->
+</head>
+<body>
+
+<@shortcut.html />
+<@header.html />
+<#escape x as x?html>
+<#nested/>
+</#escape>
+<@footer.html />
+</body>
+</html>
+</#macro>

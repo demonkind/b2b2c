@@ -1,0 +1,168 @@
+<ul>
+    <#assign flat = 0 />
+    <#if invoiceList?exists && (invoiceList?size>0) >
+        <#list invoiceList as invoice>
+            <#if invoice.invoiceId == invoiceId>
+                <#assign flat = 1 />
+            </#if>
+            <li class="inv_item">
+                <input content="${(invoice.invoiceType == 1)?string(' 普通发票 ',' 增值税发票 ')}  ${invoice.title} ${invoice.content}"
+                       id="inv_${invoice.invoiceId}"
+                       value="${invoice.invoiceId}"
+                       ${(invoice.invoiceId == invoiceId)?string('checked','')}
+
+                       type="radio" name="inv"
+                       data-invoice-select ${(allowVat == 0 && invoice.invoiceType == 2)?string('','')}/>
+                <label for="inv_${invoice.invoiceId}">&nbsp;&nbsp;
+                    <#if invoice.invoiceType == 1 >
+                        &nbsp;普通发票&nbsp; ${invoice.title} ${invoice.content}
+                    <#else>
+                        &nbsp;增值税发票&nbsp; <#if invoice.title?? >${invoice.title}</#if>&nbsp; ${invoice.content}
+                    </#if>
+                </label>
+                &emsp;&emsp;&emsp;<a href="javascript:void(0);" data-invoice-del="${invoice.invoiceId}" class="del">[ 删除 ]</a>
+            </li>
+        </#list>
+    </#if>
+
+    <li class="inv_item">
+        <input value="0" id="add_inv" type="radio" name="inv" data-invoice-select ${(flat==0)?string('checked','')}>
+        <label for="add_inv">&nbsp;&nbsp;使用新的发票信息</label>
+    </li>
+    <div id="addInvBox" style="${(flat!=0)?string('display:none;','')}">
+            <div class="ncc-form-default">
+                <dl>
+                    <dt>发票类型：</dt>
+                    <dd>
+                        <label>
+                            <input type="radio" checked name="invoiceType" value="1" data-select-invoice-type>
+                            普通发票</label>
+                        &emsp;&emsp;
+                        <#if allowVat == 1  >
+                        <label>
+                            <input type="radio" name="invoiceType" value="2" data-select-invoice-type>
+                            增值税发票</label>
+                        </#if>
+                    </dd>
+                </dl>
+            </div>
+            <div id="invoicePanel" class="ncc-form-default">
+                <dl>
+                    <dt>发票抬头：</dt>
+                    <dd>
+                        <select name="inv_title_select" select-title-type>
+                            <option value="person" >个人</option>
+                            <option value="company">单位</option>
+                        </select>
+                        <input class="text w200" style="display:none" name="title" id="invTitle" placeholder
+                                ="单位名称" value="">
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>发票内容：</dt>
+                    <dd>
+                        <select id="invContent" name="content">
+                            <option selected value="明细">明细</option>
+                            <option value="酒">酒</option>
+                            <option value="食品">食品</option>
+                            <option value="饮料">饮料</option>
+                            <option value="玩具">玩具</option>
+                            <option value="日用品">日用品</option>
+                            <option value="装修材料">装修材料</option>
+                            <option value="化妆品">化妆品</option>
+                            <option value="办公用品">办公用品</option>
+                            <option value="学生用品">学生用品</option>
+                            <option value="家居用品">家居用品</option>
+                            <option value="饰品">饰品</option>
+                            <option value="服装">服装</option>
+                            <option value="箱包">箱包</option>
+                            <option value="精品">精品</option>
+                            <option value="家电">家电</option>
+                            <option value="劳防用品">劳防用品</option>
+                            <option value="耗材">耗材</option>
+                            <option value="电脑配件">电脑配件</option>
+                        </select>
+                    </dd>
+                </dl>
+            </div>
+            <div id="vatInvoicePanel" class="ncc-form-default" style="display:none">
+
+                <dl>
+                    <dt><i class="required">*</i>单位名称：</dt>
+                    <dd>
+                        <input type="text" class="text w200" maxlength="50" name="company" value="">
+                    </dd>
+                </dl>
+                <dl>
+                    <dt><i class="required">*</i>纳税人识别号：</dt>
+                    <dd>
+                        <input type="text" class="text w200" maxlength="50" name="codeSn" value="">
+                    </dd>
+                </dl>
+                <dl>
+                    <dt><i class="required">*</i>注册地址：</dt>
+                    <dd>
+                        <input type="text" class="text w200" maxlength="50" name="registerAddress" value="">
+                    </dd>
+                </dl>
+                <dl>
+                    <dt><i class="required">*</i>注册电话：</dt>
+                    <dd>
+                        <input type="text" class="text w200" maxlength="50" name="registerPhone" value="">
+                    </dd>
+                </dl>
+                <dl>
+                    <dt><i class="required">*</i>开户银行：</dt>
+                    <dd>
+                        <input type="text" class="text w200" maxlength="50" name="bankName" value="">
+                    </dd>
+                </dl>
+                <dl>
+                    <dt><i class="required">*</i>银行账户：</dt>
+                    <dd>
+                        <input type="text" class="text w200" maxlength="50" name="bankAccount" value="">
+                    </dd>
+                </dl>
+                <dl>
+                    <dt></dt>
+                    <dd>如您是首次开具增值税专用发票，请您填写纳税人识别号等开票信息，并上传 加盖公章的营业执照副本、税务登记证副本、一般纳税人资格证书及银行开户 许可证扫描件邮寄给我们，收到您的
+                        开票资料后，我们会尽快审核。
+                    </dd>
+                </dl>
+                <dl>
+                    <dt><i class="required">*</i>发票内容：</dt>
+                    <dd>明细</dd>
+                </dl>
+                <dl>
+                    <dt><i class="required">*</i>收票人姓名：</dt>
+                    <dd>
+                        <input type="text" class="text w200" maxlength="50" name="receiverName" value="">
+                    </dd>
+                </dl>
+                <dl>
+                    <dt><i class="required">*</i>收票人手机号：</dt>
+                    <dd>
+                        <input type="text" class="text w200" maxlength="50" name="receiverPhone" value="">
+                    </dd>
+                </dl>
+                <dl>
+                    <dt><i class="required">*</i>收票人省份：</dt>
+                    <dd><div id="vregion" style="float: left"></div>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt><i class="required">*</i>送票地址：</dt>
+                    <dd>
+                        <input type="text" class="text w200" maxlength="50" name="receiverAddress" value="">
+                    </dd>
+                </dl>
+
+            </div>
+    </div>
+</ul>
+
+<div class="hr16">
+    <a id="saveInvoice" class="btn btn-sm btn-danger" href="javascript:void(0);">保存发票信息</a>
+
+    <a id="cancelInvoice" class="btn btn-sm btn-white m-l-10" href="javascript:void(0);">不需要发票</a>
+</div>

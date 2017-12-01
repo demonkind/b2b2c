@@ -1,0 +1,14 @@
+<#import "../../func.html" as funcList>
+
+<#if goodsList?exists && (goodsList?size gt 0) >
+  <#list goodsList as info>
+    <li>
+      <div class="goods-thumb">
+        <a href="${funcList.ncGoodsUrl(info.goodsId!0)}" title="${info.goodsName!''}" target="_blank">
+          <img src="${funcList.ncImage(info.imageSrc,124,124)}" />
+        </a>
+      </div>
+      <p>￥${info.goodsPrice?string["0.00"]}</p>
+    </li>
+  </#list>
+</#if>

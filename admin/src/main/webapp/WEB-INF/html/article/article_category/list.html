@@ -1,0 +1,86 @@
+<#import "/layout.html" as c>
+<#import "/list_layout.html" as list>
+<#assign alertList = []/>
+<#assign alertList = alertList + ["文章分类列表将显示文章分类名称及显示位置、排序等信息。"]/>
+<#assign alertList = alertList + ["系统内置了多个显示位置，表示该类文章将展现于商城何处，系统不允许对内置的显示位置进行新增/编辑/删除操作"]/>
+<#assign alertList = alertList + ["默认只允许“文章列表”和“商家帮助指南”两个显示位置可以添加/删除文章分类。"]/>
+<#assign alertList = alertList + ["文章列表即商城前台文章列表，它是默认显示位置。商家、用户公告及协议类文章分类将不会出现在商城前台文章列表中。"]/>
+<@c.html title="Index">
+<@list.html title="文章分类列表" subTitle="文章分类管理" alertList=alertList addBtn=true searchHint="请输入分类名称作为关键字进行搜索">
+</@list.html>
+<!-- 开始新增模态窗口 -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title"> 新增文章分类 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsAdd" aria-expanded="false" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+      </div>
+      <div class="modal-body">
+        <ul class="collapse text-info m-b-20 p-l-15" role="tabpanel" id="OperationTipsAdd">
+          <li class="m-b-10">分类名称可使用中英文、内容长度控制在2-20个字符；例如：系统公告等。</li>
+          <li class="m-b-10">标签排序从0~999顺序排列，数字越小排列越靠前，默认排序为0。</li>
+        </ul>
+        <form action="${adminRoot}article_category/save" id="addForm" method="post" autocomplete="off" data-parsley-validate="true">
+          <div class="form-group">
+            <label class="control-label"> 分类名称 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+            <input type="text" name="title" class="form-control" placeholder="请输入分类名称" autocomplete="off" data-tip="tooltip" data-placement="auto" data-original-title="必填选项，可使用中英文、内容长度控制在2-20个字符。" data-parsley-required="true" data-parsley-length="[2, 20]"/>
+          </div>
+          <div class="form-group">
+            <label class="control-label">显示位置&nbsp;:</label>
+            <div class="clearfix m-b-15">
+              <select class="form-control selectpicker" name="positionId" data-size="10" data-live-search="true" data-style="btn-white">
+                <#list articlePositionList as list>
+                  <#if list.positionId != 4 && list.positionId != 5>
+                <option value="${list.positionId}">${list.positionTitle}</option>
+                  </#if>
+                </#list>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label"> 分类排序 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+            <input type="text" name="sort" class="form-control" placeholder="请输入分类排序" autocomplete="off" value="0" data-tip="tooltip" data-placement="auto" data-original-title="排序从0~999顺序排列，默认排序为0。" data-parsley-required="true" data-parsley-range="[0, 999]"/>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer"> <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a> <a href="javascript:;" class="btn btn-success" data-loading-text="Loading..." nc-ajax-submit-target="addForm" nc-ajax-submit>确认提交</a> </div>
+    </div>
+  </div>
+</div>
+<!-- 结束新增模态窗口 -->
+
+<!-- 开始编辑模态窗口 -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title"> 编辑文章分类 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsEdit" aria-expanded="false" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+      </div>
+      <div class="modal-body">
+        <ul class="collapse text-info m-b-20 p-l-15" role="tabpanel" d="OperationTipsEdit">
+          <li class="m-b-10">分类名称可使用中英文、内容长度控制在2-20个字符；例如：系统公告等。</li>
+          <li class="m-b-10">标签排序从0~999顺序排列，数字越小排列越靠前，默认排序为0。</li>
+        </ul>
+        <form action="${adminRoot}article_category/update" id="editForm" method="post" autocomplete="off" data-parsley-validate="true">
+          <input type="hidden" name="categoryId" id="categoryId" value="">
+          <input type="hidden" name="parentId" id="parentId" value="">
+          <div class="form-group">
+            <label class="control-label"> 分类名称 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+            <input type="text" name="title" id="title" class="form-control" autocomplete="off" data-tip="tooltip" data-placement="auto" data-original-title="必填选项，可使用中英文、内容长度控制在2-20个字符。" data-parsley-required="true" data-parsley-length="[2, 20]"/>
+          </div>
+          <div class="form-group">
+            <label class="control-label"> 分类排序 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+            <input type="text" name="sort" id="sort" class="form-control" value="0" autocomplete="off" data-tip="tooltip" data-placement="auto" data-original-title="排序从0~999顺序排列，默认排序为0。" data-parsley-required="true" data-parsley-range="[0, 999]"/>
+          </div>
+        </form>
+        <!-- 结束编辑分类--> </div>
+      <div class="modal-footer"> <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a> <a href="javascript:;" class="btn btn-success" data-loading-text="Loading..." nc-ajax-submit-target="editForm" nc-ajax-submit>确认提交</a> </div>
+    </div>
+  </div>
+</div>
+<!-- 结束编辑模态窗口 -->
+
+  <script src="${jsRoot}article/article_category.js"></script> 
+</@c.html>

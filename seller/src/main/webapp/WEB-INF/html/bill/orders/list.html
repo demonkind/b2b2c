@@ -1,0 +1,53 @@
+<#import "/layout/seller_layout.html" as c>
+<@c.html title="Index">
+  <#include "/bill/include.html">
+  <div class="tabmenu">
+    <ul class="tab pngFix">
+      <li class="active"><a href="javascript:;">订单列表</a></li>
+      <li><a href="${sellerRoot}bill/refund/list/${bill.billId}">退单列表</a></li>
+    </ul>
+  </div>
+  <table class="ncsc-default-table">
+    <thead>
+      <tr nc_type="table_header">
+        <th class="w10"></th>
+        <th class="w80">订单编号</th>
+        <th class="tc">下单时间</th>
+        <th class="tc">成交时间</th>
+        <th class="tl">订单金额（元）</th>
+        <th class="tl">平台分佣（元）</th>
+        <th class="w100">操作</th>
+      </tr>
+    </thead>
+    <tbody>
+    <#if ordersVoList.size() gt 0>
+    <#list ordersVoList as orders>
+    <tr class="bd-line">
+      <td></td>
+      <td>${orders.ordersSn}</td>
+      <td class="tc">${orders.createTime}</td>
+      <td class="tc">${orders.finishTime!''}</td>
+      <td class="tl">${orders.ordersAmount?string('0.00')}</td>
+      <td class="tl">${orders.commissionAmount?string('0.00')}</td>
+      <td>
+        <a href="${sellerRoot}orders/info/${orders.ordersId}" class="btn btn-sm btn-primary m-r-10"><i class="icon-list-alt"></i>查看详细</a>
+      </td>
+    </tr>
+    </#list>
+    <#else />
+    <tr>
+      <td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span> </div></td>
+    </tr>
+    </#if>
+    </tbody>
+    <tfoot>
+    <tr>
+        <#noescape>
+        <td colspan="20"><div class="pagination">${showPage}</div></td>
+            </#noescape>
+    </tr>
+    </tfoot>
+  </table>
+  <script src="${jsRoot}goods/brand.js"></script>
+</@c.html>
+

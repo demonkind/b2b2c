@@ -1,0 +1,102 @@
+<!-- S 编辑账号对话框 -->
+<!--cG93ZXJlZCBieSBzaG9wbmMubmV0-->
+<div id="divEditProfile" style="display: none">
+  <form id="profileForm" action="${sellerRoot}profile" method="post">
+  <h3>商家头像</h3>
+    <dl>
+      <dt>头像上传：</dt>
+      <dd>
+        <input type="hidden" id="inputAvatar" name="avatar">
+        <div class="seller-profile-avatar-thumb"><img src="${sellerAvatarUrl}" id="imgAvatar" alt=""></div>
+        <div style="display: inline-block; *display: inline; *zoom: 1; vertical-align: middle;"><div class="btn-upload-box"> <span>
+          <input id="avatarFormFile" class="input-file" type="file" multiple name="file" hidefocus="true" autocomplete="off">
+          </span> <a class="btn btn-sm btn-default" href="javascript:;"> <i class="icon icon-picture"></i> 图片上传 </a> </div>
+        <p class="hint">请选择100x100像素的正方形gif、jpg、png格式图片上传。</p>
+        </div>
+      </dd>
+    </dl>
+    <h3>商家登录密码</h3>
+    <dl>
+      <dt>原密码：</dt>
+      <dd>
+        <input type="password" class="text w300" name="password" placeholder="请输入您当前的商家登录密码" maxlength="20"/>
+      </dd>
+    </dl>
+    <dl>
+      <dt>新密码：</dt>
+      <dd>
+        <input type="password" id="newPassword" class="text w300" placeholder="新密码请使用6-20个大小写英文字母、符号或数字" name="newPassword" maxlength="20"/>
+      </dd>
+    </dl>
+    <dl>
+      <dt>确认密码：</dt>
+      <dd>
+        <input type="password" class="text w300" name="newPassword2" placeholder="请再次输入密码，确保一致" maxlength="20"/>
+      </dd>
+    </dl>
+  </form>
+</div>
+<!--cG93ZXJlZCBieSBzaG9wbmMubmV0-->
+<script>
+$(function() {
+    $("#profileForm").validate({
+        onkeyup: false,
+        rules:{
+            newPassword2:{
+                equalTo:"#newPassword"
+            }
+        },
+        messages:{
+            newPassword2:{
+                equalTo: "确认密码不一致"
+            }
+        }
+    });
+
+    $("#btnEditProfile").on("click", function(){
+    	Nc.layerOpen({
+		    title: "编辑账号",
+		    content: $("#divEditProfile"),
+		    $form: $("#profileForm"),
+            async: true,
+            objSerializeType:false,
+            closeLayer:true
+		});
+    });
+	
+	//卖家修改资料上传头像图片缩略
+	$('.seller-profile-avatar-thumb img').jqthumb({
+		width: 60,
+		height: 60,
+		after: function (imgObj) {
+		    imgObj.css('opacity', 0).animate({opacity: 1}, 2000);
+		}
+	});
+
+    /**
+     * 头像上传
+     */
+    $("#avatarFormFile").fileupload({
+        dataType: 'json',
+        url: ncGlobal.sellerRoot + "image/upload.json",
+        formData: {
+		    type: ncGlobal.filesType.setting
+		},
+        done: function (e, data) {
+            if (data.result.code == 200) {
+                $('#inputAvatar').val(data.result.data.name);
+                $('#imgAvatar').attr('src', data.result.data.url);
+				$('.seller-profile-avatar-thumb img').jqthumb({
+					width: 60,
+					height: 60,
+					after: function (imgObj) {
+					    imgObj.css('opacity', 0).animate({opacity: 1}, 2000);
+					}
+			    });
+            } else {
+                Nc.alertError(data.result.message);
+            }
+        }
+    });
+});
+</script> 

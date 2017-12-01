@@ -1,0 +1,44 @@
+<#import "/layout/seller_layout.html" as c> <@c.html title="Index">
+
+<div class="ncsc-form-default">
+	<dl>
+		<dt><em class="pngFix"></em>项目名称：</dt>
+		<dd>${contractVo.ctItemname}</dd>
+	</dl>
+	<dl>
+		<dt><em class="pngFix"></em>保证金余额：</dt>
+		<dd>${contractVo.ctCost}&nbsp;元&nbsp;</dd>
+	</dl>
+	<dl>
+		<dt><em class="pngFix"></em>状态：</dt>
+		<dd>${contractVo.ctState}</dd>
+	</dl>
+	<h3>保证金日志</h3>
+	<table class="ncsc-default-table">
+		<thead>
+			<tr>
+				<th class="w30"></th>
+				<th class="w120 tl">操作人</th>
+				<th class="w200">操作时间</th>
+				<th class="tl">操作描述</th>
+			</tr>
+		</thead>
+		<tbody>
+			<#list contractCostlogList as entity>
+		  	<tr class="bd-line">
+				<td>&nbsp;</td>
+			  	<td class="tl">${entity.clogPrice}</td>
+			  	<td>${entity.clogAddtime}</td>
+				<td class="tl">${entity.clogDesc}</td>
+			</tr>
+		  	</#list>
+		</tbody>
+		<tfoot>
+        <#noescape>
+        <tr><td colspan="20"><div class="pagination">${showPage}</div></td></tr>
+            </#noescape>
+		</tfoot>
+	</table>
+</div>
+
+</@c.html>

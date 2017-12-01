@@ -1,0 +1,52 @@
+<#macro html>
+<!--<div id="ncToolbar" class="nc-appbar" >
+  <div class="nc-appbar-tabs" id="appBarTabs" >
+    <div class="ever" >
+      <div class="cart"><a href="javascript:void(0);" id="rightMyCart" > <span class="icon" ></span > <span class="name" >购物车</span > <i id="rightCartCount" class="new_msg" style="display:none;" ></i ></a > </div >
+    </div >
+    <div class="variation" >
+      <div class="middle" > 
+         s 右侧会员显示
+        <#if memberCommon??>
+        <div class="user" id="barUserInfoBtn"> <a href="javascript:void(0);">
+          <div class="avatar"> <img src="${memberCommon.avatarUrl}"/> </div>
+          <span class="tit">我的账户</span> </a></div>
+        <div class="user-info" id="barUserInfo" style="display:none;"> <i class="arrow"></i>
+          <div class="avatar"> <img src="${memberCommon.avatarUrl}"/>
+            <div class="frame"></div>
+          </div>
+          <dl>
+            <dt>Hi, ${memberCommon.memberName}</dt>
+            <dd>当前等级：<strong nctype="barMemberGrade">Nan</strong></dd>
+            <dd>当前经验值：<strong nctype="barMemberExp">${memberCommon.experiencePoints}</strong></dd>
+          </dl>
+        </div>
+        <#else >
+        <div class="user" > <a href="javascript:void(0);" id="popupLoginBtn" >
+          <div class="avatar" ><img src="" /></div >
+          <span class="tit" >会员登录</span > </a > </div >
+        </#if > 
+        
+        <div class="prech" >&nbsp;</div >
+        <div class="compare" > <a href="javascript:void(0);"  > <span class="icon" ></span > <span class="tit" >商品对比</span > </a > </div >
+      </div >
+      <div class="gotop" > <a href="javascript:void(0);" id="gotop" > <span class="icon" ></span > <span class="tit" >返回顶部</span > </a > </div >
+    </div >
+    <div class="content-box" id="content-compare" >
+      <div class="top" >
+        <h3 >商品对比</h3 >
+        <a href="javascript:void(0);" class="close" title="隐藏" ></a ></div >
+      <div id="comparelist" ></div >
+    </div >
+    <div class="content-box" id="rightMyCartPanel" >
+      <div class="top" >
+        <h3 >我的购物车</h3 >
+        <a href="javascript:void(0);" id="rightMyCartClose" class="close" title="隐藏" ></a > </div >
+      <div id="rightMyCartList" >
+        <ul class="cart-list">
+        </ul>
+      </div >
+    </div >
+  </div >
+</div >--> 
+</#macro >

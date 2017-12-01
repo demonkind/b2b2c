@@ -1,0 +1,96 @@
+<#import "/layout.html" as c>
+    <#import "/list_layout.html" as list>
+        <#assign alertList = []/>
+        <#assign alertList = alertList + ["系统初始化的原因不能删除。"]/>
+        <#assign alertList = alertList + ["排序显示规则为排序小的在前，新增的在前。"]/>
+        <@c.html title="Index">
+        <@list.html title="退货退款原因" subTitle="退货退款原因管理" alertList=alertList addBtn=true searchHint="请输入原因进行精确搜索">
+        </@list.html>
+
+    <!-- 开始 新增退款原因模态框 -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title"> 新增退款退货原因 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsAdd" aria-expanded="false" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+                </div>
+                <div class="modal-body">
+                    <ul class="collapse text-info m-b-20 p-l-15" role="tabpanel" id="OperationTipsAdd">
+                        <li class="m-b-10">排序范围为0~255，数字越小越靠前。</li>
+                    </ul>
+                    <form id="addForm" action="${adminRoot}refund/reason/add" method="post"
+                          data-parsley-validate="true">
+                        <div class="form-group">
+                            <label class="control-label">原因<i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+                            <input id="addReasonInfo" type="text" name="reasonInfo" class="form-control"
+                                   data-parsley-required="true" data-parsley-required-message="请填写退款退货原因"
+                                   data-parsley-maxlength="100"
+                                    />
+                        </div>
+                        <div class="form-group" id="isRelPanel">
+                            <label class="control-label">排序<i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+                            <div>
+                                <input id="addReasonSort" name="reasonSort" type="text" class="form-control"
+                                       data-parsley-required="true" data-parsley-required-message="请填写退款退货原因排序"
+                                       data-parsley-min="0" data-parsley-max="255"
+                                        >
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a>
+                    <a href="javascript:;" class="btn btn-primary" data-loading -text="Loading..."
+                       nc-ajax-submit-target="addForm" nc-ajax-submit>确认提交</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 结束退款原因模态框 -->
+
+    <!-- 开始 修改退款原因模态框 -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div id="editContent" class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title"> 编辑退款退货原因 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsEdit" aria-expanded="false" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+                </div>
+                <div class="modal-body">
+                    <ul class="collapse text-info m-b-20 p-l-15" role="tabpanel" id="OperationTipsEdit">
+                        <li class="m-b-10">排序范围为0~255，数字越小越靠前。</li>
+                    </ul>
+                    <form id="editForm" name="alipayEditForm" action="${adminRoot}refund/reason/save" method="post"
+                          data-parsley-validate="true">
+                        <input id="editReasonId" type="hidden" name="reasonId"/>
+
+                        <div class="form-group">
+                            <label class="control-label">原因<i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+                            <input id="editReasonInfo" type="text" name="reasonInfo" class="form-control"
+                                   data-parsley-required="true" data-parsley-required-message="请填写退款退货原因"
+                                   data-parsley-maxlength="100"
+                                    />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">排序<i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+                            <div>
+                                <input id="editReasonSort" name="reasonSort" type="text" class="form-control"
+                                       data-parsley-required="true" data-parsley-required-message="请填写退款退货原因排序"
+                                       data-parsley-min="0" data-parsley-max="255"
+                                      >
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a>
+                    <a href="javascript:;" class="btn btn-primary" data-loading -text="Loading..."
+                       nc-ajax-submit-target="editForm" nc-ajax-submit>确认提交</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 结束禁售模态框 -->
+<script src="${jsRoot}refund/list.js"></script>
+</@c.html>

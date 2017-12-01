@@ -1,0 +1,126 @@
+<link href="${publicRoot}css/base.css" rel="stylesheet" type="text/css" >
+<link href="${cssRoot}web_common.css" rel="stylesheet" type="text/css" >
+<link href="${toolkitRoot}font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
+<!--[if IE 7]>
+<link href="${toolkitRoot}font-awesome/css/font-awesome-ie7.min.css" rel="stylesheet">
+<![endif]-->
+<style type="text/css">
+body { width: 100%; min-width: auto; }
+</style>
+<div class="pop-login-layout" >
+<div class="title"><h3>商城会员</h3><a href="javascript:void(0);" onclick="parent.open('${webRoot}register');" class="c-danger"><i class="icon icon-circle-arrow-right"></i>立即注册</a></div>
+<div class="tip"><i class="icon icon-lightbulb"></i>公共场所不建议自动登录，以防账号丢失</div>
+  <form id="loginForm" class="nc-login-form popup" name="loginForm" method="post" >
+    <dl >
+      <dt >账&nbsp;&nbsp;号：</dt >
+      <dd >
+        <input type="text" class="text" id="loginName" name="loginName" autocomplete="off" placeholder="手机号/会员名/邮箱" >
+      </dd >
+    </dl >
+    <dl >
+      <dt >密&nbsp;&nbsp;码：</dt >
+      <dd >
+        <input type="password" class="text" id="memberPwd" name="memberPwd" placeholder="输入账户密码" autocomplete="off" />
+      </dd >
+    </dl >
+    <dl >
+      <dt >验证码：</dt >
+      <dd >
+        <input id="captcha" class="text w100" type="text" name="captcha" maxlength="4" placeholder="输入验证码" autocomplete="off" />
+        <span class="code-span" > <img id="codeimage" src="${webRoot}captcha/getcaptcha" class="codeimg" alt="" /> <a href="JavaScript:void(0);" nc_type="changeCaptcha" onclick="javascript:document.getElementById('codeimage').src='${webRoot}captcha/getcaptcha?t='+Math.random()" class="code-pic" > 看不清，换一张</a ></span > </dd >
+    </dl >
+    <div class="handle-div" > <span class="auto" >
+      <input type="checkbox" value="1" class="checkbox vm m-r-5" id="autoLogin" name="autoLogin" >
+      七天自动登录</span > <a href="javascript:;" onclick="parent.open('${webRoot}findpwd');" class="forget" >忘记密码</a ></div>
+    <div class="form-bottom m-t-10" ><a href="javascript:;" class="btn btn-lg btn-danger" id="loginSubmit" style="display: block;" >登&nbsp;&nbsp;录</a ></div >
+  </form >
+</div >
+<script >
+    //全局方法设置
+    var ncGlobal = {
+        webRoot: "${webRoot}",
+        adminRoot: "${adminRoot}",
+        memberRoot: "${memberRoot}",
+        sellerRoot: "${sellerRoot}",
+        jsRoot: "${jsRoot}",
+        cssRoot: "${cssRoot}",
+        imgRoot: "${imgRoot}",
+        toolkitRoot: "${toolkitRoot}",
+        uploadRoot: "${uploadRoot}"
+    };
+</script > 
+<script type="text/javascript" src="${publicRoot}toolkit/jquery/1.8.3/jquery.js" ></script > 
+<script type="text/javascript" src="${publicRoot}toolkit/layer/layer.js" ></script > 
+<script type="text/javascript" src="${publicRoot}toolkit/jquery-nc/jquery.nc.js" ></script > 
+<script type="text/javascript" src="${publicRoot}toolkit/jquery-validation/jquery.validation.min.js" ></script > 
+<script >
+    $(function () {
+        $("#loginSubmit").on("click", function (e) {
+
+            if ($("#loginForm").valid()) {
+                var postData;
+                e.preventDefault();
+                if ($("#loginForm").valid()) {
+                    postData = $("#loginForm").serializeObject();
+                    (postData.autoLogin == undefined) && (postData.autoLogin = 0)
+                    $.post(
+                            ncGlobal.webRoot + "login/common",
+                            postData,
+                            function (xhr) {
+                                if (xhr.code == 200) {
+                                    parent.location.reload();
+                                } else {
+                                    parent.layer.alert(xhr.message ? xhr.message : "连接超时", {
+                                        icon: 0,
+                                        time: 3000
+                                    })
+                                }
+                            }
+                    )
+                }
+                return
+            }
+
+        })
+
+        $("#loginForm").validate({
+            errorPlacement: function (error, element) {
+                var error_item = element.parent('dd');
+                error_item.append(error);
+            },
+            onkeyup: false,
+            rules: {
+                loginName: {
+                    required: true
+                },
+                memberPwd: {
+                    required: true
+                },
+                captcha: {
+                    required: true,
+                    remote: {
+                        url: ncGlobal.webRoot + 'captcha/check',
+                        type: 'get',
+                        data: {
+                            captcha: function () {
+                                return $('#captcha').val();
+                            }
+                        }
+                    }
+                }
+            },
+            messages: {
+                loginName: {
+                    required: '<i class="icon-exclamation-sign"></i>用户名不能为空'
+                },
+                memberPwd: {
+                    required: '<i class="icon-exclamation-sign"></i>密码不能为空'
+                },
+                captcha: {
+                    required: '<i class="icon-exclamation-sign"></i>验证码不能为空',
+                    remote: '<i class="icon-exclamation-sign"></i>验证码错误'
+                }
+            }
+        });
+    })
+</script > 

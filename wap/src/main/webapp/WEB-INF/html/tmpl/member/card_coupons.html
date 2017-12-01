@@ -1,0 +1,165 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-touch-fullscreen" content="yes" />
+<meta name="format-detection" content="telephone=no"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="msapplication-tap-highlight" content="no" />
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,minimum-scale=1" />
+<title>我的卡券</title>
+<link rel="stylesheet" type="text/css" href="${cssRoot}base.css">
+<link rel="stylesheet" type="text/css" href="${cssRoot}nctouch_member.css">
+<link rel="stylesheet" type="text/css" href="${cssRoot}card_coupons.css">
+</head>
+<body>
+<header id="header" class="fixed">
+  <div class="header-wrap">
+    <div class="header-l"> <a href="/wap/members/index"> <i class="back"></i> </a> </div>
+    <div class="header-title">
+      <h1>我的卡券</h1>
+    </div>
+    <div class="header-r"> <a id="header-nav" href="javascript:void(0);"><i class="more"></i><sup></sup></a> </div>
+  </div>
+  <div class="nctouch-nav-layout">
+    <div class="nctouch-nav-menu"> <span class="arrow"></span>
+      <ul>
+        <li><a href="/wap"><i class="home"></i>首页</a></li>
+		<li><a href="/wap/cart/list" ><i class="cart"></i>购物车<sup></sup></a></li>
+		<li><a href="javascript:void(0);" onclick="_MEIQIA._SHOWPANEL()"><i class="search"></i>联系客服</a></li>
+		<li><a href="/wap/members/index"><i class="message"></i>我的<sup></sup></a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+<div class="nctouch-main-layout">
+
+  <div id="fixed_nav" class="nctouch-single-nav">
+    <ul id="filtrate_ul" class="w33h">
+	    <li class="selected"><a href="javascript:void(0);" data-state="state_old" id="state_old">未使用</a></li>
+	    <li><a href="javascript:void(0);" data-state="state_new" id="state_new">已使用</a></li>
+	    <li><a href="javascript:void(0);" data-state="state_send" id="state_send">失效</a></li>
+    </ul>
+  </div>
+  <div class="nctouch-order-list" id="order-list"> </div>
+</div>
+<ul id="tab_main">
+		
+			<li class="cur">
+			<#if coupons1?? && (coupons1?size>0)>
+			<#list coupons1 as c >
+				<a href="/wap/card/cardDetail?couponsId=${c.couponsId}" >
+					<section class="text_detail clear-fix">
+					<div class="left fl">
+				      <h2>${c.amountMoney}</h2>
+				      <span>仅限K2由器</span>
+				      <div class="circle top"></div>
+				      <div class="circle bottom"></div>
+					</div>
+					<div class="text_right fr">
+				        <div class="top"><h4>${c.kCode}<span>K码</span></h4></div>
+				        <div class="bottom">
+				          <ul>
+				            <li>K码输入时请注意大小写</li>
+				            <li>申请路由器退货将取消活动所得奖励</li>
+				            <li>活动专用卡，不记名、不兑换现金</li>
+				            <li>${c.dueTime}到期</li>
+				          </ul>
+				        </div>
+					</div>
+					</section>
+				</a>
+				</#list>
+			</#if>
+			</li>
+			
+
+<li>
+<#if coupons0?exists && (coupons0?size>0)>
+<#list coupons0 as c >
+<a href="/wap/card/cardDetail?couponsId=${c.couponsId}">
+  <section class="text_detail clear-fix" style="-webkit-filter: grayscale(100%);-moz-filter: grayscale(100%);-ms-filter: grayscale(100%);-o-filter: grayscale(100%);filter: grayscale(100%);filter: gray;">
+    <div class="left fl">
+      <h2>${c.amountMoney}</h2>
+      <span>仅限K2由器</span>
+      <div class="circle top"></div>
+      <div class="circle bottom"></div>
+    </div>
+    <div class="text_right fr">
+      <div class="top"><h4>${c.kCode}<span>K码</span></h4></div>
+      <div class="bottom">
+        <ul>
+          <li>K码输入时请注意大小写</li>
+          <li>申请路由器退货将取消活动所得奖励</li>
+          <li>活动专用卡，不记名、不兑换现金</li>
+          <li>${c.dueTime}到期</li>
+        </ul>
+      </div>
+    </div>
+    <div class="invalid">
+      <img src="${imgRoot}used.png">
+    </div>
+  </section>
+</a>
+</#list>
+</#if>
+</li>
+<li>
+<#if coupons2?exists && (coupons2?size>0)>
+<#list coupons2 as c >
+<a href="/wap/card/cardDetail?couponsId=${c.couponsId}">
+  <section class="text_detail clear-fix" style="-webkit-filter: grayscale(100%);-moz-filter: grayscale(100%);-ms-filter: grayscale(100%);-o-filter: grayscale(100%);filter: grayscale(100%);filter: gray;">
+    <div class="left fl">
+      <h2>${c.amountMoney}</h2>
+      <span>仅限K2由器</span>
+      <div class="circle top"></div>
+      <div class="circle bottom"></div>
+    </div>
+    <div class="text_right fr">
+      <div class="top"><h4>${c.kCode}<span>K码</span></h4></div>
+      <div class="bottom">
+        <ul>
+          <li>K码输入时请注意大小写</li>
+          <li>申请路由器退货将取消活动所得奖励</li>
+          <li>活动专用卡，不记名、不兑换现金</li>
+          <li>${c.dueTime}到期</li>
+        </ul>
+      </div>
+    </div>
+    <div class="invalid">
+      <img src="${imgRoot}die.png">
+    </div>
+  </section>
+</a>
+</#list>
+</#if>
+</li>
+
+</ul>
+
+</body>
+<script type="text/javascript" src="${jsRoot}zepto.min.js"></script>
+<script type="text/javascript" src="${jsRoot}meiqia.js"></script>
+<script type="text/javascript">
+    $("#header-nav").click(function () {
+      if ($('.nctouch-nav-layout').hasClass('show')) {
+        $('.nctouch-nav-layout').removeClass('show');
+      } else {
+        $('.nctouch-nav-layout').addClass('show');
+      }
+    })
+    $(".nctouch-nav-layout").click(function () {
+      $('.nctouch-nav-layout').removeClass('show');
+    })
+    $("#product_tab>.tab_head>span").click(function () {
+      $(this).addClass("cur").siblings().removeClass("cur");
+    })
+    $("li").click(function(){
+    	$(this).addClass("selected").siblings().removeClass("selected");
+    	$("#tab_main>li").eq($(this).index()).addClass("cur").siblings().removeClass("cur");
+    })
+</script>
+</html>

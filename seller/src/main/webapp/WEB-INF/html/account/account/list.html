@@ -1,0 +1,169 @@
+<#import "/layout/seller_layout.html" as c>
+<@c.html title="Index">
+  <div class="top-btn-layout"> <a id="addBtn" href="javascript:void(0)" class="btn btn-sm btn-success" onclick="javascript:;"  title="新增商家账户"> <i class="icon icon-plus"></i> 新增商家账户 </a> </div>
+  <div class="alert mt15 mb5"><strong>操作提示：</strong>
+    <ul>
+      <li>添加店铺子帐号，可以为不同账号分配不同的权限</li>
+      <li>添加帐号前请首先建立账号组</li>
+    </ul>
+  </div>
+  <table class="ncsc-default-table">
+    <thead>
+      <tr>
+        <th class="w30"></th>
+        <th class="tl w200">账户名称</th>
+        <th class="tl">账户权限组</th>
+        <th class="w150">操作</th>
+      </tr>
+    </thead>
+    <tbody>
+    <!--amF2YV9zZWxsZXIvYWNjb3VudC9hY2NvdW50L2xpc3QgYnkgc2hvcG5jLm5ldA==-->
+    <#if sellerList.size() gt 0>
+    <#list sellerList as seller>
+    <tr class="bd-line">
+      <td class="tc"></td>
+      <td class="tl">${seller.sellerName}</td>
+      <td class="tl">${seller.groupName}</td>
+      <td>
+        <#if seller.groupId == 0>
+          <a href="javascript:;" onclick="list.editOwner(this)" data-seller-id="${seller.sellerId}" data-email="${seller.sellerEmail!''}" data-mobile="${seller.sellerMobile!''}" data-seller-name="${seller.sellerName}" class="btn btn-sm btn-primary m-r-10"><i class="icon icon-edit"></i>编辑</a>
+        <#else />
+          <a href="javascript:void(0);" onclick="javascript:list.edit(this)" data-seller-id="${seller.sellerId}" data-seller-name="${seller.sellerName}" data-email="${seller.sellerEmail!''}" data-mobile="${seller.sellerMobile!''}" data-group-id="${seller.groupId}" class="btn btn-sm btn-primary m-r-10"><i class="icon icon-edit"></i>编辑</a>
+          <a href="javascript:void(0);" onclick="javascript:list.delete(${seller.sellerId})" class="btn btn-sm btn-danger"><i class="icon icon-trash"></i>删除</a>
+        </#if>
+      </td>
+    </tr>
+    </#list>
+    <#else/>
+    <tr>
+      <td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span></div></td>
+    </tr>
+    </#if>
+      </tbody>
+    
+    <tfoot>
+    </tfoot>
+  </table>
+  <script src="${jsRoot}account/account.js"></script> 
+</@c.html>
+<!-- S 添加账号对话框 -->
+<div id="addModal" style="display: none">
+  <form id="addForm" action="${sellerRoot}account/save.json" method="post">
+    <dl>
+      <dt><i class="required">*</i>账号名称：</dt>
+      <dd>
+        <input id="sellerName" name="sellerName" type="text" class="text w300">
+      </dd>
+    </dl>
+    <dl>
+      <dt><i class="required">*</i>账号密码：</dt>
+      <dd>
+        <input id="password" name="password" type="password" class="text w300">
+      </dd>
+    </dl>
+    <dl>
+      <dt><i class="required">*</i>重复密码：</dt>
+      <dd>
+        <input id="password2" name="password2" type="password" class="text w300">
+      </dd>
+    </dl>
+    <dl>
+      <dt><i class="required">*</i>邮箱号码：</dt>
+      <dd>
+        <input id="sellerEmail" name="sellerEmail" type="text" class="text w300">
+      </dd>
+    </dl>
+    <dl>
+      <dt><i class="required">*</i>手机号码：</dt>
+      <dd>
+        <input id="sellerMobile" name="sellerMobile" type="text" class="text w300">
+      </dd>
+    </dl>
+    <dl>
+      <dt><i class="required">*</i>账号组：</dt>
+      <dd>
+        <select id="groupId" name="groupId">
+          <option value ="">- 请选择 -</option>
+          <#if sellerGroupList??> <#list sellerGroupList as sellerGroup>
+          <option value ="${sellerGroup.groupId}">${sellerGroup.groupName}</option>
+          </#list> </#if>
+        </select>
+      </dd>
+    </dl>
+  </form>
+</div>
+<!-- E 添加账号对话框 -->
+<!-- S 编辑店主号码对话框 -->
+<div id="editOwnerModal" style="display: none">
+  <form id="editOwnerForm" action="${sellerRoot}account/owner/update.json" method="post">
+    <input id="editOwnerSellerId" name="sellerId" type="hidden">
+    <dl>
+      <dt><i class="required">*</i>账号名称：</dt>
+      <dd>
+        <input id="editOwnerSellerName" type="text" readonly>
+      </dd>
+    </dl>
+    <dl>
+      <dt><i class="required">*</i>邮箱号码：</dt>
+      <dd>
+        <input id="editOwnerSellerEmail" name="sellerEmail" type="text" class="text w300">
+      </dd>
+    </dl>
+    <dl>
+      <dt><i class="required">*</i>手机号码：</dt>
+      <dd>
+        <input id="editOwnerSellerMobile" name="sellerMobile" type="text" class="text w300">
+      </dd>
+    </dl>
+  </form>
+</div>
+<!-- E 编辑店主号码对话框 -->
+<!-- S 编辑账号对话框 -->
+<div id="editModal" style="display: none">
+  <form id="editForm" action="${sellerRoot}account/update.json" method="post">
+    <input id="editSellerId" name="sellerId" type="hidden">
+    <dl>
+      <dt><i class="required">*</i>账号名称：</dt>
+      <dd>
+        <input id="editSellerName" type="text" readonly>
+      </dd>
+    </dl>
+    <dl>
+      <dt><i class="required">*</i>账号密码：</dt>
+      <dd>
+        <input id="editPassword" name="password" type="password" class="text w300">
+      </dd>
+    </dl>
+    <dl>
+      <dt><i class="required">*</i>重复密码：</dt>
+      <dd>
+        <input name="password2" type="password" class="text w300">
+      </dd>
+    </dl>
+    <dl>
+      <dt><i class="required">*</i>邮箱号码：</dt>
+      <dd>
+        <input id="editSellerEmail" name="sellerEmail" type="text" class="text w300">
+      </dd>
+    </dl>
+    <dl>
+      <dt><i class="required">*</i>手机号码：</dt>
+      <dd>
+        <input id="editSellerMobile" name="sellerMobile" type="text" class="text w300">
+      </dd>
+    </dl>
+    <!--amF2YV9zZWxsZXIvYWNjb3VudC9hY2NvdW50L2xpc3QgYnkgc2hvcG5jLm5ldA==-->
+    <dl>
+      <dt><i class="required">*</i>账号组：</dt>
+      <dd>
+        <select id="editGroupId" name="groupId">
+          <option value ="">- 请选择 -</option>
+          <#if sellerGroupList??> <#list sellerGroupList as sellerGroup>
+          <option value ="${sellerGroup.groupId}">${sellerGroup.groupName}</option>
+          </#list> </#if>
+        </select>
+      </dd>
+    </dl>
+  </form>
+</div>
+<!-- E 添加账号对话框 --> 

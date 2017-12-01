@@ -1,0 +1,69 @@
+<div id="paymentCon" class="ncc-receipt-info" >
+    <div class="ncc-receipt-info-title" >
+        <h3 >支付方式</h3 >
+        <#if allowOffline == 1  >
+            <a id="editPaymentBtn" data-buy-edit href="javascript:void(0)"  >[修改]</a >
+        </#if>
+    </div >
+
+    <div class="ncc-candidate-items" id="nccCandidateItems">
+        <ul>
+            <li>在线支付</li>
+        </ul>
+    </div>
+    <div style="display: none;" class="ncc-candidate-items" id="paymentList" >
+        <ul >
+            <li >
+                <input type="radio" id="paymentTypeOnline" name="payment_type" value="online" checked="checked" >
+                <label for="paymentTypeOnline" >在线支付</label >
+            </li >
+            <li >
+                <input type="radio" id="paymentTypeOffline" name="payment_type" value="offline" >
+                <label for="paymentTypeOffline" >货到付款</label >
+
+                <a href="javascript:void(0);" class="ncc-payment-showgoods" style="display: none;"
+                   id="showOfflineGoods">
+                    <i class="icon-truck"></i>
+                    <#if buyGoodsItemVoOffLineList?exists && (buyGoodsItemVoOffLineList?size>0) >
+                        货到付款 (<span data-cod-nums="offline">${buyGoodsItemVoOffLineList?size}</span>种商品) + <i class="icon-credit-card"></i>
+                    </#if>
+                    <#if buyGoodsItemVoOnLineList?exists && (buyGoodsItemVoOnLineList?size>0) >
+                        在线支付 (<span data-cod-nums="online">${buyGoodsItemVoOnLineList?size}</span>种商品)
+                    </#if>
+                    <#-- S 货到付款显示-->
+                    <div id="nccPaymentShowgoodsList" class="ncc-payment-showgoods-list" >
+                        <dl>
+                        <#if buyGoodsItemVoOffLineList?exists && (buyGoodsItemVoOffLineList?size>0) >
+                            <dt data-hideshow="offline">货到付款</dt>
+                            <dd data-hideshow="offline" data-cod2-type="offline">
+                            <#list buyGoodsItemVoOffLineList as buyGoodsItemVo>
+                                <div class="goods-thumb" data-cod2-store="1">
+				                    <span>
+					                    <img src="${buyGoodsItemVo.imageSrc}">
+                                    </span>
+                                </div>
+                            </#list>
+                            </dd>
+                        </#if>
+                        <#if buyGoodsItemVoOnLineList?exists && (buyGoodsItemVoOnLineList?size>0) >
+                            <dt data-hideshow="online">在线支付</dt>
+                            <dd data-hideshow="online" data-cod2-type="online">
+                            <#list buyGoodsItemVoOnLineList as buyGoodsItemVo>
+                                <div class="goods-thumb" data-cod2-store="14"><span><img src="${buyGoodsItemVo.imageSrc}"></span></div>
+                            </#list>
+                            </dd>
+                        </#if>
+                        </dl>
+                    </div>
+                    <#-- E 货到付款显示-->
+                </a>
+
+            </li >
+        </ul >
+        <div class="hr16" >
+            <a id="hidePaymentListBtn" class="btn btn-sm btn-danger" href="javascript:void(0);" >
+            保存支付方式</a >
+        </div >
+    </div >
+
+</div >

@@ -1,0 +1,30 @@
+<#import "../../func.html" as funcList>
+
+    <#if favoritesList?exists && (favoritesList?size gt 0) >
+        <div class="ncm-favorites-goods" >
+            <ul id="favoritesGoodsList" class="jcarousel-skin-tango" >
+                <#list favoritesList as info>
+                    <li style="width: 163px;">
+                        <div class="ncm-goods-thumb-120" >
+                            <a href="${funcList.ncGoodsUrl(info.goodsId!0)}" target="_blank" >
+                                <img alt="${info.goodsName!''}" src="${funcList.ncImage(info.goods.imageSrc,120,120)}">
+                            </a >
+
+                            <div class="ncm-goods-price" ><em >￥${info.goods.goodsPrice?string["0.00"]!0}</em ></div >
+                        </div >
+                        <div class="ncm-goods-name" >
+                            <a href="${funcList.ncGoodsUrl(info.goodsId!0)}" title="${info.goodsName!''}" target="_blank" >
+                                ${info.goodsName!''}</a ></div >
+                    </li >
+                </#list >
+            </ul >
+            <div class="more" ><a target="_blank" href="${memberRoot}favorites/goods" >查看关注的所有商品</a ></div >
+        </div >
+        <#else >
+            <dl class="null-tip" >
+                <dt ></dt >
+                <dd >
+                    <h4 >您还没有关注商品</h4 >
+                </dd >
+            </dl >
+    </#if >

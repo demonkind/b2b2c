@@ -1,0 +1,108 @@
+<#macro html>
+    <!-- S 右侧订单详情-->
+    <div class="ncm-flow-item">
+        <div class="title">相关商品交易信息</div>
+        <div class="item-goods">
+            <#if ordersVo?? >
+                <#if (ordersVo.ordersGoodsVoList?size>0)>
+                    <#list ordersVo.ordersGoodsVoList as ordersGoodsVo>
+                        <dl>
+                            <dt>
+                            <div class="ncm-goods-thumb-mini">
+                                <a target="_blank" href="${c.func.ncGoodsUrl(ordersGoodsVo.goodsId)}">
+                                    <img src="${c.func.ncImage(ordersGoodsVo.imageSrc, 100, 100)}"/></a></div>
+                            </dt>
+                            <dd><a target="_blank"
+                                   href="${c.func.ncGoodsUrl(ordersGoodsVo.goodsId)}">${ordersGoodsVo.goodsName}</a>
+                                ￥${ordersGoodsVo.goodsPrice?string("0.00")}
+                                * ${ordersGoodsVo.buyNum} <font color="#AAA">(数量)</font>
+                                <!--<span>商品类型</span>-->
+                            </dd>
+                        </dl>
+                    </#list>
+                </#if>
+            </#if>
+        </div>
+        <div class="item-order">
+            <dl>
+                <dt>运&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;费：</dt>
+                <dd>
+                    <#if (ordersVo.freightAmount>0)>
+                        ￥${ordersVo.freightAmount?string("0.00")}
+                        <#else/>
+                        （免运费）
+                    </#if>
+                </dd>
+            </dl>
+            <dl>
+                <dt>订单总额：</dt>
+                <dd>
+                    <strong>
+                        ¥${ordersVo.ordersAmount?string("0.00")}
+                        <#if ordersVo.refundState != 0 >
+                            (¥${ordersVo.refundAmount?string('0.00')})
+                        </#if>
+                    </strong></dd>
+            </dl>
+            <dl class="line">
+                <dt>订单编号：</dt>
+                <dd><a target="_blank" href="${webRoot}member/orders/info/${ordersVo.ordersId}">${ordersVo.ordersSn}</a>
+                    <a href="javascript:void(0);" class="a">更多<i class="icon-angle-down"></i>
+
+                        <div class="more"><span class="arrow"></span>
+                            <ul>
+                                <li>支付方式：<span>${ordersVo.paymentName}</span> </li>
+                                <li>下单时间：<span>${ordersVo.createTime}</span></li>
+                                <#if ordersVo.paymentTime??>
+                                    <li>付款时间：<span>${ordersVo.paymentTime!''}</span></li>
+                                </#if>
+                                <#if ordersVo.sendTime??>
+                                    <li>发货时间：<span>${ordersVo.sendTime!''}</span></li>
+                                </#if>
+                                <#if ordersVo.finishTime??>
+                                    <li>完成时间：<span>${ordersVo.finishTime!''}</span></li>
+                                </#if>
+                            </ul>
+                        </div>
+                    </a></dd>
+            </dl>
+
+          <#if ordersVo.shipCode??>
+            <dl>
+                <dt>物流单号：</dt>
+                <dd><a target="_blank"
+                       href="${ordersVo.shipUrl!''}">${ordersVo.shipSn!''}</a>
+                    <a href="javascript:void(0);" class="a">${ordersVo.shipName!''}</a></dd>
+            </dl>
+          </#if>
+            <!-- S 商家相关信息-->
+            <dl class="line">
+                <dt>商&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;家：</dt>
+                <dd>${ordersVo.storeName}
+                    <a href="javascript:void(0);" class="a">更多<i
+                        class="icon-angle-down"></i>
+
+                    <div class="more"><span class="arrow"></span>
+                        <ul>
+                            <li>所在地区：<span>${ordersVo.storeAddress!""}</span></li>
+                            <li>联系电话：<span>${ordersVo.storePhone!""}</span></li>
+                        </ul>
+                    </div>
+                </a>
+
+                    <div>
+                        <#if ordersVo.storeQq?? && ordersVo.storeQq != "">
+                            <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=${ordersVo.storeQq}&site=qq&menu=yes" title="QQ: ${ordersVo.storeQq}"><img border="0" src="http://wpa.qq.com/pa?p=2:${ordersVo.storeQq}:52" style=" vertical-align: middle;"/></a>
+                        </#if>
+                        <#if ordersVo.storeWw?? && ordersVo.storeWw != "">
+                            <a target="_blank" href="http://amos.im.alisoft.com/msg.aw?v=2&uid=${ordersVo.storeWw}&site=cntaobao&s=2&charset=utf-8"  class="vm" ><img border="0" src="http://amos.im.alisoft.com/online.aw?v=2&uid=${ordersVo.storeWw}&site=cntaobao&s=2&charset=utf-8" alt="Wang Wang"  style=" vertical-align: middle;"/></a>
+                        </#if>
+                    </div>
+                </dd>
+            </dl>
+            <!-- E 商家相关信息-->
+        </div>
+    </div>
+    <!-- E 右侧订单详情-->
+
+</#macro>

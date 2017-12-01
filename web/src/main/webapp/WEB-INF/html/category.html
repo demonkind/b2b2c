@@ -1,0 +1,47 @@
+<#macro html>
+<div class="title">
+  <h3><a href="${webRoot}category">所有商品分类</a></h3>
+  <i class="arrow-down"></i>
+</div>
+<div id="topCategoryMenu" class="category">
+  <ul class="menu">
+    <#if categoryList?? && categoryList.size() gt 0>
+      <!--演示用数据-->
+      <#assign categoryFlat = 1 />
+    <#list categoryList as category>
+      <#if (webHome?? && categoryFlat gt 12 )>
+      <#break>
+      </#if>
+      <li cat_menu_id="${category.categoryId}" class="${category?item_parity}" >
+      <div class="class"><span class="arrow"></span>
+        <h4><a href="${webRoot}search?cat=${category.categoryId}">${category.categoryName}</a></h4>
+      </div>
+      <div class="sub-class" cat_menu_id="${category.categoryId}">
+        <div class="sub-class-content"> <#if category.categoryList.size() gt 0>
+          <#list category.categoryList as categoryChild>
+          <dl>
+            <dt>
+              <h3><a href="${webRoot}search?cat=${categoryChild.categoryId}">${categoryChild.categoryName}</a></h3>
+            </dt>
+            <dd class="goods-class"> <#if categoryChild.categoryList.size() gt 0>
+              <#list categoryChild.categoryList as categoryChildChild> <a href="${webRoot}search?cat=${categoryChildChild.categoryId}">${categoryChildChild.categoryName}</a> </#list>
+              </#if> </dd>
+          </dl>
+          </#list>
+          </#if> </div>
+        <div class="sub-class-right">
+          <div class="adv-promotions">
+            <a href="javascript:;"><img src="${imgRoot}homepage/category_${categoryFlat}_a.jpg"></a>
+            <a href="javascript:;"><img src="${imgRoot}homepage/category_${categoryFlat}_b.jpg"></a>
+            <a href="javascript:;"><img src="${imgRoot}homepage/category_${categoryFlat}_c.jpg"></a>
+            <!--演示数据-->
+            <#assign categoryFlat++ />
+          </div>
+        </div>
+      </div>
+    </li>
+    </#list>
+    </#if>
+  </ul>
+</div>
+</#macro>

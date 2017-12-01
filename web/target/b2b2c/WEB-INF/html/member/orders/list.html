@@ -1,0 +1,223 @@
+<#import "/member/layout.html" as c>
+<@c.html title="Index">
+  <div class="wrap">
+    <div class="tabmenu">
+      <ul class="tab pngFix">
+        <li class="active"><a href="${memberRoot}orders/">订单列表</a></li>
+      </ul>
+    </div>
+    <form target="_self" action="" method="get">
+      <table class="ncm-search-table">
+        <tbody>
+          <tr>
+            <td>&nbsp;</td>
+            <th>订单状态</th>
+            <td class="w100"><select name="ordersState" id="ordersState">
+                <option value="">所有订单</option>
+                <option value="new">待付款</option>
+                <option value="pay">待发货</option>
+                <option value="send">待收货</option>
+                <option value="finish">已完成</option>
+                <option value="noeval">待评价</option>
+                <option value="cancel">已取消</option>
+              </select></td>
+            <th>下单时间</th>
+            <td class="w250"><input type="text" id="createTimeStart" name="createTimeStart" class="text w70" value='${RequestParameters["createTimeStart"]?default("")}'><label class="add-on"><i class="icon-calendar"></i></label>
+              &nbsp;&#8211;&nbsp;
+              <input type="text" id="createTimeEnd" name="createTimeEnd" class="text w70" value='${RequestParameters["createTimeEnd"]?default("")}'><label class="add-on"><i class="icon-calendar"></i></label></td>
+            <td class="w240 tr"><input type="text" value="${RequestParameters['keyword']?default('')}" name="keyword" placeholder="输入商品名称或订单号进行搜索" class="text w200"></td>
+            <td class="w70 tc"><label class="submit-border">
+                <input type="submit" value="搜索" class="submit">
+              </label></td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+    <table class="ncm-default-table order">
+      <thead>
+        <tr>
+          <th class="w10"></th>
+          <th colspan="2">商品</th>
+          <th class="w90">单价（元）</th>
+          <th class="w40">数量</th>
+          <!--<th class="w90">优惠活动</th>-->
+          <th class="w90">售后维权</th>
+          <th class="w110">订单金额（元）</th>
+          <th class="w90">交易状态</th>
+          <th class="w120">交易操作</th>
+        </tr>
+      </thead>
+      <#if ordersPayVoList?exists && (ordersPayVoList?size>0)>
+      <#list ordersPayVoList as ordersPay>
+      <#assign i=0>
+        <tbody 
+      <#if (ordersPay.ordersOnlineAmount>0)>class="pay"</#if>>
+      <#list ordersPay.ordersVoList as ordersVo>
+      <#if (ordersPay.ordersOnlineAmount<=0)>
+      <tr>
+        <td class="sep-row" colspan="19"></td>
+      </tr>
+      </#if>
+      <#if (ordersPay.ordersOnlineAmount>0) && (i==0)>
+      <tr>
+        <td class="sep-row" colspan="19"></td>
+      </tr>
+      <tr>
+        <td class="pay-td" colspan="19"><span class="m-l-15">在线支付金额：<em>￥${ordersPay.ordersOnlineAmount?string("0.00")}</em></span> <a href="${webRoot}buy/pay/payment/list/${ordersPay.payId}" class="btn btn-sm btn-danger fr m-r-15"><i class="icon-shield"></i>订单支付</a></td>
+      </tr>
+      </#if>
+      <#assign i=i+1>
+      <tr>
+        <th colspan="19"> <span class="m-l-10">订单号：${ordersVo.ordersSn}</span> <span>下单时间：${ordersVo.createTime}</span> <span><a title="${ordersVo.storeName}" href="${webRoot}store/${ordersVo.storeId}" target="_blank">${ordersVo.storeName}</a></span> </th>
+      </tr>
+      <!-- S 商品列表 --> 
+      <#list ordersVo.ordersGoodsVoList as ordersGoodsVo>
+      
+        <td class="bdl"></td>
+        <td class="w70"><div class="ncm-goods-thumb"> <a target="_blank" href="${webRoot}activity/activityInfo?goodsId=${ordersGoodsVo.goodsId}"><img src="${c.func.ncImage(ordersGoodsVo.imageSrc, 60, 60)}"></a></div></td>
+        <td class="tl"><dl class="goods-name">
+            <dt><a target="_blank" href="${webRoot}activity/activityInfo?goodsId=${ordersGoodsVo.goodsId}">${ordersGoodsVo.goodsName}</a>
+              <!--<span class="rec"><a href="${webRoot}snapshot/263" target="_blank">[交易快照]</a></span>--> 
+            </dt>
+            <dd>${ordersGoodsVo.goodsFullSpecs}</dd>
+          </dl></td>
+        <td>${ordersGoodsVo.goodsPrice?string("0.00")}
+
+        <#if ordersGoodsVo.refundAmount??>
+            <p class="green">
+                ${ordersGoodsVo.refundAmount?string("0.00")}(退)
+            </p>
+        </#if>
+        </td>
+        <td>${ordersGoodsVo.buyNum}</td>
+        <!--<td></td>-->
+        <#-- S 商品单件退款退货-->
+        <td>
+          <#if (ordersGoodsVo.showRefund == 1 || ordersVo.refundReturnStatus==19 || ordersVo.refundReturnStatus==29) && ordersVo.ordersState != 20>
+              <p><a href="${webRoot}member/refund/choose/${ordersGoodsVo.ordersId}/${ordersGoodsVo.ordersGoodsId}" class="link-blue">退款/退货</a></p>
+              <#--<p><a href="${webRoot}member/return/add/${ordersGoodsVo.ordersId}/${ordersGoodsVo.ordersGoodsId}">退货</a></p>-->
+          </#if>
+            <#if ordersGoodsVo.showRefundInfo ==1  >
+                <#if ordersGoodsVo.refundType == 1 >
+                    <p><a href="${webRoot}member/refund/info/${ordersGoodsVo.refundId}" class="link-blue">查看退款</a></p>
+                </#if>
+                <#if ordersGoodsVo.refundType == 2 >
+                    <p><a href="${webRoot}member/return/info/${ordersGoodsVo.refundId}" class="link-blue">查看退货</a></p>
+                </#if>
+            </#if>
+        </td>
+        <#-- e 商品单件退款退货--> 
+        
+        <!-- S 合并TD --> 
+        <#if (ordersVo.ordersGoodsVoList?size>1 && ordersGoodsVo_index==0) || (ordersVo.ordersGoodsVoList?size==1)>
+        <td rowspan="${ordersVo.ordersGoodsVoList?size}" class="bdl"><p class=""><strong>${ordersVo.ordersAmount?string("0.00")}</strong></p>
+          <p class="goods-freight"> <#if (ordersVo.freightAmount>0)>
+            （含运费${ordersVo.freightAmount?string("0.00")}）
+            <#else>
+            （免运费）
+            </#if> </p>
+          <p>${ordersVo.paymentName}</p></td>
+        <td rowspan="${ordersVo.ordersGoodsVoList?size}" class="bdl"><p>${ordersVo.ordersStateName} </p>
+          
+          <!-- 订单查看 -->
+          
+          <p><a target="_blank" href="${memberRoot}orders/info/${ordersVo.ordersId}">订单详情</a></p>
+          
+          <#if ordersVo.showShipSearch==1>
+          <p><a href="javascript:void(0);" class="c-warning" ncType="shipSearch" dataOrdersSn="${ordersVo.ordersSn}" dataShipSn="${ordersVo.shipSn!''}" dataShipCode="${ordersVo.shipCode!''}" dataShipUrl="${ordersVo.shipUrl!''}" dataShipName="${ordersVo.shipName!''}">查看物流</a></p>
+          </#if> 
+          </td>
+          <td rowspan="${ordersVo.ordersGoodsVoList?size}" class="bdl bdr">
+
+
+          <!-- S 显示退款退货中文字-->
+          <#if ordersVo.refundReturnStatus==11>
+              <p>退款中</p>
+          </#if>
+          <#if ordersVo.refundReturnStatus==18>
+              <p>完成退款</p>
+          </#if>
+          <#if ordersVo.refundReturnStatus==19>
+              <p>拒绝退款</p>
+          </#if>
+          <#if ordersVo.refundReturnStatus==21>
+              <p>退货中</p>
+          </#if>
+          <#if ordersVo.refundReturnStatus==22>
+              <p>同意退货,请发货</p>
+          </#if>
+          <#if ordersVo.refundReturnStatus==23>
+              <p>退货收货中</p>
+          </#if>
+          <#if ordersVo.refundReturnStatus==24>
+              <p>完成退货</p>
+          </#if>
+          <#if ordersVo.refundReturnStatus==25>
+              <p>同意退货</p>
+          </#if>
+          <#if ordersVo.refundReturnStatus==29>
+              <p>拒绝退货</p>
+          </#if>
+          <#if ordersVo.refundReturnStatus==19 || ordersVo.refundReturnStatus==29>
+              <#if ordersVo.showMemberReceive==1>
+	          	<p><a ncType="receive" dataOrdersId="${ordersVo.ordersId}" dataOrdersSn="${ordersVo.ordersSn}" class="btn btn-sm btn-success" href="javascript:void(0)"><i class="icon-ok"></i>确认收货</a></p>
+	          </#if>
+          </#if>
+          <#if ordersVo.refundReturnStatus==19 && ordersVo.ordersState == 20>
+              <p> <a href="${webRoot}member/refund/addall/${ordersVo.ordersId}" class="btn btn-sm btn-danger"><i class="icon-umbrella"></i>订单退款</a> </p>
+          </#if>
+          
+          <#if ordersVo.showRefundWaiting!=1>
+          <#if ordersVo.showMemberCancel==1>
+          <p><a ncType="cancel" dataOrdersId="${ordersVo.ordersId}" dataOrdersSn="${ordersVo.ordersSn}" class="btn btn-sm btn-warning" href="javascript:void(0)"><i class="icon-ban-circle"></i>取消订单</a></p>
+          </#if>
+          <#if ordersVo.showEvaluation==1>
+          <p><a class="btn btn-sm btn-white" href="${memberRoot}evaluate/evaluate_add?orderid=${ordersVo.ordersId}"><i class="icon-thumbs-up-alt"></i>我要评价</a></p>
+          </#if>
+          <#if ordersVo.showEvaluationAppend==1>
+          <p><a class="ncbtn ncbtn-aqua" href="${memberRoot}evaluate/evaluate_add_again?orderid=${ordersVo.ordersId}"><i class="icon-thumbs-up-alt"></i>追加评价</a></p>
+          </#if>
+          <#if ordersVo.showMemberReceive==1>
+          <p><a ncType="receive" dataOrdersId="${ordersVo.ordersId}" dataOrdersSn="${ordersVo.ordersSn}" class="btn btn-sm btn-success" href="javascript:void(0)"><i class="icon-ok"></i>确认收货</a></p>
+          </#if>
+          <#if ordersVo.showMemberDelayReceive==1>
+            <p class="m-t-5"><a ncType="delayReceive" dataOrdersId="${ordersVo.ordersId}" dataOrdersSn="${ordersVo.ordersSn}" dataAutoReceiveTime="${ordersVo.autoReceiveTime!''}" class="c-inverse" href="javascript:void(0)"><i class="icon-time"></i>延迟收货</a></p>
+          </#if>
+          <!-- S 订单退款按钮--> 
+          <#if ordersVo.showMemberRefundAll==1>
+          <p> <a href="${webRoot}member/refund/addall/${ordersVo.ordersId}" class="btn btn-sm btn-danger"><i class="icon-umbrella"></i>订单退款</a> </p>
+          </#if> 
+          <!-- E 订单退款按钮--> 
+          
+          <!-- S 显示退款退货中文字--> 
+
+          </#if> 
+          <!-- E 显示退款退货中文字--></td>
+        </#if> 
+        <!-- E 合并TD --> 
+      </tr>
+      </#list>
+      </#list> 
+      <!-- E 商品列表 -->
+      
+        </tbody>
+      
+      </#list>
+      <#else>
+      <tbody>
+        <tr>
+          <td colspan="20" class="norecord"><div class="warning-option"><i>&nbsp;</i><span>暂无符合条件的数据记录</span></div></td>
+        </tr>
+      </tbody>
+      </#if>
+      <tfoot>
+        <tr>
+            <#noescape>
+          <td colspan="19"><div class="pagination">${showPage}</div></td>
+                </#noescape>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</@c.html>
+<#include "/member/orders/include.html" >

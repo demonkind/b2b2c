@@ -1,0 +1,105 @@
+<#import "/layout.html" as c>
+<#import "/list_layout.html" as list>
+<#assign alertList = []/>
+<@c.html title="Index">
+  <!-- ================== 开始页面级CSS调用 ================== -->
+  <link href="${toolkitRoot}bootstrap-wizard/css/bwizard.min.css" rel="stylesheet"/>
+  <!-- 日历控件 -->
+  <link href="${toolkitRoot}/jquery.dtGrid/dependents/datePicker/skin/WdatePicker.css" rel="stylesheet"/>
+  <link href="${toolkitRoot}/jquery.dtGrid/dependents/datePicker/skin/default/datepicker.css" rel="stylesheet"/>
+  <!-- ================== 结束页面级CSS调用 ================== -->
+  <@list.html title="管理员列表" subTitle="后台管理员管理" alertList=alertList addBtn=true searchHint="请输入管理员用户名进行搜索">
+    <!-- 开启编辑管理员模态窗口 -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title"> 新增管理员 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsAdd" aria-expanded="true" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+          </div>
+          <div class="modal-body">
+            <form id="addForm" autocomplete="off" action="${adminRoot}admin/add.json" method="post" data-parsley-validate="true">
+              <div class="form-group">
+                <label class="control-label">登录名&nbsp;: </label>
+                  <input type="text" name="name" class="form-control" placeholder="请输入管理员用户名" data-tip="tooltip" data-placement="auto" data-original-title="必填项，3-20个大小写英文字母、符号或数字。" data-parsley-required="true" data-parsley-length="[3,20]"/>
+              </div>
+              <div class="form-group">
+                <label class="control-label">登录密码&nbsp;: </label>
+                <input type="password" id="addPassword" name="password" class="form-control" placeholder="请输入管理员登录密码" data-tip="tooltip" data-placement="auto" data-original-title="必填项，6-20个大小写英文字母、符号或数字。" data-parsley-required="true" data-parsley-length="[6,20]"/>
+              </div>
+              <div class="form-group">
+                <label class="control-label">重复密码&nbsp;: </label>
+                <input type="password" name="password2" class="form-control" placeholder="请再次输入密码" data-tip="tooltip" data-placement="auto" data-original-title="必填项，请确保两次密码输入一致。" data-parsley-required="true" data-parsley-equalto="#addPassword" data-parsley-equalto-message="两次输入的密码不一致"/>
+              </div>
+              <div class="form-group">
+                <label class="control-label">权限组&nbsp;: </label>
+                <select name="groupId" class="form-control" data-parsley-required="true" >
+                  <option value ="">- 请选择 -</option>
+                  <#if adminGroupList??>
+                  <#list adminGroupList as adminGroup>
+                      <option value ="${adminGroup.groupId}">${adminGroup.groupName}</option>
+                  </#list>
+                  </#if>
+                </select>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer"> <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a> <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-ajax-submit-target="addForm" nc-ajax-submit>确认提交</a> </div>
+        </div>
+      </div>
+    </div>
+    <!-- 结束编辑管理员模态窗口 -->
+    <!-- 开启编辑管理员模态窗口 -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title"> 管理员管理 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsAdd" aria-expanded="true" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+          </div>
+          <div class="modal-body">
+            <ul class="text-info p-b-15 p-l-15 collapse in" role="tabpanel" id="OperationTipsAdd">
+              <li class="m-b-3">如需修改密码请填写登录密码和重复密码，否则密码处请留空</li>
+            </ul>
+            <form id="editForm" autocomplete="off" action="${adminRoot}admin/edit.json" method="post" data-parsley-validate="true">
+              <input type="hidden" id="adminId" name="adminId"/>
+              <div class="form-group">
+                <label class="control-label">用户名&nbsp;: </label>
+                  <input type="text" class="form-control" id="adminName" disabled/>
+              </div>
+              <div class="form-group">
+                <label class="control-label">登录密码&nbsp;: </label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="请输入管理员登录密码" data-tip="tooltip" data-placement="auto" data-original-title="必填项，6-20个大小写英文字母、符号或数字。" data-parsley-length="[6,20]"/>
+              </div>
+              <div class="form-group">
+                <label class="control-label">重复密码&nbsp;: </label>
+                <input type="password" name="password2" class="form-control" placeholder="请再次输入密码" data-tip="tooltip" data-placement="auto" data-original-title="必填项，请确保两次密码输入一致。" data-parsley-equalto="#password" data-parsley-equalto-message="两次输入的密码不一致"/>
+              </div>
+              <div class="form-group">
+                <label class="control-label">权限组&nbsp;: </label>
+                <select name="groupId" class="form-control" data-parsley-required="true" >
+                  <option value ="">- 请选择 -</option>
+                  <#if adminGroupList??>
+                  <#list adminGroupList as adminGroup>
+                      <option value ="${adminGroup.groupId}">${adminGroup.groupName}</option>
+                  </#list>
+                  </#if>
+                </select>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer"> <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a> <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-ajax-submit-target="editForm" nc-ajax-submit>确认提交</a> </div>
+        </div>
+      </div>
+    </div>
+    <!-- 结束编辑管理员模态窗口 -->
+  </@list.html>
+  <!-- ================== 开始页面级JavaScrip调用 ================== -->
+  <script src="${toolkitRoot}bootstrap-wizard/js/bwizard.js"></script>
+  <!-- 表单checkbox项 -->
+  <script src="${toolkitRoot}bootstrap-switch/bootstrap-switch.min.js"></script>
+  <!-- 日历控件 -->
+  <script src="${toolkitRoot}/jquery.dtGrid/dependents/datePicker/WdatePicker.js" defer="defer"></script>
+  <script src="${jsRoot}admin/admin.handle.js"></script>
+  <!-- ================== 结束页面级JavaScrip调用 ================== -->
+</@c.html>

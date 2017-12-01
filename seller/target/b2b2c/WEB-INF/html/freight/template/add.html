@@ -1,0 +1,148 @@
+<#import "/layout/seller_layout.html" as c>
+<@c.html title="Index">
+  <div class="ncsc-form-default">
+    <form method="post" id="freightForm" name="freightForm" action="${sellerRoot}freight/template/save">
+      <input type="hidden" name="freightId" value="<#if freightTemplate?exists>${freightTemplate.freightId}</#if>" /><!--c2VsbGVyL2ZyZWlnaHQvdGVtcGxhdGUvYWRkLWphdmEgYnkgc2hvcG5jLm5ldA==-->
+      <dl>
+        <dt>
+          <label class="label-like">运费模板名称：</label>
+        </dt>
+        <dd>
+          <input type="text"  class="text w400"  id="title" autocomplete="off"  value="<#if freightTemplate?exists>${freightTemplate.title}</#if>" name="title">
+          <p class="J_Message" style="display:none" error_type="title"><i class="icon-exclamation-sign"></i>必须填写模板名称</p>
+        </dd>
+      </dl>
+      <dl>
+        <dt>
+          <label class="label-like">是否包邮：</label>
+        </dt>
+        <dd>
+          <label for="freightFree0" class="m-r-30"><input type="radio" class="radio" id="freightFree0" value="0" name="freightFree" <#if freightFree==0>checked</#if> >
+            自定义运费</label>
+          <label for="freightFree1"><input type="radio" class="radio" id="freightFree1" value="1" name="freightFree" <#if freightFree==1>checked</#if> >
+            卖家承担运费</label>
+        </dd>
+      </dl>
+      <dl>
+        <dt>
+          <label class="label-like">计价方式：</label>
+        </dt>
+        <dd> <#if freightTemplate?exists>
+          <#if calcType=="number">按件数</#if>
+          <#if calcType=="weight">按重量</#if>
+          <#if calcType=="volume">按体积</#if>
+          <#else>
+          <label for="calcTypeNumber" class="m-r-30"><input type="radio" class="radio" id="calcTypeNumber" value="number" name="calcType" <#if calcType=="number">checked</#if> >
+            按件数</label>
+          <label for="calcTypeWeight" class="m-r-30"><input type="radio" class="radio" id="calcTypeWeight" value="weight" name="calcType" <#if calcType=="weight">checked</#if> >
+            按重量</label>
+          <label for="calcTypeVolume"><input type="radio" class="radio" id="calcTypeVolume" value="volume" name="calcType" <#if calcType=="volume">checked</#if> >
+            按体积</label>
+          </#if> </dd>
+      </dl>
+      <dl>
+        <dt>详细设置：</dt>
+        <dd class="trans-line"> </dd>
+      </dl>
+      <div class="bottom"><a id="submit_tpl" href="javascript:;" class="btn btn-primary">确认提交</a></div>
+    </form>
+    <div class="ks-ext-mask" style="position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 999; display:none"></div>
+    <div id="dialog_areas" class="dialog-areas" style="display:none">
+      <div class="ks-contentbox">
+        <div class="title">选择区域<a class="ks-ext-close" href="javascript:void(0)">X</a></div>
+        <form method="post">
+          <ul id="J_CityList">
+            <#include "/freight/template/area.html" >
+          </ul><!--c2VsbGVyL2ZyZWlnaHQvdGVtcGxhdGUvYWRkLWphdmEgYnkgc2hvcG5jLm5ldA==-->
+          <div class="bottom"><a href="javascript:void(0);" class="J_Cancel btn btn-sm btn-white m-r-10">放弃操作</a><a href="javascript:void(0);" class="J_Submit btn btn-sm btn-primary">确认提交</a></div>
+        </form>
+      </div>
+    </div>
+    <div id="dialog_batch" class="dialog-batch" style="z-index: 9999; display:none">
+      <div class="ks-contentbox">
+        <div class="title">批量设置<a class="ks-ext-close" href="javascript:void(0)">X</a></div>
+        <form method="post">
+          <div class="batch"> <#if calcType=="number">首件：</#if>
+            <#if calcType=="weight">首重：</#if>
+            <#if calcType=="volume">首体积：</#if>
+            <input class="w30 mr5 text" type="text" maxlength="4" autocomplete="off" data-field="start" value="1" name="express_start">
+            续费：
+            <input class="w60 text" type="text" maxlength="6" autocomplete="off" value="0.00" name="express_postage" data-field="postage">
+            <em class="add-on"> <i class="icon-renminbi"></i> </em> <#if calcType=="number">续件：</#if>
+            <#if calcType=="weight">续重：</#if>
+            <#if calcType=="volume">续体积：</#if>
+            <input class="w30 mr5 text" type="text" maxlength="4" autocomplete="off" value="1" data-field="plus" name="express_plus">
+            续费
+            <input class="w60 text" type="text" maxlength="6" autocomplete="off" value="0.00" data-field="postageplus" name="express_postageplus">
+            <em class="add-on"> <i class="icon-renminbi"></i> </em> </div>
+          <div class="J_DefaultMessage"></div>
+          <div class="bottom"><a href="javascript:void(0);" class="J_Cancel btn btn-sm btn-white m-r-10">放弃操作</a><a href="javascript:void(0);" class="J_SubmitPL btn btn-sm btn-primary">确认提交</a> </div>
+        </form>
+      </div>
+    </div>
+  </div><!--c2VsbGVyL2ZyZWlnaHQvdGVtcGxhdGUvYWRkLWphdmEgYnkgc2hvcG5jLm5ldA==-->
+</@c.html>
+<script>
+    var freightGlobal = {"calcType":"${calcType}","isFreightFree": <#if freightFree==0>false<#else>true</#if>};
+    var calcTypeList = {
+        "number" : {
+            "type" : "件",
+            "name" : "件",
+            "full" : "件(件)"
+        },
+        "weight" : {
+            "type" : "kg",
+            "name" : "重",
+            "full" : "重(kg)"
+        },
+        "volume" : {
+            "type" : "m<sup>3</sup>",
+            "name" : "体积",
+            "full" : "体积(m<sup>3</sup>)"
+        }
+    };
+    var StartNum = 0;
+</script> 
+<script src="${jsRoot}freight/template/edit.js"></script> 
+<script>
+    $(function(){
+        $('input[name="freightFree"]').on("change",function(){
+            if ($(this).val() == 1) {
+                Nc.layerConfirm("卖家承担运费后，详细设置中的价格信息会失效，仅地区有效，确定继续吗？",{area:"450px"},function(e){
+                    freightGlobal.isFreightFree = true;
+                    layer.closeAll();
+                },function(){
+                    $('#freightFree${freightFree}').attr("checked","checked");
+                })
+            } else {
+                freightGlobal.isFreightFree = false;
+            }
+        })
+        $('input[name="calcType"]').on("change",function(){
+            Nc.layerConfirm("切换计价方式后，所设置当前的运费信息将被清空，确定继续吗？",{area:"450px"},function(e){
+                window.location.href=ncGlobal.sellerRoot + "freight/template/add?freightId=<#if freightTemplate?exists>${freightTemplate.freightId}</#if>&calcType=" + $('input[name="calcType"]:checked').val();
+            },function(){
+                $('input[value="${calcType}"]').prop("checked","checked");
+            });
+        })
+        $('.trans-line').append(TransTpl.replace(/CALCTYPE/g,calcTypeList.${calcType}.type).replace(/CALCNAME/g,calcTypeList.${calcType}.name).replace(/CALCFULL/g,calcTypeList.${calcType}.full));
+        $('.tbl-except').append(RuleHead.replace(/CALCTYPE/g,calcTypeList.${calcType}.type).replace(/CALCNAME/g,calcTypeList.${calcType}.name).replace(/CALCFULL/g,calcTypeList.${calcType}.full));
+    <#if freightAreaList?exists && (freightAreaList?size>0)>
+    <#list freightAreaList as freightArea>
+        StartNum +=1;
+        cell = RuleCell.replace(/CurNum/g,StartNum);
+        $('.tbl-except').find('table').append(cell);
+        $('.tbl-attach').find('.J_ToggleBatch').css('display','').html('<i class=\"icon icon-check\"></i>批量操作');
+
+        var cur_tr = $('.tbl-except').find('table').find('tr:last');
+        $(cur_tr).find('.area-group>p').html('${freightArea.areaName}');
+        $(cur_tr).find('input[type="hidden"]').val('${freightArea.areaId}|||${freightArea.areaName}');
+        $(cur_tr).find('input[data-field="start"]').val('<#if calcType=="number">${freightArea.item1?string("0")}<#else>${freightArea.item1?string("0.00")}</#if>');
+        $(cur_tr).find('input[data-field="postage"]').val('${freightArea.price1?string("0.00")}');
+        $(cur_tr).find('input[data-field="plus"]').val('<#if calcType=="number">${freightArea.item2?string("0")}<#else>${freightArea.item2?string("0.00")}</#if>');
+        $(cur_tr).find('input[data-field="postageplus"]').val('${freightArea.price2?string("0.00")}');
+    </#list>
+    </#if>
+    });
+</script>
+<!--c2VsbGVyL2ZyZWlnaHQvdGVtcGxhdGUvYWRkLWphdmEgYnkgc2hvcG5jLm5ldA==-->

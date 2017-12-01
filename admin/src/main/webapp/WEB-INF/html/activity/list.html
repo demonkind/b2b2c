@@ -1,0 +1,92 @@
+<#import "/layout.html" as c>
+<#import "/list_layout.html" as list>
+<#assign alertList = []/>
+<#assign alertList = alertList + ["活动设置信息"]/>
+<#assign alertList = alertList + ["0元购活动设置信息。活动ID必须为1,避免之后的流程出问题"]/>
+<#assign alertList = alertList + ["预售活动设置信息。活动ID必须为2,避免之后的流程出问题"]/>
+<#assign alertList = alertList + ["0元购+预售活动设置信息。活动ID必须为3,避免之后的流程出问题"]/>
+
+<@c.html title="Index"> 
+  <!-- ================== 开始页面级CSS调用 ================== -->
+  <link href="${toolkitRoot}bootstrap-wizard/css/bwizard.min.css" rel="stylesheet"/>
+  <!-- 日历控件 -->
+  <link href="${toolkitRoot}/jquery.dtGrid/dependents/datePicker/skin/WdatePicker.css" rel="stylesheet"/>
+  <link href="${toolkitRoot}/jquery.dtGrid/dependents/datePicker/skin/default/datepicker.css" rel="stylesheet"/>
+  <!-- ================== 结束页面级CSS调用 ================== -->
+  <@list.html title="活动管理" subTitle="活动管理查看及管理" alertList=alertList addBtn=true searchHint="请输入活动名进行搜索"> 
+    <!-- 开启新增品牌模态窗口 -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title"> 活动管理 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsAdd" aria-expanded="true" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+          </div>
+          <div class="modal-body">
+            <ul class="text-info p-b-15 p-l-15 collapse in" role="tabpanel" id="OperationTipsAdd">
+              <li class="m-b-3">活动管理的提示信息</li>
+            </ul>
+            <form id="addForm" class="form-horizontal form-bordered p-0" autocomplete="off" action="${adminRoot}/createActivity" method="post" data-parsley-validate="true">
+              <input type="hidden" name="key" value="">
+              <div class="form-group">
+                <label class="control-label col-md-2 col-sm-3">活动ID&nbsp;: </label>
+                <div class="col-md-9 col-sm-8">
+                  <input type="text" id="id_addId" name="activityId"  class="form-control" placeholder="请输入活动ID" data-tip="tooltip" data-placement="auto" data-parsley-required="true"  data-original-title="请输入活动ID" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-md-2 col-sm-3">活动名称&nbsp;: </label>
+                <div class="col-md-9 col-sm-8">
+                  <input type="text" class="form-control" id="activityName"   name="activityName" data-tip="tooltip" data-placement="auto" data-original-title="必填项，1-20个大小写英文字母、符号或数字。" data-parsley-required="true" data-parsley-length="[1,20]" />
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer"> <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a> <a href="javascript:;" class="btn btn-primary" id="activitySub" data-loading-text="Loading..." nc-ajax-submit-target="addForm" nc-ajax-submit>确认提交</a> </div>
+        </div>
+      </div>
+    </div>
+    <!-- 结束新增品牌模态窗口 --> 
+     <!-- 开启新增品牌模态窗口 -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title"> 活动管理 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsAdd" aria-expanded="true" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+          </div>
+          <div class="modal-body">
+            <ul class="text-info p-b-15 p-l-15 collapse in" role="tabpanel" id="OperationTipsAdd">
+              <li class="m-b-3">活动管理的提示信息</li>
+            </ul>
+            <form id="editFrom" class="form-horizontal form-bordered p-0" autocomplete="off" action="${adminRoot}updateActivity" method="post" data-parsley-validate="true">
+              <div class="form-group">
+                <label class="control-label col-md-2 col-sm-3">活动ID&nbsp;: </label>
+                <div class="col-md-9 col-sm-8">
+                     <input type="text"  id="id_id" name="activityId"  readonly="readonly" class="form-control" type="text" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-md-2 col-sm-3">活动名称&nbsp;: </label>
+                <div class="col-md-9 col-sm-8">
+                  <input type="text" class="form-control" name="activityName" id="id_name" data-tip="tooltip" data-placement="auto" data-original-title="必填项，1-20个大小写英文字母、符号或数字。" data-parsley-required="true" data-parsley-length="[1,20]"/>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer"> <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a> <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-ajax-submit-target="editFrom" nc-ajax-submit>确认提交</a> </div>
+        </div>
+      </div>
+    </div>
+    <!-- 结束新增品牌模态窗口 --> 
+    
+  </@list.html>
+  <!-- ================== 开始页面级JavaScrip调用 ================== --> 
+  <script src="${toolkitRoot}bootstrap-wizard/js/bwizard.js"></script> 
+  <!-- 表单checkbox项 --> 
+  <script src="${toolkitRoot}bootstrap-switch/bootstrap-switch.min.js"></script> 
+  <!-- 日历控件 --> 
+  <script src="${toolkitRoot}/jquery.dtGrid/dependents/datePicker/WdatePicker.js" defer="defer"></script> 
+  <script src="${jsRoot}activity/activity.js"></script> 
+  <!-- ================== 结束页面级JavaScrip调用 ================== --> 
+</@c.html>

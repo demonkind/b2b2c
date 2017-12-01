@@ -1,0 +1,223 @@
+<#import "/layout.html" as c>
+<#import "/list_layout.html" as list>
+<#assign alertList = []/>
+<#assign alertList = alertList + ["通过会员管理，你可以进行查看、编辑会员资料等操作。"]/>
+<@c.html title="Index">
+<!-- ================== 开始页面级CSS调用 ================== -->
+<link href="${toolkitRoot}bootstrap-wizard/css/bwizard.min.css" rel="stylesheet"/>
+<!-- 日历控件 -->
+<link href="${toolkitRoot}/jquery.dtGrid/dependents/datePicker/skin/WdatePicker.css" rel="stylesheet"/>
+<link href="${toolkitRoot}/jquery.dtGrid/dependents/datePicker/skin/default/datepicker.css" rel="stylesheet"/>
+<!-- ================== 结束页面级CSS调用 ================== -->
+<@list.html title="会员列表" subTitle="会员信息查看及管理" alertList=alertList addBtn=true searchHint="请输入会员名进行搜索">
+    <!-- 开启新增品牌模态窗口 -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title"> 新增会员 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsAdd" aria-expanded="true" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+          </div>
+          <div class="modal-body">
+            <ul class="text-info p-b-15 p-l-15 collapse in" role="tabpanel" id="OperationTipsAdd">
+              <li class="m-b-3">会员名称、登录密码为必填选项，用于辅助会员注册登录设定。</li>
+              <li class="m-b-3">手机号与常用邮箱为选填项，为联系会员方便尽量填写完整。</li>
+              <li class="m-b-3">增加会员后可再次编辑会员，完善会员更多信息并管理。</li>
+            </ul>
+            <form id="addForm" autocomplete="off" action="${adminRoot}member/add" method="post" data-parsley-validate="true">
+              <div class="form-group">
+                <label class="control-label"> 会员名称 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+                <input type="text" name="memberName" class="form-control" placeholder="请输入用户名" data-tip="tooltip" data-placement="auto" data-original-title="必填项，请使用6-20个中、英文、数字及“-”符号，且不能全为数字。" data-parsley-required="true" data-parsley-membernameformat="true" data-parsley-remote data-parsley-trigger="focusout" data-parsley-remote-message="用户名已存在" data-parsley-remote-validator="membernameisexist"/>
+              </div>
+              <div class="form-group">
+                <label class="control-label"> 登录密码 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+                <input type="password" id="memberPwdAdd" name="memberPwd" class="form-control" placeholder="请输入会员登录密码" data-tip="tooltip" data-placement="auto" data-original-title="必填项，6-20个大小写英文字母、符号或数字。" data-parsley-required="true" data-parsley-length="[6,20]"/>
+              </div>
+              <div class="form-group">
+                <label class="control-label"> 重复密码 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+                <input type="password" name="repeatMemberPwd" class="form-control" placeholder="请再次输入密码" data-tip="tooltip" data-placement="auto" data-original-title="必填项，请确保两次密码输入一致。"data-parsley-required="true" data-parsley-equalto="#memberPwdAdd" data-parsley-equalto-message="两次输入的密码不一致"/>
+              </div>
+              <div class="form-group">
+                <label class="control-label">手 机 号&nbsp;:</label>
+                <input type="text" name="mobile" class="form-control" placeholder="输入手机号码可作为接收短信动态码等操作使用" data-parsley-phonerequired="true" data-parsley-remote data-parsley-trigger="focusout" data-parsley-remote-message="手机号已存在" data-parsley-remote-validator="mobileisexist"/>
+              </div>
+              <div class="form-group">
+                <label class="control-label">常用邮箱&nbsp;:</label>
+                <input type="text" name="email" class="form-control" placeholder="请输入常用的邮箱，将用来找回密码、接收订单通知等" data-parsley-type="email" data-parsley-remote data-parsley-trigger="focusout" data-parsley-remote-message="邮箱已存在" data-parsley-remote-validator="emailisexist"/>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer"> <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a> <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-ajax-submit-target="addForm" nc-ajax-submit>确认提交</a> </div>
+        </div>
+      </div>
+    </div>
+    <!-- 结束新增品牌模态窗口 -->
+            
+    <!-- 开始编辑会员模态窗口 -->
+    <div class="modal fade bs-example-modal-lg" id="editModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title">编辑会员</h4>
+          </div>
+          <div class="modal-body">
+            <!-- 编辑-开始操作提示 -->
+            <ul class="collapse text-info p-b-10 p-l-15" role="tabpanel" id="OperationTipsEdit">
+              <li></li>
+            </ul>
+            <!-- 编辑-结束操作提示 -->
+            <form id="editForm" name="form-wizard-edit"  class="form-horizontal form-bordered"  action="${adminRoot}member/edit" method="post" autocomplete="off" data-parsley-validate="true">
+              <input type="hidden" id="memberId" name="memberId"/>
+              <div id="wizardEdit">
+                <ol>
+                  <li> 基本信息 <small> 设置会员名称、密码、真实姓名、 <br>
+                    邮箱、手机号等基本信息。</small> </li>
+                  <li> 扩展信息 <small> 设置会员头像、性别、生日、所在地<br>
+                    以及站外联系方式。</small> </li>
+                  <li> 状态设置 <small> 设置会员购买、发言、登录 <br/>
+                    等状态。 </small> </li>
+                </ol>
+                <!-- 编辑-开始基本信息设置 step-1 -->
+                <div class="wizard-step-1">
+                  <fieldset>
+                    <legend class="pull-left width-full m-b-0">基本信息</legend>
+                    <div class="form-group">
+                      <label class="control-label col-md-2 col-sm-3">会员名称&nbsp;:</label>
+                      <div class="col-md-9 col-sm-8">
+                        <input type="text" class="form-control" id="memberName" disabled/>
+                        <input type="hidden" id="memberNameHidden" name="memberName" class="form-control" value="" data-parsley-group="wizard-step-1"/>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-2 col-sm-3">登录密码&nbsp;:</label>
+                      <div class="col-md-9 col-sm-8">
+                        <input type="password" id="memberPwdEdit" name="memberPwd" placeholder="留空表示不修改密码" class="form-control" data-parsley-length="[6,20]" data-parsley-group="wizard-step-1"/>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-2 col-sm-3">重复密码&nbsp;:</label>
+                      <div class="col-md-9 col-sm-8">
+                        <input type="password" name="repeatMemberPwd" class="form-control" placeholder="如需修改密码，请确保两次密码输入一致" data-parsley-equalto="#memberPwdEdit" data-parsley-equalto-message="两次输入的密码不一致" data-parsley-group="wizard-step-1"/>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-2 col-sm-3">真实姓名&nbsp;:</label>
+                      <div class="col-md-9 col-sm-8">
+                        <input type="text" name="trueName" placeholder="请输入真实姓名" class="form-control" data-tip="tooltip" data-parsley-maxlength="30" data-parsley-group="wizard-step-1"/>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-2 col-sm-3">手 机 号&nbsp;:</label>
+                      <div class="col-md-9 col-sm-8">
+                        <input type="text" name="mobile" class="form-control" placeholder="输入手机号码可作为接收短信动态码等操作使用" data-parsley-phonerequired="true" data-parsley-remote data-parsley-trigger="focusout" data-parsley-remote-message="手机号已存在" data-parsley-remote-validator="mobileisexist" data-parsley-group="wizard-step-1"/>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-2 col-sm-3">常用邮箱&nbsp;:</label>
+                      <div class="col-md-9 col-sm-8">
+                        <input type="text" name="email" class="form-control" placeholder="请输入常用的邮箱，将用来找回密码、接收订单通知等" data-parsley-type="email" data-parsley-remote data-parsley-trigger="focusout" data-parsley-remote-message="邮箱已存在" data-parsley-remote-validator="emailisexist" data-parsley-group="wizard-step-1"/>
+                      </div>
+                    </div>
+                  </fieldset>
+                </div>
+                <!-- 编辑-结束基本信息设置 step-1 -->
+                <!-- 编辑-开始扩展信息设置 step-2 -->
+                <div class="wizard-step-2">
+                  <fieldset>
+                    <legend class="pull-left width-full">扩展信息</legend>
+                    <div class="form-group">
+                      <label class="control-label col-md-2 col-sm-3">会员头像&nbsp;:</label>
+                      <div class="col-md-9 col-sm-8">
+                        <input type="hidden" id="avatarFileImage" name="avatar" data-parsley-group="wizard-step-2">
+                        <div class="avatar-thumb m-b-15" id="avatarThumb"><img src="${imgRoot}default_image.gif" id="avatarFileImageImg" alt="" class="media-object"></div>
+                        <p class="text-info">会员头像尺寸要求宽度为120像素、高度为120像素，比例为1:1的图片；支持格式gif，jpg，png。</p>
+                        <span class="btn btn-sm btn-white fileinput-button m-r-10"><i class="fa fa-plus"></i> <span>文件上传</span>
+                        <input type="file" id="avatarFile" name="file" autocomplete="off" multiple>
+                        </span> <a id="avatarFileImageDel" href="javascript:;" class="btn btn-sm btn-danger" onclick=""> <i class="fa fa-trash-o"></i> &nbsp;删除图片&nbsp; </a> </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-2 col-sm-3">性别&nbsp;:</label>
+                      <div class="col-md-9 col-sm-8" id="memberSexModule"></div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-2 col-sm-3">出生日期：</label>
+                      <div class="col-md-9 col-sm-8">
+                        <div class="input-group">
+                          <input type="text" name="birthday" id="birthdayEdit" class="form-control"  placeholder="可添加或修改会员出生年/月/日" data-parsley-group="wizard-step-2"/>
+                          <span class="input-group-addon"><i class="fa fa-calendar"></i></span></div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-2 col-sm-3">所在地&nbsp;:</label>
+                      <div class="col-md-9 col-sm-8">
+                        <div id="divAddressParent">
+                          <div id="divAddress" class="input-group clearfix" data-area-text="" data-area-id=""></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-2 col-sm-3">腾讯QQ&nbsp;:</label>
+                      <div class="col-md-9 col-sm-8">
+                        <input type="text" name="memberQQ" autocomplete="off" class="form-control" placeholder="可添加或修改会员腾讯QQ号码" data-placement="auto" data-parsley-group="wizard-step-2"/>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-2 col-sm-3">淘宝旺旺&nbsp;:</label>
+                      <div class="col-md-9 col-sm-8">
+                        <input type="text" name="memberWW" autocomplete="off" class="form-control" placeholder="可添加或修改会员淘宝旺旺号码" data-tip="tooltip" data-placement="auto" data-parsley-group="wizard-step-2"/>
+                      </div>
+                    </div>
+                  </fieldset>
+                </div>
+                <!-- 编辑-结束 step-2 -->
+                <!-- 编辑-开始 step-3 -->
+                <div class="wizard-step-3">
+                  <fieldset>
+                    <legend class="pull-left width-full">状态设置</legend>
+                    <div class="form-group">
+                      <label class="control-label col-md-2 col-sm-3">允许购买商品&nbsp;:</label>
+                      <div class="col-md-9 col-sm-8">
+                        <input type="checkbox" id="allowBuy" data-size="small" data-on-color="primary" data-input-true="1" data-input-false="0" data-input-name="allowBuy" data-on-text="允许" data-off-text="禁止" data-parsley-group="wizard-step-3">
+                        <p class="text-default m-t-10">该项设定将管理会员是否可在商城进行商品购买活动。</p>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-2 col-sm-3">允许发表言论&nbsp;:</label>
+                      <div class="col-md-9 col-sm-8">
+                        <input type="checkbox" id="allowTalk" data-size="small" data-on-color="primary" data-input-true="1" data-input-false="0" data-input-name="allowTalk" data-on-text="允许" data-off-text="禁止" data-parsley-group="wizard-step-3">
+                        <p class="text-default m-t-10">该项设定将管理会员是否可在商品详情页面进行咨询留言。</p>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-2 col-sm-3">会员状态&nbsp;:</label>
+                      <div class="col-md-9 col-sm-8">
+                        <input type="checkbox" id="state" data-size="small" data-on-color="primary" data-input-true="1" data-input-false="0" data-input-name="state" data-on-text="开启" data-off-text="关闭" data-parsley-group="wizard-step-3">
+                        <p class="text-default m-t-10">会员列表未设置删除操作，如需要对某会员进行屏蔽操作可选择“关闭”，则注册会员将无法登录商城。</p>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-2 col-sm-3"></label>
+                      <div class="col-md-9 col-sm-8"> <a class="btn btn-primary" data-loading-text="Loading..." nc-ajax-submit-target="editForm"  nc-ajax-submit>提交设置</a> </div>
+                    </div>
+                  </fieldset>
+                </div>
+                <!-- 编辑-结束添加属性设置 step-3 --> </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 结束编辑会员模态窗口 -->
+</@list.html>
+<!-- 结束页面内容 -->
+<!-- ================== 开始页面级JavaScrip调用 ================== -->
+<script src="${toolkitRoot}bootstrap-wizard/js/bwizard.js"></script>
+<!-- 表单checkbox项 -->
+<script src="${toolkitRoot}bootstrap-switch/bootstrap-switch.min.js"></script>
+
+<!-- 日历控件 -->
+<script src="${toolkitRoot}/jquery.dtGrid/dependents/datePicker/WdatePicker.js" defer="defer"></script>
+<script src="${jsRoot}member/member.handle.js"></script>
+<!-- ================== 结束页面级JavaScrip调用 ================== -->
+</@c.html>

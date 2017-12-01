@@ -1,0 +1,131 @@
+<#import "/layout/seller_layout.html" as c>
+<@c.html title="Index">
+  <div class="top-btn-layout"><a href="javascript:void(0)" class="btn btn-sm btn-success" onclick="javascript:storeLabel.addLabel(0);" title="新增店内分类"><i class="icon icon-plus"></i>新增店内分类</a></div>
+  <table class="ncsc-default-table">
+    <thead>
+      <tr nc_type="table_header">
+        <th class="w10"></th>
+        <th class="tl">分类名称</th>
+        <th class="w100">排序</th>
+        <th class="w150">操作</th>
+      </tr>
+    </thead>
+    <tbody>
+    <#if storeLabelList.size() gt 0>
+    <#list storeLabelList as storeLabel>
+    <tr class="bd-line">
+      <td></td>
+      <td class="tl"><strong class="vm">${storeLabel.storeLabelName}</strong><a href="javascript:void(0)" class="btn btn-sm btn-white m-l-15 vm" onclick="javascript:storeLabel.addLabel(${storeLabel.storeLabelId})"><i class="icon-plus"></i>新增下级</a></td>
+      <td><span>${storeLabel.storeLabelSort}</span></td>
+      <td><a href="javascript:void(0)" class="btn btn-sm btn-primary m-r-10"
+             data-id="${storeLabel.storeLabelId}"
+             data-name="${storeLabel.storeLabelName}"
+             data-pid="${storeLabel.parentId}"
+             data-sort="${storeLabel.storeLabelSort}"
+             data-fold="${storeLabel.isFold}"
+             onclick="javascript:storeLabel.editLabel(this)"><i class="icon-edit"></i>编辑</a><a href="javascript:void(0)" class="btn btn-sm btn-danger" onclick="javascript:storeLabel.deleteLabel(${storeLabel.storeLabelId})"><i class="icon-trash"></i>删除</a></td>
+    </tr>
+    <#list storeLabel.storeLabelList as storeLabelChild>
+    <tr class="bd-line">
+      <td></td>
+      <td class="tl"><span class="ncsc-table-sublabel"></span>${storeLabelChild.storeLabelName}</td>
+      <td><span>${storeLabelChild.storeLabelSort}</span></td>
+      <td><a href="javascript:void(0)" class="btn btn-sm btn-primary m-r-10"
+             data-id="${storeLabelChild.storeLabelId}"
+             data-name="${storeLabelChild.storeLabelName}"
+             data-pid="${storeLabelChild.parentId}"
+             data-sort="${storeLabelChild.storeLabelSort}"
+             data-fold="${storeLabelChild.isFold}"
+             onclick="javascript:storeLabel.editLabel(this)"><i class="icon icon-edit"></i>编辑</a><a href="javascript:void(0)" class="btn btn-sm btn-danger" onclick="javascript:storeLabel.deleteLabel(${storeLabelChild.storeLabelId})"><i class="icon icon-trash"></i>删除</a></td>
+    </tr>
+    </#list>
+    </#list>
+    <#else/>
+    <tr>
+      <td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span> </div></td>
+    </tr>
+    </#if>
+      </tbody>
+    
+  </table>
+  <script src="${jsRoot}store/label.js"></script> 
+</@c.html>
+<div id="addModal" style="display: none;">
+  <form id="addForm" method="post" action="${sellerRoot}label/save">
+    <dl>
+      <dt><i class="required">*</i>分类名称：</dt>
+      <dd>
+        <input class="text w200" type="text" name="storeLabelName" value="" />
+      </dd>
+    </dl>
+    <dl>
+      <dt>上级分类：</dt>
+      <dd>
+        <select name="parentId" id="addParentId">
+          <option value="0">- 请选择 -</option>
+          <#list storeLabelList as storeLabel>
+          <option value="${storeLabel.storeLabelId}">${storeLabel.storeLabelName}</option>
+          </#list>
+        </select>
+      </dd>
+    </dl>
+    <dl>
+      <dt>排序：</dt>
+      <dd>
+        <input class="text w60" type="text" name="storeLabelSort" value="0"  />
+      </dd>
+    </dl>
+    <dl>
+      <dt>是否折叠：</dt>
+      <dd>
+        <label>
+          <input type="radio" name="isFold" value="1">
+          是</label>
+        <label>
+          <input type="radio" name="isFold" value="0" checked>
+          否</label>
+      </dd>
+    </dl>
+  </form>
+  <!--U2hvcE5DLUphdmEldTcyNDgldTU1NDYldTVCQjYldTVFOTcldTk0RkEldTUyMDYldTdDN0IldTZBMjEldTY3N0ZAJXU3RjUxJXU1N0NFJXU3OUQxJXU2Mjgw--> 
+</div>
+<div id="editModal" style="display: none;">
+  <form id="editForm" method="post" action="${sellerRoot}label/edit/save">
+    <input type="hidden" name="storeLabelId" id="storeLabelId" value="">
+    <dl>
+      <dt><i class="required">*</i>分类名称</dt>
+      <dd>
+        <input class="text w200" type="text" name="storeLabelName" id="storeLabelName" value="" />
+      </dd>
+    </dl>
+    <dl>
+      <dt>上级分类：</dt>
+      <dd>
+        <select name="parentId" id="editParentId">
+          <option value="0">- 请选择 -</option>
+          <#list storeLabelList as storeLabel>
+          <option value="${storeLabel.storeLabelId}">${storeLabel.storeLabelName}</option>
+          </#list>
+        </select>
+      </dd>
+    </dl>
+    <dl>
+      <dt>排序：</dt>
+      <dd>
+        <input class="text w60" type="text" name="storeLabelSort" id="storeLabelSort" value=""  />
+      </dd>
+    </dl>
+    <dl>
+      <dt>是否折叠：</dt>
+      <dd>
+        <label>
+          <input type="radio" name="isFold" value="1" id="isFold1">
+          是</label>
+        <label>
+          <input type="radio" name="isFold" value="0" id="isFold0" checked>
+          否</label>
+      </dd>
+    </dl>
+  </form>
+  <!--U2hvcE5DLUphdmEldTcyNDgldTU1NDYldTVCQjYldTVFOTcldTk0RkEldTUyMDYldTdDN0IldTZBMjEldTY3N0ZAJXU3RjUxJXU1N0NFJXU3OUQxJXU2Mjgw-->
+</div>

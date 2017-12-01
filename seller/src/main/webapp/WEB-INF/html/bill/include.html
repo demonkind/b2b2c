@@ -1,0 +1,31 @@
+<div class="ncsc-form-default">
+    <div class="top-btn-layout"></div>
+    <dl>
+        <dt>账单编号</dt>
+        <dd>${bill.billSn}</dd>
+    </dl>
+    <dl>
+        <dt>商家</dt>
+        <dd>${bill.storeName!''}</dd>
+    </dl>
+    <dl>
+        <dt>起止日期</dt>
+        <dd>${bill.startDate!''} 至 ${bill.endDate!''}</dd>
+    </dl>
+    <dl>
+        <dt>出账日期</dt>
+        <dd>${bill.createDate!''}</dd>
+    </dl>
+    <dl>
+        <dt>平台应结金额（元）</dt>
+        <dd>${bill.billAmount?string('0.00')} = ${bill.ordersAmount?string('0.00')} (订单金额) - ${bill.commissionAmount?string('0.00')} (收取佣金) - ${bill.refundAmount?string('0.00')} (退单金额) + ${bill.refundCommissionAmount?string('0.00')} (退还佣金)</dd>
+    </dl>
+    <dl>
+        <dt>结算状态</dt>
+        <dd>${bill.billStateName}</dd>
+    </dl>
+    <dl>
+        <dt></dt>
+        <dd><a href="${sellerRoot}bill/print/${bill.billId}" class="btn btn-sm btn-primary m-r-10" target="_blank"><i class="icon-list-alt"></i>打印</a></dd>
+    </dl>
+</div>

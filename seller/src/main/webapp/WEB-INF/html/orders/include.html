@@ -1,0 +1,185 @@
+<!-- S 取消订单modal c2VsbGVyL29yZGVyL2luY2x1ZGUgamF2YSBieSBzaG9wbmMubmV0-->
+
+<div id="cancelOrdersDialog"  style="display: none">
+  <form id="cancelOrdersForm" name="cancelOrdersForm" action="${sellerRoot}orders/cancel" method="post">
+    <input type="hidden" name="ordersId" value="">
+    <dl>
+      <dt>订单编号：</dt>
+      <dd><div class="text-box"><span class="c-success" name="ordersSn"></span></div></dd>
+    </dl>
+    <dl>
+      <dt>取消缘由：</dt>
+      <dd>
+        <ul class="checked">
+          <li>
+            <input type="radio" value="10" id="reasonRadio10" name="cancelReason" checked>
+            <label for="reasonRadio10">无法备齐货物</label>
+          </li>
+          <li>
+            <input type="radio" value="11" id="reasonRadio11" name="cancelReason">
+            <label for="reasonRadio11">不是有效的订单</label>
+          </li>
+          <li>
+            <input type="radio" value="12" id="reasonRadio12" name="cancelReason">
+            <label for="reasonRadio12">买家主动要求</label>
+          </li>
+          <li>
+            <input type="radio" value="13" id="reasonRadio13" name="cancelReason">
+            <label for="reasonRadio13">其他原因</label>
+          </li>
+        </ul>
+      </dd>
+    </dl>
+  </form>
+</div>
+<!-- E 取消订单modal--> 
+
+<!-- S c2VsbGVyL29yZGVyL2luY2x1ZGUgamF2YSBieSBzaG9wbmMubmV0修改运费modal-->
+<div id="modifyFreightDialog"  style="display: none">
+  <form id="modifyFreightForm" name="modifyFreightForm" action="${sellerRoot}orders/modify/freight" method="post" >
+    <input type="hidden" name="ordersId" value="">
+    <dl>
+      <dt>买家：</dt>
+      <dd name="memberName"></dd>
+    </dl>
+    <dl>
+      <dt>订单号：</dt>
+      <dd><div class="text-box"><span class="c-success" name="ordersSn"></span></div></dd>
+    </dl>
+    <dl>
+      <dt>运费（元）：</dt>
+      <dd>
+        <input type="text" value="" name="freightAmount" id="freightAmount" class="text">
+      </dd>
+    </dl>
+  </form>
+</div>
+<!-- E 修改运费modal--> 
+
+<!-- S 编辑收货人信息modal-->
+<div id="modifyReceiverDialog"  style="display: none">
+  <form id="modifyReceiverForm" name="modifyReceiverForm" action="${sellerRoot}send/modify/receiver" method="post" >
+    <input type="hidden" name="ordersId" value="">
+    <dl>
+      <dt>订单号：</dt>
+      <dd><div class="text-box"><span class="c-success" name="ordersSn"></span></div></dd>
+    </dl>
+    <dl>
+      <dt>收货人姓名：</dt>
+      <dd>
+        <input type="text" value="" name="receiverName" class="text">
+      </dd>
+    </dl>
+    <dl>
+      <dt>收货人电话：</dt>
+      <dd>
+        <input type="text" value="" name="receiverPhone" class="text">
+      </dd>
+    </dl>
+    <dl>
+      <dt>收货地址：</dt>
+      <dd>
+        <input type="text" value="" name="receiverAddress" class="text  w300">
+      </dd>
+    </dl>
+  </form>
+</div>
+<!-- E 编辑收货人信息modal--> 
+
+<!-- S 发货modal-->
+<div id="sendDialog"  style="display: none">
+  <form id="sendForm" name="sendForm" action="${sellerRoot}orders/send/save" method="post" >
+    <input type="hidden" name="ordersId" value="">
+    <dl>
+      <dt>订单号：</dt>
+      <dd>
+        <div class="text-box"><span class="c-success" name="ordersSn"></span></div>
+      </dd>
+    </dl>
+    <dl>
+      <dt>收货人信息：</dt>
+      <dd>
+        <div class="text-box"><span name="receiver"></span><a id="modifyReceiver" class="btn btn-xs btn-default vm m-l-5" href="javascript:void(0);"><i class="icon icon-edit"></i>编辑</a></div>
+        <div class="edit-box" ncType="modifyReceiver" style="display: none">
+          <p><i class="required">*</i>收货人：
+            <input type="text" value="" name="receiverName" maxlength="10" placeholder="请填写您的真实姓名" class="text w100">
+          </p>
+          <p><i class="required">*</i>所在地区：<span class="data-deep" id="editAddressPanel" data-area-text="" data-area-id="">
+            <input type="hidden" value="" name="areaId1" data-deep="0">
+            <input type="hidden" value="" name="areaId2" data-deep="1">
+            <input type="hidden" value="" name="areaId3" data-deep="2">
+            <input type="hidden" value="" name="areaId4" data-deep="3">
+            </span></p>
+          <p><i class="required">*</i>街道地址：
+            <input type="text" value="" name="receiverAddress" placeholder="不必重复填写地区" maxlength="50" class="text w300">
+          </p>
+          <p><i class="required">*</i>联系电话：
+            <input type="text" value="" name="receiverPhone" placeholder="固定电话或手机" class="text w200">
+          </p>
+          <a href="javascript:void(0);" id="submitModifyReceiver" class="btn btn-xs btn-warning">完成编辑</a><!--c2VsbGVyL29yZGVyL2luY2x1ZGUgamF2YSBieSBzaG9wbmMubmV0--></div>
+      </dd>
+    </dl>
+    <dl>
+      <dt>快递公司：</dt>
+      <dd>
+        <select name="shipCode">
+        </select>
+      </dd>
+    </dl>
+    <dl>
+      <dt>快递单号：</dt>
+      <dd>
+        <input type="text" value="" name="shipSn" class="text">
+      </dd>
+    </dl>
+    <dl>
+      <dt>发货备注：</dt>
+      <dd>
+        <textarea placeholder="您可以输入一些发货备忘信息（仅卖家自己可见）" name="shipNote" class="w300" maxlength="150"></textarea>
+      </dd>
+    </dl>
+  </form>
+</div>
+<!-- E 发货modal--> 
+
+<!-- S 物流跟踪modal-->
+<div id="shipOrdersDialog" style="display:none">
+<dl>
+  <dt>订单号：</dt>
+  <dd>
+    <div ncType="ordersSn" class="text-box"></div>
+  </dd>
+</dl>
+<dl>
+<dl>
+  <dt>物流公司：</dt>
+  <dd>
+    <div class="text-box"><a href="javascript:;" target="_blank" ncType="shipName"></a></div>
+  </dd>
+</dl>
+<dl>
+  <dt>运单号码：</dt>
+  <dd>
+    <div class="text-box" ncType="shipSn"></div>
+  </dd>
+</dl>
+<ul id="shipResult" class="express-log">
+  <li>正在查询。。。</li>
+</ul>
+</div>
+<!-- E 物流跟踪modal--> 
+
+<script>
+    var ordersGlobal = {
+        //是否选择到最后一级
+        isSelectLast: false,
+        validShip : true,
+        ordersState : '${RequestParameters["ordersState"]?default("")}',
+        searchType : '${RequestParameters["searchType"]?default("")}'
+    }
+</script> 
+<!-- 日历控件 -->
+<link href="${toolkitRoot}datePicker/skin/WdatePicker.css" rel="stylesheet"/>
+<link href="${toolkitRoot}datePicker/skin/default/datepicker.css" rel="stylesheet"/>
+<script type="text/javascript" src="${toolkitRoot}datePicker/WdatePicker.js" defer="defer"></script> 
+<script type="text/javascript" src="${jsRoot}orders/list.js"></script>

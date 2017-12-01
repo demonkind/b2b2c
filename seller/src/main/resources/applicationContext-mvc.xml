@@ -1,0 +1,40 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!-- 配置freeMarker的模板路径 -->
+    <bean id="freemarkerConfig" class="net.shopnc.common.config.ShopNCFreeMarkerConfigurer">
+        <property name="templateLoaderPath" value="/WEB-INF/html/" />
+        <property name="defaultEncoding" value="utf-8" />
+        <property name="freemarkerVariables">
+            <map>
+                <entry key="xml_escape" value-ref="fmXmlEscape" />
+                <entry key="webRoot" value="${webRoot}"></entry>
+                <entry key="adminRoot" value="${adminRoot}"></entry>
+                <entry key="memberRoot" value="${memberRoot}"></entry>
+                <entry key="sellerRoot" value="${sellerRoot}"></entry>
+                <entry key="Root" value="${webRoot}"></entry>
+                <entry key="jsRoot" value="${jsRoot}"></entry>
+                <entry key="cssRoot" value="${cssRoot}"></entry>
+                <entry key="imgRoot" value="${imgRoot}"></entry>
+                <entry key="toolkitRoot" value="${toolkitRoot}"></entry>
+                <entry key="uploadRoot" value="${uploadRoot}"></entry>
+                <entry key="publicRoot" value="${publicRoot}"></entry>
+            </map>
+        </property>
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="default_encoding">UTF-8</prop>
+                <prop key="output_encoding">UTF-8</prop>
+                <prop key="locale">zh_CN</prop>
+                <prop key="number_format">0.##</prop>
+                <prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+                <prop key="date_format">yyyy-MM-dd</prop>
+                <prop key="time_format">HH:mm:ss</prop>
+                <prop key="object_wrapper">freemarker.ext.beans.BeansWrapper</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="fmXmlEscape" class="freemarker.template.utility.XmlEscape"/>
+</beans>

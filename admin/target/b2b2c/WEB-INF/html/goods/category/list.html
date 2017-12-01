@@ -1,0 +1,425 @@
+<#import "/layout.html" as c />
+<#import "/list_layout.html" as list />
+<#assign alertList = []/>
+<#assign alertList = alertList + ["商品分类用于商家发布商品以及用户在商城导航索引商品时使用，请事先合理规划您的商品分类及层级关系后再进行操作。"]/>
+<#assign alertList = alertList + ["分类建立后可通过点击 <span class=\"btn btn-xs btn-white\"> <i class=\"fa fa-level-down\"></i> 下级分类 </span> 进入其下级分类并进行相关操作。通过 <span class=\"btn btn-xs btn-white\"> <i class=\"fa fa-level-up\"></i> 返回上级 </span> 按钮可后退到上级分类列表。 "]/>
+<#assign alertList = alertList + ["新增数据请按照提示信息逐步进行操作完成分类的添加，编辑则分为“编辑分类信息”、“编辑绑定品牌”、“编辑分类属性”、“添加分类属性”四项具体操作。 "]/>
+<#assign alertList = alertList + ["<span class=\"text-primary\"><strong>小技巧：绑定品牌以及添加分类属性、自定义属性等设置应在分类的最末级中进行设置，商城发布商品以及分类索引商品都是依据此原则设定。例如：商城设定有三级商品分类，则应该在第三级分类中进行品牌绑定、属性设置等操作；而一级及二级分类只做为结构类目存在。</strong></span>"]/>
+<#assign alertList = alertList + ["<span class=\"text-danger\"><strong>特别注意：如果您的商城正在运营中，因商铺、商品、分润结算等重要数据都与商品分类相关，因此尽量使用“编辑”而避免“删除”操作，这有可能引起商品、店铺以及结算等数据的严重错误！</strong></span>"]/>
+<@c.html title="Index">
+  <!-- ================== 开始页面所需CSS引入 ================== -->
+  <link href="${toolkitRoot}bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet" />
+  <link href="${toolkitRoot}select2/select2.css" rel="stylesheet" />
+  <link href="${toolkitRoot}bootstrap-wizard/css/bwizard.min.css" rel="stylesheet" />
+  <!-- ================== 开始页面所需CSS引入 ================== -->
+  <@list.html title="分类设置" subTitle="商品分类建立与管理" alertList=alertList addBtn=true searchHint="使用分类名称作为关键字查找">
+  <!-- 开始页面内容 -->
+
+  <!-- 开始新增分类模态窗口 -->
+  <div class="modal fade bs-example-modal-lg" id="addModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title"> 新增商品分类 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsAdd" aria-expanded="true" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+        </div>
+        <div class="modal-body">
+          <ul class="collapse in text-info p-b-10 p-l-15" role="tabpanel" id="OperationTipsAdd">
+            <li class="m-b-3"> 新增分类按三个步骤进行操作，最后点击 <span class="btn btn-xs btn-primary">确认提交</span> 按钮完成操作。 </li>
+            <li class="m-b-3"> 新增下级分类时需正确选择其上级分类， <strong class="text-warning">因在编辑时无法再次选择上级分类，请确保本步操作的正确性。</strong> </li>
+            <li class="m-b-3"> 绑定品牌用于商品列表页面索引使用，应与末级分类进行关联。可从全部品牌中选择，也可使用 <span class="btn btn-xs btn-white">快速搜索品牌</span> 检索找到您需要绑定的品牌并设定。 </li>
+            <li class="m-b-3"> 分类属性用于商品列表页面索引使用， <strong>例如-分类: 服装；属性：材质；属性值：纯棉、羊毛、晴纶、化纤...</strong> </li>
+            <li class="m-b-3"> 自定义属性不会在商品列表页面参与索引，但可用于商家在商品发布时进行选择填写，完善商品资料， <strong>例如：自定义属性：生产日期、包装等...</strong> </li>
+          </ul>
+          <form class="form-horizontal form-bordered" action="${adminRoot}category/save.json" method="post" autocomplete="off" data-parsley-validate="true" name="form-wizard" id="addForm">
+            <div id="wizard">
+              <ol>
+                <li> 分类信息 <small> 设置商品分类名称、层级所属以及 <br/>
+                  排序等基本信息。 </small> </li>
+                <li> 绑定品牌 <small> 将品牌与商品分类进行绑定，可以 <br/>
+                  一个分类绑定多个品牌。 </small> </li>
+                <li> 添加属性 <small> 为商品分类添加属性以及属性值， <br/>
+                  用于商城前台商品列表索引使用。 </small> </li>
+              </ol>
+              <!-- 开始分类信息设置 step-1 -->
+              <div class="wizard-step-1">
+                <fieldset>
+                  <legend class="pull-left width-full m-b-0">分类信息</legend>
+                  <div class="form-group">
+                    <label for="" class="control-label col-md-2 col-sm-3"> 分类名称 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+                    <div class="col-md-9 col-sm-8">
+                      <input type="text" name="categoryName" placeholder="请输入分类名称" autocomplete="off" class="form-control" data-tip="tooltip" data-placement="auto" data-original-title="必填选项，请使用中文或英文建立商品分类名称，最多不要超过20个字符。" data-parsley-group="wizard-step-1" required />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-3">选择上级分类&nbsp;:</label>
+                    <div class="col-md-9 col-sm-8" id="goods_class"></div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-3"> 排序 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+                    <div class="col-md-9 col-sm-8">
+                      <input type="text" name="categorySort" placeholder="请输入分类排序" autocomplete="off" value="0" class="form-control" data-tip="tooltip" data-placement="auto" data-original-title="排序从0~999顺序排列,默认排序为0。"  data-parsley-group="wizard-step-1"/>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+              <!-- 结束分类信息设置 step-1 -->
+              <!-- 开始品牌绑定设置 step-2 -->
+              <div class="wizard-step-2">
+                <fieldset>
+                  <legend class="pull-left width-full">绑定品牌</legend>
+                  <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-3">选择品牌&nbsp;:</label>
+                    <div class="col-md-9 col-sm-8">
+                      <div class="tag-input-block" id="addFormBrandChecked"></div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-3">全部品牌&nbsp;:</label>
+                    <div class="col-md-9 col-sm-8"> <a href="javascript:;" id="addFormBrandSearch" class="btn btn-sm btn-white" data-type="select2" data-value="0"></a>
+                    <div class="p-r-10 height-xs" data-scrollbar="true">
+                      <div class="tag-input-block wait m-t-10" id="addFormBrandAll">
+                      	<#list brands as brand>
+                        <div class="btn btn-xs btn-white" data-id="${brand.brandId}"> ${brand.brandName} <i class="fa fa-plus m-l-5"></i> </div>
+                      </#list> 
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+              <!-- 结束品牌绑定设置 step-2 -->
+              <!-- 开始添加属性设置 step-3 -->
+              <div class="wizard-step-3">
+                <fieldset>
+                  <legend class="pull-left width-full">添加属性</legend>
+                  <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-3">分类属性&nbsp;:</label>
+                    <div class="col-md-10 col-sm-9">
+                      <div class="row p-b-10 m-b-10 border-bottom-1">
+                        <div class="col-sm-1">排序</div>
+                        <div class="col-sm-2 p-l-0">属性名称</div>
+                        <div class="col-sm-6 p-l-0">属性值</div>
+                        <div class="col-sm-3 p-l-0">是否显示</div>
+                      </div>
+                      <div id="attributeVessel" data-scrollbar="true" data-height="100%" style="max-height:250px;"></div>
+                      <div class="row p-b-10">
+                        <div class="col-sm-1">
+                          <input type="text" id="attributeSort" value="0" autocomplete="off" class="form-control" placeholder="排序" />
+                        </div>
+                        <div class="col-sm-2 p-l-0">
+                          <input type="text" id="attributeName" autocomplete="off" class="form-control" placeholder="输入属性名称" />
+                        </div>
+                        <div class="col-sm-6 p-l-0">
+                          <ul id="jquery-tagIt-success" class="default" data-tip="tooltip" data-placement="auto" data-original-title="键入文字后按空格或回车键可完成一个规格值的输入,并可继续添加,最多可输入20个规格值。">
+                          </ul>
+                        </div>
+                        <div class="col-sm-3 p-l-0">
+                          <input type="checkbox" value="1" id="attributeState" autocomplete="off" data-size="small" data-on-color="primary" data-on-text="是" data-off-text="否" checked/>
+                          <a href="javascript:;" id="attributeAdd" class="btn btn-sm btn-success m-l-10"><i class="fa fa-check m-r-5"></i>确定</a>
+                        </div>
+                      </div>
+                  </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-3">自定义属性&nbsp;:</label>
+                    <div class="col-md-9 col-sm-8">
+                      <ul id="jquery-tagIt-success2" class="white" data-tip="tooltip" data-placement="auto" data-original-title="键入文字后按空格或回车键可完成一个规格值的输入,并可继续添加,最多可输入20个规格值。" data-parsley-group="wizard-step-3">
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-md-2 col-sm-3"></label>
+                    <div class="col-md-9 col-sm-8"> <a class="btn btn-primary" data-loading-text="Loading..." nc-ajax-submit-target="addForm" nc-ajax-submit>确认提交</a> </div>
+                  </div>
+                </fieldset>
+              </div>
+              <!-- 结束添加属性设置 step-3 -->
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 结束新增分类模态窗口 -->
+
+  <!-- 开始编辑分类信息模态窗口 -->
+  <div class="modal fade" id="editModalInfo" tabindex="-1" role="dialog">
+    <div class="modal-dialog" >
+      <div class="modal-content" >
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title"> 编辑分类信息 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsEditInfo" aria-expanded="true" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+        </div>
+        <div class="modal-body">
+          <ul class="collapse in text-info m-b-20 p-l-15" role="tabpanel" id="OperationTipsEditInfo">
+            <li class="m-b-3"> 分类名称、排序可进行修改； <strong>“上级分类”选项不可在编辑中再次进行操作，请参照“新增数据”窗口提示。</strong> </li>
+          </ul>
+          <form action="${adminRoot}category/update.json"  id="editFormInfo" method="post" autocomplete="off" data-parsley-validate="true">
+            <input type="hidden" name="categoryId" value="">
+            <input type="hidden" name="parentId" value="">
+            <input type="hidden" name="deep" value="">
+            <div class="form-group">
+              <label class="control-label"> 分类名称 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+              <input type="text" name="categoryName" class="form-control" value="默认分类名称" data-tip="tooltip" data-placement="auto" data-original-title="必填选项，可使用中英文、内容长度控制在2-12个字符。" data-parsley-required="true" data-parsley-length="[2, 12]" autocomplete="off"/>
+            </div>
+            <div class="form-group">
+              <label class="control-label">上级分类&nbsp;:</label>
+              <input type="text" name="parentName" disabled class="form-control"/>
+            </div>
+            <div class="form-group">
+              <label class="control-label"> 排序 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+              <input type="text" name="categorySort" class="form-control" value="0" data-tip="tooltip" data-placement="auto" data-original-title="排序从0~999顺序排列，默认排序为0。" data-parsley-required="true" data-parsley-range="[0, 999]" autocomplete="off"/>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer"> <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a> <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-ajax-submit-target="editFormInfo" nc-ajax-submit>确认提交</a> </div>
+      </div>
+    </div>
+  </div>
+  <!-- 结束编辑分类信息模态窗口 -->
+
+  <!-- 开始编辑绑定品牌模态窗口 -->
+  <div class="modal fade" id="editModalBrand" tabindex="-1" role="dialog">
+    <div class="modal-dialog" >
+      <div class="modal-content" >
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title"> 编辑绑定品牌 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsEditBrand" aria-expanded="true" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+        </div>
+        <div class="modal-body">
+          <ul class="collapse in text-info m-b-20 p-l-15" role="tabpanel" id="OperationTipsEditBrand">
+            <li class="m-b-3">编辑分类绑定品牌，可从已选品牌中点击取消品牌绑定，也可从下方添加新的品牌绑定。</li>
+            <li class="m-b-3"> 如品牌过多时，可使用 <span class="btn btn-xs btn-white">快速搜索品牌</span> 通过关键字迅速定位并点击 <span class="btn btn-xs btn-primary btn-icon"> <i class="fa fa-check"></i> </span> 进行绑定。 </li>
+            <li class="m-b-3"> <strong class="text-warning">* 修改品牌绑定有会影响商城已有商品数据信息，请谨慎操作。</strong> </li>
+          </ul>
+          <form action="${adminRoot}category/brand/update.json" id="editFormBrand" method="post" autocomplete="off" data-parsley-validate="true">
+            <input type="hidden" name="categoryId" value="">
+            <div class="form-group">
+              <label class="control-label">选择品牌&nbsp;:</label>
+              <div class="tag-input-block" id="editFormBrandChecked"></div>
+            </div>
+            <div class="form-group">
+              <label class="control-label"> <a href="javascript:;" id="editFormBrandSearch" class="btn btn-sm btn-white" style="border-bottom-style: solid" data-type="select2" data-value="0"></a> </label>
+              <div class="p-r-10 height-xs" data-scrollbar="true">
+              <div class=" wait m-t-10" id="editFormBrandAll"> <#list brands as brand>
+                <div class="btn btn-xs btn-white" data-id="${brand.brandId}"> ${brand.brandName} <i class="fa fa-plus m-l-5"></i> </div>
+              </#list> </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer"> <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a> <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-ajax-submit-target="editFormBrand" nc-ajax-submit>确认提交</a> </div>
+      </div>
+    </div>
+  </div>
+  <!-- 结束编辑分类绑定品牌模态窗口 -->
+
+  <!-- 开始编辑分类属性模态窗口 -->
+  <div class="modal fade" id="editModalATE" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" >
+      <div class="modal-content" >
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title"> 编辑分类属性 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsEditATE" aria-expanded="true" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+        </div>
+        <div class="modal-body">
+          <ul class="collapse in text-info m-b-20 p-l-15" role="tabpanel" id="">
+            <li class="m-b-3"> 如需对分类属性名称、排序、索引显示等修改，可点击文字链接激活内容，编辑并点击 <span class="btn btn-xs btn-primary btn-icon"> <i class="fa fa-check"></i> </span> 保存。 </li>
+            <li class="m-b-3"> 如需新增属性值请点击 <span class="btn btn-xs btn-white">新增</span> 按钮；对已有的属性值、自定义属性等进行修改请点击文字链接另打开编辑窗口进行编辑操作。 </li>
+            <li class="m-b-3"> <strong class="text-danger"> * 分类属性编辑编辑操作均为异步数据提交，即编辑确定后即时生效；修改或删除分类属性都有可能影响商城已有商品数据信息，请谨慎操作。 </strong> </li>
+          </ul>
+          <form class="form-horizontal form-bordered p-0" action="${adminRoot}category/attribute_and_custom/save.json" id="editFormATE" method="post" autocomplete="off" data-parsley-validate="true">
+            <input type="hidden" name="categoryId" value="" id="">
+            <div class="form-group">
+              <label class="control-label col-md-2 col-sm-3">已有属性&nbsp;:</label>
+              <div class="col-md-10 col-sm-9">
+                <div class="row p-b-10 m-b-10 border-bottom-1">
+                  <div class="col-sm-1">排序</div>
+                  <div class="col-sm-2 p-l-0">属性名称</div>
+                  <div class="col-sm-6 p-l-0">属性值</div>
+                  <div class="col-sm-3 p-l-0">索引显示</div>
+                </div>
+                <div id="editATEDiv"></div>
+                <a href="#addModalATE" data-toggle="modal" class="btn btn-sm btn-white" data-dismiss="modal" aria-hidden="true"> <i class="fa fa-plus m-r-10"></i> 添加分类属性 </a> </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-2 col-sm-3">自定义属性&nbsp;:</label>
+              <div class="col-md-9 col-sm-8">
+                <div class="form-control"> <a href="#editATECustomOldModel" class="editable editable-click" data-toggle="modal" data-dismiss="modal" aria-hidden="true" id="editATECustomOld"></a> </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer"></div>
+      </div>
+    </div>
+  </div>
+  <!-- 结束编辑分类属性模态窗口 -->
+
+  <!-- 开始编辑分类属性值模态窗口 -->
+  <div class="modal fade" id="editAttributeValueModelATE" tabindex="-1" role="dialog">
+    <div class="modal-dialog" >
+      <div class="modal-content" >
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title"> 编辑“ <span id="editAttributeValueModelATESpan"></span> ”属性值 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsEditATE" aria-expanded="true" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+        </div>
+        <div class="modal-body">
+          <ul class="collapse in text-info m-b-20 p-l-15" role="tabpanel" id="OperationTipsEditATE">
+            <li class="m-b-3 text-success">注意：该页操作为异步数据提交，编辑或删除操作即时生效。</li>
+            <li class="m-b-3">属性值以单行竖列显示，当内容过多时会出现滚动条，可在该位置滚动鼠标查看。</li>
+            <li class="m-b-3"> 修改某属性值请点击其名称，在输入框内键入新内容并点击 <span class="btn btn-xs btn-primary btn-icon m-l-5 m-r-5"> <i class="fa fa-check"></i> </span> 进行保存。 </li>
+            <li class="m-b-3 text-danger f-w-600">删除属性值将直接影响已有商品数据信息，请谨慎操作。</li>
+          </ul>
+          <div class="form-group">
+            <div class="row p-b-10 m-b-10 border-bottom-1">
+              <div class="col-sm-8">属性值</div>
+              <div class="col-sm-2">&nbsp;</div>
+              <div class="col-sm-2">操作</div>
+            </div>
+            <div data-scrollbar="true" data-height="100%" style="max-height:400px;" id="editAttributeValueDiv"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 结束编辑分类属性模态窗口 -->
+
+  <!-- 开始新增分类属性值模态窗口 -->
+  <div class="modal fade" tabindex="-1" role="dialog" id="addAttributeValueModalATE">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title"> 新增“ <span id="addAttributeValueSpan"></span> ”属性值 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsAddValue" aria-expanded="true" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+        </div>
+        <div class="modal-body">
+          <ul class="text-info p-b-15 p-l-15 collapse in" role="tabpanel" id="OperationTipsAddValue">
+            <li class="m-b-3">新增属性值并点击确认提交。</li>
+          </ul>
+          <form data-parsley-validate="true" onsubmit="return false;" action="${adminRoot}category/attribute_value/save.json" method="post" id="addAttributeValueForm">
+            <input type="hidden" name="attributeId" id="addAttributeValueAttributeId" />
+            <div class="form-group">
+              <label for="" class="control-label">当前属性值&nbsp;:</label>
+              <div class="form-control" style="height:auto;" id="addAttributeValueOld"></div>
+            </div>
+            <div class="form-group">
+              <label for="" class="control-label">新增属性值&nbsp;:</label>
+              <div>
+                <ul id="addAttributeValueNew" class="default" data-tip="tooltip" data-placement="auto" data-original-title="键入内容后按空格或回车键可完成一个值的输入，最多可输入20个值，注意不要重名。">
+                </ul>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer"> <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a> <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-ajax-submit-target="addAttributeValueForm" nc-ajax-submit>确认提交</a> </div>
+      </div>
+    </div>
+  </div>
+  <!-- 结束新增分类属性值模态窗口 -->
+
+  <!-- 开始编辑分类自定义属性模态窗口 -->
+  <div class="modal fade" id="editATECustomOldModel" tabindex="-1" role="dialog">
+    <div class="modal-dialog" >
+      <div class="modal-content" >
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title"> 编辑自定义“ <span id="editCostomModelATESpan"></span> ”属性 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsEditATECustom" aria-expanded="true" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+        </div>
+        <div class="modal-body">
+          <ul class="collapse in text-info m-b-20 p-l-15" role="tabpanel" id="OperationTipsEditATECustom">
+            <li class="m-b-3 text-success">注意：该页操作为异步数据提交，编辑或删除操作即时生效。</li>
+            <li class="m-b-3">自定义属性以单行竖列显示，当内容过多时会出现滚动条，可在该位置滚动鼠标查看。</li>
+            <li class="m-b-3"> 修改某自定义属性请点击其名称，在输入框内键入新内容并点击 <span class="btn btn-xs btn-primary btn-icon m-l-5 m-r-5"> <i class="fa fa-check"></i> </span> 进行保存。 </li>
+            <li class="m-b-3 text-danger f-w-600">删除自定义属性将直接影响已有商品数据信息，请谨慎操作。</li>
+          </ul>
+          <div class="form-group">
+            <div class="row p-b-10 m-b-10 border-bottom-1">
+              <div class="col-sm-8">自定义属性</div>
+              <div class="col-sm-2">&nbsp;</div>
+              <div class="col-sm-2">操作</div>
+            </div>
+            <div data-scrollbar="true" data-height="100%" style="max-height:400px;" id="editCustomDiv"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 结束编辑分类自定义属性模态窗口 -->
+
+  <!-- 开始添加分类属性模态窗口 -->
+  <div class="modal fade" id="addModalATE" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" >
+      <div class="modal-content" >
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title"> 添加分类属性 <a class="btn btn-info btn-xs m-l-10" role="button" data-toggle="collapse" href="#OperationTipsAddATE" aria-expanded="true" title="操作提示"> <i class="fa fa-exclamation"></i> &nbsp;提示 </a> </h4>
+        </div>
+        <div class="modal-body">
+          <ul class="collapse in text-info m-b-20 p-l-15" role="tabpanel" id="OperationTipsAddATE">
+            <li class="m-b-3"> 分类属性用于商品列表页面索引使用， <strong>例如-分类: 服装；属性：材质；属性值：纯棉、羊毛、晴纶、化纤...</strong> </li>
+            <li class="m-b-3"> 自定义属性不会在商品列表页面参与索引，但可用于商家在商品发布时进行选择填写，完善商品资料， <strong>例如：自定义属性：生产日期、包装等...</strong> </li>
+            <li class="text-success"><strong>新添加的属性与自定义属性会不会覆盖原有分类属性内容。</strong></li>
+          </ul>
+          <form class="form-horizontal form-bordered p-0" action="${adminRoot}category/attribute_and_custom/save.json" id="addFormATE" method="post" autocomplete="off" data-parsley-validate="true">
+            <input type="hidden" name="categoryId" />
+            <div class="form-group">
+              <label class="control-label col-md-2 col-sm-3">新增属性&nbsp;:</label>
+              <div class="col-md-10 col-sm-9">
+                <div class="row p-b-10 m-b-10 border-bottom-1">
+                  <div class="col-sm-1">排序</div>
+                  <div class="col-sm-2 p-l-0">属性名称</div>
+                  <div class="col-sm-6 p-l-0">属性值</div>
+                  <div class="col-sm-3 p-l-0">索引显示</div>
+                </div>
+                <div id="editATEVessel" data-scrollbar="true" data-height="100%" style="max-height:250px;"></div>
+                <div class="row p-b-10">
+                  <div class="col-sm-1">
+                    <input type="text" id="editATEAttributeSort" value="0" autocomplete="off" class="form-control" placeholder="排序" />
+                  </div>
+                  <div class="col-sm-2 p-l-0">
+                    <input type="text" id="editATEAttributeName" autocomplete="off" class="form-control" placeholder="输入属性名称" />
+                  </div>
+                  <div class="col-sm-6 p-l-0">
+                    <ul id="editATEAttributeValues" class="default" data-tip="tooltip" data-placement="auto" data-original-title="键入文字后按空格或回车键可完成一个规格值的输入,并可继续添加,最多可输入20个规格值。">
+                    </ul>
+                  </div>
+                  <div class="col-sm-3 p-l-0">
+                    <input type="checkbox" value="1" id="editATEAttributeState" autocomplete="off" data-size="small" data-on-color="primary" data-on-text="是" data-off-text="否" checked/>
+                    <a href="javascript:;" id="editATEButton" class="btn btn-sm btn-success m-l-10"><i class="fa fa-check m-r-5"></i>确定</a>
+                  </div>
+                </div>
+                </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-2 col-sm-3">自定义属性&nbsp;:</label>
+              <div class="col-md-9 col-sm-8">
+                <ul id="editATECustom" class="default" data-tip="tooltip" data-placement="auto" data-original-title="键入文字后按空格或回车键可完成一个规格值的输入,并可继续添加,最多可输入20个规格值。" data-parsley-group="wizard-step-3">
+                </ul>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer"> <a href="javascript:;" class="btn btn-white" data-dismiss="modal">放弃操作</a> <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..." nc-ajax-submit-target="addFormATE" nc-ajax-submit>确认提交</a> </div>
+      </div>
+    </div>
+  </div>
+  <!-- 结束添加分类属性模态窗口 -->
+</@list.html>
+
+  <!-- 结束页面内容 --> 
+  <!-- ================== 开始页面级JavaScrip调用 ================== --> 
+  <script src="${toolkitRoot}bootstrap-wizard/js/bwizard.js"></script> 
+  <script src="${toolkitRoot}bootstrap3-editable/js/bootstrap-editable.min.js"></script> 
+  <!-- 表单select项 --> 
+  <script src="${toolkitRoot}bootstrap-select/bootstrap-select.min.js"></script> 
+  <script src="${toolkitRoot}select2/select2.min.js"></script> 
+  <!-- 表单checkbox项 --> 
+  <script src="${toolkitRoot}bootstrap-switch/bootstrap-switch.min.js"></script> 
+  <!-- 表单输入项标签化 --> 
+  <script src="${toolkitRoot}/jquery-tag-it/js/tag-it.min.js"></script> 
+  
+  <!-- ================== 结束页面级JavaScrip调用 ================== --> 
+  <script src="${jsRoot}goods/category.js"></script> 
+</@c.html>

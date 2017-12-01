@@ -1,0 +1,15 @@
+<#import "/layout.html" as c>
+<#import "/list_layout.html" as list>
+<#assign alertList = []/>
+<@c.html title="Index">
+  <@list.html title="权限组列表" subTitle="后台管理员权限组管理" alertList=alertList addBtn=true searchHint="请输入权限组名名称进行搜索">
+    <!-- 开启编辑管理员模态窗口 -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
+    </div>
+    <!-- 结束编辑管理员模态窗口 -->
+  </@list.html>
+  <!-- ================== 开始页面级JavaScrip调用 ================== -->
+  <!--<script src="${jsRoot}admin/group.handle.js"></script>-->
+  <script src="${jsRoot}admin/group.handle.js"></script>
+  <!-- ================== 结束页面级JavaScrip调用 ================== -->
+</@c.html>

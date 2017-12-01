@@ -1,0 +1,223 @@
+<#import "/layout/seller_layout.html" as c>
+<@c.html title="Index">
+  <div class="top-btn-layout"><a href="javascript:void(0)" class="btn btn-sm btn-success" onclick="javascript:brand.addBrand();" title="新增品牌"><i class="icon icon-plus"></i>新增品牌</a></div>
+  <table class="ncsc-default-table">
+    <thead>
+      <tr nc_type="table_header">
+        <th class="w10"></th>
+        <th class="w80">首字母</th>
+        <th class="tl">品牌名称</th>
+        <th class="tl">英文名称</th>
+        <th class="w150">品牌图片</th>
+        <th class="w150">状态</th>
+        <th class="w150">操作</th>
+      </tr>
+    </thead>
+    <#if brandList.size() gt 0>
+    <#list brandList as brand>
+      <tbody>
+    <tr class="bd-line">
+      <td></td>
+      <td>${brand.brandInitial}</td>
+      <td class="tl">${brand.brandName}</td>
+      <td class="tl">${brand.brandEnglish}</td>
+      <td><div style=" margin: 0 auto;" class="ncs-brand-list-thumb"><img src="${brand.brandImageSrc}" /></div></td>
+      <td><#if brand.applyState == 0>
+        等待审核
+        <#elseif brand.applyState == 10/>
+        审核失败
+        <#else/>
+        通过审核
+        </#if> </td>
+      <td><#if brand.applyState != 1> <a href="javascript:void(0)" class="btn btn-sm btn-primary m-r-10" onclick="javascript:brand.editBrand(${brand.brandId})"><i class="icon-edit"></i>编辑</a><a href="javascript:void(0)" class="btn btn-sm btn-danger" onclick="javascript:brand.deleteBrand(${brand.brandId})"><i class="icon-trash"></i>删除</a> <#else/>
+        --
+        </#if> </td>
+    </tr>
+    </tbody>
+    </#list>
+      <tfoot>
+      <tr>
+          <#noescape>
+          <td colspan="20"><div class="pagination"> ${showPage}</div></td>
+              </#noescape>
+      </tr>
+      </tfoot>
+    <#else />
+      <tbody>
+    <tr>
+      <td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span> </div></td>
+    </tr>
+    </tbody>
+    </#if>
+    
+  </table>
+  <script src="${jsRoot}goods/brand.js"></script> 
+</@c.html>
+<div id="addModal" style="display: none;">
+  <form id="addForm" method="post" action="${sellerRoot}brand/save.json">
+    <dl>
+      <dt><i class="required">*</i>品牌名称：</dt>
+      <dd>
+        <input class="text w300" type="text" name="brandName" value="" autocomplete="off" />
+        <p class="hint">必填项,请输入30个字符以内的品牌名称。</p>
+      </dd>
+    </dl>
+    <dl>
+      <dt>英文名称：</dt>
+      <dd>
+        <input class="text w300" type="text" name="brandEnglish" value="" autocomplete="off" />
+        <p class="hint">选填项，如品牌有英文名称可在此输入。</p>
+      </dd>
+    </dl>
+    
+    <!-- S 品牌图片-->
+    <dl>
+      <dt>品牌图片：</dt >
+      <dd >
+        <input type="hidden" id="addBrandImageInput" name="brandImage" value="">
+        <div id="addDivBrandImage" class="m-b-5"> <img src="" id="addImgBrand" alt=""> </div >
+        <div class="btn-upload-box" > <span >
+          <input id="addFileBrandImage" class="input-file" type="file" multiple name="file" hidefocus="true" autocomplete="off" >
+          </span > <a class="btn btn-sm btn-default" href="javascript:;" ><i class="icon icon-picture" ></i >图片上传</a > </div >
+        <p class="hint">品牌LOGO尺寸要求宽度为150X50像素，支持格式gif，jpg，png。</p >
+      </dd >
+    </dl>
+    <!-- E 品牌图片-->
+    <dl>
+      <dt>品牌标签：</dt>
+      <dd> <#if brandLabelList.size() gt 0>
+        <ul class="sideways">
+          <#list brandLabelList as brandLabel>
+          <li class="w100">
+            <input class="checkbox" type="checkbox" name="brandLabelId" value="${brandLabel.brandLabelId}">
+            ${brandLabel.brandLabelName}</li>
+          </#list>
+        </ul>
+        </#if>
+        <p class="hint">品牌标签表示该品牌所属类别，可多选。</p>
+      </dd>
+    </dl>
+    <dl>
+      <dt><i class="required">*</i>注册/申请号：</dt>
+      <dd>
+        <input class="text w300" type="text" name="registerNumber" />
+        <p class="hint">商标注册证和商标受理通知书中的注册号或申请号，多个注册号请用“/”隔开。</p>
+      </dd>
+    </dl>
+    <dl>
+      <dt>注册证/受理书：</dt >
+      <dd > <span style="display: inline-block;">
+        <input type="hidden" id="addImage1Input" name="image1" value="">
+        <div id="addDivImage1"> <img src="" id="addImage1" alt="" > </div >
+        </span> <span style="display: inline-block;">
+        <input type="hidden" id="addImage2Input" name="image2" value="">
+        <div id="addDivImage2"> <img src="" id="addImage2" alt="" > </div >
+        </span>
+        <div class="vt">
+          <div class="btn-upload-box" > <span >
+            <input id="addFileImage1" class="input-file" type="file" multiple name="file" hidefocus="true" autocomplete="off" >
+            </span > <a class="btn btn-sm btn-default" href="javascript:;" ><i class="icon icon-picture" ></i>图片1</a > </div >
+          <div class="btn-upload-box" > <span >
+            <input id="addFileImage2" class="input-file" type="file" multiple name="file" hidefocus="true" autocomplete="off" >
+            </span > <a class="btn btn-sm btn-default" href="javascript:;" ><i class="icon icon-picture" ></i>图片2</a > </div >
+        </div >
+        <p class="hint">若提供图片将优先审核,持有中文和英文各商标证可上传2张。</p >
+      </dd >
+    </dl>
+    <dl>
+      <dt><i class="required">*</i>品牌所有人：</dt>
+      <dd>
+        <input class="text w300" type="text" name="owner" value="">
+        <p class="hint">填写商标注册证或商标受理通知书的注册人或申请人信息。</p>
+      </dd>
+    </dl>
+  </form>
+  <!--amF2YS9zZWxsZXJfYnJhbmQvbGlzdCBieSBzaG9wbmMubmV0--> 
+</div>
+<div id="editModal" style="display: none;">
+  <form id="editForm" method="post" action="${sellerRoot}brand/update.json">
+    <input type="hidden" name="brandId" id="brandId" value="">
+    <dl style="display:none;">
+      <dt>审核失败原因</dt>
+      <dd>
+        <div id="stateRemark"></div>
+      </dd>
+    </dl>
+    <dl>
+      <dt><i class="required">*</i>品牌名称：</dt>
+      <dd>
+        <input class="text w300" type="text" name="brandName" id="brandName" value="" autocomplete="off" />
+        <p class="hint">必填项,请输入30个字符以内的品牌名称。</p>
+      </dd>
+    </dl>
+    <dl>
+      <dt>英文名称：</dt>
+      <dd>
+        <input class="text w300" type="text" name="brandEnglish" id="brandEnglish" value="" autocomplete="off" />
+        <p class="hint">选填项，如品牌有英文名称可在此输入。</p>
+      </dd>
+    </dl>
+    <!-- S 品牌图片-->
+    <dl>
+      <dt >品牌图片：</dt >
+      <dd >
+        <input type="hidden" id="editBrandImageInput" name="brandImage" value="">
+        <div id="editDivBrandImage" class="seller-avatar-thumb" > <img src="" id="editImgBrand" alt="" > </div >
+        <div class="btn-upload-box" > <span >
+          <input id="editFileBrandImage" class="input-file" type="file" multiple name="file" hidefocus="true" autocomplete="off" >
+          </span > <a class="btn btn-sm btn-default" href="javascript:;" ><i class="icon icon-picture" ></i >图片上传</a></div>
+        <p class="hint" >品牌LOGO尺寸要求宽度为150X50像素，支持格式gif，jpg，png。</p >
+      </dd >
+    </dl>
+    <!-- E 品牌图片-->
+    <dl>
+      <dt>品牌标签：</dt>
+      <dd> <#if brandLabelList.size() gt 0>
+        <ul class="sideways">
+          <#list brandLabelList as brandLabel>
+          <li class="w100">
+            <input class="checkbox" type="checkbox" name="brandLabelId" value="${brandLabel.brandLabelId}">
+            ${brandLabel.brandLabelName}</li>
+          </#list>
+        </ul>
+        </#if>
+        <p class="hint">品牌标签表示该品牌所属类别，可多选。</p>
+      </dd>
+    </dl>
+    <dl>
+      <dt><i class="required">*</i>注册/申请号：</dt>
+      <dd>
+        <input class="text w300" type="text" name="registerNumber" id="registerNumber" />
+        <p class="hint">商标注册证和商标受理通知书中的注册号或申请号，多个注册号请用“/”隔开。</p>
+      </dd>
+    </dl>
+    <dl>
+      <dt>注册证/受理书：</dt >
+      <dd > <span style="display: inline-block;">
+        <input type="hidden" id="editImage1Input" name="image1" value="">
+        <div id="editDivImage1"> <img src="" id="editImage1" alt="" > </div >
+        </span> <span style="display: inline-block;">
+        <input type="hidden" id="editImage2Input" name="image2" value="">
+        <div id="editDivImage2"> <img src="" id="editImage2" alt="" > </div >
+        </span>
+        <div class="vt">
+          <div class="btn-upload-box" > <span >
+            <input id="editFileImage1" class="input-file" type="file" multiple name="file" hidefocus="true" autocomplete="off" >
+            </span > <a class="btn btn-sm btn-default" href="javascript:;" ><i class="icon icon-picture" ></i>图片1</a > </div >
+          <div class="btn-upload-box" > <span >
+            <input id="editFileImage2" class="input-file" type="file" multiple name="file" hidefocus="true" autocomplete="off" >
+            </span > <a class="btn btn-sm btn-default" href="javascript:;" ><i class="icon icon-picture" ></i>图片2</a > </div >
+        </div >
+        <p class="hint">若提供图片将优先审核,持有中文和英文各商标证可上传2张。</p >
+      </dd >
+    </dl>
+    <dl>
+      <dt><i class="required">*</i>品牌所有人：</dt>
+      <dd>
+        <input class="text w300" type="text" name="owner" id="owner" value="">
+        <p class="hint">填写商标注册证或商标受理通知书的注册人或申请人信息。</p>
+      </dd>
+    </dl>
+  </form>
+  <!--amF2YS9zZWxsZXJfYnJhbmQvbGlzdCBieSBzaG9wbmMubmV0--> 
+</div>

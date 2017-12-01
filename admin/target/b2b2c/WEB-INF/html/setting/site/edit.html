@@ -1,0 +1,140 @@
+<#import "/layout.html" as c>
+<@c.html title="Index"> 
+  
+  <!-- 开始页面内容 -->
+  <div id="content" class="content"> 
+    <!-- 开始面包屑导航 -->
+    <ol class="breadcrumb pull-right">
+      <li> <a href="javascript:;">首页</a> </li>
+      <li> <a href="javascript:;">站点设置</a> </li>
+      <li class="active">全局设置</li>
+    </ol>
+    <!-- 结束面包屑导航 --> 
+    <!-- 开始页头区域 -->
+    <h1 class="page-header"> 全局设置 <small>网站全局内容基本选项设置</small> </h1>
+    <!-- 结束页头区域 -->
+    <ul class="nav nav-tabs nav-tabs-inverse nav-justified nav-justified-mobile">
+      <li class="active"> <a href="#baseSet" class="f-s-14" data-toggle="tab"> <i class="fa fa-laptop m-r-5"></i> <span class="hidden-xs">基本设置</span> </a> </li>
+      <li class=""> <a href="#otherSet" class="f-s-14" data-toggle="tab"> <i class="fa fa-gears m-r-5"></i> <span class="hidden-xs">相关设置</span> </a> </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane fade active in" id="baseSet"> 
+        <!-- 开始操作提示 -->
+        <div class="alert alert-info" role="tabpanel" id="listTip">
+          <h4>操作提示</h4>
+          <ul>
+            <li>网站名称将显示在前台顶部欢迎信息等位置</li>
+            <li>网站备案信息将显示在前台页面底部，如果没有请留空</li>
+            <li>可在此处插入三方统计用代码，并于前台页面底部可以显示。</li>
+          </ul>
+        </div>
+        <!-- 结束操作提示 --> 
+        <!-- 开始基础设置表单 -->
+        <form class="form-horizontal form-bordered" data-parsley-validate="true" id="siteForm" name="siteForm"
+                      method="POST" action="${adminRoot}site/update_base">
+          <div class="form-group">
+            <label for="siteName" class="control-label col-lg-2 col-md-3 col-sm-3"> 网站名称 <i class="f-s-14 text-danger">*</i> &nbsp;: </label>
+            <div class="col-lg-6 col-md-7 col-sm-8">
+              <input type="text" id="siteName" name="siteName" value="${siteInfo.siteName}"
+                                   class="form-control" placeholder="网站名称将显示在前台顶部欢迎信息等位置" data-parsley-required="true"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="icp" class="control-label col-lg-2 col-md-3 col-sm-3">ICP证书号&nbsp;:</label>
+            <div class="col-lg-6 col-md-7 col-sm-8">
+              <input type="text" id="icp" name="icp" value="${siteInfo.icp}" class="form-control"
+                                   placeholder="网站备案信息将显示在前台页面底部，如果没有请留空"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="flowCode" class="control-label col-lg-2 col-md-3 col-sm-3">第三方流量统计代码&nbsp;:</label>
+            <div class="col-lg-6 col-md-7 col-sm-8">
+              <textarea id="flowCode" name="flowCode" class="form-control"
+                                      placeholder="可在此处插入三方统计用代码，并于前台页面底部可以显示" rows="5">${siteInfo.flowCode}</textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-lg-2 col-md-3 col-sm-3"></label>
+            <div class="col-lg-6 col-md-7 col-sm-8"> <a href="javascript:;" class="btn btn-primary" data-q-text="Loading..."
+                               nc-q-submit-target="siteForm" nc-q-submit>提交设置</a> </div>
+          </div>
+        </form>
+        <!-- 结束基础设置表单 --> </div>
+      <div class="tab-pane fade" id="otherSet"> 
+        <!-- 开始操作提示 -->
+        <div class="alert alert-info">
+          <h4>操作提示</h4>
+          <ul>
+            <li>网站名称将显示在前台顶部欢迎信息等位置</li>
+            <li>网站备案信息将显示在前台页面底部，如果没有请留空</li>
+            <li>可在此处插入三方统计用代码，并于前台页面底部可以显示。</li>
+          </ul>
+        </div>
+        <!-- 结束操作提示 --> 
+        <!-- 开始相关设置表单 -->
+        <form class="form-horizontal form-bordered" data-parsley-validate="true" id="siteForm1" name="siteForm1"
+                      action="${adminRoot}site/update_other" method="post">
+          <div class="form-group fileupload-buttonbar">
+            <label for="siteLogo" class="control-label col-lg-2 col-md-3 col-sm-3">网站LOGO&nbsp;:</label>
+            <input type="hidden" name="siteLogo" value="${siteInfo.siteLogo}" id="siteLogo">
+            <div class="col-lg-6 col-md-7 col-sm-8">
+              <div class="media media-sm m-b-10"> <a class="media-left" href="javascript:;"> <img src="${config.siteLogoUrl}" alt="" id="previewSiteLogo" class="media-object"></a>
+                <div class="media-body">
+                  <h4 class="media-heading">商城顶部LOGO</h4>
+                  请选择上传宽度200像素，高度60像素的jpg/gif/png格式图片。 </div>
+              </div>
+              <span class="btn btn-white fileinput-button"> <i class="fa fa-plus"></i> <span>选择上传文件</span>
+              <input id="addSiteLogo" type="file" name="file">
+              </span> </div>
+          </div>
+          <div class="form-group fileupload-buttonbar">
+            <label for="sellerLogo" class="control-label col-lg-2 col-md-3 col-sm-3">商家中心LOGO&nbsp;:</label>
+            <input type="hidden" name="sellerLogo" value="${siteInfo.sellerLogo}" id="sellerLogo">
+            <div class="col-lg-6 col-md-7 col-sm-8">
+              <div class="media media-sm m-b-10"> <a class="media-left p-r-0" href="javascript:;" style="background-color: #CCC"> <img src="${config.sellerLogoUrl}" alt="" id="previewSellerLogo" class="media-object"></a>
+                <div class="media-body p-l-15">
+                  <h4 class="media-heading">商家中心LOGO</h4>
+                  请选择上传宽度220像素，高度50像素的jpg/gif/png格式适合深色背景的反白图片。 </div>
+              </div>
+              <span class="btn btn-white fileinput-button"> <i class="fa fa-plus"></i> <span>选择上传文件</span>
+              <input id="addSellerLogo" type="file" name="file">
+              </span> </div>
+          </div>
+          <div class="form-group fileupload-buttonbar">
+            <label for="siteEmail" class="control-label col-lg-2 col-md-3 col-sm-3">站点联系邮件&nbsp;:</label>
+            <div class="col-lg-6 col-md-7 col-sm-8">
+              <input type="text" class="form-control" name="siteEmail" id="siteEmail" value="${siteInfo.siteEmail}" data-original-title="商家中心显示，方便商家遇到问题时咨询" data-placement="auto" data-tip="tooltip">
+            </div>
+          </div>
+          <div class="form-group fileupload-buttonbar">
+            <label for="sitePhone" class="control-label col-lg-2 col-md-3 col-sm-3">站点联系电话&nbsp;:</label>
+            <div class="col-lg-6 col-md-7 col-sm-8">
+              <input type="text" class="form-control" name="sitePhone" id="sitePhone" value="${siteInfo.sitePhone}" data-original-title="商家中心显示，方便商家遇到问题时咨询，多个请用半角逗号 ',' 隔开" data-placement="auto" data-tip="tooltip">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-lg-2 col-md-3 col-sm-3"></label>
+            <div class="col-lg-6 col-md-7 col-sm-8"> <a href="javascript:;" class="btn btn-primary" data-loading-text="Loading..."
+                               nc-q-submit-target="siteForm1" nc-q-submit >提交设置</a> </div>
+          </div>
+        </form>
+        <!-- 结束相关设置表单 --> </div>
+    </div>
+  </div>
+  </div>
+  <!-- 结束页面内容 --> 
+  
+  <!-- ================== 开始页面级JavaScrip调用 ================== --> 
+  <!-- 表单checkbox项 --> 
+  <script src="${toolkitRoot}bootstrap-switch/bootstrap-switch.min.js"></script> 
+  <!-- 图片点击放大窗口 --> 
+  <script src="${publicRoot}toolkit/lightbox/js/lightbox-2.6.min.js"></script> 
+  <script>
+        var siteGlobal = {
+            siteState:${(siteInfo.siteState=='1')?string('true','false')}
+        }
+    </script> 
+  <script src="${jsRoot}setting/site.js"></script> 
+  <!-- ================== 结束页面级JavaScrip调用 ================== --> 
+  
+</@c.html>

@@ -1,0 +1,163 @@
+<#import "/member/layout.html" as c>
+<@c.html title="对商品进行评价">
+  <div class="ncm-flow-layout">
+    <div class="ncm-flow-container">
+      <div class="title"><a href="javascript:history.go(-1);" class="btn btn-xs btn-white fr"><i class="icon-reply"></i>返&nbsp;回</a>
+        <h3>对商品进行评价</h3>
+      </div>
+      <form id="evalform" method="post" action="${memberRoot}evaluate/insertEvaluate">
+        <div class="alert alert-block">
+          <h4>操作提示：</h4>
+          <ul>
+            <li>评价信息最多填写250字，请您根据本次交易，给予真实、客观地评价；您的评价将是其他会员的参考。</li>
+            <li>评价完成将获得 “${config.expRuleComments}经验值” “${config.pointsRuleComments}积分”。</li>
+            <li>店铺动态评分默认为“5分”，您可以根据本次交易情况给予商家评分，<span class="orange"> 一旦提交后不能修改。</span></li>
+            <li>图片上传请使用jpg\png等格式、单张大小不超过1M的图片，最多可发布5张晒图。</li>
+          </ul>
+        </div>
+        <div class="tabmenu">
+          <ul class="tab">
+            <li class="active"><a href="javascript:void(0);">对购买过的商品评价</a></li>
+          </ul>
+        </div>
+        <table class="ncm-default-table m-b-30">
+          <tbody>
+          <#list ordersGoodsList as entity>
+          <tr class="bd-line">
+            <td class="w20"></td>
+            <td class="pic-mode w200"><div class="pic-thumb"><a href="${c.func.ncGoodsUrl(entity.goodsId)}" target="_blank"><img src="${c.func.ncImage(uploadRoot+entity.goodsImage,160,160)}"/></a></div>
+              <dl class="goods-name">
+                <dt><a href="${c.func.ncGoodsUrl(entity.goodsId)}" target="_blank" title="${entity.goodsName}">${entity.goodsName}</a></dt>
+                <dd title="${entity.goodsFullSpecs}">${entity.goodsFullSpecs}</dd>
+              </dl></td>
+            <td valign="top" class="tl"><div class="ncgeval">商品评分：
+                <div class="raty vm">
+                  <input nctype="score" name="scoreList" type="hidden" value="0">
+                </div>
+              </div>
+              <textarea name="contentList" cols="150" class="w450 m-t-10 m-b-10 h40" placeholder="请输入要评价的内容，不要超过250个字符。"></textarea>
+              <div class="show-pic">
+                <div class="btn-upload-box fl"> <span >
+                  <input id="file886" data-orders-goods-id="${entity.ordersGoodsId}" class="input-file" type="file" multiple name="file" hidefocus="true" autocomplete="off" >
+                  </span > <a class="btn btn-sm btn-default" href="javascript:;" ><i class="icon-camera" data_type="0"></i>买家晒图</a></div>
+                <div class="m-l-5 m-t-5 fl">限5张</div>
+                <span class="fr m-r-10 m-t-5">
+                <input type="checkbox" class="checkbox vm" name="isAnonymous" data-nc-target="#checkBoxHidden${entity.goodsId}" data-nc-yes="1" data-nc-no="0">
+                <input type="hidden" name="isAnonymousList" value="0" id="checkBoxHidden${entity.goodsId}" />
+                &nbsp;匿名评价</span>
+                <div class="evaluation-image">
+                  <ul nctype="ul_evaluate_image886" data-count='0' id="imageList_${entity.ordersGoodsId}">
+                  </ul>
+                </div>
+              </div></td>
+            <td style="display:none"><input type="hidden" value="${entity.ordersGoodsId}" name="orderGoodsIdList" />
+              <input type="hidden" value="${entity.goodsId}" name="goodsIdList" />
+              <input type="hidden" value="" name="imageList" /></td>
+          </tr>
+          </#list>
+            </tbody>
+          
+        </table>
+        <input type="hidden" value="${orders.ordersId}" name="orderId" />
+        <input type="hidden" value="${orders.storeId}" name="storeId" />
+        <input type="hidden" value="${store.isOwnShop}" name="isOwnShop" />
+        
+        <div class="tabmenu">
+          <ul class="tab">
+            <li class="active"><a href="javascript:void(0);">对该店此次服务的评分</a></li>
+          </ul>
+        </div>
+        
+        <div class="ncm-default-form"> 
+          <dl>
+            <dt>宝贝与描述相符：</dt>
+            <dd>
+              <div class="raty-x2">
+                <input nctype="score" name="descriptionCredit" type="hidden" value="0">
+              </div>
+            </dd>
+          </dl>
+          <dl>
+            <dt>卖家的服务态度：</dt>
+            <dd>
+              <div class="raty-x2">
+                <input nctype="score" name="serviceCredit" type="hidden" value="0">
+              </div>
+            </dd>
+          </dl>
+          <dl>
+            <dt>卖家的发货速度：</dt>
+            <dd>
+              <div class="raty-x2">
+                <input nctype="score" name="deliveryCredit" type="hidden" value="0">
+              </div>
+            </dd>
+          </dl>
+          
+          <div class="bottom">
+            <label class="submit-border">
+              <input id="btn_submit" type="button" class="submit" value="提交"/>
+            </label>
+          </div>
+        </div>
+      </form>
+    </div>
+    
+    
+    
+    <div class="ncm-flow-item">  
+	<div class="ncm-evaluation-store">
+	  <div class="title">店铺信息</div>
+	  <div class="store-name"> ${store.storeName} </div>
+	  <div class="store-info">
+	        <dl class="all-rate">
+	      <dt>综合评分：</dt>
+	      <dd>
+	        <div class="rating"><span style="width: ${evaluateStoreVo.avgStoreEvalRate}%"></span></div>
+	        <em>${evaluateStoreVo.avgStoreEval}</em>分</dd>
+	    </dl>
+	    <div class="detail-rate">
+	      <ul>
+	                <li>
+	          <h5>描述</h5>
+	          <div class="equal" title="${evaluateStoreVo.desEvalTitle}${evaluateStoreVo.desEvalRate}">${evaluateStoreVo.storeDesEval}<i></i></div>
+	        </li>
+	                <li>
+	          <h5>服务</h5>
+	          <div class="equal" title="${evaluateStoreVo.serviceEvalTitle}${evaluateStoreVo.serviceEvalRate}">${evaluateStoreVo.storeServiceEval}<i></i></div>
+	        </li>
+	                <li>
+	          <h5>物流</h5>
+	          <div class="equal" title="${evaluateStoreVo.deliveryEvalTitle}${evaluateStoreVo.deliveryEvalRate}">${evaluateStoreVo.storeDeliveryEval}<i></i></div>
+	        </li>
+	              </ul>
+	    </div>
+	    <dl class="messenger">
+	      <dt>联系方式：</dt>
+	      <dd><span member_id="5" style="display:none"><a class="chat chat_offline" title="在线联系" href="JavaScript:chat(5);">离线</a></span>
+	      	<#if store.storeQq?exists && store.storeQq!=''>
+	          <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=${store.storeQq}&amp;site=qq&amp;menu=yes" title="QQ: ${store.storeQq}"><img src="http://wpa.qq.com/pa?p=2:${store.storeQq}:52" style=" vertical-align: middle;" border="0"></a>
+	        </#if>
+	      </dd>
+	    </dl>
+	            <dl class="no-border">
+	      <dt>公司名称：</dt>
+	      <dd>${store.companyName}</dd>
+	    </dl>
+	    <dl>
+	      <dt>所&nbsp;&nbsp;在&nbsp;&nbsp;地：</dt>
+	      <dd>${store.companyArea}</dd>
+	    </dl>
+	  </div>
+	</div>
+	</div>
+    
+    
+    
+    
+    
+  </div>
+  <script src="${publicRoot}toolkit/jquery.raty/jquery.raty.js"></script> 
+  <script src="${publicRoot}toolkit/fileupload/jquery.fileupload.js"></script> 
+  <script type="text/javascript" src="${jsRoot}member/evaluate_add.js"></script> 
+</@c.html>

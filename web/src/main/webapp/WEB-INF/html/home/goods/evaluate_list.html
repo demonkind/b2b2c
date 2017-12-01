@@ -1,0 +1,50 @@
+<#import "../../func.html" as funcList>
+<#list evaluateGoodsVo as entity>
+<div id="t" class="ncs-commend-floor">
+  <div class="user-avatar"> <a href="javascript:;" target="_blank" data-param="{'id':0}" nctype="mcard" data-hasqtip="20" aria-describedby="qtip-20"> <img src="${entity.memberHeadUrl}"> </a> </div>
+  <dl class="detail">
+    <dt> <span class="user-name">
+            <a href="javascript:;" target="_blank" data-param="{'id':41}" nctype="mcard" data-hasqtip="21" aria-describedby="qtip-21">${entity.memberName}</a>
+            </span>
+      <div class="goods-raty">商品评分：<em class="raty" data-score="${entity.scores}" title="${entity.scoreTitle}" style="width: 100px;"></em></div>
+    </dt>
+    <dd>${entity.evaluateContent1}</dd>
+        <dd>
+        <#if entity.images1?exists && entity.images1!="">
+	      	<ul class="photos-thumb">
+	      	<#list entity.image1List as image>
+	          <li><a nctype="nyroModal" href="${uploadRoot}${image}" data-lightbox="img-PayingCertificateA${entity.evaluateId}" data-item="image"> <img src="${funcList.ncImage(uploadRoot+image,30,30)}"> </a></li>
+	        </#list>     
+	       	</ul>
+       </#if>
+    </dd>
+        <dd class="pubdate" pubdate="pubdate">${entity.evaluateTime}</dd>
+        <#if entity.explainContent1?exists && entity.explainContent1!="">
+        	<dd class="explain">商家解释：${entity.explainContent1}</dd>
+        </#if>
+        <#if (entity.evaluateContent2?exists && entity.evaluateContent2!="") || entity.images2!="">
+	        <dd>[追加评价]&nbsp;${entity.evaluateContent2}</dd>
+	        <dd>
+	        <#if entity.images2?exists && entity.images2!="">
+		      	<ul class="photos-thumb">
+		      	<#list entity.image2List as image>
+		            <li><a nctype="nyroModal" href="${uploadRoot}${image}" data-lightbox="img-PayingCertificateB${entity.evaluateId}" data-item="image"> <img src="${funcList.ncImage(uploadRoot+image,30,30)}"> </a></li>
+		        </#list>
+		        </ul>
+	        </#if>
+	    	</dd>
+	        <dd class="pubdate">确认收货并评价后${entity.days}天再次追加评价</dd>
+	        <#if entity.explainContent2?exists && entity.explainContent2!="">
+	        	<dd class="explain">商家解释：${entity.explainContent2}</dd>
+	        </#if>
+        </#if>
+     <hr>
+  </dl>
+</div>
+</#list>
+<div class="tr pr5 pb5 pr"> 
+	<a href="${webRoot}goods/evaluate_more?goodsid=${goodsId}" target="_blank" class="more-commend">查看全部评价&gt;&gt;</a>
+ 	<div class="pagination"> &nbsp;</div>
+</div>
+<link href="${publicRoot}toolkit/lightbox/css/lightbox.css" rel="stylesheet" />
+<script src="${publicRoot}toolkit/lightbox/js/lightbox-2.6.min.js"></script>
